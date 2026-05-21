@@ -1,5 +1,7 @@
 # Getting started — Genetic AI Starter Kit
 
+**Value + metrics:** [README.en.md](../../README.en.md#measured-impact-benchmark-harness) · [BENEFITS_AND_METRICS.md](BENEFITS_AND_METRICS.md) (tasks T01–T11, real-world scenarios).
+
 ## Easiest path (recommended)
 
 1. Install **Node.js 18+**.

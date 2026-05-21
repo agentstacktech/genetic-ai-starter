@@ -53,9 +53,9 @@ node genetic-ai-starter/benchmarks/scripts/score-transcript.mjs \
   --manual genetic-ai-starter/benchmarks/results/manual/T09.json
 ```
 
-## 5. Automated matrix (policy simulation)
+## 5. Reproducible matrix (reference harness)
 
-For harness validation or quick deltas (not a substitute for real Cursor runs):
+Full 7×11 arms + smoke — same commands as CI:
 
 ```bash
 node genetic-ai-starter/benchmarks/scripts/run-matrix.mjs

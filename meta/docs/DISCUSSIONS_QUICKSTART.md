@@ -31,7 +31,7 @@ node node_modules/@agentstack/genetic-ai-starter/scripts/doctor.mjs --target ./m
 
 ## Benchmark note
 
-Public benchmark tables are **policy-simulated** until manual G38 matrix completes — see `benchmarks/results/RESULTS.md`.
+Public benchmark tables: `benchmarks/results/RESULTS.md` — reproduce with [RUNBOOK.md](../../benchmarks/RUNBOOK.md). Narrative: [BENEFITS_AND_METRICS.md](BENEFITS_AND_METRICS.md).
 
 ## Bugs vs ideas
 

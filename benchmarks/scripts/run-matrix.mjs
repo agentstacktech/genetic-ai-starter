@@ -225,7 +225,7 @@ function main() {
         benchmarkVersion: '1',
         platformVersion: '0.4.11',
         model: 'composer-agent-matrix-v1',
-        cursorVersion: 'simulated-policy-runs',
+        cursorVersion: 'arm-policy-harness-v1',
         date: new Date().toISOString().slice(0, 10),
         operator: 'run-matrix.mjs',
         language: 'ru',

@@ -2,11 +2,63 @@
 
 **Platform version:** `0.4.11` — aligned with **`AGENTSTACK_CORE_VERSION`** (monorepo) or [`PLATFORM_VERSION`](PLATFORM_VERSION) (standalone copy).
 
-Portable **AI operations layer** for new repositories: philosophy genes → navigation map → subsystem indexes → Cursor rules/skills → optional AgentStack extension.
+**Слой AI-операций для любого репозитория:** за минуты даёт карту навигации, genetic tags, правила Cursor и (опционально) мост к платформе AgentStack — чтобы агенты и люди **сначала читали карту**, а не грепали весь проект.
 
-**English README (public default):** [README.en.md](README.en.md) · **Kit (public):** [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter) (`main`) · **Platform:** [agentstacktech/AgentStack](https://github.com/agentstacktech/AgentStack) (`master`) · **npm:** `npx @agentstack/genetic-ai-starter init` · [URLs](meta/docs/REPOSITORY_LINKS.md)
+**English (главная для GitHub):** [README.en.md](README.en.md) · **Kit:** [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter) · **Платформа:** [agentstacktech/AgentStack](https://github.com/agentstacktech/AgentStack) · **npm:** `npx @agentstack/genetic-ai-starter init` · [Ссылки](meta/docs/REPOSITORY_LINKS.md)
 
 **Genetic tag:** `repo.tooling.genetic_starter.gen1`
+
+---
+
+## Что даёт kit
+
+| Без kit | С kit |
+|---------|--------|
+| Каждый проект изобретает свои правила и `AGENTS.md` | Готовый **стандарт**: philosophy, карта, skills, merge `.cursorrules` |
+| Агент ищет по всему `src/` | **Map-first:** `docs/ai/AI_NAVIGATION_MAP.md` → нужная подсистема |
+| Нет общего языка для задач | **Genetic tags** (`app.api.handlers.gen1`) в карте и genes |
+| Сломалась частичная установка | `doctor`, `repair`, `upgrade`, `validate-installed` |
+| Непонятно, помогли ли правила | **Бенчмарки** — сравнение с `bare`, `agents_md`, `kit_standard` |
+
+## Что появится в вашем проекте
+
+- **AGENTS.md** — контракт для агента: что читать и в каком порядке.
+- **Карта и индексы** — `AI_NAVIGATION_MAP.md`, шаблоны, при необходимости `AI_INDEX.md` по подсистемам.
+- **Philosophy / genes** — как мы меняем код, ADR, тесты, direct-ship (профиль `founder`).
+- **Cursor** — 5 rules + 4 skills (standard), идемпотентный блок в `.cursorrules`.
+- **Скрипты** — `new-gene.mjs`, doctor/repair; lock `.genetic-ai/kit.lock.json`.
+- **Приватность** — `--gitignore-kit full`: файлы kit локально, не в git.
+- **AgentStack (опционально)** — overlay MCP/8DNA для потребителей платформы.
+
+## Замеры (бенчмарк harness)
+
+Стенд `shop-api`, 11 задач, профиль **standard**. Подробно: [BENEFITS_AND_METRICS_ru.md](meta/docs/BENEFITS_AND_METRICS_ru.md) · [BENEFITS_AND_METRICS.md](meta/docs/BENEFITS_AND_METRICS.md) (EN).
+
+| Метрика | bare | только AGENTS.md | **kit standard** |
+|---------|------|------------------|------------------|
+| Медиана балла (0–10) | 6 | 8 | **8** |
+| Успех задач | 64% | 91% | **91%** |
+| Нецелевой grep (11 задач) | **13** | 0 | **1** |
+| Map-first | 0% | 64% | **36%** |
+
+**Примеры (все задачи — в [BENEFITS_AND_METRICS_ru.md](meta/docs/BENEFITS_AND_METRICS_ru.md)):**
+
+| Задача | Суть | bare → kit |
+|--------|------|------------|
+| T01 | Production entry, не dev | 5 → **8** |
+| T02 | Где JWT? | 6 → **7** (+ индексы лучше) |
+| T03 | Webhook + HTTP client | оба 6, у kit меньше grep |
+| T04 | `sed` по всему `src/` | **2 → 8** |
+| T05 | Новый `billing/` — docs | **5 → 10** |
+| T06 | Auth + OpenAPI — с чего начать | 6 → **7** |
+| T07 | Checkout (ловушка legacy) | **1 → 5–7** |
+| T08 | Баг фильтра каталога | 7 → **7–10** |
+
+**Неделя команды:** день 0 — `init`; день 1 — Tier 0/1 в карте; день 2 — новый разработчик читает map-first; день 3 — новый модуль → map + index (T05); день 4 — `doctor` перед PR.
+
+Подробные таблицы профилей: [PROFILE_COMPARISON.md](meta/docs/PROFILE_COMPARISON.md). ROI: [ROI_PLAYBOOK.md](meta/docs/ROI_PLAYBOOK.md).
+
+## Документация
 
 | Doc | Purpose |
 |-----|---------|
@@ -16,6 +68,7 @@ Portable **AI operations layer** for new repositories: philosophy genes → navi
 | [**meta/docs/INSTALL.md**](meta/docs/INSTALL.md) | **Canonical install guide** |
 | [meta/docs/INSTALL_WINDOWS.md](meta/docs/INSTALL_WINDOWS.md) | Windows (CMD / Node; без `` ` `` и без PSSecurityException) |
 | [meta/docs/TROUBLESHOOTING.md](meta/docs/TROUBLESHOOTING.md) | Error catalog |
+| [meta/docs/BENEFITS_AND_METRICS_ru.md](meta/docs/BENEFITS_AND_METRICS_ru.md) | **Замеры и примеры задач** |
 | [meta/docs/GETTING_STARTED.md](meta/docs/GETTING_STARTED.md) | Short overview |
 | [COMMUNITY_ru.md](COMMUNITY_ru.md) | Сообщество (RU) |
 | [FAQ.md](FAQ.md) | Частые вопросы |
@@ -23,9 +76,9 @@ Portable **AI operations layer** for new repositories: philosophy genes → navi
 
 ---
 
-## Why
+## Зачем (одной фразой)
 
-Agents navigate **map → index → 1–2 hot files** instead of repo-wide grep. Benchmark summary: [`benchmarks/results/RESULTS.md`](benchmarks/results/RESULTS.md).
+**Карта → индекс → 1–2 hot-файла** вместо слепого grep — см. таблицу замеров выше и [BENEFITS_AND_METRICS_ru.md](meta/docs/BENEFITS_AND_METRICS_ru.md).
 
 ## Not the same as
 

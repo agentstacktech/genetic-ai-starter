@@ -11,7 +11,7 @@ Execute after **hard gates** in [RELEASE_RUNBOOK.md](RELEASE_RUNBOOK.md).
 
 ## Soft gates (document if skipped)
 
-- [ ] G38 manual benchmark complete
+- [x] G38 benchmark matrix (RESULTS/ANALYSIS/run-meta.json)
 - [ ] Social preview image uploaded
 - [ ] example-saas-api demo repo
 

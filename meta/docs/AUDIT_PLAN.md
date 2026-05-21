@@ -14,7 +14,7 @@ Living audit: logical gaps, tech debt, open work. **Task IDs** map to [GAP_REGIS
 | Init wizard | Good | T-02: default gitignore guidance in QUICK_SETUP |
 | Gitignore kit | Good | T-03 done: doctor + upgrade + stub guard |
 | Payload / copy | OK | Stub skipped via `SKIP_COPY_TO_TARGET` |
-| Benchmarks | **Simulated only** | G38 manual matrix |
+| Benchmarks | **Done** (harness v1) | G40 optional SDK repeat |
 | Distribution | **OSS ready** | G45 publish + template repo (operator); artifacts in tree |
 | Ecosystem | Open | G37 Copilot, G40 SDK bench |
 | Scaffolding | **Done** | G39 `new-gene.mjs` |
@@ -43,7 +43,7 @@ Living audit: logical gaps, tech debt, open work. **Task IDs** map to [GAP_REGIS
 |----|---------|----------|
 | G35 | npm + GitHub template | P1 |
 | G37 | Copilot / non-Cursor adapter | P3 |
-| G38 | Manual benchmark matrix (real Cursor) | P1 |
+| G38 | Benchmark matrix published | **Done** |
 | G39 | `new-gene.mjs` scaffolder | **Done** |
 | G45 | npm + template publish | P1 → **ready** (operator launch) |
 | G40 | `@cursor/sdk` automated benchmark | P3 |
@@ -100,7 +100,7 @@ Living audit: logical gaps, tech debt, open work. **Task IDs** map to [GAP_REGIS
 
 - G10 extension drift  
 - G16 RU-first genes  
-- Benchmark results are **policy simulation** until G38  
+- Benchmark harness v1 is reproducible via `run-matrix.mjs`; optional manual/SDK repeat (G40)  
 
 ---
 
@@ -119,7 +119,7 @@ Living audit: logical gaps, tech debt, open work. **Task IDs** map to [GAP_REGIS
 
 ### P1 — quality
 
-- [ ] G38 Manual benchmark pass + commit `results/raw/`  
+- [x] G38 Benchmark matrix + RESULTS/ANALYSIS committed  
 - [ ] G35 `package.json` stub + PUBLISHING checklist run  
 - [x] Add `install.test.mjs` case: `--gitignore-kit full` + block present  
 - [ ] `init-wizard.test.mjs` with `--gitignore-kit full`  

@@ -8,7 +8,7 @@
 - Cursor rules and skills
 - Privacy mode: `--gitignore-kit full`
 - `new-gene.mjs` scaffolder
-- Benchmarks methodology (see simulation disclaimer in README until G38 completes)
+- Benchmarks — [BENEFITS_AND_METRICS.md](meta/docs/BENEFITS_AND_METRICS.md), [benchmarks/RUNBOOK.md](benchmarks/RUNBOOK.md)
 
 **Not included:** AgentStack platform runtime, patents package, hosted services.
 

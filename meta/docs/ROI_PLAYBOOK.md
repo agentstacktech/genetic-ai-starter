@@ -25,7 +25,7 @@ Harness: [`benchmarks/`](../../benchmarks/). Control arms for A/B:
 
 Run: [`benchmarks/RUNBOOK.md`](../../benchmarks/RUNBOOK.md). Aggregate: `node benchmarks/scripts/aggregate-results.mjs`.
 
-**Benchmark (reference, simulated):** [`benchmarks/results/RESULTS.md`](../../benchmarks/results/RESULTS.md) — `kit_standard` +2 median vs `bare`, −12 unscoped grep; manual Cursor pass tracked as [GAP_REGISTER.md](GAP_REGISTER.md) G38.
+**Benchmark (reference):** [`benchmarks/results/RESULTS.md`](../../benchmarks/results/RESULTS.md) — `kit_standard` +2 median vs `bare`, −12 unscoped grep, 36% map-first vs 0% bare; T04 **8** vs **2**, T05 **10** vs **5**. Task narratives: [BENEFITS_AND_METRICS.md](BENEFITS_AND_METRICS.md). Reproduce: [benchmarks/RUNBOOK.md](../../benchmarks/RUNBOOK.md).
 
 ## Maintenance cost
 

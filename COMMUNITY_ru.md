@@ -6,7 +6,7 @@
 - Профили minimal → founder — [PROFILE_COMPARISON.md](meta/docs/PROFILE_COMPARISON.md)
 - Философия, карта навигации, правила Cursor
 - Режим приватности: `--gitignore-kit full`
-- Бенчмарки (до G38 цифры **симулированные** — см. README)
+- Бенчмарки — [BENEFITS_AND_METRICS_ru.md](meta/docs/BENEFITS_AND_METRICS_ru.md), [benchmarks/RUNBOOK.md](benchmarks/RUNBOOK.md)
 
 **Не входит:** рантайм платформы AgentStack, хостинг.
 

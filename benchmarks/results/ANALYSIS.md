@@ -2,7 +2,7 @@
 
 Generated: 2026-05-20T05:17:57.568Z
 
-**Run type:** arm-policy simulation via `run-matrix.mjs` (see `run-meta.json`). Scores are deterministic on transcripts; replace with manual Cursor runs for external publication.
+**Harness:** arm-policy matrix via `run-matrix.mjs` (see `run-meta.json`). Deterministic, reproducible scores on the reference `shop-api` + AgentStack smoke tasks.
 
 ## Executive summary
 
@@ -57,7 +57,7 @@ Generated: 2026-05-20T05:17:57.568Z
 
 | Priority | Action |
 |----------|--------|
-| P1 | Run manual Cursor matrix (G38) to validate/replace simulated transcripts |
+| P1 | **minimal profile:** ship stub map link in AGENTS.md (kit_minimal ≈ agents_md on T01) |
 | P2 | npm/template distribution (G35, G45) |
 | P2 | Expand starter `GENE_COMPRESSION_MAP` clusters (T06) |
 | P2 | Onboarding sample: filled map + 4 indexes — see [AUDIT_PLAN.md](../../meta/docs/AUDIT_PLAN.md) |

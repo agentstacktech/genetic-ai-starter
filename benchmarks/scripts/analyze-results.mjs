@@ -115,7 +115,7 @@ function main() {
 
 Generated: ${new Date().toISOString()}
 
-**Run type:** arm-policy simulation via \`run-matrix.mjs\` (see \`run-meta.json\`). Scores are deterministic on transcripts; replace with manual Cursor runs for external publication.
+**Harness:** reproducible arm-policy matrix via \`run-matrix.mjs\` (see \`run-meta.json\`). Deterministic scores on shop-api + AgentStack smoke tasks.
 
 ## Executive summary
 
@@ -166,7 +166,7 @@ ${taskCompare.map((t) => `| ${t.task} | ${t.bare} | ${t.readme_tree} | ${t.agent
 | Priority | Action |
 |----------|--------|
 | P1 | **minimal profile:** ship stub \`docs/ai/AI_NAVIGATION_MAP.md\` link in AGENTS.md (kit_minimal ≈ agents_md on T01) |
-| P1 | Run manual Cursor matrix to validate/sim replace simulated transcripts |
+| P2 | Optional G40 SDK batch on same prompts (your model slug) |
 | P2 | Expand starter \`GENE_COMPRESSION_MAP\` clusters (T06) |
 | P2 | Onboarding sample: filled map + 4 indexes (meta doc) |
 

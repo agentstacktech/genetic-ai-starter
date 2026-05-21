@@ -1,5 +1,7 @@
 # Быстрая установка — Genetic AI Starter Kit
 
+**Зачем kit:** карта навигации + правила Cursor + genes — см. [README.md](../../README.md) / [README.en.md](../../README.en.md).
+
 ## 3 шага
 
 1. Установите [Node.js 18+](https://nodejs.org).

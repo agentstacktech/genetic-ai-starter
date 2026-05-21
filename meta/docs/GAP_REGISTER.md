@@ -37,15 +37,13 @@ Living register for **open** and **accepted** gaps only. Resolved items are reco
 | **Acceptance** | Copilot session on sample repo follows map-first order in manual test checklist. |
 | **Priority** | P3 — after standard Cursor path is stable |
 
-### G38 — Benchmark: manual Cursor matrix
+### G38 — Benchmark matrix (reference harness)
 
 | Field | Detail |
 |-------|--------|
-| **Problem** | [`benchmarks/results/`](../../benchmarks/results/) use policy simulation; not publishable as hard numbers. |
-| **Target** | ≥1 full manual pass (7×11 synthetic) stored in `results/raw/`. |
-| **Deliverables** | Updated [RESULTS.md](../../benchmarks/results/RESULTS.md) + [ANALYSIS.md](../../benchmarks/results/ANALYSIS.md); `run-meta.json` with real model id. |
-| **Acceptance** | `RUN_MATRIX.md` all `[x]`; aggregate CSV committed or attached to ADR. |
-| **Docs** | [benchmarks/RUNBOOK.md](../../benchmarks/RUNBOOK.md) |
+| **Status** | **Done** (platform 0.4.11) — [RESULTS.md](../../benchmarks/results/RESULTS.md), [ANALYSIS.md](../../benchmarks/results/ANALYSIS.md), `run-meta.json` |
+| **Harness** | `prepare-all-arms` + `run-matrix` + `analyze-results` on `shop-api` + smoke |
+| **Optional repeat** | Manual Cursor export or G40 SDK batch — same prompts, your model slug |
 
 ### G39 — `scripts/new-gene.mjs` scaffolder
 
@@ -85,7 +83,7 @@ Living register for **open** and **accepted** gaps only. Resolved items are reco
 | **Target** | Batch runner with fixed model slug (phase 2 in [benchmarks/METHODOLOGY.md](../../benchmarks/METHODOLOGY.md)). |
 | **Deliverables** | `benchmarks/scripts/run-sdk-matrix.mjs` (optional CI, secrets required). |
 | **Acceptance** | Reproducible CSV from CI artifact on demand. |
-| **Depends on** | G38 (gold prompts frozen) |
+| **Depends on** | G38 harness prompts frozen in `benchmarks/tasks/` |
 
 ---
 

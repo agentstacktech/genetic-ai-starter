@@ -9,7 +9,7 @@
 1. Problem: agents grep blindly without a navigation map
 2. Solution: install kit → AGENTS.md + AI_NAVIGATION_MAP + Cursor rules
 3. Quick start: `npx @agentstack/genetic-ai-starter init` and Windows `SETUP.cmd`
-4. Benchmarks: link to methodology; **note if G38 pending:** results are policy-simulated until manual matrix completes
+4. Benchmarks: link to [BENEFITS_AND_METRICS.md](BENEFITS_AND_METRICS.md) + [RUNBOOK.md](../../benchmarks/RUNBOOK.md) (reproducible harness)
 5. CTA: https://agentstack.tech/?utm_source=genetic-ai-starter
 
 ## Show HN (T0)

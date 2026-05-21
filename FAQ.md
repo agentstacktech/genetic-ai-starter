@@ -21,9 +21,19 @@ npx @agentstack/genetic-ai-starter init --yes --target ./my-app --profile standa
 
 Requires Node 18+.
 
-## Benchmark numbers in README — are they real?
+## Benchmark numbers in README — what do they mean?
 
-Until [G38](meta/docs/GAP_REGISTER.md) manual matrix completes, aggregate scores in `benchmarks/results/` are **policy-simulated**. Do not cite them as vendor benchmarks without running [benchmarks/RUNBOOK.md](benchmarks/RUNBOOK.md).
+Scores come from our **reproducible harness** on a reference API repo (`shop-api`, 11 tasks, 7 arms). Run the same matrix locally:
+
+```bash
+node benchmarks/scripts/prepare-all-arms.mjs --force
+node benchmarks/scripts/run-matrix.mjs
+node benchmarks/scripts/analyze-results.mjs
+```
+
+**What the kit improves (measured vs bare):** median **6→8**, unscoped grep **13→1**, map-first **0%→36%** ( **73%** with indexes), T04 bulk-edit refusal **2→8**, T05 maintenance **5→10**. Task-by-task table: [BENEFITS_AND_METRICS.md](meta/docs/BENEFITS_AND_METRICS.md).
+
+**What we do not claim:** vendor certification from Cursor or model vendors — run the harness on **your** repo for your own baseline.
 
 ## Easter eggs?
 
