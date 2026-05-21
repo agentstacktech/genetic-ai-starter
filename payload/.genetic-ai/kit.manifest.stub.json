@@ -1,0 +1,12 @@
+{
+  "kitId": "genetic-ai-starter",
+  "kitVersion": "{{AGENTSTACK_VERSION}}",
+  "platformVersionSource": "shared/constants.py:AGENTSTACK_CORE_VERSION",
+  "profile": "standard",
+  "extensions": [],
+  "installedAt": null,
+  "paths": {
+    "docsAi": "docs/ai",
+    "philosophy": "philosophy"
+  }
+}

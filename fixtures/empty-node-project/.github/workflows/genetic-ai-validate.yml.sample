@@ -1,0 +1,22 @@
+# Sample consumer CI — rename to genetic-ai-validate.yml and adjust kit path
+name: genetic-ai-validate
+
+on:
+  pull_request:
+    paths:
+      - 'docs/ai/**'
+      - 'philosophy/**'
+      - '**/AI_INDEX.md'
+      - '.cursor/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      # Option A: kit vendored in repo
+      - run: node genetic-ai-starter/scripts/validate-installed.mjs --target .
+      # Option B: run from monorepo path in composite action

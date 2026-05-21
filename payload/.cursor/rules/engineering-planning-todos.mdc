@@ -1,0 +1,13 @@
+---
+description: Planning todos for multi-step tasks
+alwaysApply: false
+---
+
+# Planning — TODO lists
+
+For tasks with **3+ distinct steps**, maintain a short TODO list:
+
+- Mark items completed as you finish them.
+- Do not leave items stuck `in_progress` when done.
+
+Keep steps concrete (read map row X, patch file Y, run test Z).

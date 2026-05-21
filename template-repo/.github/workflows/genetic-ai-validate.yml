@@ -1,0 +1,20 @@
+name: genetic-ai-validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install kit via npx
+        run: |
+          npx --yes @agentstack/genetic-ai-starter@0.4.11 init --yes --target . --profile standard --project-name "${{ github.event.repository.name }}" --domain app
+      - name: validate-installed
+        run: node node_modules/@agentstack/genetic-ai-starter/scripts/validate-installed.mjs --target .

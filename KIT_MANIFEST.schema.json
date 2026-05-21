@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Genetic AI Starter Kit Manifest",
+  "type": "object",
+  "required": ["kitId", "version", "payloadRoot", "profiles", "files"],
+  "properties": {
+    "kitId": { "type": "string", "const": "genetic-ai-starter" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "description": { "type": "string" },
+    "payloadRoot": { "type": "string", "const": "payload" },
+    "extensions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "profiles": {
+      "type": "array",
+      "items": { "enum": ["minimal", "standard", "full", "founder"] }
+    },
+    "files": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    }
+  },
+  "additionalProperties": false
+}

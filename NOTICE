@@ -1,0 +1,19 @@
+Genetic AI Starter Kit
+Copyright 2026 Lance and AgentStack contributors
+
+This product includes software developed as part of the AgentStack project.
+
+The Genetic AI Starter Kit is distributed under the Apache License, Version 2.0.
+See the LICENSE file in this directory.
+
+Trademarks
+----------
+AgentStack and related product names are trademarks or service marks of the
+AgentStack project. Use of these marks in forked or derivative projects must not
+imply endorsement without permission. Forks and modifications are welcome under the
+Apache-2.0 license; retain this NOTICE when redistributing verbatim kit contents.
+
+Third-party
+-----------
+Cursor, GitHub, and npm are trademarks of their respective owners. This kit
+references them as integration targets only.

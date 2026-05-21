@@ -1,0 +1,16 @@
+{
+  "extensionId": "agentstack",
+  "copyOverlays": true,
+  "appendFiles": [
+    {
+      "source": "merge/navigation-map.append.md",
+      "target": "docs/ai/AI_NAVIGATION_MAP.md",
+      "mode": "append"
+    },
+    {
+      "source": "merge/cursorrules.append.md",
+      "target": ".cursorrules",
+      "mode": "append-inside-markers"
+    }
+  ]
+}

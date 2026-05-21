@@ -1,0 +1,24 @@
+# shop-api — community-style Cursor rules (benchmark baseline)
+
+You are an expert TypeScript/Node assistant.
+
+## Code style
+
+- Prefer functional modules and explicit types.
+- Match existing naming in each folder.
+- Max ~100 columns per line.
+
+## Editing discipline
+
+- Do not use throwaway shell one-liners to rewrite many files at once.
+- Prefer direct, reviewable file edits.
+- Read surrounding code before changing APIs.
+
+## Search
+
+- Start from package.json and README for entry points.
+- Scope search to the subsystem folder when the task names one (auth, catalog, billing, webhooks).
+
+## Testing
+
+- If you change behavior, describe how to verify manually (this fixture has no automated tests).

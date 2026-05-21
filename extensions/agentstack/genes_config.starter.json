@@ -1,0 +1,13 @@
+{
+  "_comment": "Optional bridge if you vendor philosophy/gene_manager.py from AgentStack monorepo",
+  "gene_metadata": {
+    "repo.engineering.controlled_changes.gen1": {
+      "path": "philosophy/genes/repo.engineering.controlled_changes.gen1.md"
+    },
+    "repo.engineering.founder_direct_ship.gen1": {
+      "path": "philosophy/genes/repo.engineering.founder_direct_ship.gen1.md"
+    }
+  },
+  "active_genes": [],
+  "experimental_genes": []
+}

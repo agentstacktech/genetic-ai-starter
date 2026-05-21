@@ -1,0 +1,10 @@
+{
+  "id": "minimal",
+  "description": "AGENTS.md + core navigation and controlled-change rules",
+  "include": [
+    "payload/.genetic-ai/**",
+    "payload/.cursor/rules/genetic-navigation.mdc",
+    "payload/.cursor/rules/engineering-controlled-changes.mdc",
+    "payload/.cursorrules.fragment.md"
+  ]
+}

@@ -1,0 +1,19 @@
+name: Validate Genetic AI install
+description: Run validate-installed.mjs against a consumer repo (requires kit on disk or via npm)
+inputs:
+  target:
+    description: Path to consumer project root
+    required: false
+    default: .
+  kit-path:
+    description: Path to kit scripts (default node_modules/@agentstack/genetic-ai-starter)
+    required: false
+    default: node_modules/@agentstack/genetic-ai-starter
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - shell: bash
+      run: node "${{ inputs.kit-path }}/scripts/validate-installed.mjs" --target "${{ inputs.target }}"

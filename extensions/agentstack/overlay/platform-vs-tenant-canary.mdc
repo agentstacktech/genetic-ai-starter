@@ -1,0 +1,24 @@
+---
+description: Tenant canary vs platform substrate — for AgentStack consumer projects
+alwaysApply: false
+---
+
+# Platform vs tenant canary (AgentStack consumers)
+
+**Canary, percent rollout, and 8DNA sandbox** are **product surfaces for applications hosted on AgentStack**, not automatic patterns for every local change in a consumer repo.
+
+## For consumer app development
+
+- Use sandbox / variant / rollout when building **tenant-facing** experiments on AgentStack (8DNA `parent_uuid`, `generation`, `rollout_steps`).
+- Do **not** default to dual-path “legacy + flagged new” in application code unless the task explicitly targets rollout.
+
+## When this applies in the consumer repo
+
+- User mentions canary, rollout, sandbox, percent bucket, or a named rollout gene.
+- Task targets AgentStack-hosted experiment infrastructure.
+
+## Founder direct ship (if gene installed)
+
+`repo.engineering.founder_direct_ship.gen1` — single-path delivery with AI unless rollout is explicitly requested.
+
+Canonical platform rule lives in AgentStack `.cursor/rules/platform-vs-tenant-canary.mdc`.

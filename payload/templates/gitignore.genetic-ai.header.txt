@@ -1,0 +1,1 @@
+# AI kit — local only (genetic-ai-starter). Do not commit; reinstall from kit if needed.

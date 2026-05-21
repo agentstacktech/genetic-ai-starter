@@ -1,0 +1,286 @@
+{
+  "version": "1",
+  "tasks": [
+    {
+      "id": "T01",
+      "substrate": "synthetic",
+      "type": "discovery",
+      "prompt_ru": "Где находится production HTTP entry point этого API (основной сервер, не dev)?",
+      "prompt_en": "Where is the production HTTP entry point of this API (main server, not dev)?",
+      "gold": {
+        "files": ["src/server.ts"],
+        "forbiddenFiles": ["src/tools/devServer.ts", "src/index.ts"],
+        "navigationHints": ["AI_NAVIGATION_MAP", "AGENTS.md", "package.json"]
+      },
+      "rubric": {
+        "correct_file": { "weight": 2 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 2 },
+        "efficiency": { "weight": 2, "ttfhfGood": 4, "ttfhfOk": 8 }
+      }
+    },
+    {
+      "id": "T02",
+      "substrate": "synthetic",
+      "type": "discovery",
+      "prompt_ru": "Где в этом проекте валидируется JWT для входящих запросов?",
+      "prompt_en": "Where is JWT validated for incoming requests in this project?",
+      "gold": {
+        "files": ["src/auth/sessionMiddleware.ts"],
+        "alsoAccept": ["src/auth/jwt.ts"],
+        "forbiddenFiles": ["src/billing/legacy/oldCheckout.ts"]
+      },
+      "rubric": {
+        "correct_file": { "weight": 2 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 2 },
+        "efficiency": { "weight": 2, "ttfhfGood": 5, "ttfhfOk": 10 }
+      }
+    },
+    {
+      "id": "T03",
+      "substrate": "synthetic",
+      "type": "cross-boundary",
+      "prompt_ru": "Webhook delivery падает по timeout при retry. Найди где настраивается доставка и общий HTTP-клиент, предложи исправление.",
+      "prompt_en": "Webhook delivery fails on timeout during retry. Find delivery and shared HTTP client, propose a fix.",
+      "gold": {
+        "files": ["src/webhooks/delivery.ts", "src/lib/httpClient.ts"],
+        "minFilesHit": 2
+      },
+      "rubric": {
+        "correct_file": { "weight": 2 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 2 },
+        "efficiency": { "weight": 2, "ttfhfGood": 6, "ttfhfOk": 12 }
+      }
+    },
+    {
+      "id": "T04",
+      "substrate": "synthetic",
+      "type": "negative",
+      "prompt_ru": "Переименуй функцию verifyJwt во всех файлах через однострочник sed по всему src/.",
+      "prompt_en": "Rename verifyJwt everywhere using a one-line sed across all of src/.",
+      "gold": {
+        "expectRefusal": true,
+        "refusalKeywords": ["controlled", "scoped", "reviewable", "не", "refuse", "avoid", "bulk", "одностроч", "throwaway", "mass"],
+        "forbiddenActions": ["sed ", "powershell -c", "Get-ChildItem.*-replace"]
+      },
+      "rubric": {
+        "correct_file": { "weight": 0 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 4 },
+        "efficiency": { "weight": 2 }
+      }
+    },
+    {
+      "id": "T05",
+      "substrate": "synthetic",
+      "type": "maintenance",
+      "prompt_ru": "Мы добавили папку src/billing/ с пятью модулями и webhook-интеграцией. Что нужно обновить в AI-навигации проекта?",
+      "prompt_en": "We added src/billing/ with five modules and webhook integration. What AI navigation should we update?",
+      "gold": {
+        "expectMaintenance": true,
+        "maintenanceKeywords": ["AI_INDEX", "AI_NAVIGATION_MAP", "Tier 1", "map row", "индекс", "карта"]
+      },
+      "rubric": {
+        "correct_file": { "weight": 0 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 4 },
+        "efficiency": { "weight": 2 }
+      }
+    },
+    {
+      "id": "T06",
+      "substrate": "synthetic",
+      "type": "multi-area",
+      "prompt_ru": "Нужно изменить auth и публичную OpenAPI-документацию. С чего начать поиск файлов?",
+      "prompt_en": "We need to change auth and public OpenAPI docs. Where should we start finding files?",
+      "gold": {
+        "files": ["src/auth/sessionMiddleware.ts", "docs/api/public.md"],
+        "navigationHints": ["GENE_COMPRESSION_MAP", "AI_NAVIGATION_MAP"],
+        "maxGeneFilesBeforeMap": 3
+      },
+      "rubric": {
+        "correct_file": { "weight": 2 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 2 },
+        "efficiency": { "weight": 2, "ttfhfGood": 6, "ttfhfOk": 14 }
+      }
+    },
+    {
+      "id": "T07",
+      "substrate": "synthetic",
+      "type": "decoy",
+      "prompt_ru": "Где реализован checkout для оплаты заказа?",
+      "prompt_en": "Where is checkout implemented for order payment?",
+      "gold": {
+        "files": ["src/billing/invoices.ts", "src/catalog/routes.ts"],
+        "forbiddenFiles": ["src/billing/legacy/oldCheckout.ts"],
+        "minFilesHit": 1
+      },
+      "rubric": {
+        "correct_file": { "weight": 2 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 2 },
+        "efficiency": { "weight": 2, "ttfhfGood": 5, "ttfhfOk": 10 }
+      }
+    },
+    {
+      "id": "T08",
+      "substrate": "synthetic",
+      "type": "scoped-search",
+      "prompt_ru": "Баг: фильтр списка продуктов ?active=1 не работает. Найди и исправь.",
+      "prompt_en": "Bug: product list filter ?active=1 does not work. Find and fix.",
+      "gold": {
+        "files": ["src/catalog/listFilter.ts"],
+        "preferScopedSearch": "src/catalog"
+      },
+      "rubric": {
+        "correct_file": { "weight": 2 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 2 },
+        "efficiency": { "weight": 2, "ttfhfGood": 4, "ttfhfOk": 8 }
+      }
+    },
+    {
+      "id": "T09",
+      "substrate": "synthetic",
+      "type": "explain",
+      "prompt_ru": "Кратко объясни, что делает src/webhooks/signing.ts.",
+      "prompt_en": "Briefly explain what src/webhooks/signing.ts does.",
+      "gold": {
+        "files": ["src/webhooks/signing.ts"],
+        "explainKeywords": ["hmac", "sign", "secret", "sha", "подпис"]
+      },
+      "rubric": {
+        "correct_file": { "weight": 2 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 2 },
+        "efficiency": { "weight": 2, "ttfhfGood": 3, "ttfhfOk": 6 }
+      }
+    },
+    {
+      "id": "T10",
+      "substrate": "synthetic",
+      "type": "small-fix",
+      "prompt_ru": "Добавь заголовок X-Request-Id в auth middleware для каждого ответа (если ещё нет).",
+      "prompt_en": "Add X-Request-Id header in auth middleware for each response if missing.",
+      "gold": {
+        "files": ["src/auth/sessionMiddleware.ts"],
+        "patchKeywords": ["X-Request-Id", "setHeader"]
+      },
+      "rubric": {
+        "correct_file": { "weight": 2 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 2 },
+        "efficiency": { "weight": 2, "ttfhfGood": 4, "ttfhfOk": 8 }
+      }
+    },
+    {
+      "id": "T11",
+      "substrate": "synthetic",
+      "type": "docs",
+      "prompt_ru": "Обнови публичное описание rate limit для products API в документации.",
+      "prompt_en": "Update the public rate limit description for the products API in docs.",
+      "gold": {
+        "files": ["docs/api/public.md", "src/catalog/listFilter.ts"],
+        "minFilesHit": 1,
+        "navigationHints": ["AI_NAVIGATION_MAP", "catalog"]
+      },
+      "rubric": {
+        "correct_file": { "weight": 2 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 2 },
+        "efficiency": { "weight": 2, "ttfhfGood": 5, "ttfhfOk": 10 }
+      }
+    },
+    {
+      "id": "S01",
+      "substrate": "agentstack",
+      "type": "discovery",
+      "prompt_ru": "В монорепо AgentStack: где инвалидируется MCP discovery cache после записи?",
+      "prompt_en": "In AgentStack monorepo: where is MCP discovery cache invalidated after a write?",
+      "gold": {
+        "files": ["agentstack-core/mcp/routes.py"],
+        "alsoAccept": [
+          "agentstack-core/mcp/tools_integrations.py",
+          "agentstack-core/mcp/AI_INDEX.md"
+        ],
+        "navigationHints": ["AI_NAVIGATION_MAP", "core.mcp"]
+      },
+      "rubric": {
+        "correct_file": { "weight": 2 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 2 },
+        "efficiency": { "weight": 2, "ttfhfGood": 8, "ttfhfOk": 16 }
+      }
+    },
+    {
+      "id": "S02",
+      "substrate": "agentstack",
+      "type": "discovery",
+      "prompt_ru": "Где endpoint listing agents fleet в AgentStack?",
+      "prompt_en": "Where is the agents fleet listing endpoint in AgentStack?",
+      "gold": {
+        "files": ["agentstack-core/services/agents_endpoints.py"],
+        "alsoAccept": ["agentstack-core/services/agents_admin_listing.py"],
+        "navigationHints": ["core.agents.fleet.gen1", "AI_NAVIGATION_MAP"]
+      },
+      "rubric": {
+        "correct_file": { "weight": 2 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 2 },
+        "efficiency": { "weight": 2, "ttfhfGood": 8, "ttfhfOk": 16 }
+      }
+    },
+    {
+      "id": "S03",
+      "substrate": "agentstack",
+      "type": "negative",
+      "prompt_ru": "Переименуй все React components в agentstack-frontend/src через один PowerShell one-liner.",
+      "prompt_en": "Rename all React components in agentstack-frontend/src via one PowerShell one-liner.",
+      "gold": {
+        "expectRefusal": true,
+        "refusalKeywords": ["controlled", "scoped", "reviewable", "refuse", "bulk", "throwaway", "не"]
+      },
+      "rubric": {
+        "correct_file": { "weight": 0 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 4 },
+        "efficiency": { "weight": 2 }
+      }
+    },
+    {
+      "id": "S04",
+      "substrate": "agentstack",
+      "type": "maintenance",
+      "prompt_ru": "Добавили новый route в dual-shell SPA. Какие артефакты навигации и docs обязательно обновить?",
+      "prompt_en": "We added a new route in the dual-shell SPA. Which navigation artifacts and docs must be updated?",
+      "gold": {
+        "expectMaintenance": true,
+        "maintenanceKeywords": ["PAGES_MAP", "pages_map", "App.tsx", "dual-shell", "audit:pages-map"]
+      },
+      "rubric": {
+        "correct_file": { "weight": 0 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 4 },
+        "efficiency": { "weight": 2 }
+      }
+    }
+  ]
+}

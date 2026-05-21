@@ -1,0 +1,13 @@
+{
+  "id": "standard",
+  "description": "minimal + philosophy kernel + docs/ai navigation + 4 skills",
+  "include": [
+    "payload/AGENTS.md",
+    "payload/.genetic-ai/**",
+    "payload/.cursorrules.fragment.md",
+    "payload/.cursor/rules/**",
+    "payload/.cursor/skills/**",
+    "payload/philosophy/**",
+    "payload/docs/ai/**"
+  ]
+}

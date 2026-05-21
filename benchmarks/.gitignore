@@ -1,0 +1,5 @@
+work/
+results/raw/
+!results/raw/.gitkeep
+results/scored/
+

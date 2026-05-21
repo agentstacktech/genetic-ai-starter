@@ -1,0 +1,40 @@
+---
+description: Genetic AI navigation — map, indexes, and scoped search
+alwaysApply: true
+---
+
+# Genetic navigation — {{PROJECT_NAME}}
+
+Land in the right files **before** blind repo-wide search.
+
+**System doc:** `docs/ai/AI_INDEXING_SYSTEM.md` · **Registry:** `docs/ai/AI_NAVIGATION_MAP.md`
+
+## Lookup order
+
+1. Open `docs/ai/AI_NAVIGATION_MAP.md` — Tier 0 or Tier 1 by topic/tag.
+2. Open linked `AI_INDEX.md` (or canonical `INDEX.md` if present).
+3. Open **1–2 hot files** from the index.
+4. **Scoped** search (single directory or known symbol) only after that.
+
+## Genetic tags
+
+- Pattern: `<domain>.<subsystem>.<role>.gen1` — see `philosophy/genes/foundation.genetic_coding.gen1.md`.
+- Align new tags with existing map rows before inventing namespaces.
+
+## When to open an index first
+
+- Known large subsystem, multiple entry points, or integration boundaries.
+- You would otherwise grep the whole package without a file name.
+
+## What not to do
+
+- Skip the map for exploratory work in non-trivial areas.
+- **Unscoped search anti-pattern:** `rg foo src` or repo-wide grep before map/index when a Tier 1 row exists — scope to the subsystem directory (e.g. `src/catalog/`) first.
+- Use throwaway bulk patch scripts — follow `repo.engineering.controlled_changes.gen1`.
+- Open many unrelated gene files — use `philosophy/genes/GENE_COMPRESSION_MAP.md`.
+
+## Maintaining indexes
+
+- Hard threshold: ~10+ integration points → new `AI_INDEX.md` + Tier 1 map row.
+- Update indexes in the **same PR** as structural changes.
+- Checklist: `.cursor/rules/genetic-index-authoring.mdc`

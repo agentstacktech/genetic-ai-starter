@@ -1,0 +1,6 @@
+{
+  "id": "full",
+  "description": "All payload files + AgentStack extension",
+  "include": ["payload/**"],
+  "extensions": ["agentstack"]
+}

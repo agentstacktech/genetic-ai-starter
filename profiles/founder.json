@@ -1,0 +1,6 @@
+{
+  "id": "founder",
+  "description": "full + founder_direct_ship gene",
+  "include": ["payload/**"],
+  "extensions": ["agentstack"]
+}

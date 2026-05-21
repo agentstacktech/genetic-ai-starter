@@ -1,0 +1,33 @@
+---
+description: Checklist when creating or editing AI_INDEX.md
+globs: "**/AI_INDEX.md"
+alwaysApply: false
+---
+
+# Authoring AI indexes
+
+Applies when you **create**, **expand**, or **restructure** an `AI_INDEX.md`.
+
+**Concepts:** `docs/ai/AI_INDEXING_SYSTEM.md` §2–4.
+
+## Before you save
+
+1. **Genetic tag** — First block includes `**Genetic code:**` ``tag`` matching `docs/ai/AI_NAVIGATION_MAP.md`.
+2. **Parent link** — Link up to map and package index if any.
+3. **Hot files** — Entry points only, not exhaustive listings.
+4. **Sideways links** — Cross-boundary integrations (API, DB, queues, external packages).
+
+## New subsystem
+
+1. Add **Tier 1** row in `docs/ai/AI_NAVIGATION_MAP.md`.
+2. Add path to root `.cursorrules` AI NAVIGATION list if you maintain one.
+3. Optional domain gene from `philosophy/genes/templates/`.
+
+## Ongoing maintenance
+
+- Refresh hot files when entry points move.
+- State **canonical vs legacy** paths at top if duplicated trees exist.
+
+## Keep scannable
+
+- Under ~2 minutes reading; link to READMEs instead of duplicating them.

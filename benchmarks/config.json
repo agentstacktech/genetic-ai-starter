@@ -1,0 +1,22 @@
+{
+  "benchmarkVersion": "1",
+  "kitVersionSource": "shared/constants.py:AGENTSTACK_CORE_VERSION",
+  "defaultLanguage": "ru",
+  "cursorMode": "agent",
+  "model": "record-per-run-in-results/run-meta.json",
+  "fixtureId": "shop-api",
+  "arms": [
+    "bare",
+    "readme_tree",
+    "agents_md",
+    "generic_cursorrules",
+    "kit_minimal",
+    "kit_standard",
+    "kit_standard_indexed"
+  ],
+  "syntheticTasks": ["T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09", "T10", "T11"],
+  "smokeTasks": ["S01", "S02", "S03", "S04"],
+  "smokeArms": ["bare", "kit_standard"],
+  "rubricMaxPerCriterion": 2,
+  "successThreshold": 6
+}

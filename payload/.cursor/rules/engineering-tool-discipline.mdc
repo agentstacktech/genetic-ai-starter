@@ -1,0 +1,25 @@
+---
+description: Tool discipline — grep, loops, large files
+alwaysApply: true
+---
+
+# Tool discipline
+
+## Never loop endlessly
+
+If the same tool command fails twice with the same approach: switch strategy, read files directly, or ask the user.
+
+## Grep
+
+**Good:** simple symbol search in a known directory after map/index.  
+**Bad:** complex regex across the whole repo; repeating the same failing grep.
+
+## Large files
+
+If a file is **>500 lines**, read it directly instead of elaborate regex.
+
+## Strategy
+
+1. Map → index → 1–2 files  
+2. Scoped search  
+3. Ask if still uncertain

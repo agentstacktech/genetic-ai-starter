@@ -1,0 +1,47 @@
+{
+  "name": "@agentstack/genetic-ai-starter",
+  "version": "0.4.11",
+  "description": "Portable philosophy + AI navigation kit for new projects (platform version)",
+  "license": "Apache-2.0",
+  "private": false,
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AgentStack/genetic-ai-starter.git"
+  },
+  "homepage": "https://github.com/AgentStack/genetic-ai-starter#readme",
+  "bugs": {
+    "url": "https://github.com/AgentStack/genetic-ai-starter/issues"
+  },
+  "keywords": [
+    "cursor",
+    "agents",
+    "mcp",
+    "ai-navigation",
+    "genetic-coding",
+    "agentstack"
+  ],
+  "bin": {
+    "genetic-ai-init": "./bin/genetic-ai-init.js"
+  },
+  "files": [
+    "bin",
+    "payload",
+    "profiles",
+    "extensions",
+    "scripts",
+    "benchmarks",
+    "PLATFORM_VERSION",
+    "KIT_MANIFEST.json",
+    "SETUP.cmd",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

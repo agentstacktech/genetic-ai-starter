@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentstack.local/schemas/genetic-ai-benchmark-tasks.json",
+  "type": "object",
+  "required": ["version", "tasks"],
+  "properties": {
+    "version": { "type": "string" },
+    "tasks": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/task" }
+    }
+  },
+  "$defs": {
+    "task": {
+      "type": "object",
+      "required": ["id", "substrate", "type", "prompt_ru", "prompt_en", "gold", "rubric"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[TS][0-9]{2}$" },
+        "substrate": { "enum": ["synthetic", "agentstack"] },
+        "type": { "type": "string" },
+        "prompt_ru": { "type": "string", "minLength": 10 },
+        "prompt_en": { "type": "string", "minLength": 10 },
+        "gold": { "type": "object" },
+        "rubric": { "type": "object" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

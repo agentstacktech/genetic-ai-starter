@@ -1,0 +1,8 @@
+# Install-test outputs — only package.json + src/ are canonical fixture files
+/AGENTS.md
+/philosophy/
+/docs/
+/.cursor/
+/.genetic-ai/
+/.cursorrules
+/.cursorrules.fragment.md

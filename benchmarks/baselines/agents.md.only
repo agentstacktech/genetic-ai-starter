@@ -1,0 +1,32 @@
+# AGENTS.md — shop-api
+
+Instructions for coding agents working in this repository.
+
+## Project
+
+TypeScript Node HTTP API for a fictional shop.
+
+## Before you search
+
+1. Read this file.
+2. Skim `README.md` and folder names under `src/`.
+3. Prefer reading likely files directly over repo-wide grep.
+
+## Layout
+
+- `src/server.ts` — likely main entry (confirm with package.json scripts)
+- `src/auth/` — authentication
+- `src/catalog/` — product APIs
+- `src/billing/` — invoices
+- `src/webhooks/` — outbound webhooks
+- `src/lib/` — shared utilities
+
+## Conventions
+
+- Use TypeScript strict mode.
+- Small, reviewable diffs.
+- Do not run mass replace scripts across the whole tree without explicit approval.
+
+## Tests
+
+No test suite in this benchmark fixture.

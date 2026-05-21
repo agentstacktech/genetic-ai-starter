@@ -1,0 +1,11 @@
+{
+  "name": "shop-api-benchmark-fixture",
+  "private": true,
+  "version": "0.0.0-benchmark",
+  "description": "Synthetic repo for genetic-ai-starter benchmark (not a real product)",
+  "type": "module",
+  "scripts": {
+    "start": "node --experimental-strip-types src/server.ts",
+    "dev": "node --experimental-strip-types src/tools/devServer.ts"
+  }
+}

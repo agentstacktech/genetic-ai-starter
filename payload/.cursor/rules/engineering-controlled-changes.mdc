@@ -1,0 +1,18 @@
+---
+description: Controlled code changes — reviewable diffs for agents
+alwaysApply: true
+---
+
+# Controlled code changes
+
+**Gene:** `repo.engineering.controlled_changes.gen1` → `philosophy/genes/repo.engineering.controlled_changes.gen1.md`
+
+## Do
+
+- Direct, visible edits per file; small steps per subsystem.
+- Maintained codemods in `scripts/` with README when many files share one semantic change.
+
+## Do not
+
+- Throwaway shell/Python one-liners that rewrite the tree outside review.
+- Skip reading navigation (map/index) for non-trivial edits.
