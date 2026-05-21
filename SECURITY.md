@@ -6,7 +6,7 @@ Only the **latest platform-tagged release** of Genetic AI Starter Kit is support
 
 ## Reporting a vulnerability
 
-1. **Preferred:** [GitHub Security Advisories](https://github.com/AgentStack/genetic-ai-starter/security/advisories) on the public mirror repository.
+1. **Preferred:** [GitHub Security Advisories](https://github.com/agentstacktech/genetic-ai-starter/security/advisories) on the public mirror repository.
 2. **Alternative:** Open a private report via repository maintainers listed in [MAINTAINERS.md](MAINTAINERS.md).
 
 Please do not open public issues for undisclosed security problems.

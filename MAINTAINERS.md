@@ -45,7 +45,7 @@ Full procedure: [meta/docs/RELEASE_RUNBOOK.md](meta/docs/RELEASE_RUNBOOK.md)
 1. [PREFLIGHT_CHECKLIST.md](meta/docs/PREFLIGHT_CHECKLIST.md) — gitleaks + payload license + CI green
 1b. [MIRROR_SYNC.md](meta/docs/MIRROR_SYNC.md) — include/exclude paths
 2. Tag `genetic-ai-starter-v0.4.11` in monorepo → run `.github/workflows/release-genetic-ai-starter.yml`
-3. Secrets: `KIT_MIRROR_TOKEN`, `KIT_MIRROR_REPO` (= `AgentStack/genetic-ai-starter`)
+3. Secrets: `KIT_MIRROR_TOKEN`, `KIT_MIRROR_REPO` (= `agentstacktech/genetic-ai-starter`)
 4. Mirror CI green (`.github/workflows/ci.yml` — Linux + Windows)
 5. `npm publish` from mirror release workflow or local with provenance
 6. [LAUNCH_CHECKLIST.md](meta/docs/LAUNCH_CHECKLIST.md) before flipping public
@@ -54,4 +54,4 @@ Full procedure: [meta/docs/RELEASE_RUNBOOK.md](meta/docs/RELEASE_RUNBOOK.md)
 
 ## Registry
 
-`repo.tooling.genetic_starter.gen1` → [README.md](README.md) · public: https://github.com/AgentStack/genetic-ai-starter
+`repo.tooling.genetic_starter.gen1` → [README.md](README.md) · public: https://github.com/agentstacktech/genetic-ai-starter · platform: https://github.com/agentstacktech/AgentStack

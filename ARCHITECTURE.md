@@ -43,7 +43,8 @@ Order: `AGENTSTACK_CORE_VERSION` env → `shared/constants.py` (monorepo) → `P
 ## Repository model
 
 - **SoT:** `genetic-ai-starter/` in AgentStack monorepo
-- **Public mirror:** `github.com/AgentStack/genetic-ai-starter` (synced by release Action)
+- **Public mirror:** [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter) (`main`, synced by release Action)
+- **Platform monorepo:** [agentstacktech/AgentStack](https://github.com/agentstacktech/AgentStack) (`master`) — see [REPOSITORY_LINKS.md](meta/docs/REPOSITORY_LINKS.md)
 - **Distribution:** npm `@agentstack/genetic-ai-starter`, GitHub template repo
 
 ## Extension boundary

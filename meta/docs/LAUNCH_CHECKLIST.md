@@ -17,7 +17,7 @@ Execute after **hard gates** in [RELEASE_RUNBOOK.md](RELEASE_RUNBOOK.md).
 
 ## Private mirror smoke (oss-private-smoke)
 
-1. Create **private** `AgentStack/genetic-ai-starter`
+1. Create **private** [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter)
 2. Run release Action once → verify CI
 3. Branch protection: require `ci`, block force push
 4. Flip **public** only when hard gates pass

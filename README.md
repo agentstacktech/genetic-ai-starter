@@ -4,7 +4,7 @@
 
 Portable **AI operations layer** for new repositories: philosophy genes → navigation map → subsystem indexes → Cursor rules/skills → optional AgentStack extension.
 
-**English README (public default):** [README.en.md](README.en.md) · **Public mirror:** https://github.com/AgentStack/genetic-ai-starter · **npm:** `npx @agentstack/genetic-ai-starter init`
+**English README (public default):** [README.en.md](README.en.md) · **Kit (public):** [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter) (`main`) · **Platform:** [agentstacktech/AgentStack](https://github.com/agentstacktech/AgentStack) (`master`) · **npm:** `npx @agentstack/genetic-ai-starter init` · [URLs](meta/docs/REPOSITORY_LINKS.md)
 
 **Genetic tag:** `repo.tooling.genetic_starter.gen1`
 

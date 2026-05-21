@@ -21,7 +21,7 @@ git push origin genetic-ai-starter-v0.4.11
 Workflow: `.github/workflows/release-genetic-ai-starter.yml` (monorepo)
 
 - `workflow_dispatch` or tag push
-- Secrets: `KIT_MIRROR_TOKEN`, `KIT_MIRROR_REPO` (= `AgentStack/genetic-ai-starter`)
+- Secrets: `KIT_MIRROR_TOKEN`, `KIT_MIRROR_REPO` (= `agentstacktech/genetic-ai-starter`) — see [REPOSITORY_LINKS.md](REPOSITORY_LINKS.md)
 - Parity job compares file manifest hash
 - Include/exclude rules: [MIRROR_SYNC.md](MIRROR_SYNC.md)
 

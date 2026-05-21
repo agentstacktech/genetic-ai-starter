@@ -94,7 +94,7 @@
 | Файлы payload | `payload/**` (+ CI sample) | **идентично** full |
 | Расширение AgentStack | автоматически | автоматически |
 | Смысл профиля в lock | «потребитель платформы» | «founder direct ship» в AGENTS/CONTEXT |
-| Рекомендация | SDK/MCP/8DNA в consumer-repo | работа в `AgentStack/` монорепо |
+| Рекомендация | SDK/MCP/8DNA в consumer-repo | работа в [agentstacktech/AgentStack](https://github.com/agentstacktech/AgentStack) монорепо |
 
 Между **full** и **founder** **нет разницы в списке копируемых файлов** — различается запись `profile` в `.genetic-ai/kit.lock.json` и документированный приоритет gene `repo.engineering.founder_direct_ship.gen1`.
 

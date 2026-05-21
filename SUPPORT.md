@@ -8,7 +8,7 @@ Only the **latest** `platform-*` release tag is fully supported. See [CHANGELOG.
 
 1. [FAQ.md](FAQ.md) — install, Windows, gitignore, profiles
 2. [meta/docs/TROUBLESHOOTING.md](meta/docs/TROUBLESHOOTING.md)
-3. [GitHub Discussions](https://github.com/AgentStack/genetic-ai-starter/discussions) — Q&A and showcase
+3. [GitHub Discussions](https://github.com/agentstacktech/genetic-ai-starter/discussions) — Q&A and showcase
 4. GitHub Issues — bugs and gene proposals on the **public mirror** repo
 
 ## Upgrading kit version

@@ -2,7 +2,7 @@
 
 <!-- Tier 0 hint: repo.tooling.genetic_starter.gen1 — uncomment example row when adopting AgentStack platform docs -->
 <!--
-| repo.tooling.genetic_starter.gen1 | https://github.com/AgentStack/genetic-ai-starter | Starter kit public mirror |
+| repo.tooling.genetic_starter.gen1 | https://github.com/agentstacktech/genetic-ai-starter | Starter kit public mirror |
 -->
 
 ## Tier 0

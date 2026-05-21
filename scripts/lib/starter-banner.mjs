@@ -22,6 +22,6 @@ export function isAgentStackProjectName(name) {
 export function printAgentStackThanks() {
   console.log('');
   console.log('Thanks for naming the project AgentStack — built with genetic coding.');
-  console.log('Public kit: https://github.com/AgentStack/genetic-ai-starter');
+  console.log('Public kit: https://github.com/agentstacktech/genetic-ai-starter');
   console.log('');
 }

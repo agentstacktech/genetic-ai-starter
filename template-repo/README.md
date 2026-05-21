@@ -27,8 +27,8 @@ Copy [.github/workflows/genetic-ai-validate.yml](.github/workflows/genetic-ai-va
 
 ## Docs
 
-- Kit: https://github.com/AgentStack/genetic-ai-starter
-- Install: https://github.com/AgentStack/genetic-ai-starter/blob/main/meta/docs/INSTALL.md
+- Kit: https://github.com/agentstacktech/genetic-ai-starter
+- Install: https://github.com/agentstacktech/genetic-ai-starter/blob/main/meta/docs/INSTALL.md
 
 ## Maintainer publish
 

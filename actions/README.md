@@ -5,7 +5,7 @@ Post-launch: publish `validate-genetic-ai` composite action on the public mirror
 **Consumer usage (planned):**
 
 ```yaml
-- uses: AgentStack/genetic-ai-starter/actions/validate@v1
+- uses: agentstacktech/genetic-ai-starter/actions/validate@v1
   with:
     target: .
     kit-version: '0.4.11'

@@ -1,6 +1,6 @@
 # Good first issues (seed on public mirror)
 
-Create these on `AgentStack/genetic-ai-starter` with label `good first issue` before launch.
+Create these on [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter) with label `good first issue` before launch.
 
 | Title | Description |
 |-------|-------------|

@@ -7,11 +7,11 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AgentStack/genetic-ai-starter.git"
+    "url": "git+https://github.com/agentstacktech/genetic-ai-starter.git"
   },
-  "homepage": "https://github.com/AgentStack/genetic-ai-starter#readme",
+  "homepage": "https://github.com/agentstacktech/genetic-ai-starter#readme",
   "bugs": {
-    "url": "https://github.com/AgentStack/genetic-ai-starter/issues"
+    "url": "https://github.com/agentstacktech/genetic-ai-starter/issues"
   },
   "keywords": [
     "cursor",

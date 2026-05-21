@@ -12,7 +12,7 @@
 
 ## Как помочь
 
-1. Звезда и watch на [github.com/AgentStack/genetic-ai-starter](https://github.com/AgentStack/genetic-ai-starter)
+1. Звезда и watch на [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter)
 2. Discussions — вопросы и витрина проектов
 3. Good first issues на GitHub
 4. Добавить проект в [SHOWCASE.md](SHOWCASE.md)

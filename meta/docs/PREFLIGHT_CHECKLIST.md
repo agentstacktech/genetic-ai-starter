@@ -1,6 +1,6 @@
 # Pre-flight checklist — OSS mirror push
 
-Run before the first sync to `AgentStack/genetic-ai-starter`.
+Run before the first sync to [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter).
 
 ## Secrets (pf-1)
 

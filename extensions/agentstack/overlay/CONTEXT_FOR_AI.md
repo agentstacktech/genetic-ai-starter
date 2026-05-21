@@ -1,6 +1,6 @@
 # AgentStack — Capability map for AI (consumer excerpt)
 
-**Kit extension** · Canonical: AgentStack `docs/plugins/CONTEXT_FOR_AI.md` · Gene: `repo.plugins.capability_routing.gen1`
+**Kit extension** · Canonical: [AgentStack `docs/plugins/CONTEXT_FOR_AI.md`](https://github.com/agentstacktech/AgentStack/blob/master/docs/plugins/CONTEXT_FOR_AI.md) · Gene: `repo.plugins.capability_routing.gen1`
 
 Use when this project calls AgentStack via MCP, SDK, or 8DNA KV.
 

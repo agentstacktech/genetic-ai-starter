@@ -14,9 +14,9 @@
 
 ## How to help
 
-1. Star and watch [github.com/AgentStack/genetic-ai-starter](https://github.com/AgentStack/genetic-ai-starter)
+1. Star and watch [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter)
 2. Open Discussions — Q&A or Showcase category
-3. Pick a [good first issue](https://github.com/AgentStack/genetic-ai-starter/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+3. Pick a [good first issue](https://github.com/agentstacktech/genetic-ai-starter/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 4. Propose genes via issue template
 5. Add your project to [SHOWCASE.md](SHOWCASE.md)
 

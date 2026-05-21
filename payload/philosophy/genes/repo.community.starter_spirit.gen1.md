@@ -16,7 +16,7 @@ Map-first agent operations are a **community practice**, not a single vendor loc
 
 ## Links
 
-- Public kit: https://github.com/AgentStack/genetic-ai-starter
+- Public kit: https://github.com/agentstacktech/genetic-ai-starter
 - Platform: https://agentstack.tech/?utm_source=genetic-ai-starter
 
 ## Maintainer note

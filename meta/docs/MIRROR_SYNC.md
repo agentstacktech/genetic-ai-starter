@@ -1,6 +1,6 @@
 # Mirror sync — include / exclude (oss-sync-filter)
 
-Monorepo path `genetic-ai-starter/` is the **source of truth**. Public mirror `AgentStack/genetic-ai-starter` receives a **subtree split** of this folder (see monorepo `.github/workflows/release-genetic-ai-starter.yml`).
+Monorepo path `genetic-ai-starter/` is the **source of truth**. Public mirror [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter) receives a **subtree split** of this folder (see monorepo `.github/workflows/release-genetic-ai-starter.yml`).
 
 ## Included (ship to mirror)
 

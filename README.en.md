@@ -11,14 +11,14 @@
 
 ```mermaid
 flowchart LR
-  Mono[AgentStack monorepo SoT]
-  Mirror[github.com/AgentStack/genetic-ai-starter]
+  Mono[agentstacktech/AgentStack SoT]
+  Mirror[github.com/agentstacktech/genetic-ai-starter]
   NPM["npm @agentstack/genetic-ai-starter"]
   Mono -->|release Action| Mirror
   Mirror --> NPM
 ```
 
-Developed in the AgentStack monorepo; **releases** are published on the public mirror and npm.
+Developed in [agentstacktech/AgentStack](https://github.com/agentstacktech/AgentStack) (`genetic-ai-starter/` on `master`); **releases** on [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter) (`main`) and npm. URL map: [meta/docs/REPOSITORY_LINKS.md](meta/docs/REPOSITORY_LINKS.md).
 
 ## Quick start (30s)
 
@@ -38,7 +38,7 @@ node scripts/init.mjs
 
 Manual flags: [meta/docs/INSTALL.md](meta/docs/INSTALL.md) · Windows: [meta/docs/INSTALL_WINDOWS.md](meta/docs/INSTALL_WINDOWS.md)
 
-[![Use this template](https://img.shields.io/badge/GitHub-Use%20this%20template-238636)](https://github.com/AgentStack/genetic-ai-starter-template/generate)
+[![Use this template](https://img.shields.io/badge/GitHub-Use%20this%20template-238636)](https://github.com/agentstacktech/genetic-ai-starter-template/generate)
 
 ## Profiles
 

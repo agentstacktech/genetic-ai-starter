@@ -16,6 +16,8 @@
 
 Profiles explained: [PROFILE_COMPARISON.md](PROFILE_COMPARISON.md).
 
+GitHub: kit [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter) · platform [agentstacktech/AgentStack](https://github.com/agentstacktech/AgentStack) — [REPOSITORY_LINKS.md](REPOSITORY_LINKS.md).
+
 ---
 
 ## Manual install

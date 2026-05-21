@@ -6,10 +6,10 @@ Thank you for improving the Genetic AI Starter Kit.
 
 | Change type | Repository |
 |-------------|------------|
-| Bugs, features, genes, docs for the **public kit** | [AgentStack/genetic-ai-starter](https://github.com/AgentStack/genetic-ai-starter) — **open issues and PRs here** |
-| AgentStack platform runtime, MCP, frontend | [AgentStack monorepo](https://github.com/AgentStack/AgentStack) — label `kit` only when the fix is kit-specific but lands via monorepo SoT |
+| Bugs, features, genes, docs for the **public kit** | [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter) — **open issues and PRs here** (`main`) |
+| AgentStack platform runtime, MCP, frontend | [agentstacktech/AgentStack](https://github.com/agentstacktech/AgentStack) (`master`) — label `kit` when the fix lands in monorepo SoT `genetic-ai-starter/` |
 
-This folder in the monorepo is the **source of truth**. Releases sync to the public mirror via maintainers (see [MAINTAINERS.md](MAINTAINERS.md)).
+This folder in the platform monorepo is the **source of truth**. Releases sync to the public mirror via maintainers (see [MAINTAINERS.md](MAINTAINERS.md)). Canonical URLs: [REPOSITORY_LINKS.md](meta/docs/REPOSITORY_LINKS.md).
 
 ## Developer certificate of origin
 

@@ -1,6 +1,6 @@
 # Discussions — pinned quickstart (copy to GitHub)
 
-Pin this in category **Q&A** on `AgentStack/genetic-ai-starter` after enabling Discussions.
+Pin this in category **Q&A** on [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter) after enabling Discussions.
 
 ---
 
@@ -24,9 +24,9 @@ node node_modules/@agentstack/genetic-ai-starter/scripts/doctor.mjs --target ./m
 
 ## Links
 
-- [INSTALL.md](https://github.com/AgentStack/genetic-ai-starter/blob/main/meta/docs/INSTALL.md)
-- [FAQ.md](https://github.com/AgentStack/genetic-ai-starter/blob/main/FAQ.md)
-- [PROFILE_COMPARISON.md](https://github.com/AgentStack/genetic-ai-starter/blob/main/meta/docs/PROFILE_COMPARISON.md)
+- [INSTALL.md](https://github.com/agentstacktech/genetic-ai-starter/blob/main/meta/docs/INSTALL.md)
+- [FAQ.md](https://github.com/agentstacktech/genetic-ai-starter/blob/main/FAQ.md)
+- [PROFILE_COMPARISON.md](https://github.com/agentstacktech/genetic-ai-starter/blob/main/meta/docs/PROFILE_COMPARISON.md)
 - AgentStack platform (optional): https://agentstack.tech/?utm_source=genetic-ai-starter
 
 ## Benchmark note

@@ -33,8 +33,10 @@ Non-interactive: `node scripts/init.mjs --yes --target <path> --profile standard
 
 | Layout | Kit path example | Version source |
 |--------|------------------|----------------|
-| **Inside AgentStack monorepo** | `.../AgentStack/genetic-ai-starter/` | `shared/constants.py` |
-| **Standalone copy** | `C:\Projects\genetic-ai-starter\` | `PLATFORM_VERSION` + `KIT_MANIFEST.json` |
+| **Inside platform monorepo** | Clone [agentstacktech/AgentStack](https://github.com/agentstacktech/AgentStack) → `genetic-ai-starter/` | `shared/constants.py` |
+| **Standalone / public kit** | Clone [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter) or `npx @agentstack/genetic-ai-starter` | `PLATFORM_VERSION` + `KIT_MANIFEST.json` |
+
+Canonical GitHub URLs: [REPOSITORY_LINKS.md](REPOSITORY_LINKS.md). Platform docs on `master`: [AgentStack README](https://github.com/agentstacktech/AgentStack/blob/master/README.md).
 
 The install scripts live **in the kit**, not inside your app. Your app is only `--target`.
 

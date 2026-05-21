@@ -18,7 +18,7 @@
 Show HN: Genetic AI Starter Kit – map-first Cursor/AGENTS.md install (Apache-2.0)
 
 Install: npx @agentstack/genetic-ai-starter init
-Repo: https://github.com/AgentStack/genetic-ai-starter
+Repo: https://github.com/agentstacktech/genetic-ai-starter
 
 Philosophy genes + navigation map + profiles (minimal→founder). 
 Benchmark rubric included; optional AgentStack MCP extension.
