@@ -7,6 +7,32 @@
 
 You get **structure before scale**: agents (and humans) open the map and indexes first, then 1–2 hot files — instead of blind repo-wide search.
 
+**Navigation OS:** [meta/docs/NAVIGATION_OS.md](meta/docs/NAVIGATION_OS.md) · **Doc hub:** [meta/docs/DOC_HUB.md](meta/docs/DOC_HUB.md)
+
+---
+
+## Manage large codebases (killer feature)
+
+Monorepos with many subsystems break **AGENTS.md-only**, **rules-only**, and **flat RAG** approaches. Kit ships a **semantic lattice** (Tier 0 → Tier 1 → `AI_INDEX.md` → hot files) — portable, git-reviewable, CI-checkable.
+
+→ [KILLER_FEATURE_LARGE_PROJECTS.md](meta/docs/KILLER_FEATURE_LARGE_PROJECTS.md) · rollout [LARGE_PROJECT_PLAYBOOK.md](meta/docs/LARGE_PROJECT_PLAYBOOK.md)
+
+---
+
+## Token-efficient agent navigation
+
+Map-first paths cut **exploration tokens** versus repo-wide grep loops. Gene **compression** avoids opening entire `philosophy/` trees.
+
+→ [TOKEN_ECONOMICS.md](meta/docs/TOKEN_ECONOMICS.md)
+
+---
+
+## Fewer agent mistakes
+
+Genes + rules encode **controlled changes**, maintenance (T05), and legacy traps (T07) — team memory in git, not chat.
+
+→ [GENE_ADAPTATION.md](meta/docs/GENE_ADAPTATION.md)
+
 ---
 
 ## What problem it solves
@@ -43,16 +69,17 @@ Lock file `.genetic-ai/kit.lock.json` records profile, version, and extensions �
 
 ## Measured impact (benchmark harness)
 
-Reference repo **`shop-api`**, **11 discovery/edit tasks**, profile **`standard`** vs bare / README / AGENTS.md. Full task table and real-world scenarios: [BENEFITS_AND_METRICS.md](meta/docs/BENEFITS_AND_METRICS.md). Reproduce: [benchmarks/RUNBOOK.md](benchmarks/RUNBOOK.md).
+Reference **`shop-api`**, 11 tasks, scorer **1.1.1**, **synthetic policy** transcripts ([METRICS_GLOSSARY.md](meta/docs/METRICS_GLOSSARY.md)). Full table: [BENEFITS_AND_METRICS.md](meta/docs/BENEFITS_AND_METRICS.md). Reproduce: [benchmarks/RUNBOOK.md](benchmarks/RUNBOOK.md).
 
-| Metric | Bare repo | AGENTS.md only | **kit standard** | kit + indexes |
-|--------|-----------|----------------|------------------|---------------|
-| Median task score (0–10) | 6 | 8 | **8** | 7 |
-| Success rate | 64% | 91% | **91%** | 82% |
-| Unscoped repo-wide search (11 tasks) | **13** | 0 | **1** | **0** |
-| Map-first navigation | 0% | 64% | **36%** | **73%** |
+| Metric | bare | agents_md (optimistic arm) | agents_md_weak | **kit_standard** | kit + indexes |
+|--------|------|----------------------------|----------------|------------------|---------------|
+| Median (0–10) | 6 | 8 | 3 | **8** | 7 |
+| Map-first **(genetic)** | 0% | 9% | 0% | **36%** | **73%** |
+| Unscoped grep (11 tasks) | **13** | 0 | 12 | **1** | **0** |
 
-**Versus bare:** **−12** blind greps · **+2** median score · T04 bulk `sed` **2→8** · T05 new module docs **5→10** · T07 decoy checkout **1→5–7**.
+**Primary task deltas vs bare (use these in PRs):** T04 **2→8** · T05 **4→10** · T08 with indexes **7→10** · T07 **1→5**.
+
+Footnote: `agents_md` arm = community [AGENTS baseline](benchmarks/baselines/agents.md.only) + optimistic transcripts — **not** the same as install profile `minimal` (rules + stub map). Pessimistic AGENTS behaviour: arm `agents_md_weak`.
 
 ### Example scenarios (what changes in Cursor)
 
@@ -100,8 +127,9 @@ Prompt: *“Rename <code>verifyJwt</code> with <code>sed</code> across all of <c
 
 Prompt: *“We added <code>src/billing/</code> — what AI docs to update?”*
 
-- **Without kit:** **5/10**.
+- **Without kit:** **4/10**.
 - **With kit:** **10/10** — `AI_NAVIGATION_MAP` Tier 1 + `AI_INDEX.md` + compression map.
+- **agents_md arm:** **6/10** — no full maintenance anchors (scorer 1.1.1).
 
 </details>
 
@@ -231,9 +259,12 @@ Developed in AgentStack monorepo `genetic-ai-starter/`; releases here and on npm
 
 | Doc | Topic |
 |-----|--------|
+| [DOC_HUB.md](meta/docs/DOC_HUB.md) | **All kit documentation** |
 | [BENEFITS_AND_METRICS.md](meta/docs/BENEFITS_AND_METRICS.md) | **Metrics, all tasks T01–T11, real-world scenarios** |
+| [METRICS_GLOSSARY.md](meta/docs/METRICS_GLOSSARY.md) | Arms, paradoxes, limitations |
+| [COMPARISON_METHODS.md](meta/docs/COMPARISON_METHODS.md) | vs grep / RAG / AGENTS |
 | [GETTING_STARTED.md](meta/docs/GETTING_STARTED.md) | First steps |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Install flow and components |
+| [NAVIGATION_OS.md](meta/docs/NAVIGATION_OS.md) · [ARCHITECTURE.md](ARCHITECTURE.md) | Architecture |
 | [FAQ.md](FAQ.md) | Common questions |
 | [COMMUNITY.md](COMMUNITY.md) | Contributing, showcase |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Issues on **this repo** |

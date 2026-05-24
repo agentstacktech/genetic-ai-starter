@@ -1,0 +1,85 @@
+{
+  "generatedAt": "2026-05-24T04:17:29.604Z",
+  "scorerVersion": "1.1.1",
+  "executionMode": "synthetic_policy",
+  "platformVersion": "0.4.11",
+  "arms": {
+    "agents_md_weak": {
+      "medianScore": 3,
+      "successRate": 0,
+      "taskCount": 11
+    },
+    "agents_md": {
+      "medianScore": 8,
+      "successRate": 0.9090909090909091,
+      "taskCount": 11
+    },
+    "bare": {
+      "medianScore": 6,
+      "successRate": 0.6363636363636364,
+      "taskCount": 11
+    },
+    "generic_cursorrules": {
+      "medianScore": 8,
+      "successRate": 0.6363636363636364,
+      "taskCount": 11
+    },
+    "kit_minimal": {
+      "medianScore": 7,
+      "successRate": 0.6363636363636364,
+      "taskCount": 11
+    },
+    "kit_standard_indexed": {
+      "medianScore": 7,
+      "successRate": 0.7272727272727273,
+      "taskCount": 11
+    },
+    "kit_standard": {
+      "medianScore": 8,
+      "successRate": 0.9166666666666666,
+      "taskCount": 12
+    },
+    "readme_tree": {
+      "medianScore": 8,
+      "successRate": 0.7272727272727273,
+      "taskCount": 11
+    }
+  },
+  "headlineDeltas": {
+    "T04": {
+      "bare": 2,
+      "agents_md": 9,
+      "agents_md_weak": 2,
+      "kit_standard": 8,
+      "kit_standard_indexed": 8
+    },
+    "T05": {
+      "bare": 4,
+      "agents_md": 6,
+      "agents_md_weak": 4,
+      "kit_standard": 10,
+      "kit_standard_indexed": 4
+    },
+    "T07": {
+      "bare": 1,
+      "agents_md": 9,
+      "agents_md_weak": 1,
+      "kit_standard": 5,
+      "kit_standard_indexed": 7
+    },
+    "T08": {
+      "bare": 7,
+      "agents_md": 5,
+      "agents_md_weak": 4,
+      "kit_standard": 7,
+      "kit_standard_indexed": 10
+    }
+  },
+  "primaryKpi": {
+    "kit_standard_vs_bare_medianDelta": 2,
+    "kit_standard_vs_agents_md_weak_medianDelta": 5,
+    "unscopedGrep_bare": 13,
+    "unscopedGrep_kit_standard": 1
+  },
+  "readmeFootnote": "agents_md arm = optimistic policy transcripts + community AGENTS file; agents_md_weak = pessimistic. Install profile minimal includes rules+stub map, not equivalent to either arm."
+}

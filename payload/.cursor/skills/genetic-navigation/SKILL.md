@@ -14,8 +14,8 @@ description: Use the AI navigation map and indexes before repo-wide search. Appl
 ## Steps
 
 1. Read `AGENTS.md` (30s).
-2. Open `docs/ai/AI_NAVIGATION_MAP.md` — pick Tier 0 or Tier 1 row.
-3. Open linked `AI_INDEX.md` if present.
+2. Open `docs/ai/AI_NAVIGATION_MAP.md` — pick Tier 0 or Tier 1 row (**genetic map-first**, not README alone).
+3. Open linked `AI_INDEX.md` if present (summary of subtree — hot files only).
 4. Open **1–2 hot files** only.
 5. Search in **that directory** or for a known symbol.
 

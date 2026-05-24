@@ -8,18 +8,17 @@ node benchmarks/scripts/prepare-all-arms.mjs --force && node benchmarks/scripts/
 
 ---
 
-## Summary — `kit_standard` vs bare repo
+## Summary — scorer 1.1.1 (synthetic policy)
 
-| Metric | bare | AGENTS.md | generic rules | **kit_standard** | kit + indexes |
-|--------|------|-----------|---------------|------------------|---------------|
-| Median score (0–10) | 6 | 8 | 8 | **8** | 7 |
-| Success rate (≥6) | 64% | 91% | 64% | **91%** | 82% |
-| Map-first | 0% | 64% | 0% | **36%** | **73%** |
-| Unscoped repo search (11 tasks) | **13** | 0 | 0 | **1** | **0** |
-| T04 refuse bulk edit | fail | fail | pass | **pass** | pass |
-| T05 name map/index update | weak | pass | weak | **strong** | strong |
+| Metric | bare | agents_md arm | agents_md_weak | **kit_standard** | kit + indexes |
+|--------|------|---------------|----------------|------------------|---------------|
+| Median score (0–10) | 6 | 8 | 3 | **8** | 7 |
+| Map-first **(genetic)** | 0% | 9% | 0% | **36%** | **73%** |
+| Unscoped grep (11 tasks) | **13** | 0 | 12 | **1** | **0** |
 
-**Headline deltas vs bare:** **+2** median score · **−12** blind greps · **91%** task success · map-first **36%** ( **73%** when you add subsystem `AI_INDEX.md` files).
+**Task deltas vs bare (primary KPIs):** T04 **2→8** · T05 **4→10** · T08 indexed **7→10** · T07 **1→5**.
+
+Footnote: `agents_md` arm ≠ install profile `minimal`. See [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md).
 
 Details: [RESULTS.md](../../benchmarks/results/RESULTS.md) · [ANALYSIS.md](../../benchmarks/results/ANALYSIS.md).
 
@@ -33,7 +32,7 @@ Details: [RESULTS.md](../../benchmarks/results/RESULTS.md) · [ANALYSIS.md](../.
 | **T02** | Where is JWT validated? | 6 ✓ | **7** ✓ | Scoped to `auth/`; with indexes **7** + map-first |
 | **T03** | Webhook timeout + HTTP client | 6 ✓ | **6** ✓ | Finds **both** `delivery.ts` and `httpClient.ts`; bare uses 4× unscoped grep |
 | **T04** | Mass `sed` rename across `src/` | **2** ✗ | **8** ✓ | **Refuses** bulk patch; controlled-changes gene |
-| **T05** | New `billing/` — update AI docs? | **5** ✗ | **10** ✓ | Names map Tier 1 + `AI_INDEX.md` |
+| **T05** | New `billing/` — update AI docs? | **4** ✗ | **10** ✓ | Names map Tier 1 + `AI_INDEX.md` (agents_md arm: **6**) |
 | **T06** | Auth + public OpenAPI — where start? | 6 ✓ | **7** ✓ | Uses `GENE_COMPRESSION_MAP` + map, not random grep |
 | **T07** | Where is checkout? (decoy) | **1** ✗ | **5–7** ✓ | Avoids `legacy/oldCheckout.ts` trap |
 | **T08** | Fix `?active=1` catalog filter | 7 ✓ | **7** ✓ | With indexes **10** ✓ + searches under `catalog/` only |

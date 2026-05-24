@@ -1,26 +1,25 @@
 # Benchmark results — reference (platform 0.4.11)
 
-**Harness:** `benchmarks/` · **Method:** reproducible arm-policy matrix (`run-matrix.mjs`) · [run-meta.json](run-meta.json)  
-**Detail:** [ANALYSIS.md](ANALYSIS.md) · **CSV:** [summary.csv](summary.csv) · **Narrative:** [BENEFITS_AND_METRICS.md](../../meta/docs/BENEFITS_AND_METRICS.md)
+**Harness:** synthetic policy · **Scorer:** 1.1.1 · [run-meta.json](run-meta.json) · [metrics.snapshot.json](../../meta/docs/metrics.snapshot.json)
 
-Regenerate: [RUNBOOK.md](../RUNBOOK.md).
+**Detail:** [ANALYSIS.md](ANALYSIS.md) · **Narrative:** [BENEFITS_AND_METRICS.md](../../meta/docs/BENEFITS_AND_METRICS.md)
 
-## Summary (shop-api, n=11 per arm)
+## Summary (shop-api, T01–T11)
 
-| Arm | Median score | Success | Unscoped grep |
-|-----|--------------|---------|---------------|
-| kit_standard | 8 | 91% | 1 |
-| agents_md / readme_tree | 8 | 91% | 0 |
-| bare | 6 | 64% | 13 |
+| Arm | Median | Success | Map-first (genetic) | Unscoped grep |
+|-----|--------|---------|---------------------|---------------|
+| kit_standard | 8 | 92% | 36% | 1 |
+| agents_md | 8 | 91% | 9% | 0 |
+| agents_md_weak | 3 | 0% | 0% | 12 |
+| bare | 6 | 64% | 0% | 13 |
+| kit_standard_indexed | 7 | 73% | 73% | 0 |
 
-**Takeaway:** kit adds **discipline** (T04 refusal, T05 maintenance, trap avoidance); community docs match on simple discovery.
-
-**Worked examples & narrative:** [meta/docs/BENEFITS_AND_METRICS.md](../../meta/docs/BENEFITS_AND_METRICS.md) · public summary in [README.en.md](../../README.en.md#measured-impact-benchmark-harness).
+**Takeaway:** compare **task deltas** (T04/T05/T08), not median alone. Kit wins maintenance and safety; indexed arm wins T08 discovery.
 
 ## Reproduce
 
 ```bash
-node genetic-ai-starter/benchmarks/scripts/prepare-all-arms.mjs --force
 node genetic-ai-starter/benchmarks/scripts/run-matrix.mjs
-node genetic-ai-starter/benchmarks/scripts/analyze-results.mjs
+node genetic-ai-starter/scripts/export-metrics-snapshot.mjs
+node genetic-ai-starter/scripts/check-docs-metrics.mjs
 ```

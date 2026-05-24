@@ -31,7 +31,7 @@ node benchmarks/scripts/run-matrix.mjs
 node benchmarks/scripts/analyze-results.mjs
 ```
 
-**What the kit improves (measured vs bare):** median **6→8**, unscoped grep **13→1**, map-first **0%→36%** ( **73%** with indexes), T04 bulk-edit refusal **2→8**, T05 maintenance **5→10**. Task-by-task table: [BENEFITS_AND_METRICS.md](meta/docs/BENEFITS_AND_METRICS.md).
+**What the kit improves (scorer 1.1.1, vs bare):** unscoped grep **13→1**, map-first **(genetic) 0%→36%** ( **73%** with indexes), T04 **2→8**, T05 **4→10**, T08 indexed **10**. Median score may tie the **agents_md optimistic benchmark arm** — use **task deltas**, not median alone: [METRICS_GLOSSARY.md](meta/docs/METRICS_GLOSSARY.md). Pessimistic arm `agents_md_weak`: median **3**.
 
 **What we do not claim:** vendor certification from Cursor or model vendors — run the harness on **your** repo for your own baseline.
 

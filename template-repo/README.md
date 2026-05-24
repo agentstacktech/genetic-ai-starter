@@ -12,14 +12,15 @@ GitHub Template repository for new projects. **Do not** vendor monorepo paths �
 npx @agentstack/genetic-ai-starter@0.4.11 init --yes --target . --profile standard --project-name "My App" --domain app
 ```
 
-4. Verify:
+4. Read order in your repo: `AGENTS.md` → `docs/ai/AI_NAVIGATION_MAP.md` → fill Tier 0/1.
+
+5. Verify:
 
 ```bash
-npx @agentstack/genetic-ai-starter@0.4.11 --package @agentstack/genetic-ai-starter 2>/dev/null || true
 node node_modules/@agentstack/genetic-ai-starter/scripts/doctor.mjs --target .
 ```
 
-Or copy `scripts/doctor.mjs` path from install output.
+Or use kit path from install output.
 
 ## CI
 

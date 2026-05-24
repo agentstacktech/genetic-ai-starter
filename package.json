@@ -1,7 +1,7 @@
 {
   "name": "@agentstack/genetic-ai-starter",
   "version": "0.4.11",
-  "description": "Portable philosophy + AI navigation kit for new projects (platform version)",
+  "description": "Navigation OS for AI agents: map-first genetic tags, indexes, genes, Cursor rules (platform 0.4.11)",
   "license": "Apache-2.0",
   "private": false,
   "type": "module",

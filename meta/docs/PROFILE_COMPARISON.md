@@ -22,6 +22,18 @@
 
 ---
 
+## 1.1 Benchmark arms vs install profiles (не путать)
+
+| Install profile | Что ставится | Benchmark arm (ближе всего) |
+|-----------------|--------------|----------------------------|
+| **minimal** | AGENTS.minimal + 2 rules + stub map | `kit_minimal` |
+| **standard** | philosophy + map + 5 rules + 4 skills | `kit_standard` |
+| — | Только файл AGENTS без rules (не install) | `agents_md` / `agents_md_weak` |
+
+README-колонка «AGENTS.md» относится к **arm `agents_md`**, не к профилю `minimal`. См. [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md).
+
+---
+
 ## 2. Что получает агент (поведение)
 
 | Возможность | minimal | standard | standard + AgentStack | full | founder |

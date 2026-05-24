@@ -2,7 +2,9 @@
 
 ## Purpose
 
-Portable **map-first** layer for AI-assisted development: philosophy genes → navigation map → subsystem indexes → Cursor rules/skills → optional AgentStack extension.
+Portable **Navigation OS** for AI-assisted development — see [meta/docs/NAVIGATION_OS.md](meta/docs/NAVIGATION_OS.md):
+
+L0 genetic tags → L1 `AI_NAVIGATION_MAP` → L2 `AI_INDEX` → L3 genes → L4 Cursor rules/skills → L5 doctor/lock → evidence plane (benchmarks).
 
 The kit does **not** include platform runtime, databases, or hosted AgentStack.
 
@@ -53,6 +55,8 @@ Order: `AGENTSTACK_CORE_VERSION` env → `shared/constants.py` (monorepo) → `P
 
 ## Further reading
 
+- [meta/docs/DOC_HUB.md](meta/docs/DOC_HUB.md)
+- [meta/docs/NAVIGATION_OS.md](meta/docs/NAVIGATION_OS.md)
 - [meta/docs/INSTALL.md](meta/docs/INSTALL.md)
 - [meta/docs/PROFILE_COMPARISON.md](meta/docs/PROFILE_COMPARISON.md)
 - [payload/docs/ai/AI_INDEXING_SYSTEM.md](payload/docs/ai/AI_INDEXING_SYSTEM.md) (installed copy)

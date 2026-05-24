@@ -48,7 +48,15 @@ See [foundation.genetic_coding.gen1.md](../../philosophy/genes/foundation.geneti
 
 ---
 
-## 6. Philosophy / genes
+## 6. Token ROI (order-of-magnitude)
+
+Map → index → 1–2 hot files typically uses **fewer exploration tokens** than repeated repo-wide grep. Kit maintainers document models in `genetic-ai-starter/meta/docs/TOKEN_ECONOMICS.md` (not copied on install).
+
+## 7. Large repositories
+
+For monorepos or **~10+ integration points** per subsystem — Tier 1 map rows + `AI_INDEX.md` are mandatory before unscoped search (`repo.navigation.index.gen1`).
+
+## 8. Philosophy / genes
 
 Navigation tags are **identifiers**, not copies of every philosophy gene. For principles: [philosophy/genes/GENE_COMPRESSION_MAP.md](../../philosophy/genes/GENE_COMPRESSION_MAP.md).
 

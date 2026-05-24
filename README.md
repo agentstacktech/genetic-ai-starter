@@ -30,16 +30,25 @@
 - **Приватность** — `--gitignore-kit full`: файлы kit локально, не в git.
 - **AgentStack (опционально)** — overlay MCP/8DNA для потребителей платформы.
 
+## Крупные проекты (killer feature)
+
+Monorepo не масштабируются на «только AGENTS.md» или плоский RAG. Kit даёт решётку Tier 0 → Tier 1 → `AI_INDEX.md`.
+
+→ [KILLER_FEATURE_LARGE_PROJECTS_ru.md](meta/docs/KILLER_FEATURE_LARGE_PROJECTS_ru.md) · [TOKEN_ECONOMICS_ru.md](meta/docs/TOKEN_ECONOMICS_ru.md) · [GENE_ADAPTATION_ru.md](meta/docs/GENE_ADAPTATION_ru.md)
+
 ## Замеры (бенчмарк harness)
 
-Стенд `shop-api`, 11 задач, профиль **standard**. Подробно: [BENEFITS_AND_METRICS_ru.md](meta/docs/BENEFITS_AND_METRICS_ru.md) · [BENEFITS_AND_METRICS.md](meta/docs/BENEFITS_AND_METRICS.md) (EN).
+Стенд `shop-api`, 11 задач, scorer **1.1.1**, synthetic policy. [METRICS_GLOSSARY.md](meta/docs/METRICS_GLOSSARY.md) · [BENEFITS_AND_METRICS_ru.md](meta/docs/BENEFITS_AND_METRICS_ru.md).
 
-| Метрика | bare | только AGENTS.md | **kit standard** |
-|---------|------|------------------|------------------|
-| Медиана балла (0–10) | 6 | 8 | **8** |
-| Успех задач | 64% | 91% | **91%** |
-| Нецелевой grep (11 задач) | **13** | 0 | **1** |
-| Map-first | 0% | 64% | **36%** |
+| Метрика | bare | agents_md (arm) | agents_md_weak | **kit standard** | kit + индексы |
+|---------|------|-----------------|----------------|------------------|---------------|
+| Медиана (0–10) | 6 | 8 | 3 | **8** | 7 |
+| Map-first (genetic) | 0% | 9% | 0% | **36%** | **73%** |
+| Нецелевой grep | **13** | 0 | 12 | **1** | **0** |
+
+**Дельты по задачам:** T04 **2→8** · T05 **4→10** · T08 с индексами **10**.
+
+Оговорка: arm `agents_md` ≠ профиль `minimal` (rules + stub map). См. [PROFILE_COMPARISON.md](meta/docs/PROFILE_COMPARISON.md).
 
 **Примеры (все задачи — в [BENEFITS_AND_METRICS_ru.md](meta/docs/BENEFITS_AND_METRICS_ru.md)):**
 
@@ -62,6 +71,7 @@
 
 | Doc | Purpose |
 |-----|---------|
+| [**DOC_HUB.md**](meta/docs/DOC_HUB.md) | **Индекс всей документации kit** |
 | [**SETUP.cmd**](SETUP.cmd) | **Мастер установки (Windows)** |
 | [meta/docs/QUICK_SETUP.md](meta/docs/QUICK_SETUP.md) | 3 шага для пользователя |
 | [meta/docs/AUDIT_PLAN.md](meta/docs/AUDIT_PLAN.md) | Пробелы, TODO, план улучшений |

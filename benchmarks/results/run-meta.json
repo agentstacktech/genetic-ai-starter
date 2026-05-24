@@ -1,11 +1,14 @@
 {
   "benchmarkVersion": "1",
+  "scorerVersion": "1.1.1",
+  "executionMode": "synthetic_policy",
   "platformVersion": "0.4.11",
   "model": "composer-agent-matrix-v1",
   "cursorVersion": "arm-policy-harness-v1",
-  "date": "2026-05-20",
+  "date": "2026-05-24",
   "operator": "run-matrix.mjs",
   "language": "ru",
-  "notes": "Reproducible benchmark matrix on shop-api (11 tasks) + AgentStack smoke (4 tasks). Regenerate: prepare-all-arms, run-matrix, analyze-results.",
-  "grant_slide": "docs/grants/evidence/genetic_ai_starter/G38_ONE_PAGER.md"
+  "runsTotal": 96,
+  "completedAt": "2026-05-24T04:16:42.917Z",
+  "notes": "Harness v1: synthetic policy transcripts (not manual Cursor exports). Scored JSON in results/scored/ (gitignored). Committed: RESULTS.md, ANALYSIS.md, summary.csv, metrics.snapshot.json, RUN_MATRIX.md."
 }

@@ -16,7 +16,7 @@ Replace `shop.*` tags with your `{{DOMAIN}}.*` tags.
 
 - **At install (`standard`):** Tier 0 only + empty Tier 1 table.
 - **After 2–4 subsystems:** add Tier 1 rows + `AI_INDEX.md` each (~10+ integration points).
-- **Indexed arm delta:** pre-filled indexes improved T02/T08 scores in the reference harness (7 → 10 on T08).
+- **Indexed arm delta:** pre-filled indexes — T08 **10** vs standard **7** (scorer 1.1.1). See [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md) indexed paradox.
 
 ## Run benchmark on your repo
 

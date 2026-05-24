@@ -30,8 +30,9 @@ Platform **0.4.11**. Shipped: [CHANGELOG.md](../../CHANGELOG.md). Audit: [AUDIT_
 
 | Item | Gap | Action |
 |------|-----|--------|
-| Onboarding sample map | ANALYSIS | Meta doc: filled Tier 0/1 example |
-| GENE_COMPRESSION_MAP clusters | T06 | Expand starter clusters |
+| Doc wave v2 | — | **Done** 2026-05-24 — scorer 1.1.1, meta docs, metrics.snapshot |
+| doctor map drift | COMPARISON | P2 — map Tier1 path exists |
+| Onboarding sample map | ANALYSIS | [BENCHMARK_ONBOARDING_SAMPLE.md](BENCHMARK_ONBOARDING_SAMPLE.md) |
 | new-gene map append | G39 | Optional `--write-map` flag |
 
 ---

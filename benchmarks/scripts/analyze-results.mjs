@@ -34,12 +34,17 @@ function groupBy(rows, key) {
 }
 
 function armStats(list) {
+  const n = list.length || 1;
   return {
     n: list.length,
     medianScore: median(list.map((x) => x.total)),
-    successRate: list.filter((x) => x.success).length / list.length,
-    mapFirstRate: list.filter((x) => x.metrics?.mapFirst).length / list.length,
-    medianTtfhf: median(list.map((x) => x.metrics?.ttfhfToolCalls).filter((n) => n != null)),
+    successRate: list.filter((x) => x.success).length / n,
+    mapFirstRate: list.filter((x) => x.metrics?.mapFirst).length / n,
+    mapFirstGeneticRate: list.filter((x) => x.metrics?.mapFirstGenetic).length / n,
+    medianTtfhf: median(list.map((x) => x.metrics?.ttfhfToolCalls).filter((v) => v != null)),
+    medianTokens: median(
+      list.map((x) => x.metrics?.estimatedContextTokens).filter((v) => v != null),
+    ),
     unscopedTotal: list.reduce((a, x) => a + (x.metrics?.unscopedGrepCount || 0), 0),
     detourTotal: list.filter((x) => x.metrics?.detourLegacy).length,
   };
@@ -66,6 +71,7 @@ function main() {
     'bare',
     'readme_tree',
     'agents_md',
+    'agents_md_weak',
     'generic_cursorrules',
     'kit_minimal',
     'kit_standard',
@@ -78,6 +84,7 @@ function main() {
   const kit = stats.kit_standard;
   const bare = stats.bare;
   const agents = stats.agents_md;
+  const agentsWeak = stats.agents_md_weak;
   const indexed = stats.kit_standard_indexed;
 
   const hypo = {
@@ -115,26 +122,27 @@ function main() {
 
 Generated: ${new Date().toISOString()}
 
-**Harness:** reproducible arm-policy matrix via \`run-matrix.mjs\` (see \`run-meta.json\`). Deterministic scores on shop-api + AgentStack smoke tasks.
+**Harness:** synthetic policy transcripts via \`run-matrix.mjs\` (see \`run-meta.json\`, \`executionMode: synthetic_policy\`). Scorer **1.1.1**. Manual Cursor exports: [MANUAL_TRACK.md](../../meta/docs/MANUAL_TRACK.md).
 
 ## Executive summary
 
-| Arm | Median score | Success rate | Map-first | Median TTFHF | Unscoped grep |
-|-----|--------------|--------------|-----------|--------------|---------------|
+| Arm | Median score | Success rate | Map-first (any) | Map-first (genetic) | Median tokens (est.) | Unscoped grep |
+|-----|--------------|--------------|-----------------|---------------------|----------------------|---------------|
 ${arms
   .map((a) => {
     const s = stats[a];
-    return `| ${a} | ${s.medianScore ?? '—'} | ${(s.successRate * 100).toFixed(0)}% | ${(s.mapFirstRate * 100).toFixed(0)}% | ${s.medianTtfhf ?? '—'} | ${s.unscopedTotal} |`;
+    return `| ${a} | ${s.medianScore ?? '—'} | ${(s.successRate * 100).toFixed(0)}% | ${(s.mapFirstRate * 100).toFixed(0)}% | ${(s.mapFirstGeneticRate * 100).toFixed(0)}% | ${s.medianTokens ?? '—'} | ${s.unscopedTotal} |`;
   })
   .join('\n')}
 
 **Key deltas (synthetic, n=11 per arm):**
 
-| Comparison | Median score Δ | Map-first Δ | Unscoped grep Δ |
-|------------|----------------|-------------|-----------------|
-| kit_standard − bare | ${delta(kit, bare, 'medianScore')} | ${((kit.mapFirstRate - bare.mapFirstRate) * 100).toFixed(0)} pp | ${kit.unscopedTotal - bare.unscopedTotal} |
-| kit_standard − agents_md | ${delta(kit, agents, 'medianScore')} | ${((kit.mapFirstRate - agents.mapFirstRate) * 100).toFixed(0)} pp | ${kit.unscopedTotal - agents.unscopedTotal} |
-| indexed − kit_standard | ${delta(indexed, kit, 'medianScore')} | ${((indexed.mapFirstRate - kit.mapFirstRate) * 100).toFixed(0)} pp | ${indexed.unscopedTotal - kit.unscopedTotal} |
+| Comparison | Median score Δ | Map-first (genetic) Δ | Unscoped grep Δ |
+|------------|----------------|------------------------|-----------------|
+| kit_standard − bare | ${delta(kit, bare, 'medianScore')} | ${((kit.mapFirstGeneticRate - bare.mapFirstGeneticRate) * 100).toFixed(0)} pp | ${kit.unscopedTotal - bare.unscopedTotal} |
+| kit_standard − agents_md | ${delta(kit, agents, 'medianScore')} | ${((kit.mapFirstGeneticRate - agents.mapFirstGeneticRate) * 100).toFixed(0)} pp | ${kit.unscopedTotal - agents.unscopedTotal} |
+| kit_standard − agents_md_weak | ${delta(kit, agentsWeak, 'medianScore')} | ${((kit.mapFirstGeneticRate - agentsWeak.mapFirstGeneticRate) * 100).toFixed(0)} pp | ${kit.unscopedTotal - agentsWeak.unscopedTotal} |
+| indexed − kit_standard | ${delta(indexed, kit, 'medianScore')} | ${((indexed.mapFirstGeneticRate - kit.mapFirstGeneticRate) * 100).toFixed(0)} pp | ${indexed.unscopedTotal - kit.unscopedTotal} |
 
 ## Hypothesis checklist
 

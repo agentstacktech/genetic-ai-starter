@@ -10,9 +10,9 @@ Projects using Genetic AI Starter Kit. **Send a PR** to add yours (name, URL, pr
 
 Update after launch; also feeds grant metrics.
 
-| Week ending | Stars | Forks | npm weekly DL | Template uses | Discussions |
-|-------------|-------|-------|---------------|---------------|-------------|
-| TBD | | | | | |
+| Week ending | Stars | Forks | npm weekly DL | Template uses | Map-first (genetic) % | doctor runs |
+|-------------|-------|-------|---------------|---------------|----------------------|-------------|
+| TBD | | | | | | |
 
 ## Code search
 

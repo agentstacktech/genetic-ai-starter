@@ -127,9 +127,17 @@ Living audit: logical gaps, tech debt, open work. **Task IDs** map to [GAP_REGIS
 
 ### P2 — docs / DX
 
+- [x] Doc wave v2 — NAVIGATION_OS, TOKEN_ECONOMICS, KILLER_FEATURE, METRICS_GLOSSARY, DOC_HUB, scorer 1.1.1 (2026-05-24)  
+- [x] `GENE_COMPRESSION_MAP` T06 walkthrough  
+- [x] `metrics.snapshot.json` + `check-docs-metrics.mjs`  
 - [ ] Onboarding sample repo (filled map + 2 indexes) — meta doc only  
-- [ ] `GENE_COMPRESSION_MAP` starter clusters (benchmark T06)  
 - [ ] EN mirror of `PROFILE_COMPARISON.md` (optional)  
+
+### T-doc register (doc wave v2)
+
+| ID | Status |
+|----|--------|
+| T-doc-01 … T-doc-20 | Done — see [DOC_AUDIT_GAPS.md](DOC_AUDIT_GAPS.md) G1–G15 |
 
 ### P3 — ecosystem
 

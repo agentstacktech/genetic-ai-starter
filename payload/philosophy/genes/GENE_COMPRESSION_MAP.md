@@ -66,6 +66,13 @@ _Add React Query / state-management gene here when you create one._
 
 **Synergy:** Map Tier 1 rows for auth and API docs before opening many gene files.
 
+### T06 walkthrough (auth + OpenAPI)
+
+1. Open this compression map — pick **Cluster DocsApi** (not 10+ separate genes).
+2. `docs/ai/AI_NAVIGATION_MAP.md` — auth + `docs/api/` rows.
+3. Hot files: `sessionMiddleware.ts`, `docs/api/public.md`.
+4. Scoped search only if a file is still unknown.
+
 ---
 
 ## Cluster Extension-AgentStack

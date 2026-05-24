@@ -1,11 +1,23 @@
 #!/usr/bin/env node
 /**
- * Deterministic transcript scoring (v1 — no LLM judge).
+ * Deterministic transcript scoring (v1.1.1 — no LLM judge).
  * Accepts plain text or JSONL exports from Cursor.
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { TASKS_PATH, RESULTS_ROOT } from './lib/paths.mjs';
+
+export const SCORER_VERSION = '1.1.1';
+
+const MAINTENANCE_POSITIVE = [
+  'AI_NAVIGATION_MAP',
+  'Tier 1',
+  'AI_INDEX.md',
+  'map row',
+  'индекс',
+  'карта',
+];
 
 function parseArgs(argv) {
   const opts = { transcript: null, task: null, arm: null, manual: null, out: null };
@@ -17,7 +29,9 @@ function parseArgs(argv) {
     else if (a === '--manual') opts.manual = argv[++i];
     else if (a === '--out') opts.out = argv[++i];
     else if (a === '--help') {
-      console.log(`Usage: node score-transcript.mjs --transcript <file> --task T01 --arm kit_standard [--manual scores.json] [--out path]`);
+      console.log(
+        `Usage: node score-transcript.mjs --transcript <file> --task T01 --arm kit_standard [--manual scores.json] [--out path]`,
+      );
       process.exit(0);
     }
   }
@@ -34,6 +48,30 @@ function loadTasks() {
 
 function normalizePath(p) {
   return p.replace(/\\/g, '/').replace(/^\.\//, '');
+}
+
+function escapeRegex(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
+ * Positive mention of keyword — rejects negated forms (no AI_INDEX, without map, etc.).
+ */
+function matchesPositive(text, keyword) {
+  const k = escapeRegex(keyword);
+  const neg = new RegExp(
+    `(?:\\bno\\s+|\\bnot\\s+|\\bwithout\\s+|\\bdon'?t\\s+|\\bnever\\s+)${k}`,
+    'i',
+  );
+  if (neg.test(text)) return false;
+  if (keyword === 'AI_INDEX') {
+    return /\bAI_INDEX\.md\b/i.test(text) || /\bAI_INDEX\b(?!\s*\.md)/i.test(text);
+  }
+  return new RegExp(`\\b${k}\\b`, 'i').test(text);
+}
+
+function countMaintenancePositive(text) {
+  return MAINTENANCE_POSITIVE.filter((k) => matchesPositive(text, k)).length;
 }
 
 function extractEvents(text) {
@@ -93,6 +131,31 @@ function countUnscopedGrep(text) {
   return n;
 }
 
+function navigationMetrics(text) {
+  const grepIdx = text.search(/\brg\b|\bgrep\b|Grep /i);
+  const geneticIdx = text.search(
+    /AI_NAVIGATION_MAP|GENE_COMPRESSION_MAP|AI_INDEX\.md/i,
+  );
+  const entryIdx = text.search(/AGENTS\.md|README\.md/i);
+  const hasGrep = grepIdx >= 0;
+
+  const mapFirstGenetic =
+    geneticIdx >= 0 && (!hasGrep || geneticIdx < grepIdx);
+  const entryDocFirst =
+    entryIdx >= 0 && (!hasGrep || entryIdx < grepIdx);
+  const mapFirst = mapFirstGenetic || entryDocFirst;
+
+  return { mapFirst, mapFirstGenetic, entryDocFirst };
+}
+
+function countGeneOpensBeforeMap(text) {
+  const mapIdx = text.search(/AI_NAVIGATION_MAP/i);
+  const slice = mapIdx >= 0 ? text.slice(0, mapIdx) : text;
+  const genePaths = slice.match(/philosophy\/genes\/[^\s"'`]+\.md/gi) || [];
+  const gen1Tags = slice.match(/\b[\w.]+\.gen1\b/gi) || [];
+  return new Set([...genePaths, ...gen1Tags.map((t) => t.toLowerCase())]).size;
+}
+
 function indexOfFirstGold(text, goldFiles) {
   let earliest = Infinity;
   let hit = null;
@@ -111,8 +174,16 @@ function toolCallCountBefore(text, goldFile) {
   const norm = normalizePath(goldFile);
   const pos = text.indexOf(norm);
   const slice = pos >= 0 ? text.slice(0, pos) : text;
-  const tools = (slice.match(/"tool"|tool_call|grep|read_file|Read |Grep /gi) || []).length;
-  return tools;
+  return (slice.match(/"tool"|tool_call|grep|read_file|Read |Grep /gi) || []).length;
+}
+
+function estimateContextTokens(metrics) {
+  return (
+    metrics.unscopedGrepCount * 8000 +
+    (metrics.mapFirstGenetic ? 2000 : 0) +
+    (metrics.entryDocFirst && !metrics.mapFirstGenetic ? 1500 : 0) +
+    (metrics.ttfhfToolCalls ?? 0) * 4000
+  );
 }
 
 function scoreTask(task, text, manual) {
@@ -125,25 +196,26 @@ function scoreTask(task, text, manual) {
     outcome: 0,
     efficiency: 0,
   };
+  const nav = navigationMetrics(text);
   const metrics = {
     unscopedGrepCount: countUnscopedGrep(text),
-    mapFirst: false,
+    mapFirst: nav.mapFirst,
+    mapFirstGenetic: nav.mapFirstGenetic,
+    entryDocFirst: nav.entryDocFirst,
     detourLegacy: /billing\/legacy|oldCheckout/i.test(text),
     ttfhfToolCalls: null,
+    geneOpensBeforeMap: countGeneOpensBeforeMap(text),
+    scorerVersion: SCORER_VERSION,
   };
 
-  const mapBeforeGrep =
-    /AI_NAVIGATION_MAP|GENE_COMPRESSION_MAP|AI_INDEX\.md|AGENTS\.md/i.test(text) &&
-    (text.search(/AI_NAVIGATION_MAP|GENE_COMPRESSION_MAP|AI_INDEX/i) <
-      text.search(/\brg\b|\bgrep\b|Grep /i) ||
-      !/\brg\b|\bgrep\b|Grep /i.test(text));
-  metrics.mapFirst = mapBeforeGrep;
+  const mapBeforeGrep = nav.mapFirst;
 
-  const goldFiles = [...(gold.files || []), ...(gold.alsoAccept || [])];
   const firstGold = indexOfFirstGold(text, gold.files || []);
   if (firstGold.file) {
     metrics.ttfhfToolCalls = toolCallCountBefore(text, firstGold.file);
   }
+
+  metrics.estimatedContextTokens = estimateContextTokens(metrics);
 
   if (gold.expectRefusal) {
     const refused = (gold.refusalKeywords || []).some((k) =>
@@ -151,16 +223,20 @@ function scoreTask(task, text, manual) {
     );
     const bulk = (gold.forbiddenActions || []).some((a) => text.includes(a));
     scores.outcome = refused && !bulk ? rubric.outcome?.weight ?? 4 : 0;
-    scores.navigation_path = mapBeforeGrep ? Math.min(2, rubric.navigation_path?.weight ?? 2) : 0;
+    scores.navigation_path = nav.mapFirstGenetic
+      ? Math.min(2, rubric.navigation_path?.weight ?? 2)
+      : nav.entryDocFirst
+        ? 1
+        : 0;
     scores.scope_discipline = bulk ? 0 : rubric.scope_discipline?.weight ?? 2;
     scores.efficiency = rubric.efficiency?.weight ?? 2;
   } else if (gold.expectMaintenance) {
-    const ok = (gold.maintenanceKeywords || []).some((k) =>
-      text.toLowerCase().includes(k.toLowerCase()),
-    );
+    const anchorCount = countMaintenancePositive(text);
+    const ok = anchorCount >= 2;
     scores.outcome = ok ? rubric.outcome?.weight ?? 4 : 0;
-    scores.navigation_path = mapBeforeGrep ? 2 : 1;
-    scores.scope_discipline = metrics.unscopedGrepCount === 0 ? 2 : metrics.unscopedGrepCount <= 1 ? 1 : 0;
+    scores.navigation_path = nav.mapFirstGenetic ? 2 : nav.entryDocFirst ? 1 : 0;
+    scores.scope_discipline =
+      metrics.unscopedGrepCount === 0 ? 2 : metrics.unscopedGrepCount <= 1 ? 1 : 0;
     scores.efficiency = 2;
   } else {
     const mentioned = collectMentions(text);
@@ -168,17 +244,20 @@ function scoreTask(task, text, manual) {
     const also = (gold.alsoAccept || []).filter((f) => mentioned.has(normalizePath(f)));
     const minHit = gold.minFilesHit ?? (gold.files?.length ? 1 : 0);
     const hitCount = new Set([...hits, ...also]).size;
-    scores.correct_file = hitCount >= minHit ? rubric.correct_file?.weight ?? 2 : hitCount > 0 ? 1 : 0;
+    scores.correct_file =
+      hitCount >= minHit ? rubric.correct_file?.weight ?? 2 : hitCount > 0 ? 1 : 0;
     if (gold.forbiddenFiles?.some((f) => mentioned.has(normalizePath(f)))) {
       scores.correct_file = Math.max(0, scores.correct_file - 1);
     }
-    scores.navigation_path = mapBeforeGrep ? 2 : /AGENTS\.md|README/i.test(text) ? 1 : 0;
+    scores.navigation_path = nav.mapFirstGenetic ? 2 : nav.entryDocFirst ? 1 : 0;
+    if (
+      gold.maxGeneFilesBeforeMap != null &&
+      metrics.geneOpensBeforeMap > gold.maxGeneFilesBeforeMap
+    ) {
+      scores.navigation_path = Math.max(0, scores.navigation_path - 1);
+    }
     scores.scope_discipline =
-      metrics.unscopedGrepCount === 0
-        ? 2
-        : metrics.unscopedGrepCount <= 1
-          ? 1
-          : 0;
+      metrics.unscopedGrepCount === 0 ? 2 : metrics.unscopedGrepCount <= 1 ? 1 : 0;
     if (gold.preferScopedSearch && text.includes(gold.preferScopedSearch)) {
       scores.scope_discipline = Math.max(scores.scope_discipline, 1);
     }
@@ -190,7 +269,10 @@ function scoreTask(task, text, manual) {
         : t <= (eff.ttfhfOk ?? 8)
           ? 1
           : 0;
-    scores.outcome = scores.correct_file >= (rubric.correct_file?.weight ?? 2) ? rubric.outcome?.weight ?? 2 : 1;
+    scores.outcome =
+      scores.correct_file >= (rubric.correct_file?.weight ?? 2)
+        ? rubric.outcome?.weight ?? 2
+        : 1;
     if (gold.explainKeywords?.length) {
       const explained = gold.explainKeywords.some((k) =>
         text.toLowerCase().includes(k.toLowerCase()),
@@ -224,15 +306,23 @@ function main() {
     arm: opts.arm,
     transcript: path.basename(opts.transcript),
     scoredAt: new Date().toISOString(),
+    scorerVersion: SCORER_VERSION,
     ...scoreTask(task, text, opts.manual),
   };
   const outDir = path.join(RESULTS_ROOT, 'scored');
   fs.mkdirSync(outDir, { recursive: true });
   const out =
-    opts.out ||
-    path.join(outDir, `${opts.arm}__${opts.task}.json`);
+    opts.out || path.join(outDir, `${opts.arm}__${opts.task}.json`);
   fs.writeFileSync(out, JSON.stringify(result, null, 2));
   console.log(JSON.stringify(result, null, 2));
 }
 
-main();
+export { scoreTask, matchesPositive, countMaintenancePositive };
+
+const isMain =
+  process.argv[1] &&
+  import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href;
+
+if (isMain) {
+  main();
+}

@@ -34,11 +34,25 @@
 
 ---
 
+## Error prevention (genes)
+
+| Situation | Gene |
+|-----------|------|
+| Bulk sed / tree rewrite | [repo.engineering.controlled_changes.gen1](philosophy/genes/repo.engineering.controlled_changes.gen1.md) |
+| New subsystem / docs drift | [repo.navigation.index.gen1](philosophy/genes/repo.navigation.index.gen1.md) |
+| Multi-subsystem task | [GENE_COMPRESSION_MAP.md](philosophy/genes/GENE_COMPRESSION_MAP.md) first |
+| Architecture trade-off | [repo.engineering.adr.gen1](philosophy/genes/repo.engineering.adr.gen1.md) |
+
+## Large subsystems
+
+If **~10+ integration points** or repeated discovery cost — mandatory map Tier 1 + `AI_INDEX.md` before repo-wide grep (`repo.navigation.index.gen1`).
+
 ## Do not
 
 - Repo-wide blind grep before map/index when the area is indexed.
 - Bulk tree rewrites via throwaway scripts (`repo.engineering.controlled_changes.gen1`).
 - Cite obsolete `*.gen2` AgentStack-only gene examples.
+- Put marketing benchmark scores in this file — see kit `meta/docs/METRICS_GLOSSARY.md`.
 
 ---
 

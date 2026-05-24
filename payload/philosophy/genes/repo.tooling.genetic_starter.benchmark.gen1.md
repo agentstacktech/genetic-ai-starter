@@ -6,30 +6,26 @@
 
 ## Purpose
 
-Define how to compare **genetic-ai-starter** against traditional and community AI navigation baselines without contaminating kit payload with experiment-only rules.
+Compare **genetic-ai-starter** against baselines with reproducible synthetic policy transcripts.
 
-## Canonical artifacts (kit monorepo)
+## Arms (v1.1.1)
 
-- `genetic-ai-starter/benchmarks/METHODOLOGY.md` — hypotheses, arms, metrics.
-- `genetic-ai-starter/benchmarks/RUNBOOK.md` — manual Cursor protocol.
-- `genetic-ai-starter/benchmarks/tasks/tasks.json` — prompts and gold paths.
-- Synthetic fixture: `genetic-ai-starter/benchmarks/fixture-shop-api/`.
+`bare`, `readme_tree`, `agents_md`, `agents_md_weak`, `generic_cursorrules`, `kit_minimal`, `kit_standard`, `kit_standard_indexed`.
 
-## Arms (v1)
-
-`bare`, `readme_tree`, `agents_md`, `generic_cursorrules`, `kit_minimal`, `kit_standard`, `kit_standard_indexed`.
-
-Community baselines: `genetic-ai-starter/benchmarks/baselines/` (HGT: search → validate → port).
+- `agents_md` — optimistic policy + [agents.md.only](../../../benchmarks/baselines/agents.md.only)
+- `agents_md_weak` — pessimistic policy (grep, sed, no map maintenance)
 
 ## Scoring
 
-Deterministic transcript scorer v1 — no LLM judge. Optional `--manual` overrides for explain/docs tasks.
+- Scorer **1.1.1** — negation-safe maintenance keywords; `mapFirstGenetic` vs `entryDocFirst`; `estimatedContextTokens` proxy
+- Harness v1: `run-matrix.mjs` (`executionMode: synthetic_policy`)
+- Manual v2: [MANUAL_TRACK.md](../../../meta/docs/MANUAL_TRACK.md)
 
-## Phase 2
+## Metrics SoT
 
-Automated runs via `@cursor/sdk`; public leaderboard optional.
+[metrics.snapshot.json](../../../meta/docs/metrics.snapshot.json) · [METRICS_GLOSSARY.md](../../../meta/docs/METRICS_GLOSSARY.md)
 
 ## See also
 
-- `repo.tooling.genetic_starter.gen1` (monorepo Tier 0)
-- `repo.benchmarks.hgt.gen2` — external pattern adoption discipline
+- `repo.tooling.genetic_starter.gen1`
+- `repo.tooling.genetic_starter.docs.gen1`

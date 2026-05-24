@@ -11,6 +11,7 @@ const ARMS = [
   'bare',
   'readme_tree',
   'agents_md',
+  'agents_md_weak',
   'generic_cursorrules',
   'kit_minimal',
   'kit_standard',

@@ -1,27 +1,29 @@
 # Benchmark analysis
 
-Generated: 2026-05-20T05:17:57.568Z
+Generated: 2026-05-24T04:16:43.087Z
 
-**Harness:** arm-policy matrix via `run-matrix.mjs` (see `run-meta.json`). Deterministic, reproducible scores on the reference `shop-api` + AgentStack smoke tasks.
+**Harness:** synthetic policy transcripts via `run-matrix.mjs` (see `run-meta.json`, `executionMode: synthetic_policy`). Scorer **1.1.1**. Manual Cursor exports: [MANUAL_TRACK.md](../../meta/docs/MANUAL_TRACK.md).
 
 ## Executive summary
 
-| Arm | Median score | Success rate | Map-first | Median TTFHF | Unscoped grep |
-|-----|--------------|--------------|-----------|--------------|---------------|
-| bare | 6 | 64% | 0% | 1 | 13 |
-| readme_tree | 8 | 91% | 0% | 1 | 0 |
-| agents_md | 8 | 91% | 64% | 1 | 0 |
-| generic_cursorrules | 8 | 64% | 0% | 1 | 0 |
-| kit_minimal | 7 | 64% | 27% | 1 | 1 |
-| kit_standard | 8 | 91% | 36% | 1 | 1 |
-| kit_standard_indexed | 7 | 82% | 73% | 0 | 0 |
+| Arm | Median score | Success rate | Map-first (any) | Map-first (genetic) | Median tokens (est.) | Unscoped grep |
+|-----|--------------|--------------|-----------------|---------------------|----------------------|---------------|
+| bare | 6 | 64% | 0% | 0% | 16000 | 13 |
+| readme_tree | 8 | 73% | 9% | 0% | 4000 | 0 |
+| agents_md | 8 | 91% | 64% | 9% | 4000 | 0 |
+| agents_md_weak | 3 | 0% | 9% | 0% | 16000 | 12 |
+| generic_cursorrules | 8 | 64% | 0% | 0% | 4000 | 0 |
+| kit_minimal | 7 | 64% | 27% | 27% | 4000 | 1 |
+| kit_standard | 8 | 91% | 36% | 36% | 4000 | 1 |
+| kit_standard_indexed | 7 | 73% | 73% | 73% | 2000 | 0 |
 
 **Key deltas (synthetic, n=11 per arm):**
 
-| Comparison | Median score Δ | Map-first Δ | Unscoped grep Δ |
-|------------|----------------|-------------|-----------------|
+| Comparison | Median score Δ | Map-first (genetic) Δ | Unscoped grep Δ |
+|------------|----------------|------------------------|-----------------|
 | kit_standard − bare | +2.00 | 36 pp | -12 |
-| kit_standard − agents_md | 0.00 | -27 pp | 1 |
+| kit_standard − agents_md | 0.00 | 27 pp | 1 |
+| kit_standard − agents_md_weak | +5.00 | 36 pp | -11 |
 | indexed − kit_standard | -1.00 | 36 pp | -1 |
 
 ## Hypothesis checklist
@@ -38,11 +40,11 @@ Generated: 2026-05-20T05:17:57.568Z
 
 | Task | bare | readme_tree | agents_md | generic | kit_min | kit_std | kit_idx |
 |------|------|-------------|-----------|---------|---------|---------|---------|
-| T01 | 5 | 9✓ | 10✓ | 5 | 7✓ | 8✓ | 7✓ |
-| T04 | 2 | 2 | 10✓ | 8✓ | 8✓ | 8✓ | 8✓ |
-| T05 | 5 | 9✓ | 10✓ | 5 | 10✓ | 10✓ | 9✓ |
-| T07 | 1 | 9✓ | 10✓ | 8✓ | 5 | 5 | 7✓ |
-| T08 | 7✓ | 6✓ | 5 | 5 | 5 | 7✓ | 10✓ |
+| T01 | 5 | 9✓ | 9✓ | 5 | 7✓ | 8✓ | 7✓ |
+| T04 | 2 | 2 | 9✓ | 8✓ | 8✓ | 8✓ | 8✓ |
+| T05 | 4 | 4 | 6✓ | 4 | 10✓ | 10✓ | 4 |
+| T07 | 1 | 8✓ | 9✓ | 8✓ | 5 | 5 | 7✓ |
+| T08 | 7✓ | 5 | 5 | 5 | 5 | 7✓ | 10✓ |
 
 ## Findings
 
@@ -57,10 +59,10 @@ Generated: 2026-05-20T05:17:57.568Z
 
 | Priority | Action |
 |----------|--------|
-| P1 | **minimal profile:** ship stub map link in AGENTS.md (kit_minimal ≈ agents_md on T01) |
-| P2 | npm/template distribution (G35, G45) |
+| P1 | **minimal profile:** ship stub `docs/ai/AI_NAVIGATION_MAP.md` link in AGENTS.md (kit_minimal ≈ agents_md on T01) |
+| P2 | Optional G40 SDK batch on same prompts (your model slug) |
 | P2 | Expand starter `GENE_COMPRESSION_MAP` clusters (T06) |
-| P2 | Onboarding sample: filled map + 4 indexes — see [AUDIT_PLAN.md](../../meta/docs/AUDIT_PLAN.md) |
+| P2 | Onboarding sample: filled map + 4 indexes (meta doc) |
 
 ## Commands
 

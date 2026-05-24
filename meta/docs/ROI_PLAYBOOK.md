@@ -25,7 +25,9 @@ Harness: [`benchmarks/`](../../benchmarks/). Control arms for A/B:
 
 Run: [`benchmarks/RUNBOOK.md`](../../benchmarks/RUNBOOK.md). Aggregate: `node benchmarks/scripts/aggregate-results.mjs`.
 
-**Benchmark (reference):** [`benchmarks/results/RESULTS.md`](../../benchmarks/results/RESULTS.md) — `kit_standard` +2 median vs `bare`, −12 unscoped grep, 36% map-first vs 0% bare; T04 **8** vs **2**, T05 **10** vs **5**. Task narratives: [BENEFITS_AND_METRICS.md](BENEFITS_AND_METRICS.md). Reproduce: [benchmarks/RUNBOOK.md](../../benchmarks/RUNBOOK.md).
+**Benchmark (reference):** [`metrics.snapshot.json`](metrics.snapshot.json) · scorer **1.1.1** — T04 **2→8**, T05 **4→10**, unscoped grep **13→1**, map-first **(genetic) 36%**. Median ties `agents_md` optimistic arm — cite task deltas: [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md). Reproduce: [benchmarks/RUNBOOK.md](../../benchmarks/RUNBOOK.md).
+
+**Token proxy:** `estimatedContextTokens` in scored JSON · [TOKEN_ECONOMICS.md](TOKEN_ECONOMICS.md).
 
 ## Maintenance cost
 

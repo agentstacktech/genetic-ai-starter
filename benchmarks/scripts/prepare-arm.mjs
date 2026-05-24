@@ -19,6 +19,7 @@ const ARMS = new Set([
   'bare',
   'readme_tree',
   'agents_md',
+  'agents_md_weak',
   'generic_cursorrules',
   'kit_minimal',
   'kit_standard',
@@ -100,7 +101,7 @@ function applyArm(arm, targetRoot) {
     );
     return;
   }
-  if (arm === 'agents_md') {
+  if (arm === 'agents_md' || arm === 'agents_md_weak') {
     fs.copyFileSync(
       path.join(BASELINES_DIR, 'agents.md.only'),
       path.join(targetRoot, 'AGENTS.md'),

@@ -33,6 +33,10 @@ Multi-gene tasks: [genes/GENE_COMPRESSION_MAP.md](genes/GENE_COMPRESSION_MAP.md)
 
 ---
 
+## Large-scale repositories
+
+Decomposition → Reassembly: use Tier 0 → Tier 1 → `AI_INDEX.md` on monorepos. Kit meta guide (maintainers): `genetic-ai-starter/meta/docs/KILLER_FEATURE_LARGE_PROJECTS.md`.
+
 ## Navigation
 
 - Map: [docs/ai/AI_NAVIGATION_MAP.md](../docs/ai/AI_NAVIGATION_MAP.md)

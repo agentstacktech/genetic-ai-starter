@@ -8,8 +8,9 @@ Does **genetic-ai-starter** improve Cursor agent navigation versus bare repos, R
 
 - **Primary substrate:** synthetic [`fixture-shop-api/`](fixture-shop-api/) (~20 TS files, decoys, stale `ARCHITECTURE.md`).
 - **Optional smoke:** 4 tasks on the AgentStack monorepo (`S01`–`S04`), only arms `bare` vs `kit_standard`.
-- **Execution (v1):** manual Agent chats; export transcript → deterministic scorer (no LLM-as-judge).
-- **Phase 2:** `@cursor/sdk` batch runs (documented here, not required for harness v1).
+- **Execution (Harness v1, committed):** `run-matrix.mjs` generates **synthetic policy** transcripts per arm — reproducible CI regression (`executionMode: synthetic_policy` in `run-meta.json`).
+- **Execution (Manual v2, optional):** human Cursor export → `score-transcript.mjs` — see [meta/docs/MANUAL_TRACK.md](../meta/docs/MANUAL_TRACK.md).
+- **Phase 2:** `@cursor/sdk` batch runs (G40).
 
 ## Control arms
 
@@ -17,7 +18,8 @@ Does **genetic-ai-starter** improve Cursor agent navigation versus bare repos, R
 |-----|-------------|
 | `bare` | Code + one-paragraph README |
 | `readme_tree` | OSS-style README with folder tree |
-| `agents_md` | Community `AGENTS.md` without genetic map |
+| `agents_md` | Community `AGENTS.md` + **optimistic** policy transcripts |
+| `agents_md_weak` | Same file + **pessimistic** transcripts (grep, sed, no map maintenance) |
 | `generic_cursorrules` | cursor.directory-style TS rules |
 | `kit_minimal` | `install.mjs --profile minimal` |
 | `kit_standard` | `install.mjs --profile standard` + shop map overlay |

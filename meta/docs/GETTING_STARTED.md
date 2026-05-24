@@ -55,11 +55,20 @@ C:\path\to\genetic-ai-starter\scripts\install.cmd C:\path\to\your-project
 
 ---
 
-## After install
+## After install (day 0–7)
+
+| Day | Action |
+|-----|--------|
+| 0 | `init` / `install` — [LARGE_PROJECT_PLAYBOOK.md](LARGE_PROJECT_PLAYBOOK.md) phase 0 |
+| 1–2 | Fill Tier 0 in `AI_NAVIGATION_MAP.md` |
+| 3–7 | Tier 1 + `AI_INDEX.md` per subsystem |
+| ongoing | `doctor` before PR |
 
 1. Customize `docs/ai/AI_NAVIGATION_MAP.md`.
-2. Add `AI_INDEX.md` per large subsystem.
+2. Add `AI_INDEX.md` per large subsystem (~10+ integration points).
 3. `node <kit>/scripts/doctor.mjs --target <project>` — see `docs/ai/OPERATIONS.md` in the project.
+
+**Large monorepo:** [KILLER_FEATURE_LARGE_PROJECTS.md](KILLER_FEATURE_LARGE_PROJECTS.md) · **Doc index:** [DOC_HUB.md](DOC_HUB.md)
 
 ## Lifecycle
 

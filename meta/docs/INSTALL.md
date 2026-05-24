@@ -122,10 +122,12 @@ Install **always** runs `validate-installed` at the end; exit code 1 on failure.
 
 ## After install
 
-1. Open project in Cursor.
-2. Edit [`docs/ai/AI_NAVIGATION_MAP.md`](../../payload/docs/ai/AI_NAVIGATION_MAP.md) — Tier 0 / Tier 1 for your tree.
+1. Open project in Cursor — read `AGENTS.md` then map.
+2. Edit [`docs/ai/AI_NAVIGATION_MAP.md`](../../payload/docs/ai/AI_NAVIGATION_MAP.md) — Tier 0 / Tier 1 (example tag: `app.auth.session.gen1` → `src/auth/sessionMiddleware.ts`).
 3. Add [`AI_INDEX.md`](../../payload/docs/ai/templates/AI_INDEX.template.md) per large subsystem (~10+ integration points).
-4. Run `doctor.mjs` periodically.
+4. Run `node <kit>/scripts/doctor.mjs --target .` before PRs.
+
+**Large repo rollout:** [LARGE_PROJECT_PLAYBOOK.md](LARGE_PROJECT_PLAYBOOK.md) · **Metrics:** [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md)
 
 Consumer copy in target: `docs/ai/OPERATIONS.md`.
 
