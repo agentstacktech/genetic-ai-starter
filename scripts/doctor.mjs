@@ -9,7 +9,16 @@ import { fileURLToPath } from 'node:url';
 import { loadProfile, resolveProfileFiles } from './lib/profile-include.mjs';
 import { isPhilosophyIncomplete } from './lib/philosophy-state.mjs';
 import { GITIGNORE_BEGIN } from './lib/merge-gitignore.mjs';
-import { shouldShowBeacon, printStarterBeacon } from './lib/starter-beacon.mjs';
+import { shouldShowBeacon, printStarterBeacon, printKitResolveBeacon } from './lib/starter-beacon.mjs';
+import { resolveKitRoot } from './lib/resolve-kit-root.mjs';
+import {
+  assertKitRepoUrlAllowed,
+  detectSubmoduleDrift,
+  submodulePathExists,
+} from './lib/git-submodule.mjs';
+import { verifyKitVersionPin } from './lib/verify-kit-version.mjs';
+import { validateKitLockKipV2 } from './lib/validate-kit-lock-schema.mjs';
+import { DEFAULT_KIT_SUBMODULE_PATH } from './lib/kit-integration-constants.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const KIT_ROOT = path.resolve(__dirname, '..');
@@ -17,17 +26,58 @@ const KIT_ROOT = path.resolve(__dirname, '..');
 function parseArgs(argv) {
   let target = '.';
   let beacon = false;
+  let docs = false;
+  let kitRoot = null;
+  let strictLock = false;
   for (let i = 2; i < argv.length; i++) {
     if (argv[i] === '--target') target = argv[++i];
     else if (argv[i] === '--beacon') beacon = true;
+    else if (argv[i] === '--docs') docs = true;
+    else if (argv[i] === '--kit-root') kitRoot = argv[++i];
+    else if (argv[i] === '--strict-lock') strictLock = true;
   }
   if (!beacon && shouldShowBeacon(argv)) beacon = true;
-  return { target: path.resolve(target), beacon };
+  return { target: path.resolve(target), beacon, docs, kitRoot, strictLock };
+}
+
+function runKitDocChecks() {
+  const scripts = [
+    'check-docs-metrics.mjs',
+    'check-platform-stats.mjs',
+    'check-i18n-parity.mjs',
+  ];
+  for (const name of scripts) {
+    const r = spawnSync(process.execPath, [path.join(KIT_ROOT, 'scripts', name)], {
+      cwd: KIT_ROOT,
+      encoding: 'utf8',
+    });
+    if (r.status !== 0) {
+      console.error(r.stderr || r.stdout);
+      process.exit(r.status ?? 1);
+    }
+  }
+  console.log('doctor --docs OK (kit meta doc guards)');
 }
 
 function main() {
-  const { target, beacon } = parseArgs(process.argv);
+  const { target, beacon, docs, kitRoot: explicitKitRoot, strictLock } = parseArgs(process.argv);
+  if (docs) {
+    runKitDocChecks();
+    return;
+  }
   const issues = [];
+
+  let kitRoot = KIT_ROOT;
+  let kitSourceLabel = 'script.cwd';
+  try {
+    const resolved = resolveKitRoot({ target, explicitKitRoot: explicitKitRoot });
+    kitRoot = resolved.root;
+    kitSourceLabel = resolved.source;
+    for (const w of resolved.warnings) issues.push(`resolver warning: ${w}`);
+    if (beacon) printKitResolveBeacon(kitRoot, kitSourceLabel);
+  } catch (e) {
+    issues.push(`Kit root: ${e.message}`);
+  }
 
   const lockPath = path.join(target, '.genetic-ai/kit.lock.json');
   if (!fs.existsSync(lockPath)) {
@@ -37,6 +87,34 @@ function main() {
     console.log(
       `Kit ${lock.kitId}@${lock.kitVersion} profile=${lock.profile} gitignore=${lock.gitignoreKit || 'none'}`,
     );
+    console.log(`kitRoot=${kitRoot} (${kitSourceLabel})`);
+    if (lock.kitSource?.url && !assertKitRepoUrlAllowed(lock.kitSource.url)) {
+      console.warn(
+        `WARN: kitSource.url not on allowlist (fork?): ${lock.kitSource.url} — prefer official mirror or GENETIC_AI_KIT_URL_ALLOWLIST_EXTRA`,
+      );
+    }
+    if (lock.kitSource?.type === 'submodule') {
+      const drift = detectSubmoduleDrift(target, lock.kitSource);
+      if (drift.drift) {
+        process.env.GENETIC_AI_KIT_DRIFT = '1';
+        issues.push(
+          `submodule drift: ${drift.reason} — run: node ${lock.kitSource.path}/scripts/upgrade.mjs --target . --sync-submodule`,
+        );
+      } else if (drift.head) {
+        console.log(`submoduleRef=${drift.head} lockRef=${lock.kitSource.ref} OK`);
+      }
+      const subPath = lock.kitSource.path || DEFAULT_KIT_SUBMODULE_PATH;
+      if (!submodulePathExists(target, subPath)) {
+        issues.push(`submodule path empty or missing install.mjs: ${subPath} — git submodule update --init`);
+      }
+    }
+    const ver = verifyKitVersionPin(lock, kitRoot);
+    if (!ver.ok) issues.push(ver.message);
+    if (strictLock) {
+      for (const msg of validateKitLockKipV2(lock)) {
+        issues.push(`strict-lock: ${msg}`);
+      }
+    }
     if (lock.gitignoreKit === 'full') {
       const gi = path.join(target, '.gitignore');
       if (!fs.existsSync(gi) || !fs.readFileSync(gi, 'utf8').includes(GITIGNORE_BEGIN)) {
@@ -66,7 +144,7 @@ function main() {
       if (profile.id === 'minimal') files = files.filter((f) => !f.startsWith('philosophy/'));
       if (isPhilosophyIncomplete(target, files)) {
         issues.push(
-          'philosophy/ incomplete for installed profile — run: node <kit>/scripts/repair.mjs --target <project>',
+          `philosophy/ incomplete — run: node ${path.relative(target, path.join(kitRoot, 'scripts/repair.mjs')).replace(/\\/g, '/') || 'tools/genetic-ai-starter/scripts/repair.mjs'} --target .`,
         );
       }
     } catch {
@@ -82,7 +160,13 @@ function main() {
 
   const validate = spawnSync(
     process.execPath,
-    [path.join(KIT_ROOT, 'scripts/validate-installed.mjs'), '--target', target],
+    [
+      path.join(kitRoot, 'scripts/validate-installed.mjs'),
+      '--target',
+      target,
+      '--kit-root',
+      kitRoot,
+    ],
     { encoding: 'utf8' },
   );
   if (validate.status !== 0) {

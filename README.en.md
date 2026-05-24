@@ -3,35 +3,110 @@
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![platform](https://img.shields.io/badge/platform-0.4.11-informational)](PLATFORM_VERSION)
 
+**Platform version:** `0.4.11` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or [`PLATFORM_VERSION`](PLATFORM_VERSION) (standalone copy).
+
+**Languages:** **English** (this file) · [Русский](README.md)
+
 **Turn any repository into an agent-friendly project in minutes** — with a navigation map, shared vocabulary (genetic tags), Cursor rules, and optional hooks into the [AgentStack](https://agentstack.tech/?utm_source=genetic-ai-starter) platform.
 
-You get **structure before scale**: agents (and humans) open the map and indexes first, then 1–2 hot files — instead of blind repo-wide search.
+You get **merge-ready agent workflows**: map and genes in git so agents find canonical files, update navigation in the same PR, pass doctor/validate — without you micromanaging paths. Token savings follow from map-first navigation.
 
 **Navigation OS:** [meta/docs/NAVIGATION_OS.md](meta/docs/NAVIGATION_OS.md) · **Doc hub:** [meta/docs/DOC_HUB.md](meta/docs/DOC_HUB.md)
 
 ---
 
-## Manage large codebases (killer feature)
+## Ship features to release with AI (primary value)
 
-Monorepos with many subsystems break **AGENTS.md-only**, **rules-only**, and **flat RAG** approaches. Kit ships a **semantic lattice** (Tier 0 → Tier 1 → `AI_INDEX.md` → hot files) — portable, git-reviewable, CI-checkable.
+Kit encodes **release discipline in the repo**: map → index → patch → doctor — not “lower token KPI” alone.
 
-→ [KILLER_FEATURE_LARGE_PROJECTS.md](meta/docs/KILLER_FEATURE_LARGE_PROJECTS.md) · rollout [LARGE_PROJECT_PLAYBOOK.md](meta/docs/LARGE_PROJECT_PLAYBOOK.md)
+| Step | Artifact |
+|------|----------|
+| Find canonical code | `AI_NAVIGATION_MAP` + `AI_INDEX` |
+| Safe edits | `controlled_changes` gene (no bulk sed) |
+| New module | Tier 1 row + index in same PR |
+| Pre-merge | `doctor` / `validate-kit` |
 
----
+**Your role:** approve PR, product, security, prod deploy — not “find the file in the monorepo.”
 
-## Token-efficient agent navigation
+```mermaid
+flowchart LR
+  task[Task in Cursor] --> map[AI_NAVIGATION_MAP]
+  map --> idx[AI_INDEX]
+  idx --> code[Patch + tests]
+  code --> gate[doctor / validate]
+  gate --> pr[PR for review]
+```
 
-Map-first paths cut **exploration tokens** versus repo-wide grep loops. Gene **compression** avoids opening entire `philosophy/` trees.
+→ [AI_RELEASE_AUTONOMY.md](meta/docs/AI_RELEASE_AUTONOMY.md) · [GENE_ADAPTATION.md](meta/docs/GENE_ADAPTATION.md)
 
-→ [TOKEN_ECONOMICS.md](meta/docs/TOKEN_ECONOMICS.md)
+## Weak agent, stable outcomes (raising the floor)
 
----
+The kit does **not** replace a top model for product design or security. It **levels engineering outcomes** on typical repo tasks: find the canonical file, refuse repo-wide `sed`, update the map, run doctor.
 
-## Fewer agent mistakes
+| Situation | Median task score (14 tasks) | Success (≥6) |
+|-----------|------------------------------|--------------|
+| Weak agent style without map (`agents_md_weak` in harness) | **2.5** | **0%** |
+| **Kit + indexes** (same discipline + Navigation OS) | **9** | **100%** |
 
-Genes + rules encode **controlled changes**, maintenance (T05), and legacy traps (T07) — team memory in git, not chat.
+A strong expensive model without a map may still brute-force a task — with **variance** and context cost. A **cheap model + map, genes, and doctor** hits the **T04 / T05 / T08 / T13** corridor consistently in the harness (e.g. T05 **4→10**, T13 **4→10** vs weak).
 
-→ [GENE_ADAPTATION.md](meta/docs/GENE_ADAPTATION.md)
+→ [AGENT_FLOOR.md](meta/docs/AGENT_FLOOR.md) · [DOC_CLAIMS_AUDIT.md](meta/docs/DOC_CLAIMS_AUDIT.md)
+
+## Production outcomes
+
+| Production risk | Without kit | With kit |
+|-----------------|-------------|----------|
+| Wrong-module PR | grep roulette | map → index → hot file |
+| Release without docs | forgot route/map | T13 + doctor in CI |
+| Cheap models on the team | high variance | [AGENT_FLOOR.md](meta/docs/AGENT_FLOOR.md) |
+| Onboarding 2+ devs | tribal paths | Tier 1 + genetic tags |
+| AgentStack consumers | MCP drift | extension + sync-from-canonical |
+
+Details: [PRODUCTION_OUTCOMES.md](meta/docs/PRODUCTION_OUTCOMES.md).
+
+## AgentStack ecosystem (reference)
+
+Figures from [`platform-stats.snapshot.json`](meta/docs/platform-stats.snapshot.json) (regenerate: `node scripts/export-platform-stats.mjs`):
+
+- **~222** active genes in monorepo philosophy
+- **~98** `AI_INDEX.md` on platform packages (excluding CardGame)
+- **~267** Tier-1 genetic tags in the central map
+- Kit ships **~15** starter genes + **5** Cursor rules + **5** skills (standard)
+- Same Navigation OS as [AgentStack](https://github.com/agentstacktech/AgentStack)
+
+Harness metrics (shop-api) are separate: [`metrics.snapshot.json`](meta/docs/metrics.snapshot.json).
+
+### AgentStack vs kit (from snapshot)
+
+| Layer | AgentStack monorepo | Kit install |
+|-------|---------------------|-------------|
+| Genes | ~222 `.gen1.md` | ~15 starter genes |
+| `AI_INDEX` | ~98 platform packages | you fill per subsystem |
+| Navigation map | ~267 Tier-1 tags | template + your Tier 1 |
+| Harness | internal shop-api | same methodology |
+
+### Gene clusters (starter)
+
+- **Navigation:** `foundation.genetic_coding`, `repo.navigation.map`, `repo.navigation.index`
+- **Engineering:** `repo.engineering.controlled_changes`, `repo.engineering.adr`, `repo.engineering.testing`
+- **Kit tooling:** `repo.tooling.genetic_starter.*`
+- **Founder:** `repo.engineering.founder_direct_ship`
+
+See [GENE_COMPRESSION_MAP.md](payload/philosophy/genes/GENE_COMPRESSION_MAP.md) in your project after install.
+
+## Large codebases (killer feature)
+
+At scale the failure mode is not “too many tokens” but **lost addressability**: agents spawn second auth/webhook/checkout paths, reinforce legacy files, and skip navigation updates — the repo becomes unmaintainable.
+
+| Large-repo problem | What Navigation OS gives you |
+|--------------------|------------------------------|
+| Context cannot hold the whole tree | **Tier 0** — which package to open first |
+| Duplicate subsystems | **Tier 1 + genetic tag** — one canonical contour per meaning |
+| Every feature built “from scratch” | **AI_INDEX** — hot files, reuse |
+| Legacy traps (`oldCheckout`, stale ARCHITECTURE) | **Traps** section in map + index |
+| Drift between releases | **T13:** map + index + doctor in the workflow |
+
+→ [KILLER_FEATURE_LARGE_PROJECTS.md](meta/docs/KILLER_FEATURE_LARGE_PROJECTS.md) · [LARGE_PROJECT_PLAYBOOK.md](meta/docs/LARGE_PROJECT_PLAYBOOK.md)
 
 ---
 
@@ -69,114 +144,43 @@ Lock file `.genetic-ai/kit.lock.json` records profile, version, and extensions �
 
 ## Measured impact (benchmark harness)
 
-Reference **`shop-api`**, 11 tasks, scorer **1.1.1**, **synthetic policy** transcripts ([METRICS_GLOSSARY.md](meta/docs/METRICS_GLOSSARY.md)). Full table: [BENEFITS_AND_METRICS.md](meta/docs/BENEFITS_AND_METRICS.md). Reproduce: [benchmarks/RUNBOOK.md](benchmarks/RUNBOOK.md).
+Reproducible **`shop-api`** fixture, **14** tasks (discovery, maintenance, release gate), scorer **1.2.1**, **synthetic policy** transcripts — not average Cursor chat logs. Run: [BENEFITS_AND_METRICS.md](meta/docs/BENEFITS_AND_METRICS.md) · [METRICS_GLOSSARY.md](meta/docs/METRICS_GLOSSARY.md).
 
-| Metric | bare | agents_md (optimistic arm) | agents_md_weak | **kit_standard** | kit + indexes |
-|--------|------|----------------------------|----------------|------------------|---------------|
-| Median (0–10) | 6 | 8 | 3 | **8** | 7 |
-| Map-first **(genetic)** | 0% | 9% | 0% | **36%** | **73%** |
-| Unscoped grep (11 tasks) | **13** | 0 | 12 | **1** | **0** |
+### Task score (0–10)
 
-**Primary task deltas vs bare (use these in PRs):** T04 **2→8** · T05 **4→10** · T08 with indexes **7→10** · T07 **1→5**.
+Per task the scorer sums rubric dimensions (max **10**): correct files, navigation path (map/index/gene), scope discipline, outcome, efficiency. **Success** = score **≥ 6**. **Median task score** = middle value across 14 tasks — also read **success rate** and tasks **T04 / T05 / T13**.
 
-Footnote: `agents_md` arm = community [AGENTS baseline](benchmarks/baselines/agents.md.only) + optimistic transcripts — **not** the same as install profile `minimal` (rules + stub map). Pessimistic AGENTS behaviour: arm `agents_md_weak`.
+### Summary by arm
 
-### Example scenarios (what changes in Cursor)
+| Arm | Median task score | Success (≥6) | Map-first (genetic) |
+|-----|-------------------|--------------|---------------------|
+| bare | 5.5 | 50% | 0% |
+| agents_md_weak * | 2.5 | 0% | 0% |
+| agents_md (optimistic) * | 8 | 86% | **7%** |
+| **kit standard** | **8** | **93%** | **50%** |
+| **kit + indexes** | **9** | **100%** | **86%** |
 
-<details>
-<summary><strong>T01 — production entrypoint, not the dev trap</strong></summary>
+\* **`agents_md`** is not “your single AGENTS.md in production.” Benchmark arm: [agents.md.only](benchmarks/baselines/agents.md.only) + **optimistic** synthetic transcript (“found the file”, no map maintenance). **`agents_md_weak`** = same file + grep/sed transcript (median **2.5**). Real sessions usually sit **between** them; median **8** for `agents_md` is **optimistic** — genetic map-first is only **7%** (fails **T08** and **T13** at **5**). Install profile **`minimal`** ≠ `agents_md` arm (minimal has rules + stub map). [PROFILE_COMPARISON.md](meta/docs/PROFILE_COMPARISON.md).
 
-Prompt: *“Where is the production HTTP server (not dev)?”*
+### Tasks that matter more than median
 
-- **Without kit:** **5/10** — opens `devServer.ts` or README noise.
-- **With kit:** **8/10** — map row → `src/server.ts`.
+| Task | Product meaning | bare | kit + indexes |
+|------|-----------------|------|---------------|
+| **T04** | Refuse `sed` across all `src/` | 2 | **8** |
+| **T05** | New module → map + index | 4 | **10** |
+| **T07** | Checkout, not legacy decoy | 1 | **7** |
+| **T08** | Catalog bug, right file | 7 | **10** |
+| **T13** | Pre-release: map, index, doctor | low | **10** |
 
-</details>
+### Tokens (secondary)
 
-<details>
-<summary><strong>T02 — JWT validation without repo-wide grep</strong></summary>
+Step context model on shop-api: bare **~2.3k** / task (median), kit + indexes **~1.1k**; discovery **~3.0k → ~1.1k** (~2.5–3×). Not Cursor API billing. [TOKEN_ECONOMICS.md](meta/docs/TOKEN_ECONOMICS.md) · [TOKEN_REPORT.md](benchmarks/results/TOKEN_REPORT.md).
 
-Prompt: *“Where is JWT validated for incoming requests?”*
+### Example scenarios (T01–T14)
 
-- **Without kit:** **6/10** — greps `jwt` across the tree.
-- **With kit:** **7/10** — `auth` subsystem from map; with filled indexes, map-first and scoped search.
+Per-task prompts, scores, and a sample team week: **[BENEFITS_AND_METRICS.md](meta/docs/BENEFITS_AND_METRICS.md)** (not duplicated here).
 
-</details>
-
-<details>
-<summary><strong>T03 — webhook delivery touches two files</strong></summary>
-
-Prompt: *“Webhook timeout — which HTTP client and delivery code?”*
-
-- **Both arms** can pass (**6/10**), but bare uses **4×** unscoped grep; kit opens `delivery.ts` + `httpClient.ts` from map rows.
-
-</details>
-
-<details>
-<summary><strong>T04 — refuse destructive one-liner</strong></summary>
-
-Prompt: *“Rename <code>verifyJwt</code> with <code>sed</code> across all of <code>src/</code>.”*
-
-- **Without kit:** **2/10** — mass rename suggested or run.
-- **With kit:** **8/10** — controlled-changes gene + rule; scoped, reviewed edits.
-
-</details>
-
-<details>
-<summary><strong>T05 — new folder → update navigation</strong></summary>
-
-Prompt: *“We added <code>src/billing/</code> — what AI docs to update?”*
-
-- **Without kit:** **4/10**.
-- **With kit:** **10/10** — `AI_NAVIGATION_MAP` Tier 1 + `AI_INDEX.md` + compression map.
-- **agents_md arm:** **6/10** — no full maintenance anchors (scorer 1.1.1).
-
-</details>
-
-<details>
-<summary><strong>T06 — multi-area change: where to start</strong></summary>
-
-Prompt: *“Change auth and public OpenAPI — where to start?”*
-
-- **Without kit:** **6/10** — random grep.
-- **With kit:** **7/10** — reads `GENE_COMPRESSION_MAP` + map before opening genes.
-
-</details>
-
-<details>
-<summary><strong>T07 — avoid legacy decoy checkout</strong></summary>
-
-Prompt: *“Where is checkout implemented?”*
-
-- **Without kit:** **1/10** — `billing/legacy/oldCheckout.ts`.
-- **With kit:** **5–7/10** — canonical paths from map (`invoices`, catalog routes).
-
-</details>
-
-<details>
-<summary><strong>T08 — catalog bug with scoped search</strong></summary>
-
-Prompt: *“Product filter <code>?active=1</code> broken — find and fix.”*
-
-- **Without kit:** **7/10** — may grep all of `src/`.
-- **With kit + indexes:** up to **10/10** — searches under `catalog/` only.
-
-</details>
-
-<details>
-<summary><strong>Real team week (after <code>init --profile standard</code>)</strong></summary>
-
-| Day | What you do | Kit effect |
-|-----|-------------|------------|
-| 0 | `npx @agentstack/genetic-ai-starter init` | AGENTS.md + map template + rules merged |
-| 1 | Fill Tier 0–1 (auth, catalog, webhooks) | T01/T03-style prompts land in right folders |
-| 2 | New engineer + Cursor | Reads map first — same paths as senior |
-| 3 | Add `src/billing/` | Agent reminds: map + index (T05) |
-| 4 | `doctor` before PR | Broken map links caught in CI |
-
-</details>
-
-Track your own ROI: [ROI_PLAYBOOK.md](meta/docs/ROI_PLAYBOOK.md).
+Track your own ROI: [ROI_PLAYBOOK.md](meta/docs/ROI_PLAYBOOK.md) · [ROI_PLAYBOOK_ru.md](meta/docs/ROI_PLAYBOOK_ru.md).
 
 ---
 
@@ -184,7 +188,7 @@ Track your own ROI: [ROI_PLAYBOOK.md](meta/docs/ROI_PLAYBOOK.md).
 
 - **Faster onboarding** — map → index → 1–2 files (documented in `AGENTS.md`).
 - **Fewer wrong-module edits** — genetic tags + decoy resistance (T07).
-- **Cheaper sessions** — **1** unscoped grep vs **13** on bare (same 11-task matrix).
+- **Cheaper sessions** — **0** unscoped grep vs **18** on bare (14-task matrix, synthetic).
 - **Safer edits** — engineering genes block throwaway bulk patches (T04).
 - **Navigation stays current** — maintenance genes when subsystems grow (T05).
 - **Reproducible upgrades** — `kit.lock.json` + `upgrade.mjs` + `doctor.mjs`.
@@ -203,23 +207,17 @@ Track your own ROI: [ROI_PLAYBOOK.md](meta/docs/ROI_PLAYBOOK.md).
 
 ---
 
-## Quick start (30s)
+## Quick start
 
-**npm (recommended):**
+| Path | Command |
+|------|---------|
+| **Submodule (recommended)** | `git submodule add https://github.com/agentstacktech/genetic-ai-starter.git tools/genetic-ai-starter` → `node tools/genetic-ai-starter/scripts/bootstrap-standard.mjs --target . --project-name "My App" --domain app` |
+| npm / zero-kit | `npx @agentstack/genetic-ai-starter init --yes --target ./my-app --profile standard --project-name "My App" --domain app` |
+| Windows | Double-click [`SETUP.cmd`](SETUP.cmd) |
 
-```bash
-npx @agentstack/genetic-ai-starter init --yes --target ./my-app --profile standard --project-name "My App" --domain app
-```
+Full guide: [INSTALL.md](meta/docs/INSTALL.md) · [QUICK_SETUP.md](meta/docs/QUICK_SETUP.md) · [INSTALL_WINDOWS.md](meta/docs/INSTALL_WINDOWS.md) · profiles: [PROFILE_COMPARISON.md](meta/docs/PROFILE_COMPARISON.md).
 
-**Windows:** double-click [`SETUP.cmd`](SETUP.cmd) in the kit folder.
-
-**From clone:**
-
-```bash
-node scripts/init.mjs
-```
-
-Manual flags: [meta/docs/INSTALL.md](meta/docs/INSTALL.md) · Windows: [meta/docs/INSTALL_WINDOWS.md](meta/docs/INSTALL_WINDOWS.md)
+**After install:** fill `docs/ai/AI_NAVIGATION_MAP.md`, add `AI_INDEX.md` for large subsystems, `node <kit>/scripts/doctor.mjs --target .`.
 
 [![Use this template](https://img.shields.io/badge/GitHub-Use%20this%20template-238636)](https://github.com/agentstacktech/genetic-ai-starter-template/generate)
 
@@ -260,8 +258,12 @@ Developed in AgentStack monorepo `genetic-ai-starter/`; releases here and on npm
 | Doc | Topic |
 |-----|--------|
 | [DOC_HUB.md](meta/docs/DOC_HUB.md) | **All kit documentation** |
-| [BENEFITS_AND_METRICS.md](meta/docs/BENEFITS_AND_METRICS.md) | **Metrics, all tasks T01–T11, real-world scenarios** |
-| [METRICS_GLOSSARY.md](meta/docs/METRICS_GLOSSARY.md) | Arms, paradoxes, limitations |
+| [PRODUCTION_OUTCOMES.md](meta/docs/PRODUCTION_OUTCOMES.md) | **Production value** |
+| [DOC_CLAIMS_AUDIT.md](meta/docs/DOC_CLAIMS_AUDIT.md) | Claims vs evidence |
+| [BENEFITS_AND_METRICS.md](meta/docs/BENEFITS_AND_METRICS.md) | **Metrics, tasks T01–T14, scenarios** |
+| [AGENT_FLOOR.md](meta/docs/AGENT_FLOOR.md) | **Weak agent → stable engineering outcomes** |
+| [AI_RELEASE_AUTONOMY.md](meta/docs/AI_RELEASE_AUTONOMY.md) | **Ship to PR without micromanaging paths** |
+| [METRICS_GLOSSARY.md](meta/docs/METRICS_GLOSSARY.md) | Arms, rubric, limitations |
 | [COMPARISON_METHODS.md](meta/docs/COMPARISON_METHODS.md) | vs grep / RAG / AGENTS |
 | [GETTING_STARTED.md](meta/docs/GETTING_STARTED.md) | First steps |
 | [NAVIGATION_OS.md](meta/docs/NAVIGATION_OS.md) · [ARCHITECTURE.md](ARCHITECTURE.md) | Architecture |

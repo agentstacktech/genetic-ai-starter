@@ -12,3 +12,24 @@ export function shouldShowBeacon(argv, env = process.env) {
 export function printStarterBeacon() {
   console.log(`beacon:${STARTER_BEACON_ID} ${STARTER_BEACON_URL}`);
 }
+
+/**
+ * @param {string} kitRoot
+ * @param {string} source
+ */
+export function printKitResolveBeacon(kitRoot, source) {
+  const drift = process.env.GENETIC_AI_KIT_DRIFT === '1' ? 'yes' : 'no';
+  console.log(`beacon:kit.resolve_root:${kitRoot}`);
+  console.log(`beacon:kit.source:${source}`);
+  console.log(`beacon:kit.drift:${drift}`);
+  if (process.env.GENETIC_AI_KIT_BEACON_JSON === '1') {
+    console.log(
+      JSON.stringify({
+        beacon: 'kit.integration',
+        kitRoot,
+        source,
+        drift: drift === 'yes',
+      }),
+    );
+  }
+}

@@ -4,10 +4,15 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
 import { RESULTS_ROOT, BENCH_ROOT } from './lib/paths.mjs';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SCORED = path.join(RESULTS_ROOT, 'scored');
 const OUT = path.join(RESULTS_ROOT, 'ANALYSIS.md');
+const RESULTS_MD = path.join(RESULTS_ROOT, 'RESULTS.md');
+const RUN_META = path.join(RESULTS_ROOT, 'run-meta.json');
 
 function median(nums) {
   if (!nums.length) return null;
@@ -43,11 +48,56 @@ function armStats(list) {
     mapFirstGeneticRate: list.filter((x) => x.metrics?.mapFirstGenetic).length / n,
     medianTtfhf: median(list.map((x) => x.metrics?.ttfhfToolCalls).filter((v) => v != null)),
     medianTokens: median(
-      list.map((x) => x.metrics?.estimatedContextTokens).filter((v) => v != null),
+      list
+        .map((x) => x.metrics?.contextTokensTotal ?? x.metrics?.estimatedContextTokens)
+        .filter((v) => v != null),
     ),
     unscopedTotal: list.reduce((a, x) => a + (x.metrics?.unscopedGrepCount || 0), 0),
     detourTotal: list.filter((x) => x.metrics?.detourLegacy).length,
   };
+}
+
+function loadRunMeta() {
+  if (!fs.existsSync(RUN_META)) {
+    return { scorerVersion: '1.2.1', executionMode: 'synthetic_policy' };
+  }
+  return JSON.parse(fs.readFileSync(RUN_META, 'utf8'));
+}
+
+function pct(rate) {
+  return `${Math.round(rate * 100)}%`;
+}
+
+/**
+ * Write committed RESULTS.md from scored arm stats (SoT for README metrics).
+ */
+function writeResultsMd({ arms, stats, scorerVersion, taskCount }) {
+  const lines = [
+    '# Benchmark results',
+    '',
+    `**Harness:** synthetic policy · **Scorer:** ${scorerVersion} · [run-meta.json](run-meta.json) · [metrics.snapshot.json](../../meta/docs/metrics.snapshot.json)`,
+    '',
+    `## Summary (shop-api, ${taskCount} synthetic tasks)`,
+    '',
+    '| Arm | Median | Success | Map-first (genetic) | Unscoped grep |',
+    '|-----|--------|---------|---------------------|---------------|',
+  ];
+  for (const arm of arms) {
+    const s = stats[arm];
+    if (!s || s.n === 0) continue;
+    lines.push(
+      `| ${arm} | ${s.medianScore ?? '—'} | ${pct(s.successRate)} | ${pct(s.mapFirstGeneticRate)} | ${s.unscopedTotal} |`,
+    );
+  }
+  lines.push(
+    '',
+    'Regenerate: `node benchmarks/scripts/run-matrix.mjs && node benchmarks/scripts/analyze-results.mjs`',
+    '',
+    'Detail: [ANALYSIS.md](ANALYSIS.md) · [METRICS_GLOSSARY.md](../../meta/docs/METRICS_GLOSSARY.md).',
+    '',
+  );
+  fs.writeFileSync(RESULTS_MD, lines.join('\n'));
+  console.log(`wrote ${RESULTS_MD}`);
 }
 
 function delta(a, b, field) {
@@ -62,10 +112,15 @@ function delta(a, b, field) {
 }
 
 function main() {
+  const meta = loadRunMeta();
+  const scorerVersion = meta.scorerVersion || '1.2.1';
   const rows = loadScores();
   const synthetic = rows.filter((r) => /^T/.test(r.taskId));
   const smoke = rows.filter((r) => /^S/.test(r.taskId));
   const byArm = groupBy(synthetic, 'arm');
+  const taskCount = synthetic.length
+    ? new Set(synthetic.map((r) => r.taskId)).size
+    : 14;
 
   const arms = [
     'bare',
@@ -122,11 +177,11 @@ function main() {
 
 Generated: ${new Date().toISOString()}
 
-**Harness:** synthetic policy transcripts via \`run-matrix.mjs\` (see \`run-meta.json\`, \`executionMode: synthetic_policy\`). Scorer **1.1.1**. Manual Cursor exports: [MANUAL_TRACK.md](../../meta/docs/MANUAL_TRACK.md).
+**Harness:** synthetic policy transcripts via \`run-matrix.mjs\` (see \`run-meta.json\`, \`executionMode: synthetic_policy\`). Scorer **${scorerVersion}** — tokens: \`TOKEN_REPORT.md\`, [TOKEN_ECONOMICS_ru.md](../../meta/docs/TOKEN_ECONOMICS_ru.md). Manual Cursor: [benchmarks/METHODOLOGY.md](../../benchmarks/METHODOLOGY.md) § Manual validation.
 
 ## Executive summary
 
-| Arm | Median score | Success rate | Map-first (any) | Map-first (genetic) | Median tokens (est.) | Unscoped grep |
+| Arm | Median score | Success rate | Map-first (any) | Map-first (genetic) | Median context tokens (step model) | Unscoped grep |
 |-----|--------------|--------------|-----------------|---------------------|----------------------|---------------|
 ${arms
   .map((a) => {
@@ -135,14 +190,13 @@ ${arms
   })
   .join('\n')}
 
-**Key deltas (synthetic, n=11 per arm):**
+**Key deltas (synthetic, n=${kit.n} tasks per arm):**
 
-| Comparison | Median score Δ | Map-first (genetic) Δ | Unscoped grep Δ |
-|------------|----------------|------------------------|-----------------|
-| kit_standard − bare | ${delta(kit, bare, 'medianScore')} | ${((kit.mapFirstGeneticRate - bare.mapFirstGeneticRate) * 100).toFixed(0)} pp | ${kit.unscopedTotal - bare.unscopedTotal} |
-| kit_standard − agents_md | ${delta(kit, agents, 'medianScore')} | ${((kit.mapFirstGeneticRate - agents.mapFirstGeneticRate) * 100).toFixed(0)} pp | ${kit.unscopedTotal - agents.unscopedTotal} |
-| kit_standard − agents_md_weak | ${delta(kit, agentsWeak, 'medianScore')} | ${((kit.mapFirstGeneticRate - agentsWeak.mapFirstGeneticRate) * 100).toFixed(0)} pp | ${kit.unscopedTotal - agentsWeak.unscopedTotal} |
-| indexed − kit_standard | ${delta(indexed, kit, 'medianScore')} | ${((indexed.mapFirstGeneticRate - kit.mapFirstGeneticRate) * 100).toFixed(0)} pp | ${indexed.unscopedTotal - kit.unscopedTotal} |
+| Comparison | Median score Δ | Map-first (genetic) Δ | Median tokens Δ | Unscoped grep Δ |
+|------------|----------------|------------------------|-----------------|-----------------|
+| kit_standard − bare | ${delta(kit, bare, 'medianScore')} | ${((kit.mapFirstGeneticRate - bare.mapFirstGeneticRate) * 100).toFixed(0)} pp | ${delta(kit, bare, 'medianTokens')} | ${kit.unscopedTotal - bare.unscopedTotal} |
+| kit_standard_indexed − bare | ${delta(indexed, bare, 'medianScore')} | ${((indexed.mapFirstGeneticRate - bare.mapFirstGeneticRate) * 100).toFixed(0)} pp | ${delta(indexed, bare, 'medianTokens')} | ${indexed.unscopedTotal - bare.unscopedTotal} |
+| kit_standard − agents_md_weak | ${delta(kit, agentsWeak, 'medianScore')} | ${((kit.mapFirstGeneticRate - agentsWeak.mapFirstGeneticRate) * 100).toFixed(0)} pp | ${delta(kit, agentsWeak, 'medianTokens')} | ${kit.unscopedTotal - agentsWeak.unscopedTotal} |
 
 ## Hypothesis checklist
 
@@ -166,7 +220,7 @@ ${taskCompare.map((t) => `| ${t.task} | ${t.bare} | ${t.readme_tree} | ${t.agent
 2. **readme_tree** and **agents_md** are strong mid-tier — README/AGENTS.md replace map for entry discovery but miss maintenance genes (T05) and compression map discipline (T06).
 3. **generic_cursorrules** matches kit on T04 refusal but lacks map-first — similar total to agents_md.
 4. **kit_minimal** improves T04/T05 vs community baselines via controlled-changes rule; still weaker than standard on map-first (no filled map in minimal install).
-5. **indexed − standard** gap is largest on T02/T08 — pre-filled \`AI_INDEX.md\` pays off when hot files are known.
+5. **kit + indexes** adds Tier-1 hot-file hops (T02/T08/T12/T14); token savings vs bare are **task-level** — see \`TOKEN_REPORT.md\` and [TOKEN_ECONOMICS_ru.md](../../meta/docs/TOKEN_ECONOMICS_ru.md).
 6. **Smoke (S01–S04):** kit_standard wins navigation_path on S01/S02/S04; both may fail S03 if transcript includes bulk command (bare fails by design).
 
 ## Recommended kit improvements
@@ -188,6 +242,14 @@ node genetic-ai-starter/benchmarks/scripts/analyze-results.mjs
 
   fs.writeFileSync(OUT, md);
   console.log(`wrote ${OUT}`);
+
+  writeResultsMd({ arms, stats, scorerVersion, taskCount });
+
+  const updateMatrix = path.join(__dirname, 'update-run-matrix.mjs');
+  const r = spawnSync(process.execPath, [updateMatrix], { stdio: 'inherit' });
+  if (r.status !== 0) {
+    process.exit(r.status ?? 1);
+  }
 }
 
 main();

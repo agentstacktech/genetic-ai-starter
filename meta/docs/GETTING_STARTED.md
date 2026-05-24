@@ -1,6 +1,6 @@
 # Getting started — Genetic AI Starter Kit
 
-**Value + metrics:** [README.en.md](../../README.en.md#measured-impact-benchmark-harness) · [BENEFITS_AND_METRICS.md](BENEFITS_AND_METRICS.md) (tasks T01–T11, real-world scenarios).
+**Value + metrics:** [README.en.md](../../README.en.md#measured-impact-benchmark-harness) · [BENEFITS_AND_METRICS.md](BENEFITS_AND_METRICS.md) (tasks T01–T14) · [AI_RELEASE_AUTONOMY.md](AI_RELEASE_AUTONOMY.md).
 
 ## Easiest path (recommended)
 

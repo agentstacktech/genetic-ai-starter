@@ -1,9 +1,7 @@
 # AI navigation map — {{PROJECT_NAME}}
 
-<!-- Tier 0 hint: repo.tooling.genetic_starter.gen1 — uncomment example row when adopting AgentStack platform docs -->
-<!--
-| repo.tooling.genetic_starter.gen1 | https://github.com/agentstacktech/genetic-ai-starter | Starter kit public mirror |
--->
+<!-- Tier 0: kit vendor submodule (default tools/genetic-ai-starter); mirror-only: repo.tooling.genetic_starter.gen1 -->
+| repo.tooling.kit_vendor.gen1 | tools/genetic-ai-starter/ | Kit scripts, payload, bootstrap — read AI_INDEX.md in submodule |
 
 ## Tier 0
 

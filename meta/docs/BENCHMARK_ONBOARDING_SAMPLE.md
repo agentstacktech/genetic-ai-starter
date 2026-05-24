@@ -1,6 +1,6 @@
 # Benchmark onboarding sample — filled map + indexes
 
-After benchmark v1, use this as the **oracle consumer** pattern for new projects (see `kit_standard_indexed` arm).
+After benchmark v1 (**14** tasks T01–T14, scorer **1.2.1**, **8** arms), use this as the **oracle consumer** pattern for new projects (see `kit_standard_indexed` arm).
 
 ## Copy from kit repo
 
@@ -16,7 +16,7 @@ Replace `shop.*` tags with your `{{DOMAIN}}.*` tags.
 
 - **At install (`standard`):** Tier 0 only + empty Tier 1 table.
 - **After 2–4 subsystems:** add Tier 1 rows + `AI_INDEX.md` each (~10+ integration points).
-- **Indexed arm delta:** pre-filled indexes — T08 **10** vs standard **7** (scorer 1.1.1). See [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md) indexed paradox.
+- **With indexes:** pre-filled `AI_INDEX.md` — stronger discovery scores (e.g. T08 **10** vs **7** on map-only). See [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md).
 
 ## Run benchmark on your repo
 

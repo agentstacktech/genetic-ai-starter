@@ -1,8 +1,10 @@
 # Genetic AI Starter Kit
 
-**Platform version:** `0.4.11` — aligned with **`AGENTSTACK_CORE_VERSION`** (monorepo) or [`PLATFORM_VERSION`](PLATFORM_VERSION) (standalone copy).
+**Platform version:** `0.4.11` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or `[PLATFORM_VERSION](PLATFORM_VERSION)` (standalone copy).
 
-**Слой AI-операций для любого репозитория:** за минуты даёт карту навигации, genetic tags, правила Cursor и (опционально) мост к платформе AgentStack — чтобы агенты и люди **сначала читали карту**, а не грепали весь проект.
+**Languages:** [English](README.en.md) · **Русский** (this file)
+
+**Слой AI-операций для любого репозитория:** карта навигации, genetic tags, правила Cursor и genes в git — чтобы агент **сам** находил нужные файлы, не плодил дубликаты контуров, обновлял docs в PR и доходил до **merge-ready** без микроменеджмента «где лежит код». Токены экономятся как следствие map-first, а не как главный продукт.
 
 **English (главная для GitHub):** [README.en.md](README.en.md) · **Kit:** [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter) · **Платформа:** [agentstacktech/AgentStack](https://github.com/agentstacktech/AgentStack) · **npm:** `npx @agentstack/genetic-ai-starter init` · [Ссылки](meta/docs/REPOSITORY_LINKS.md)
 
@@ -12,13 +14,106 @@
 
 ## Что даёт kit
 
-| Без kit | С kit |
-|---------|--------|
-| Каждый проект изобретает свои правила и `AGENTS.md` | Готовый **стандарт**: philosophy, карта, skills, merge `.cursorrules` |
-| Агент ищет по всему `src/` | **Map-first:** `docs/ai/AI_NAVIGATION_MAP.md` → нужная подсистема |
-| Нет общего языка для задач | **Genetic tags** (`app.api.handlers.gen1`) в карте и genes |
-| Сломалась частичная установка | `doctor`, `repair`, `upgrade`, `validate-installed` |
-| Непонятно, помогли ли правила | **Бенчмарки** — сравнение с `bare`, `agents_md`, `kit_standard` |
+
+| Без kit                                             | С kit                                                                                                                       |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Каждый проект изобретает свои правила и `AGENTS.md` | Готовый **стандарт**: philosophy, карта, skills, merge `.cursorrules`                                                       |
+| Агент ищет по всему `src/` и часто пишет «с нуля»   | **Map-first:** карта → index → 1–2 hot-файла, reuse существующего кода                                                      |
+| Новый модуль без docs → через месяц хаос            | **Tier 1 + AI_INDEX** в том же PR, что код (задача T05 в бенчмарке)                                                         |
+| Массовый `sed` / one-liner по дереву                | Gene **controlled changes** — отказ и scoped-патчи (T04)                                                                    |
+| Релиз: забыли карту, route, validate                | Чеклист **map + index + doctor** (T13) — [AI_RELEASE_AUTONOMY_ru.md](meta/docs/AI_RELEASE_AUTONOMY_ru.md)                   |
+| Нет общего языка для задач                          | **Genetic tags** в карте, PR и genes                                                                                        |
+| Сломалась установка                                 | `doctor`, `repair`, `upgrade`, `validate-installed`                                                                         |
+| Дешёвая модель даёт разброс по чатам                | **Пол в git:** weak harness **0%** → kit+idx **100%** успеха — [AGENT_FLOOR_ru.md](meta/docs/AGENT_FLOOR_ru.md)             |
+| CI / lock / validate                                | sample workflow + `kit.lock.json` + `validate-installed` — [PRODUCTION_OUTCOMES_ru.md](meta/docs/PRODUCTION_OUTCOMES_ru.md) |
+
+
+## Польза в продакшене
+
+
+| Production risk          | Без kit          | С kit                                            |
+| ------------------------ | ---------------- | ------------------------------------------------ |
+| Wrong-module PR          | grep roulette    | map → index → hot file                           |
+| Release без docs         | забыли route/map | T13 + doctor в CI                                |
+| Дешёвые модели в команде | разброс          | [AGENT_FLOOR_ru.md](meta/docs/AGENT_FLOOR_ru.md) |
+| Onboarding 2+ dev        | устные пути      | Tier 1 + genetic tags                            |
+| AgentStack consumers     | MCP drift        | extension + sync-from-canonical                  |
+
+
+Подробно: [PRODUCTION_OUTCOMES_ru.md](meta/docs/PRODUCTION_OUTCOMES_ru.md).
+
+## AgentStack ecosystem (reference)
+
+Цифры из `[platform-stats.snapshot.json](meta/docs/platform-stats.snapshot.json)` (regenerate: `node scripts/export-platform-stats.mjs`):
+
+- **~222** active genes в monorepo philosophy
+- **~98** `AI_INDEX.md` на платформенных пакетах (без CardGame)
+- **~267** Tier-1 genetic tags в центральной карте
+- Kit ships **~15** starter genes + **5** Cursor rules + **5** skills (standard)
+- Тот же Navigation OS, что в [AgentStack](https://github.com/agentstacktech/AgentStack) — [shared/AI_INDEX.md](../shared/AI_INDEX.md)
+
+Harness-метрики shop-api — отдельно: `[metrics.snapshot.json](meta/docs/metrics.snapshot.json)`.
+
+### AgentStack vs kit (из snapshot)
+
+
+| Слой       | Monorepo AgentStack          | Установка kit       |
+| ---------- | ---------------------------- | ------------------- |
+| Genes      | ~222 `.gen1.md`              | ~15 стартовых genes |
+| `AI_INDEX` | ~98 на платформенных пакетах | заполняет ИИ сам    |
+| Карта      | ~267 Tier-1 tags             | шаблон + ваш Tier 1 |
+| Harness    | внутренний shop-api          | та же методология   |
+
+
+### Кластеры genes (старт)
+
+- **Навигация:** `foundation.genetic_coding`, `repo.navigation.map`, `repo.navigation.index`
+- **Инженерия:** `repo.engineering.controlled_changes`, `repo.engineering.adr`, `repo.engineering.testing`
+- **Kit:** `repo.tooling.genetic_starter.`*
+- **Founder:** `repo.engineering.founder_direct_ship`
+
+См. [GENE_COMPRESSION_MAP.md](payload/philosophy/genes/GENE_COMPRESSION_MAP.md) после install.
+
+## Релиз с ИИ — результат, не счётчик токенов
+
+Kit нужен, чтобы **фича доезжала до PR и релиза**, а не чтобы «уменьшить цифру в отчёте».
+
+**Что агент делает с kit (в git, не в чате):**
+
+1. Открывает **канонический** путь (карта + index), а не legacy-decoy (T07).
+2. Меняет **нужные** файлы, отказывается от bulk sed по `src/` (T04).
+3. При новом модуле обновляет **AI_NAVIGATION_MAP** и **AI_INDEX** (T05).
+4. Перед merge запускает **doctor / validate** (T13).
+
+**Роль человека:** approve PR, продукт, security, prod deploy — не «найди файл в monorepo».
+
+```mermaid
+flowchart LR
+  task[Задача в Cursor] --> map[AI_NAVIGATION_MAP]
+  map --> idx[AI_INDEX]
+  idx --> code[Патч + тесты]
+  code --> gate[doctor / validate]
+  gate --> pr[PR на review]
+```
+
+
+
+Подробно: [AI_RELEASE_AUTONOMY_ru.md](meta/docs/AI_RELEASE_AUTONOMY_ru.md) · [GENE_ADAPTATION_ru.md](meta/docs/GENE_ADAPTATION_ru.md).
+
+## Слабый агент — стабильный результат (поднятие пола)
+
+Kit **не заменяет** топовую модель на продуктовом дизайне и security. Он **выравнивает инженерный результат** на типовых задачах в репозитории: найти canonical-файл, не ломать `sed`-ом весь `src/`, обновить карту, пройти doctor.
+
+
+| Ситуация                                                      | Медиана балла (14 задач) | Успех (≥6) |
+| ------------------------------------------------------------- | ------------------------ | ---------- |
+| Стиль «слабого» агента без карты (`agents_md_weak` в harness) | **2.5**                  | **0%**     |
+| **Kit + индексы** (та же дисциплина + Navigation OS)          | **9**                    | **100%**   |
+
+
+Сильная дорогая модель без kit часто «дотягивает» задачу brute-force grep — но с **разбросом** и перерасходом контекста. **Дешёвая модель + карта, genes и doctor** в harness стабильно попадает в коридор **T04 / T05 / T08 / T13** (например T05 **4→10**, T13 **4→10** у weak vs kit).
+
+Подробно: [AGENT_FLOOR_ru.md](meta/docs/AGENT_FLOOR_ru.md) · [DOC_CLAIMS_AUDIT.md](meta/docs/DOC_CLAIMS_AUDIT.md).
 
 ## Что появится в вашем проекте
 
@@ -32,153 +127,140 @@
 
 ## Крупные проекты (killer feature)
 
-Monorepo не масштабируются на «только AGENTS.md» или плоский RAG. Kit даёт решётку Tier 0 → Tier 1 → `AI_INDEX.md`.
+На scale ломается не «мало токенов», а **адресуемость**: агент плодит вторые auth/webhook/checkout, усиливает legacy, забывает обновить навигацию — проект становится неподдерживаемым.
 
-→ [KILLER_FEATURE_LARGE_PROJECTS_ru.md](meta/docs/KILLER_FEATURE_LARGE_PROJECTS_ru.md) · [TOKEN_ECONOMICS_ru.md](meta/docs/TOKEN_ECONOMICS_ru.md) · [GENE_ADAPTATION_ru.md](meta/docs/GENE_ADAPTATION_ru.md)
+**Что даёт Navigation OS:**
+
+
+| Проблема на большом репо                                | Решение kit                                               |
+| ------------------------------------------------------- | --------------------------------------------------------- |
+| Тысячи файлов, контекст не влезает                      | **Tier 0** — с какого пакета начать                       |
+| Дублирование подсистем                                  | **Tier 1 + genetic tag** — один canonical контур на смысл |
+| Каждая фича «с нуля»                                    | **AI_INDEX** — hot files, reuse                           |
+| Legacy-ловушки (`oldCheckout`, устаревший ARCHITECTURE) | Секция **Traps** в карте + index                          |
+| Рост хаоса между релизами                               | **T13:** map + index + doctor в процессе                  |
+
+
+Полный разбор: [KILLER_FEATURE_LARGE_PROJECTS_ru.md](meta/docs/KILLER_FEATURE_LARGE_PROJECTS_ru.md) · внедрение: [LARGE_PROJECT_PLAYBOOK.md](meta/docs/LARGE_PROJECT_PLAYBOOK.md).
 
 ## Замеры (бенчмарк harness)
 
-Стенд `shop-api`, 11 задач, scorer **1.1.1**, synthetic policy. [METRICS_GLOSSARY.md](meta/docs/METRICS_GLOSSARY.md) · [BENEFITS_AND_METRICS_ru.md](meta/docs/BENEFITS_AND_METRICS_ru.md).
+**Что это:** воспроизводимый стенд `shop-api`, **14** задач (discovery, maintenance, release gate), scorer **1.2.1**. Транскрипты **синтетические** — моделируют поведение агента, это не среднее по всем чатам Cursor. Запуск: [BENEFITS_AND_METRICS_ru.md](meta/docs/BENEFITS_AND_METRICS_ru.md).
 
-| Метрика | bare | agents_md (arm) | agents_md_weak | **kit standard** | kit + индексы |
-|---------|------|-----------------|----------------|------------------|---------------|
-| Медиана (0–10) | 6 | 8 | 3 | **8** | 7 |
-| Map-first (genetic) | 0% | 9% | 0% | **36%** | **73%** |
-| Нецелевой grep | **13** | 0 | 12 | **1** | **0** |
+### Что такое «балл задачи» (0–10)
 
-**Дельты по задачам:** T04 **2→8** · T05 **4→10** · T08 с индексами **10**.
+За каждую задачу scorer суммирует рубрику (макс. **10**):
 
-Оговорка: arm `agents_md` ≠ профиль `minimal` (rules + stub map). См. [PROFILE_COMPARISON.md](meta/docs/PROFILE_COMPARISON.md).
 
-**Примеры (все задачи — в [BENEFITS_AND_METRICS_ru.md](meta/docs/BENEFITS_AND_METRICS_ru.md)):**
+| Измерение        | Смысл                                        |
+| ---------------- | -------------------------------------------- |
+| Правильные файлы | Упомянуты gold-файлы, не legacy-decoy        |
+| Путь навигации   | Сначала карта / index / gene, не слепой grep |
+| Дисциплина scope | Без repo-wide `rg` по всему `src/`           |
+| Результат        | Задача решена или опасная команда отклонена  |
+| Эффективность    | Меньше лишних tool-hop до цели               |
 
-| Задача | Суть | bare → kit |
-|--------|------|------------|
-| T01 | Production entry, не dev | 5 → **8** |
-| T02 | Где JWT? | 6 → **7** (+ индексы лучше) |
-| T03 | Webhook + HTTP client | оба 6, у kit меньше grep |
-| T04 | `sed` по всему `src/` | **2 → 8** |
-| T05 | Новый `billing/` — docs | **5 → 10** |
-| T06 | Auth + OpenAPI — с чего начать | 6 → **7** |
-| T07 | Checkout (ловушка legacy) | **1 → 5–7** |
-| T08 | Баг фильтра каталога | 7 → **7–10** |
 
-**Неделя команды:** день 0 — `init`; день 1 — Tier 0/1 в карте; день 2 — новый разработчик читает map-first; день 3 — новый модуль → map + index (T05); день 4 — `doctor` перед PR.
+**Успех задачи** = балл **≥ 6**. **Медиана балла** — середина по 14 задачам (одна проваленная discovery тянет картину — смотрите ещё **% успеха** и задачи T04/T05/T13).
 
-Подробные таблицы профилей: [PROFILE_COMPARISON.md](meta/docs/PROFILE_COMPARISON.md). ROI: [ROI_PLAYBOOK.md](meta/docs/ROI_PLAYBOOK.md).
+Подробнее: [METRICS_GLOSSARY.md](meta/docs/METRICS_GLOSSARY.md).
+
+### Сводка по arms (актуально после `run-matrix`)
+
+
+| Arm                      | Медиана балла | Успех задач (≥6) | Map-first (genetic) |
+| ------------------------ | ------------- | ---------------- | ------------------- |
+| bare (только README)     | 5.5           | 50%              | 0%                  |
+| agents_md_weak *         | 2.5           | 0%               | 0%                  |
+| agents_md (optimistic) * | 7             | 86%              | **7%**              |
+| **kit standard**         | **8**         | **93%**          | **50%**             |
+| **kit + индексы**        | **9**         | **100%**         | **86%**             |
+
+
+ **agents_md** в таблице — не «ваш один AGENTS.md в проде». Это benchmark-arm: файл [agents.md.only](benchmarks/baselines/agents.md.only) + **заранее оптимистичный** транскрипт («нашёл файл», без map maintenance). Arm **agents_md_weak** — тот же файл, но транскрипт с grep/sed как у слабого агента (медиана **2.5**). Реальная сессия обычно **между** ними; **медиана 8 у agents_md завышена для сравнения**, потому что нет карты Tier 1 и genetic map-first всего **7%** — при провале T08 (5) и T13 (5).
+
+**Профиль `minimal` при install** ≠ arm `agents_md` (у minimal есть rules + stub map). См. [PROFILE_COMPARISON.md](meta/docs/PROFILE_COMPARISON.md).
+
+### Задачи, по которым сравнивать kit (результат важнее медианы)
+
+
+| Задача  | Смысл для продукта              | bare  | kit + индексы |
+| ------- | ------------------------------- | ----- | ------------- |
+| **T04** | Отказ от `sed` по всему `src/`  | 2     | **8**         |
+| **T05** | Новый модуль → map + index      | 4     | **10**        |
+| **T07** | Checkout, не legacy decoy       | 1     | **7**         |
+| **T08** | Баг каталога, правильный файл   | 7     | **10**        |
+| **T13** | Pre-release: map, index, doctor | низко | **10**        |
+
+
+### Токены (вторичная метрика)
+
+Step-модель контекста на shop-api: bare **~2.3k** / задачу (медиана), kit + индексы **~1.1k**; на discovery **~3.0k → ~1.1k** (~2.5–3×). Это **не** счёт Cursor API. Детали: [TOKEN_ECONOMICS_ru.md](meta/docs/TOKEN_ECONOMICS_ru.md) · [TOKEN_REPORT.md](benchmarks/results/TOKEN_REPORT.md).
+
+### Неделя с kit (результат)
+
+
+| День | Что происходит                         |
+| ---- | -------------------------------------- |
+| 0    | `init --profile standard`              |
+| 1    | Tier 0/1 в `AI_NAVIGATION_MAP.md`      |
+| 2    | Агент чинит баг по map-first (как T08) |
+| 3    | Новый модуль: код + map + index (T05)  |
+| 4    | `doctor` → PR без «забыли карту» (T13) |
+
+
+ROI и профили: [ROI_PLAYBOOK.md](meta/docs/ROI_PLAYBOOK.md) · [PROFILE_COMPARISON.md](meta/docs/PROFILE_COMPARISON.md).
 
 ## Документация
 
-| Doc | Purpose |
-|-----|---------|
-| [**DOC_HUB.md**](meta/docs/DOC_HUB.md) | **Индекс всей документации kit** |
-| [**SETUP.cmd**](SETUP.cmd) | **Мастер установки (Windows)** |
-| [meta/docs/QUICK_SETUP.md](meta/docs/QUICK_SETUP.md) | 3 шага для пользователя |
-| [meta/docs/AUDIT_PLAN.md](meta/docs/AUDIT_PLAN.md) | Пробелы, TODO, план улучшений |
-| [**meta/docs/INSTALL.md**](meta/docs/INSTALL.md) | **Canonical install guide** |
-| [meta/docs/INSTALL_WINDOWS.md](meta/docs/INSTALL_WINDOWS.md) | Windows (CMD / Node; без `` ` `` и без PSSecurityException) |
-| [meta/docs/TROUBLESHOOTING.md](meta/docs/TROUBLESHOOTING.md) | Error catalog |
-| [meta/docs/BENEFITS_AND_METRICS_ru.md](meta/docs/BENEFITS_AND_METRICS_ru.md) | **Замеры и примеры задач** |
-| [meta/docs/GETTING_STARTED.md](meta/docs/GETTING_STARTED.md) | Short overview |
-| [COMMUNITY_ru.md](COMMUNITY_ru.md) | Сообщество (RU) |
-| [FAQ.md](FAQ.md) | Частые вопросы |
-| [VERSION.md](VERSION.md) | Versioning policy |
+
+| Doc                                                                          | Purpose                                                 |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------- |
+| **[DOC_HUB.md](meta/docs/DOC_HUB.md)**                                       | **Индекс всей документации kit**                        |
+| **[SETUP.cmd](SETUP.cmd)**                                                   | **Мастер установки (Windows)**                          |
+| [meta/docs/QUICK_SETUP.md](meta/docs/QUICK_SETUP.md)                         | 3 шага для пользователя                                 |
+| **[meta/docs/INSTALL.md](meta/docs/INSTALL.md)**                             | **Canonical install guide**                             |
+| [meta/docs/INSTALL_WINDOWS.md](meta/docs/INSTALL_WINDOWS.md)                 | Windows (CMD / Node; без ``` и без PSSecurityException) |
+| [meta/docs/TROUBLESHOOTING.md](meta/docs/TROUBLESHOOTING.md)                 | Error catalog                                           |
+| [meta/docs/PRODUCTION_OUTCOMES_ru.md](meta/docs/PRODUCTION_OUTCOMES_ru.md)   | **Польза в продакшене**                                 |
+| [meta/docs/AGENT_FLOOR_ru.md](meta/docs/AGENT_FLOOR_ru.md)                   | **Слабый агент → стабильный результат**                 |
+| [meta/docs/DOC_CLAIMS_AUDIT.md](meta/docs/DOC_CLAIMS_AUDIT.md)               | Доказательная база claims                               |
+| [meta/docs/BENEFITS_AND_METRICS_ru.md](meta/docs/BENEFITS_AND_METRICS_ru.md) | **Замеры и примеры задач**                              |
+| [meta/docs/GETTING_STARTED.md](meta/docs/GETTING_STARTED.md)                 | Short overview                                          |
+| [COMMUNITY_ru.md](COMMUNITY_ru.md)                                           | Сообщество (RU)                                         |
+| [FAQ.md](FAQ.md)                                                             | Частые вопросы                                          |
+| [VERSION.md](VERSION.md)                                                     | Versioning policy                                       |
+
 
 ---
 
 ## Зачем (одной фразой)
 
-**Карта → индекс → 1–2 hot-файла** вместо слепого grep — см. таблицу замеров выше и [BENEFITS_AND_METRICS_ru.md](meta/docs/BENEFITS_AND_METRICS_ru.md).
+**Довести фичу до merge-ready PR** — карта, genes и doctor в git; даже **слабый** агент стабильно попадает в процесс (см. [AGENT_FLOOR_ru.md](meta/docs/AGENT_FLOOR_ru.md)), без микроменеджмента путей. Токены — побочный эффект map-first.
 
 ## Not the same as
 
-| Package | Role |
-|---------|------|
-| [`8DNA_EXPORT_PACKAGE/`](../8DNA_EXPORT_PACKAGE/) | Heritage / patents / 8DNA architecture |
-| **genetic-ai-starter** | Day-to-day AI ops for any new project |
+
+| Package                                           | Role                                   |
+| ------------------------------------------------- | -------------------------------------- |
+| `[8DNA_EXPORT_PACKAGE/](../8DNA_EXPORT_PACKAGE/)` | Heritage / patents / 8DNA architecture |
+| **genetic-ai-starter**                            | Day-to-day AI ops for any new project  |
+
 
 ---
 
-## Quick install (мастер)
+## Установка
 
-**Самый простой способ:** откройте папку kit и запустите мастер.
 
-| ОС | Действие |
-|----|----------|
-| **Windows** | Двойной щелчок **`SETUP.cmd`** → ответьте на вопросы |
-| **macOS / Linux** | `node scripts/init.mjs` в папке kit |
+| Путь | Команда |
+| ---- | ------- |
+| **Submodule (рекомендуется)** | `git submodule add https://github.com/agentstacktech/genetic-ai-starter.git tools/genetic-ai-starter` → `node tools/genetic-ai-starter/scripts/bootstrap-standard.mjs --target . --project-name "My App" --domain app` |
+| npm / zero-kit | `npx @agentstack/genetic-ai-starter init --yes --target ./my-app --profile standard --project-name "My App" --domain app` |
+| Windows | [SETUP.cmd](SETUP.cmd) или [bootstrap-standard.cmd](scripts/bootstrap-standard.cmd) |
 
-Мастер спросит: папку проекта, имя, domain, профиль, расширение AgentStack — и запустит установку.
+Полный гайд: [INSTALL.md](meta/docs/INSTALL.md) · [QUICK_SETUP.md](meta/docs/QUICK_SETUP.md) · [INTEGRATION_MODES.md](meta/docs/INTEGRATION_MODES.md) · [INSTALL_WINDOWS.md](meta/docs/INSTALL_WINDOWS.md).
 
-**Your project** = целевая папка. **Kit** = эта папка (`genetic-ai-starter/`), не ваш репозиторий.
-
-### macOS / Linux (вручную)
-
-```bash
-node /path/to/genetic-ai-starter/scripts/install.mjs \
-  --target /path/to/your-project \
-  --profile standard \
-  --project-name "My App" \
-  --domain app \
-  --strict
-```
-
-### Windows (PowerShell)
-
-```cmd
-set PROJECT_NAME=My App
-set DOMAIN=app
-set PROFILE=standard
-C:\Projects\genetic-ai-starter\scripts\install.cmd C:\Projects\your-project
-```
-
-Одной строкой (Node):
-
-```text
-node "C:\Projects\genetic-ai-starter\scripts\install.mjs" --target "C:\Projects\your-project" --profile standard --project-name "My App" --domain app --strict
-```
-
-PowerShell: только `powershell -ExecutionPolicy Bypass -File "...\install.ps1" ...` — см. [INSTALL_WINDOWS.md](meta/docs/INSTALL_WINDOWS.md).
-
-**Repair:** `repair.cmd <project>` или `node <kit>/scripts/repair.mjs --target <project>`.
-
----
-
-## Profiles
-
-| Profile | Содержимое | AgentStack |
-|---------|------------|------------|
-| **minimal** | AGENTS (краткий) + 2 rules + stub-карта | опционально `--with-agentstack` |
-| **standard** | + philosophy + `docs/ai/` + 5 rules + 4 skills (**рекомендуется**) | опционально |
-| **full** | весь payload + CI sample | **включено** |
-| **founder** | как `full`, акцент direct-ship в lock/доках | **включено** |
-
-**Подробные таблицы:** [meta/docs/PROFILE_COMPARISON.md](meta/docs/PROFILE_COMPARISON.md).
-
----
-
-## After install (in your project)
-
-1. Edit `docs/ai/AI_NAVIGATION_MAP.md` (Tier 0 / Tier 1).
-2. Add `AI_INDEX.md` per large subsystem.
-3. `node <kit>/scripts/doctor.mjs --target .` — see also `docs/ai/OPERATIONS.md` in the project.
-
----
-
-## Scripts (kit repo)
-
-| Script | Purpose |
-|--------|---------|
-| **`SETUP.cmd`** / `init.mjs` | **Interactive wizard** (recommended) |
-| `install.mjs` / `install.cmd` | Install into target (Windows: prefer `.cmd`) |
-| `install-here.cmd` | Install into current directory |
-| `repair.mjs` / `repair.cmd` | Fix partial / broken philosophy |
-| `upgrade.mjs` | Re-install from lock file |
-| `uninstall.mjs` | Remove kit artifacts |
-| `doctor.mjs` | Health check |
-| `new-gene.mjs` | Scaffold gene from template |
-| `validate-installed.mjs` | Link + file checks |
-| `verify-install.ps1` | Temp-dir smoke test (Windows) |
+**После install:** заполните `docs/ai/AI_NAVIGATION_MAP.md`, добавьте `AI_INDEX.md` на крупные подсистемы, `node tools/genetic-ai-starter/scripts/doctor.mjs --target .`.
 
 ---
 

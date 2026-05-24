@@ -29,7 +29,7 @@ Legend: ● strong · ○ partial · — weak
 
 \*RAG-only: conceptual baseline (not a harness arm). †With AgentStack extension / full profile.
 
-**Pessimistic AGENTS:** arm `agents_md_weak` — median **3**, success **0%** (scorer 1.1.1).
+**Pessimistic AGENTS:** arm `agents_md_weak` — median **2.5**, success **0%** (scorer **1.2.1**, 14 tasks). Optimistic `agents_md`: median **8**, map-first (genetic) **7%**.
 
 ## Hybrid: kit + RAG (recommended at scale)
 

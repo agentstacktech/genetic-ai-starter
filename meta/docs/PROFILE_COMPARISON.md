@@ -4,7 +4,7 @@
 
 Профиль задаёт **какие файлы копируются** в целевой репозиторий. Расширение **AgentStack** — отдельный слой (overlay + merge), подключается флагом или встроено в `full` / `founder`.
 
-**Замеры по профилям (harness):** `standard` −12 unscoped grep vs bare; `minimal` сильнее на T04/T05; с индексами — 73% map-first — [BENEFITS_AND_METRICS_ru.md](BENEFITS_AND_METRICS_ru.md).
+**Замеры по профилям (harness):** `standard` −12 unscoped grep vs bare; `minimal` сильнее на T04/T05; с индексами — **82%** map-first (genetic), **100%** success — [BENEFITS_AND_METRICS_ru.md](BENEFITS_AND_METRICS_ru.md).
 
 ---
 

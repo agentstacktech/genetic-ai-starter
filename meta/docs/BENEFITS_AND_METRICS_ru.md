@@ -1,69 +1,122 @@
 # Польза и замеры — что даёт kit
 
-**Бенчмарк:** [`benchmarks/`](../../benchmarks/) · `shop-api` (11 задач) + smoke AgentStack (4 задачи) · профиль **standard** · [run-meta.json](../../benchmarks/results/run-meta.json).
+**Бенчмарк:** `[benchmarks/](../../benchmarks/)` · `shop-api` (**14** задач T01–T14) · scorer **1.2.1** · [run-meta.json](../../benchmarks/results/run-meta.json)
+
+**Токены:** [TOKEN_ECONOMICS_ru.md](TOKEN_ECONOMICS_ru.md) · [TOKEN_REPORT.md](../../benchmarks/results/TOKEN_REPORT.md)
+
+**Реальная польза:** [REAL_BENEFITS_ru.md](REAL_BENEFITS_ru.md) · **релиз с ИИ:** [AI_RELEASE_AUTONOMY_ru.md](AI_RELEASE_AUTONOMY_ru.md) · **слабый агент / пол:** [AGENT_FLOOR_ru.md](AGENT_FLOOR_ru.md)
+
+```bash
+node benchmarks/scripts/run-matrix.mjs && node scripts/export-metrics-snapshot.mjs
+```
 
 ---
 
-## Сводка vs bare
+## Что значит «медиана балла» (0–10)
 
-| Метрика | bare | agents_md | agents_md_weak | **kit standard** | kit + индексы |
-|---------|------|-----------|----------------|------------------|---------------|
-| Медиана (0–10) | 6 | 8 | 3 | **8** | 7 |
-| Map-first (genetic) | 0% | 9% | 0% | **36%** | **73%** |
-| Нецелевой grep | **13** | 0 | 12 | **1** | **0** |
+За **каждую** из 14 задач scorer суммирует рубрику (макс. 10): правильные файлы, путь навигации, дисциплина scope, результат, эффективность. **Успех** = балл ≥ 6. **Медиана** — середина по 14 задачам; одна проваленная discovery может не сдвинуть медиану сильно — смотрите **% успеха**, **map-first (genetic)** и таблицу задач ниже. Расшифровка: [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md).
 
-**Главное (дельты по задачам):** T04 **2→8** · T05 **4→10** · T08 с индексами **10**. [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md).
-
-EN: [BENEFITS_AND_METRICS.md](BENEFITS_AND_METRICS.md) · [RESULTS.md](../../benchmarks/results/RESULTS.md).
+**Про колонку `agents_md` (медиана 8):** это benchmark-arm с **оптимистичным** синтетическим транскриптом, не «один AGENTS.md в проде». Genetic map-first у arm всего **7%**; пессимистичный `agents_md_weak` — медиана **2.5**.
 
 ---
 
-## Все задачи shop-api (кратко)
+## Сводка vs bare (основное сравнение)
 
-| Задача | Суть | bare | kit |
-|--------|------|------|-----|
-| T01 | Production entry, не dev | 5 | **8** |
-| T02 | Где JWT? | 6 | **7** (+ индексы лучше) |
-| T03 | Webhook + HTTP client | 6 | **6** (оба файла, меньше grep) |
-| T04 | sed по всему src | **2** | **8** |
-| T05 | Новый billing/ — что в docs? | **5** | **10** |
-| T06 | Auth + OpenAPI — с чего начать | 6 | **7** |
-| T07 | Checkout (ловушка legacy) | **1** | **5–7** |
-| T08 | Баг фильтра каталога | 7 | **7–10** |
-| T09–T11 | explain / patch / docs | 8 | 8 |
 
-Smoke **S01–S04** на монорепо AgentStack: map-first на MCP cache (**S01**), отказ от массового rename UI (**S03**), чеклист PAGES_MAP при новом route (**S04**).
+| Метрика                                   | bare       | agents_md * | agents_md_weak | **kit (карта)** | **kit + индексы** |
+| ----------------------------------------- | ---------- | ----------- | -------------- | --------------- | ----------------- |
+| Медиана балла задачи                      | 5.5        | 7           | 2.5            | **8**           | **9**             |
+| Успех задач (≥6)                          | 50%        | 86%         | 0%             | 93%             | **100%**          |
+| Map-first **(genetic)**                   | 0%         | 7%          | 0%             | 50%             | **86%**           |
+| Нецелевой grep (14 задач)                 | **18**     | 0           | 16             | **1**           | **0**             |
+| Медиана контекст-токенов (step **1.2.1**) | **~2 265** | ~2 242      | ~1 748         | **~1 051**      | **~1 125**        |
+| Медиана токенов (discovery-only)          | **~2 985** | —           | —              | —               | **~1 125**        |
+
+
+ `agents_md` — optimistic arm, см. выше.
+
+Цифры синхронизируются с `meta/docs/metrics.snapshot.json` после `run-matrix`. **Не сравниваем** «карту» и «+ индексы» как соперников — индексы **дополняют** standard там, где есть крупные подсистемы.
+
+**Главные дельты vs bare (задачи):**
+
+
+| Задача | Суть                            | bare  | kit + индексы (типично) |
+| ------ | ------------------------------- | ----- | ----------------------- |
+| T04    | sed по всему src                | 2     | **8**                   |
+| T05    | новый модуль → навигация        | 4     | **10**                  |
+| T07    | legacy decoy                    | 1     | **7+**                  |
+| T08    | баг каталога                    | 7     | **10**                  |
+| T12    | delivery + signing              | низко | **8+**                  |
+| T13    | release gate (map/index/doctor) | низко | **10**                  |
+
+
+[METRICS_GLOSSARY.md](METRICS_GLOSSARY.md) · EN: [BENEFITS_AND_METRICS.md](BENEFITS_AND_METRICS.md)
+
+---
+
+## Модель контекст-токенов
+
+Step-модель **1.2.1** (`benchmarks/scripts/lib/token-model.mjs`): чтения по размеру fixture, grep-пул от объёма репо (~**1.15k**/строку `rg` на shop-api). Подробно: [TOKEN_ECONOMICS_ru.md](TOKEN_ECONOMICS_ru.md).
+
+**Экономия vs bare:** медиана всех задач **~2.3k → ~1.1k**; на discovery **~3.0k → ~1.1k** (~**2.5–3×**). Медианы карты и +индексов близки.
+
+**Малый проект:** 8 задач/неделю → **~9k** model-tokens/неделю меньше vs bare — [TOKEN_REPORT.md](../../benchmarks/results/TOKEN_REPORT.md).
+
+---
+
+## Слои kit (standard → + индексы)
+
+
+| Слой                  | Что даёт                                                     |
+| --------------------- | ------------------------------------------------------------ |
+| **standard**          | `AI_NAVIGATION_MAP`, genes, rules, AGENTS — маршрут Tier 0/1 |
+| **+ AI_INDEX**        | hot files на подсистему — меньше hop на T02/T08/T12/T14      |
+| **doctor / validate** | T13 release gate — карта не отрывается от репо               |
+
+
+Профиль установки: [PROFILE_COMPARISON.md](PROFILE_COMPARISON.md).
+
+---
+
+## Killer feature — большие и сложные проекты
+
+Navigation OS масштабируется, когда flat `AGENTS.md` не помещается в контекст и устаревает.
+
+→ [KILLER_FEATURE_LARGE_PROJECTS_ru.md](KILLER_FEATURE_LARGE_PROJECTS_ru.md) · [LARGE_PROJECT_PLAYBOOK.md](LARGE_PROJECT_PLAYBOOK.md)
+
+---
+
+## Меньше ошибок
+
+
+| Риск                        | Gene / артефакт                       |
+| --------------------------- | ------------------------------------- |
+| Массовый sed                | `repo.engineering.controlled_changes` |
+| Legacy decoy                | map + index warning                   |
+| Забыли навигацию при релизе | T13 + `doctor`                        |
+| Gene sprawl                 | `GENE_COMPRESSION_MAP`                |
+
+
+→ [GENE_ADAPTATION_ru.md](GENE_ADAPTATION_ru.md)
+
+---
+
+## Все задачи shop-api (T01–T14)
+
+Полная таблица баллов — в [benchmarks/results/ANALYSIS.md](../../benchmarks/results/ANALYSIS.md) после `run-matrix`.
+
+Smoke **S01–S04** (AgentStack): MCP cache, fleet endpoints, отказ bulk rename, PAGES_MAP.
 
 ---
 
 ## Реальные сценарии
 
-### Новый продукт
 
-`init --profile standard` → карта Tier 0/1 → агент находит auth/webhooks без grep по всему дереву → `doctor` перед PR.
+| Сценарий      | Действие                                                                      |
+| ------------- | ----------------------------------------------------------------------------- |
+| Новый продукт | `standard` → Tier 0/1 → при росте **AI_INDEX** на подсистему                  |
+| Релиз с ИИ    | genes + map + doctor — [AI_RELEASE_AUTONOMY_ru.md](AI_RELEASE_AUTONOMY_ru.md) |
+| Monorepo      | индексы на зоны с ~10+ интеграциями                                           |
 
-### Команда
 
-Онбординг: AGENTS.md + карта → первый день без «где что лежит». T05: новый модуль = PR обновляет map и index.
-
-### Приватный AI-контекст
-
-`--gitignore-kit full` — philosophy и карта локально, в git не уходят; польза та же.
-
-### AgentStack
-
-`full` / `founder` + extension — маршрутизация MCP/8DNA; smoke-задачи на PAGES_MAP и discovery cache.
-
----
-
-## Слои установки
-
-| Слой | Польза |
-|------|--------|
-| AGENTS.md | Порядок чтения для агента |
-| Карта + genetic tags | T01, T07 — не попасть в decoy |
-| AI_INDEX | T08: 7 → 10 |
-| Genes + rules | T04 отказ от массовых правок |
-| doctor / upgrade | Не сломать install при апгрейде |
-
-[PROFILE_COMPARISON.md](PROFILE_COMPARISON.md) · [ROI_PLAYBOOK.md](ROI_PLAYBOOK.md)
+[PROFILE_COMPARISON.md](PROFILE_COMPARISON.md) · [ROI_PLAYBOOK.md](ROI_PLAYBOOK.md) · [DOC_HUB.md](DOC_HUB.md)

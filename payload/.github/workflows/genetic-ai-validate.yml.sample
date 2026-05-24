@@ -8,15 +8,21 @@ on:
       - 'philosophy/**'
       - '**/AI_INDEX.md'
       - '.cursor/**'
+      - 'tools/genetic-ai-starter/**'
+      - '.genetic-ai/**'
 
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      # Option A: kit vendored in repo
-      - run: node genetic-ai-starter/scripts/validate-installed.mjs --target .
-      # Option B: run from monorepo path in composite action
+      - name: genetic-ai kit CI
+        run: node tools/genetic-ai-starter/scripts/ci-kit.mjs --target .
+      - name: submodule drift (optional)
+        run: node tools/genetic-ai-starter/scripts/check-submodule-drift.mjs --target .
+        continue-on-error: true

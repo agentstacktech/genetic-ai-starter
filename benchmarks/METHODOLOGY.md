@@ -9,7 +9,7 @@ Does **genetic-ai-starter** improve Cursor agent navigation versus bare repos, R
 - **Primary substrate:** synthetic [`fixture-shop-api/`](fixture-shop-api/) (~20 TS files, decoys, stale `ARCHITECTURE.md`).
 - **Optional smoke:** 4 tasks on the AgentStack monorepo (`S01`–`S04`), only arms `bare` vs `kit_standard`.
 - **Execution (Harness v1, committed):** `run-matrix.mjs` generates **synthetic policy** transcripts per arm — reproducible CI regression (`executionMode: synthetic_policy` in `run-meta.json`).
-- **Execution (Manual v2, optional):** human Cursor export → `score-transcript.mjs` — see [meta/docs/MANUAL_TRACK.md](../meta/docs/MANUAL_TRACK.md).
+- **Execution (Manual v2, optional):** export a real Cursor chat → `score-transcript.mjs` (see § Manual validation below). Full operator playbook: AgentStack monorepo `docs/genetic-ai-starter-maintainers/MANUAL_TRACK.md` (not on the public mirror).
 - **Phase 2:** `@cursor/sdk` batch runs (G40).
 
 ## Control arms
@@ -59,4 +59,12 @@ Per `repo.benchmarks.hgt.gen2`: sources are pinned in [`baselines/`](baselines/)
 
 ## Statistical note
 
-Report **medians** per arm; re-run disputed (arm, task) twice. Full matrix: 7 arms × 11 synthetic tasks = 77 chats (+ 8 smoke optional).
+Report **medians** per arm; re-run disputed (arm, task) twice. Full matrix: **8 arms × 14** synthetic tasks (+ smoke S01–S04 optional).
+
+## Manual validation (your repo)
+
+1. `node benchmarks/scripts/prepare-arm.mjs --arm kit_standard --force`
+2. Open `benchmarks/work/kit_standard/` in Cursor and run prompts from `benchmarks/tasks/tasks.json`
+3. Score: `node benchmarks/scripts/score-transcript.mjs --transcript <export.txt> --task T01 --arm kit_standard`
+
+This is the honest check for marketing claims — harness v1 alone is synthetic policy, not your live model billing.

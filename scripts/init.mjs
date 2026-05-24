@@ -9,6 +9,9 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { ask, chooseMenu, confirm } from './lib/prompt.mjs';
 import { KIT_ROOT } from './lib/paths.mjs';
+import { resolveKitRoot } from './lib/resolve-kit-root.mjs';
+import { submodulePathExists } from './lib/git-submodule.mjs';
+import { DEFAULT_KIT_SUBMODULE_PATH } from './lib/kit-integration-constants.mjs';
 import { readPlatformVersion } from './lib/platform-version.mjs';
 import { loadProfile } from './lib/profile-include.mjs';
 import {
@@ -257,6 +260,21 @@ async function runWizard(cli) {
   if (cli.dryRun) installArgs.push('--dry-run');
   if (existing) installArgs.push('--force-philosophy');
 
+  let installCwd = KIT_ROOT;
+  let kitRootForInstall = KIT_ROOT;
+  if (submodulePathExists(targetRoot, DEFAULT_KIT_SUBMODULE_PATH)) {
+    try {
+      const resolved = resolveKitRoot({ target: targetRoot, allowScriptCwd: false });
+      kitRootForInstall = resolved.root;
+      installCwd = resolved.root;
+      console.log('\nОбнаружен submodule kit — установка из ' + kitRootForInstall);
+    } catch {
+      /* fallback KIT_ROOT */
+    }
+  }
+  installArgs[0] = path.join(kitRootForInstall, 'scripts/install.mjs');
+  installArgs.push('--record-kit-source', '--kit-root', kitRootForInstall);
+
   console.log('\n--- Итого ---');
   console.log(`  Проект:     ${targetRoot}`);
   console.log(`  Имя:        ${projectName}`);
@@ -276,7 +294,7 @@ async function runWizard(cli) {
   }
 
   console.log('\nУстановка...\n');
-  const result = spawnSync(process.execPath, installArgs, { stdio: 'inherit', cwd: KIT_ROOT });
+  const result = spawnSync(process.execPath, installArgs, { stdio: 'inherit', cwd: installCwd });
   if (result.status !== 0) {
     process.exit(result.status ?? 1);
   }

@@ -19,7 +19,9 @@ function main() {
     console.error('No scored results. Run score-transcript.mjs first.');
     process.exit(1);
   }
-  const files = fs.readdirSync(SCORED_DIR).filter((f) => f.endsWith('.json'));
+  const files = fs
+    .readdirSync(SCORED_DIR)
+    .filter((f) => f.endsWith('.json') && !f.startsWith('_sample'));
   const rows = files.map((f) => JSON.parse(fs.readFileSync(path.join(SCORED_DIR, f), 'utf8')));
 
   const byArm = new Map();
@@ -28,7 +30,9 @@ function main() {
     byArm.get(r.arm).push(r);
   }
 
-  const lines = ['arm,task_id,total,success,ttfhf,unscoped_grep,map_first,detour_legacy'];
+  const lines = [
+    'arm,task_id,total,success,ttfhf,unscoped_grep,map_first,detour_legacy,context_tokens',
+  ];
   for (const r of rows) {
     lines.push(
       [
@@ -40,6 +44,7 @@ function main() {
         r.metrics?.unscopedGrepCount ?? '',
         r.metrics?.mapFirst ? 1 : 0,
         r.metrics?.detourLegacy ? 1 : 0,
+        r.metrics?.contextTokensTotal ?? r.metrics?.estimatedContextTokens ?? '',
       ].join(','),
     );
   }

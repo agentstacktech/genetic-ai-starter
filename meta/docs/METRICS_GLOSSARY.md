@@ -1,6 +1,6 @@
 # Metrics glossary — benchmark harness
 
-**SoT (machine):** [metrics.snapshot.json](metrics.snapshot.json) · **Detail:** [benchmarks/results/ANALYSIS.md](../../benchmarks/results/ANALYSIS.md) · **Scorer:** `1.1.1`
+**SoT (machine):** [metrics.snapshot.json](metrics.snapshot.json) · **Detail:** [benchmarks/results/ANALYSIS.md](../../benchmarks/results/ANALYSIS.md) · **Scorer:** `1.2.1`
 
 ## Genes
 
@@ -31,12 +31,12 @@ Per task, sum of rubric dimensions (max 10). **Success** = total ≥ 6.
 |--------|------------|-----------------|
 | `bare` | Fixture + one-paragraph README | Empty repo |
 | `readme_tree` | OSS-style README tree | — |
-| `agents_md` | [agents.md.only](../../benchmarks/baselines/agents.md.only) + **optimistic** policy transcripts | Your single `AGENTS.md` file alone |
-| `agents_md_weak` | Same file + **pessimistic** transcripts (grep, sed, no map maintenance) | Failed agent session |
+| `agents_md` | [agents.md.only](../../benchmarks/baselines/agents.md.only) + **optimistic** policy transcripts | High median score, **low** map-first (genetic); not production AGENTS alone |
+| `agents_md_weak` | Same file + **pessimistic** transcripts (grep, sed, no map maintenance) | Lower bound for same AGENTS file |
 | `generic_cursorrules` | cursor.directory-style rules | — |
 | `kit_minimal` | `install --profile minimal` on fixture | `agents_md` arm |
 | `kit_standard` | standard + shop map overlay | — |
-| `kit_standard_indexed` | standard + pre-filled `AI_INDEX.md` | Always better median (see paradox) |
+| `kit_standard_indexed` | standard + pre-filled `AI_INDEX.md` | Higher map-first and success on discovery |
 
 **Install profiles vs arms:** [PROFILE_COMPARISON.md](PROFILE_COMPARISON.md) § Benchmark arms vs install profiles.
 
@@ -44,13 +44,17 @@ Per task, sum of rubric dimensions (max 10). **Success** = total ≥ 6.
 
 | Metric | Definition |
 |--------|------------|
-| **Median score** | Median of 11 synthetic tasks (T01–T11) per arm |
+| **Median score** | Median task score (0–10) over 14 synthetic tasks (T01–T14) per arm |
 | **Success rate** | % tasks with score ≥ 6 |
 | **Map-first (any)** | `AGENTS.md` or `README` or genetic map before first grep |
 | **Map-first (genetic)** | `AI_NAVIGATION_MAP`, `GENE_COMPRESSION_MAP`, or `AI_INDEX.md` before grep |
 | **Unscoped grep** | Heuristic count of repo-wide search in transcript |
-| **Median tokens (est.)** | Scorer proxy: unscoped×8k + map×2k + tools×4k |
+| **Median context tokens** | Step model v1.2.1 — fixture-calibrated reads + grep pools |
 | **TTFHF** | Tool-call proxy before first gold file |
+
+## Agent floor (weak agent vs kit)
+
+Harness models **weak navigation behavior** as arm `agents_md_weak` (grep, sed, no map maintenance). Same discipline **with** Navigation OS (`kit_standard_indexed`): median **2.5 → 9**, success **0% → 100%**, unscoped grep **16 → 0**. Use this when explaining “cheap model + kit” — not as proof on creative/architecture tasks. Narrative: [AGENT_FLOOR.md](AGENT_FLOOR.md) · [AGENT_FLOOR_ru.md](AGENT_FLOOR_ru.md).
 
 ## Primary KPIs (use in README)
 
@@ -59,22 +63,19 @@ Prefer **task-level deltas** over median alone:
 | Task | bare | agents_md | agents_md_weak | kit_standard | kit + indexes |
 |------|------|-----------|----------------|--------------|---------------|
 | T04 bulk sed | 2 | 9 | 2 | 8 | 8 |
-| T05 maintenance | 4 | 6 | 4 | **10** | 4* |
-| T07 legacy trap | 1 | 9 | 1 | 5 | 7 |
+| T05 maintenance | 4 | 6 | 4 | **10** | **10** |
+| T07 legacy trap | 1 | 9 | 1 | 5 | **7** |
 | T08 catalog bug | 7 | 5 | 4 | 7 | **10** |
 
-\*Indexed arm T05 transcript in harness does not repeat full maintenance anchors — see paradox below.
+**Headline vs bare (synthetic, scorer 1.2.1):** median +2.5 (standard) / +3.5 (indexed) · unscoped grep −17/−18 · T05 +6 · T04 +6 · T08 +3 (indexed).
 
-**Headline vs bare (synthetic, scorer 1.1.1):** median +2 · unscoped grep −12 · T05 +6 · T04 +6.
+## Token model (scorer 1.2.1)
 
-## Paradox: indexed median 7 < standard 8
+**Field:** `contextTokensTotal` — step sum (fixture reads + grep pools scaled to fixture size, v1.2.1). See [TOKEN_REPORT.md](../../benchmarks/results/TOKEN_REPORT.md) · [TOKEN_ECONOMICS_ru.md](TOKEN_ECONOMICS_ru.md).
 
-Pre-filled indexes **raise** genetic map-first (73% vs 36%) and **lower** estimated tokens, but **median** can drop when:
+**Do not** compare kit_standard vs kit_standard_indexed as winner/loser on tokens alone — medians can be within ~10%; compare **vs bare** on discovery tasks (T02/T08/T12).
 
-- T05 transcript assumes index already exists (fewer maintenance keywords → lower outcome).
-- T01/T11 add index reads without score gains on simple hits.
-
-**Recommendation:** cite **T08 = 10** and **map-first (genetic) 73%** for indexed arm, not median alone.
+**kit + indexes** (14 tasks, synthetic): higher median **score** and **map-first (genetic)** when indexes are pre-filled; token savings vs bare come mainly from **avoiding unscoped grep**, not from halving tokens between map and index arms.
 
 ## Paradox: median ≠ success rate
 
@@ -85,7 +86,7 @@ Pre-filled indexes **raise** genetic map-first (73% vs 36%) and **lower** estima
 | Mode | Source | Use |
 |------|--------|-----|
 | **Harness v1 (committed)** | `run-matrix.mjs` synthetic policy | CI regression, README numbers |
-| **Manual v2** | Human Cursor export → scorer | Marketing proof — [MANUAL_TRACK.md](MANUAL_TRACK.md) |
+| **Manual v2** | Human Cursor export → scorer | [benchmarks/METHODOLOGY.md](../../benchmarks/METHODOLOGY.md) § Manual validation |
 
 ## Limitations
 

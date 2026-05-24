@@ -1,0 +1,9 @@
+# Append to .github/dependabot.yml (git submodules)
+version: 2
+updates:
+  - package-ecosystem: gitsubmodule
+    directory: /
+    schedule:
+      interval: weekly
+    allow:
+      - dependency-name: genetic-ai-starter

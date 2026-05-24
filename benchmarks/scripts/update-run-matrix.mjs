@@ -17,7 +17,22 @@ const ARMS = [
   'kit_standard',
   'kit_standard_indexed',
 ];
-const SYNTHETIC = ['T01', 'T02', 'T03', 'T04', 'T05', 'T06', 'T07', 'T08', 'T09', 'T10', 'T11'];
+const SYNTHETIC = [
+  'T01',
+  'T02',
+  'T03',
+  'T04',
+  'T05',
+  'T06',
+  'T07',
+  'T08',
+  'T09',
+  'T10',
+  'T11',
+  'T12',
+  'T13',
+  'T14',
+];
 const SMOKE_ARMS = ['bare', 'kit_standard'];
 const SMOKE = ['S01', 'S02', 'S03', 'S04'];
 
@@ -37,7 +52,7 @@ const lines = [
   '',
   'Mark `[x]` when `results/raw/<arm>__<task>__run1.txt` exists and scored.',
   '',
-  '## Synthetic (11 tasks × 7 arms)',
+  '## Synthetic (14 tasks × 8 arms)',
   '',
   '| Task | ' + ARMS.join(' | ') + ' |',
   '|------|' + ARMS.map(() => '------').join('|') + '|',

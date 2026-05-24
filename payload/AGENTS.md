@@ -58,6 +58,6 @@ If **~10+ integration points** or repeated discovery cost — mandatory map Tier
 
 ## Kit metadata
 
-Installed via **genetic-ai-starter** (tracks AgentStack platform version). Lock file: `.genetic-ai/kit.lock.json`.
+Installed via **genetic-ai-starter** (tracks AgentStack platform version). Lock file: `.genetic-ai/kit.lock.json`. Kit narrative index (maintainers): https://github.com/agentstacktech/genetic-ai-starter/blob/main/meta/docs/DOC_HUB.md
 
 **Repair / upgrade / health:** [docs/ai/OPERATIONS.md](docs/ai/OPERATIONS.md)

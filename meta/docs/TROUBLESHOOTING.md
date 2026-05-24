@@ -28,12 +28,22 @@
 | `.cursorrules.fragment.md` in target | Old install | Delete file; content is in `.cursorrules` |
 | Skills not in project | Used `--skills global` | Re-install without flag or copy from `~/.cursor/skills/` |
 
+## Submodule / kit root
+
+| Symptom | Cause | Fix |
+|---------|--------|-----|
+| `tools/genetic-ai-starter` empty | Submodule not initialized | `git submodule update --init --recursive` |
+| `Cannot find module ... bootstrap-standard.mjs` | No kit on disk yet | `node -e "fetch(...)"` path: run [`remote-bootstrap.mjs`](https://github.com/agentstacktech/genetic-ai-starter/blob/main/scripts/remote-bootstrap.mjs) or `git submodule add` per [INTEGRATION_MODES.md](INTEGRATION_MODES.md) |
+| Doctor: submodule drift | HEAD ≠ `kitSource.ref` in lock | `node tools/genetic-ai-starter/scripts/upgrade.mjs --target . --sync-submodule` |
+| Wrong kit resolved | Multiple kits / stale lock | Set `GENETIC_AI_KIT_ROOT` or `node .../doctor.mjs --kit-root <path>` |
+
 ## Version / lock
 
 | Symptom | Cause | Fix |
 |---------|--------|-----|
 | No `kit.lock.json` | Install never succeeded | Complete install with `--strict` |
 | Wrong version in lock | Installed with old kit | `upgrade.mjs` after updating kit folder |
+| `lockSchemaVersion` missing | Pre–KIP v1 lock | `node <kit>/scripts/migrate-kit-lock.mjs --target .` |
 
 ## AgentStack extension
 

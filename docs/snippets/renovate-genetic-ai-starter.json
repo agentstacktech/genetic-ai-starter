@@ -1,0 +1,12 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base"],
+  "enabledManagers": ["git-submodule"],
+  "packageRules": [
+    {
+      "matchFileNames": [".gitmodules"],
+      "matchPackageNames": ["genetic-ai-starter"],
+      "groupName": "genetic-ai-starter submodule"
+    }
+  ]
+}

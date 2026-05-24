@@ -33,6 +33,7 @@ Non-interactive: `node scripts/init.mjs --yes --target <path> --profile standard
 
 | Layout | Kit path example | Version source |
 |--------|------------------|----------------|
+| **Submodule (recommended)** | `tools/genetic-ai-starter` in your repo → [INTEGRATION_MODES.md](INTEGRATION_MODES.md) | `kit.lock.json` + tag `genetic-ai-starter-v*` |
 | **Inside platform monorepo** | Clone [agentstacktech/AgentStack](https://github.com/agentstacktech/AgentStack) → `genetic-ai-starter/` | `shared/constants.py` |
 | **Standalone / public kit** | Clone [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter) or `npx @agentstack/genetic-ai-starter` | `PLATFORM_VERSION` + `KIT_MANIFEST.json` |
 
@@ -142,16 +143,6 @@ Consumer copy in target: `docs/ai/OPERATIONS.md`.
 | **Uninstall** | `node <kit>/scripts/uninstall.mjs --target <project>` |
 
 Windows repair: `repair.cmd <project>` or `install.cmd` with repair via `repair.mjs`
-
----
-
-## Verify kit before shipping changes (maintainers)
-
-```bash
-node genetic-ai-starter/scripts/validate-kit.mjs
-node genetic-ai-starter/tests/install.test.mjs
-genetic-ai-starter\scripts\verify-install.cmd
-```
 
 ---
 

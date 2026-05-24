@@ -11,6 +11,7 @@ const KIT_ROOT = path.resolve(__dirname, '..');
 const RESULTS = path.join(KIT_ROOT, 'benchmarks/results');
 const CSV = path.join(RESULTS, 'summary.csv');
 const OUT = path.join(KIT_ROOT, 'meta/docs/metrics.snapshot.json');
+const RUN_META = path.join(RESULTS, 'run-meta.json');
 
 function median(nums) {
   if (!nums.length) return null;
@@ -42,6 +43,7 @@ function main() {
       taskId,
       total: Number(r.total),
       success: Number(r.total) >= 6,
+      contextTokens: r.context_tokens ? Number(r.context_tokens) : null,
     });
   }
 
@@ -51,6 +53,9 @@ function main() {
       medianScore: median(list.map((x) => x.total)),
       successRate: list.filter((x) => x.success).length / list.length,
       taskCount: list.length,
+      medianContextTokens: median(
+        list.map((x) => x.contextTokens).filter((n) => n != null && !Number.isNaN(n)),
+      ),
     };
   }
 
@@ -59,30 +64,60 @@ function main() {
       Number(
         rows.find((r) => r.arm === arm && (r.task_id || r.task) === tid)?.total ?? 0,
       );
-    return { bare: get('bare'), agents_md: get('agents_md'), agents_md_weak: get('agents_md_weak'), kit_standard: get('kit_standard'), kit_standard_indexed: get('kit_standard_indexed') };
+    const getTok = (arm) => {
+      const v = rows.find((r) => r.arm === arm && (r.task_id || r.task) === tid)
+        ?.context_tokens;
+      return v ? Number(v) : null;
+    };
+    return {
+      bare: get('bare'),
+      agents_md: get('agents_md'),
+      agents_md_weak: get('agents_md_weak'),
+      kit_standard: get('kit_standard'),
+      kit_standard_indexed: get('kit_standard_indexed'),
+      tokens: {
+        bare: getTok('bare'),
+        kit_standard: getTok('kit_standard'),
+        kit_standard_indexed: getTok('kit_standard_indexed'),
+      },
+    };
   };
+
+  let scorerVersion = '1.2.0';
+  if (fs.existsSync(RUN_META)) {
+    scorerVersion = JSON.parse(fs.readFileSync(RUN_META, 'utf8')).scorerVersion || scorerVersion;
+  }
 
   const snapshot = {
     generatedAt: new Date().toISOString(),
-    scorerVersion: '1.1.1',
+    scorerVersion,
     executionMode: 'synthetic_policy',
     platformVersion: '0.4.11',
+    tokenModel: 'step-based v1.2.1 (fixture-calibrated grep pools) — see benchmarks/results/TOKEN_REPORT.md',
     arms,
     headlineDeltas: {
       T04: taskDelta('T04'),
       T05: taskDelta('T05'),
       T07: taskDelta('T07'),
       T08: taskDelta('T08'),
+      T12: taskDelta('T12'),
     },
     primaryKpi: {
       kit_standard_vs_bare_medianDelta: (arms.kit_standard?.medianScore ?? 0) - (arms.bare?.medianScore ?? 0),
-      kit_standard_vs_agents_md_weak_medianDelta:
-        (arms.kit_standard?.medianScore ?? 0) - (arms.agents_md_weak?.medianScore ?? 0),
-      unscopedGrep_bare: 13,
-      unscopedGrep_kit_standard: 1,
+      kit_standard_indexed_vs_bare_medianDelta:
+        (arms.kit_standard_indexed?.medianScore ?? 0) - (arms.bare?.medianScore ?? 0),
+      kit_standard_indexed_vs_bare_tokenMedianDelta:
+        (arms.bare?.medianContextTokens ?? 0) - (arms.kit_standard_indexed?.medianContextTokens ?? 0),
+      tokenNote: 'Fixture-calibrated grep pools; shop-api ~6KB — see meta/docs/TOKEN_ECONOMICS_ru.md',
+      unscopedGrep_bare: rows
+        .filter((r) => r.arm === 'bare' && /^T/.test(r.task_id))
+        .reduce((a, r) => a + Number(r.unscoped_grep || 0), 0),
+      unscopedGrep_kit_standard_indexed: rows
+        .filter((r) => r.arm === 'kit_standard_indexed' && /^T/.test(r.task_id))
+        .reduce((a, r) => a + Number(r.unscoped_grep || 0), 0),
     },
     readmeFootnote:
-      'agents_md arm = optimistic policy transcripts + community AGENTS file; agents_md_weak = pessimistic. Install profile minimal includes rules+stub map, not equivalent to either arm.',
+      'agents_md arm = optimistic policy transcripts + community AGENTS file; agents_md_weak = pessimistic. Token column = step model, not API billing. Compare kit vs bare, not standard vs indexed as competitors.',
   };
 
   fs.writeFileSync(OUT, JSON.stringify(snapshot, null, 2));

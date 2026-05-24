@@ -1,5 +1,7 @@
 # Community
 
+**RU:** [COMMUNITY_ru.md](COMMUNITY_ru.md)
+
 ## What we ship (OSS bundle)
 
 - Install toolchain: `SETUP.cmd`, `init.mjs`, `install` / `repair` / `upgrade` / `doctor`
@@ -32,7 +34,7 @@ See installed `docs/ai/OPERATIONS.md`.
 
 ## Easter eggs
 
-Some installs hide optional community content. Try `doctor --beacon` after a successful install — maintainer details in [meta/docs/EASTER_EGGS.md](meta/docs/EASTER_EGGS.md) (spoilers).
+Some installs hide optional community content. Try `doctor --beacon` after a successful install (easter-egg details are documented for monorepo maintainers only, not in the public mirror).
 
 ## Values
 

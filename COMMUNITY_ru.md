@@ -1,5 +1,7 @@
 # Сообщество (RU)
 
+**EN:** [COMMUNITY.md](COMMUNITY.md)
+
 ## Что в OSS-наборе
 
 - Установка: `SETUP.cmd`, `init.mjs`, `install` / `repair` / `doctor`
@@ -23,7 +25,7 @@
 
 ## Пасхалки
 
-`doctor --beacon` после успешной установки. Подробности для мейнтейнеров: [meta/docs/EASTER_EGGS.md](meta/docs/EASTER_EGGS.md).
+`doctor --beacon` после успешной установки (описание пасхалок — только в monorepo `docs/genetic-ai-starter-maintainers/`, не в публичном mirror).
 
 ## English
 

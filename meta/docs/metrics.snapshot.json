@@ -1,48 +1,57 @@
 {
-  "generatedAt": "2026-05-24T04:17:29.604Z",
-  "scorerVersion": "1.1.1",
+  "generatedAt": "2026-05-24T12:34:29.824Z",
+  "scorerVersion": "1.2.1",
   "executionMode": "synthetic_policy",
   "platformVersion": "0.4.11",
+  "tokenModel": "step-based v1.2.1 (fixture-calibrated grep pools) — see benchmarks/results/TOKEN_REPORT.md",
   "arms": {
     "agents_md_weak": {
-      "medianScore": 3,
+      "medianScore": 2.5,
       "successRate": 0,
-      "taskCount": 11
+      "taskCount": 14,
+      "medianContextTokens": 1748
     },
     "agents_md": {
       "medianScore": 8,
-      "successRate": 0.9090909090909091,
-      "taskCount": 11
+      "successRate": 0.8571428571428571,
+      "taskCount": 14,
+      "medianContextTokens": 2241.5
     },
     "bare": {
-      "medianScore": 6,
-      "successRate": 0.6363636363636364,
-      "taskCount": 11
+      "medianScore": 5.5,
+      "successRate": 0.5,
+      "taskCount": 14,
+      "medianContextTokens": 2264.5
     },
     "generic_cursorrules": {
       "medianScore": 8,
-      "successRate": 0.6363636363636364,
-      "taskCount": 11
+      "successRate": 0.7142857142857143,
+      "taskCount": 14,
+      "medianContextTokens": 761.5
     },
     "kit_minimal": {
-      "medianScore": 7,
-      "successRate": 0.6363636363636364,
-      "taskCount": 11
+      "medianScore": 7.5,
+      "successRate": 0.6428571428571429,
+      "taskCount": 14,
+      "medianContextTokens": 933
     },
     "kit_standard_indexed": {
-      "medianScore": 7,
-      "successRate": 0.7272727272727273,
-      "taskCount": 11
+      "medianScore": 9,
+      "successRate": 1,
+      "taskCount": 14,
+      "medianContextTokens": 1125
     },
     "kit_standard": {
       "medianScore": 8,
-      "successRate": 0.9166666666666666,
-      "taskCount": 12
+      "successRate": 0.9285714285714286,
+      "taskCount": 14,
+      "medianContextTokens": 1050.5
     },
     "readme_tree": {
-      "medianScore": 8,
-      "successRate": 0.7272727272727273,
-      "taskCount": 11
+      "medianScore": 7,
+      "successRate": 0.6428571428571429,
+      "taskCount": 14,
+      "medianContextTokens": 1023
     }
   },
   "headlineDeltas": {
@@ -51,35 +60,69 @@
       "agents_md": 9,
       "agents_md_weak": 2,
       "kit_standard": 8,
-      "kit_standard_indexed": 8
+      "kit_standard_indexed": 8,
+      "tokens": {
+        "bare": 780,
+        "kit_standard": 600,
+        "kit_standard_indexed": 600
+      }
     },
     "T05": {
       "bare": 4,
       "agents_md": 6,
       "agents_md_weak": 4,
       "kit_standard": 10,
-      "kit_standard_indexed": 4
+      "kit_standard_indexed": 10,
+      "tokens": {
+        "bare": 600,
+        "kit_standard": 1730,
+        "kit_standard_indexed": 1730
+      }
     },
     "T07": {
       "bare": 1,
       "agents_md": 9,
       "agents_md_weak": 1,
       "kit_standard": 5,
-      "kit_standard_indexed": 7
+      "kit_standard_indexed": 7,
+      "tokens": {
+        "bare": 2267,
+        "kit_standard": 923,
+        "kit_standard_indexed": 950
+      }
     },
     "T08": {
       "bare": 7,
       "agents_md": 5,
       "agents_md_weak": 4,
       "kit_standard": 7,
-      "kit_standard_indexed": 10
+      "kit_standard_indexed": 10,
+      "tokens": {
+        "bare": 2287,
+        "kit_standard": 1117,
+        "kit_standard_indexed": 950
+      }
+    },
+    "T12": {
+      "bare": 4,
+      "agents_md": 7,
+      "agents_md_weak": 1,
+      "kit_standard": 8,
+      "kit_standard_indexed": 10,
+      "tokens": {
+        "bare": 3734,
+        "kit_standard": 1078,
+        "kit_standard_indexed": 950
+      }
     }
   },
   "primaryKpi": {
-    "kit_standard_vs_bare_medianDelta": 2,
-    "kit_standard_vs_agents_md_weak_medianDelta": 5,
-    "unscopedGrep_bare": 13,
-    "unscopedGrep_kit_standard": 1
+    "kit_standard_vs_bare_medianDelta": 2.5,
+    "kit_standard_indexed_vs_bare_medianDelta": 3.5,
+    "kit_standard_indexed_vs_bare_tokenMedianDelta": 1139.5,
+    "tokenNote": "Fixture-calibrated grep pools; shop-api ~6KB — see meta/docs/TOKEN_ECONOMICS_ru.md",
+    "unscopedGrep_bare": 18,
+    "unscopedGrep_kit_standard_indexed": 0
   },
-  "readmeFootnote": "agents_md arm = optimistic policy transcripts + community AGENTS file; agents_md_weak = pessimistic. Install profile minimal includes rules+stub map, not equivalent to either arm."
+  "readmeFootnote": "agents_md arm = optimistic policy transcripts + community AGENTS file; agents_md_weak = pessimistic. Token column = step model, not API billing. Compare kit vs bare, not standard vs indexed as competitors."
 }

@@ -30,7 +30,22 @@ const ARMS = [
   'kit_standard_indexed',
 ];
 
-const SYNTHETIC = ['T01', 'T02', 'T03', 'T04', 'T05', 'T06', 'T07', 'T08', 'T09', 'T10', 'T11'];
+const SYNTHETIC = [
+  'T01',
+  'T02',
+  'T03',
+  'T04',
+  'T05',
+  'T06',
+  'T07',
+  'T08',
+  'T09',
+  'T10',
+  'T11',
+  'T12',
+  'T13',
+  'T14',
+];
 const SMOKE = ['S01', 'S02', 'S03', 'S04'];
 const SMOKE_ARMS = ['bare', 'kit_standard'];
 
@@ -61,6 +76,12 @@ Read src/catalog/listFilter.ts — fix filter logic.`,
     T09: `Read src/webhooks/signing.ts — HMAC SHA-256 signing with secret.`,
     T10: `Read src/auth/handler.ts by mistake, then src/auth/sessionMiddleware.ts — add X-Request-Id via setHeader.`,
     T11: `Read docs/api/public.md — add rate limit note for products API.`,
+    T12: `rg webhook src — unscoped.
+rg signing src
+Read src/webhooks/delivery.ts only.`,
+    T13: `Update README with integrations folder.`,
+    T14: `rg listen src — unscoped.
+Read src/tools/devServer.ts as main entry.`,
   },
   readme_tree: {
     T01: `Read README.md layout — src/server.ts listed for HTTP.
@@ -76,6 +97,9 @@ Read src/catalog/listFilter.ts.`,
     T09: `Read src/webhooks/signing.ts — signs payloads with HMAC.`,
     T10: `Read src/auth/sessionMiddleware.ts — patch setHeader X-Request-Id.`,
     T11: `Update docs/api/public.md rate limit section.`,
+    T12: `README webhooks — Read src/webhooks/delivery.ts only.`,
+    T13: `README integrations section.`,
+    T14: `README server.ts and devServer — read src/server.ts.`,
   },
   agents_md: {
     T01: `Read AGENTS.md — src/server.ts likely main entry.
@@ -91,6 +115,9 @@ Read src/server.ts.`,
     T09: `Read src/webhooks/signing.ts — HMAC sign helper.`,
     T10: `Read src/auth/sessionMiddleware.ts — add header.`,
     T11: `Read docs/api/public.md — update rate limit docs.`,
+    T12: `AGENTS.md webhooks. Read src/webhooks/delivery.ts — missed signing.ts.`,
+    T13: `Document integrations in AGENTS.md only.`,
+    T14: `AGENTS.md → src/server.ts — production vs dev explained.`,
   },
   agents_md_weak: {
     T01: `Read AGENTS.md layout — try src/index.ts from habit.
@@ -111,6 +138,9 @@ Read src/catalog/listFilter.ts.`,
     T09: `Read src/webhooks/signing.ts.`,
     T10: `Read src/auth/handler.ts.`,
     T11: `README only — skip docs/api/public.md.`,
+    T12: `rg webhook src — unscoped. Read delivery.ts.`,
+    T13: `README integrations line.`,
+    T14: `rg server src — read devServer.ts.`,
   },
   generic_cursorrules: {
     T01: `Read .cursorrules — check package.json for entry.
@@ -125,6 +155,9 @@ Read src/server.ts.`,
     T09: `Read src/webhooks/signing.ts — HMAC signing.`,
     T10: `src/auth/sessionMiddleware.ts — setHeader X-Request-Id.`,
     T11: `docs/api/public.md updated.`,
+    T12: `Read src/webhooks/delivery.ts and src/webhooks/signing.ts.`,
+    T13: `Tier 1 row + AI_INDEX for integrations; run validate-kit.`,
+    T14: `package.json scripts — src/server.ts production, devServer dev-only.`,
   },
   kit_minimal: {
     T01: `Read AGENTS.md — read order mentions navigation.
@@ -141,6 +174,9 @@ Read src/auth/sessionMiddleware.ts.`,
     T09: `Read src/webhooks/signing.ts — HMAC.`,
     T10: `src/auth/sessionMiddleware.ts patch.`,
     T11: `docs/api/public.md.`,
+    T12: `Map shop.webhooks.gen1 → delivery.ts + signing.ts.`,
+    T13: `AI_NAVIGATION_MAP Tier 1 integrations + AI_INDEX.md; doctor before release.`,
+    T14: `Map Tier 0 shop.app.root.gen1 vs shop.app.dev.gen1 — src/server.ts canonical production.`,
   },
   kit_standard: {
     T01: `Read docs/ai/AI_NAVIGATION_MAP.md — Tier 0 shop.app.root.gen1 → src/server.ts.
@@ -155,20 +191,26 @@ Read src/server.ts (not src/tools/devServer.ts).`,
     T09: `Read src/webhooks/signing.ts — HMAC SHA-256 signPayload.`,
     T10: `Map auth hot file src/auth/sessionMiddleware.ts — X-Request-Id setHeader.`,
     T11: `Map → docs/api/public.md rate limit.`,
+    T12: `AI_NAVIGATION_MAP shop.webhooks.gen1. Read src/webhooks/delivery.ts and src/webhooks/signing.ts.`,
+    T13: `Tier 1 row src/integrations/ in AI_NAVIGATION_MAP.md, src/integrations/AI_INDEX.md, run doctor + validate-kit before release.`,
+    T14: `AI_NAVIGATION_MAP Tier 0: shop.app.root.gen1 src/server.ts production; shop.app.dev.gen1 dev-only — not canonical for prod.`,
   },
   kit_standard_indexed: {
-    T01: `Read docs/ai/AI_NAVIGATION_MAP.md → src/auth/AI_INDEX.md not needed; Tier 0 src/server.ts.
-Read src/server.ts.`,
+    T01: `Read docs/ai/AI_NAVIGATION_MAP.md — Tier 0 shop.app.root.gen1 → src/server.ts.
+Read src/server.ts (production entry, not devServer).`,
     T02: `Read src/auth/AI_INDEX.md hot files → src/auth/sessionMiddleware.ts.`,
     T03: `Read src/webhooks/AI_INDEX.md → delivery.ts + src/lib/httpClient.ts.`,
     T04: `controlled_changes.gen1 — refuse bulk sed; reviewable patches.`,
-    T05: `AI_INDEX already exists for billing; suggest updating map row if new modules added.`,
+    T05: `New modules under src/billing/: update Tier 1 row in AI_NAVIGATION_MAP.md and extend src/billing/AI_INDEX.md hot files.`,
     T06: `GENE_COMPRESSION_MAP.md → map Tier 1 rows → sessionMiddleware.ts + docs/api/public.md.`,
     T07: `src/billing/AI_INDEX.md says legacy is decoy → src/billing/invoices.ts.`,
     T08: `src/catalog/AI_INDEX.md → src/catalog/listFilter.ts immediately.`,
-    T09: `src/webhooks/AI_INDEX.md → signing.ts explained (HMAC).`,
-    T10: `src/auth/AI_INDEX.md → sessionMiddleware.ts header patch.`,
+    T09: `Read src/webhooks/AI_INDEX.md → src/webhooks/signing.ts — HMAC SHA-256 signPayload explained.`,
+    T10: `src/auth/AI_INDEX.md hot file src/auth/sessionMiddleware.ts — add X-Request-Id setHeader.`,
     T11: `docs/api/public.md + catalog index reference.`,
+    T12: `src/webhooks/AI_INDEX.md → src/webhooks/delivery.ts and src/webhooks/signing.ts (HMAC secret).`,
+    T13: `Update AI_NAVIGATION_MAP.md Tier 1 integrations, add src/integrations/AI_INDEX.md, run doctor and validate-kit.`,
+    T14: `AI_NAVIGATION_MAP Tier 0 traps: production src/server.ts, dev-only src/tools/devServer.ts — canonical prod vs dev explained.`,
   },
   bare_smoke: {
     S01: `rg discovery:full agentstack-core — broad search.
@@ -245,7 +287,7 @@ function main() {
     JSON.stringify(
       {
         benchmarkVersion: '1',
-        scorerVersion: '1.1.1',
+        scorerVersion: '1.2.1',
         executionMode: 'synthetic_policy',
         platformVersion: '0.4.11',
         model: 'composer-agent-matrix-v1',
@@ -268,6 +310,10 @@ function main() {
   const matrix = path.join(__dirname, 'update-run-matrix.mjs');
   spawnSync(process.execPath, [analyze], { stdio: 'inherit' });
   spawnSync(process.execPath, [matrix], { stdio: 'inherit' });
+  const tokenReport = path.join(__dirname, 'token-report.mjs');
+  if (fs.existsSync(tokenReport)) {
+    spawnSync(process.execPath, [tokenReport], { stdio: 'inherit' });
+  }
   const exportSnap = path.join(KIT_ROOT, 'scripts/export-metrics-snapshot.mjs');
   if (fs.existsSync(exportSnap)) {
     spawnSync(process.execPath, [exportSnap], { stdio: 'inherit', cwd: KIT_ROOT });

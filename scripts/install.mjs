@@ -15,8 +15,11 @@ import { installSkills } from './lib/install-skills.mjs';
 import { KIT_ROOT, EXTENSIONS_DIR, PAYLOAD_ROOT } from './lib/paths.mjs';
 import { substitute } from './lib/substitute-placeholders.mjs';
 import { readPlatformVersion, describePlatformVersionSource } from './lib/platform-version.mjs';
+import { readPlatformVersionForKitRoot } from './lib/read-platform-version-for-kit.mjs';
 import { resolvePhilosophyInstallOpts } from './lib/philosophy-state.mjs';
 import { applyGitignoreKit } from './lib/gitignore-kit.mjs';
+import { applyKitSourceToLock } from './lib/record-kit-source.mjs';
+import { LOCK_SCHEMA_VERSION } from './lib/kit-integration-constants.mjs';
 
 const NAV_EXTENSION_MARKER = '<!-- genetic-ai-extension:agentstack-nav -->';
 
@@ -33,6 +36,8 @@ function parseArgs(argv) {
     forcePhilosophy: false,
     skillsMode: 'project',
     gitignoreKit: 'none',
+    recordKitSource: false,
+    kitRoot: null,
   };
   for (let i = 2; i < argv.length; i++) {
     const a = argv[i];
@@ -55,7 +60,9 @@ function parseArgs(argv) {
         process.exit(1);
       }
       opts.gitignoreKit = mode;
-    } else if (a === '--help') {
+    } else if (a === '--record-kit-source') opts.recordKitSource = true;
+    else if (a === '--kit-root') opts.kitRoot = argv[++i];
+    else if (a === '--help') {
       console.log(`Usage: node install.mjs --target <path> [options]
   --profile minimal|standard|full|founder  (see meta/docs/PROFILE_COMPARISON.md)
   --project-name "Name"
@@ -64,7 +71,9 @@ function parseArgs(argv) {
   --dry-run --strict
   --merge-philosophy --force-philosophy
   --skills global|project (default: project)
-  --gitignore-kit full|none  (full: kit docs/rules not committed)`);
+  --gitignore-kit full|none  (full: kit docs/rules not committed)
+  --record-kit-source  (KIP v2 kitSource in lock)
+  --kit-root <path>  (kit used for install; default: script cwd kit)`);
       process.exit(0);
     }
   }
@@ -117,9 +126,13 @@ function applyExtension(targetRoot, extId, vars, { dryRun }) {
   return manifest;
 }
 
-function writeLock(targetRoot, opts, extensions, { dryRun }) {
-  const platformVersion = readPlatformVersion();
-  const lock = {
+function writeLock(targetRoot, opts, extensions, { dryRun, kitRootForRecord }) {
+  const platformVersion =
+    kitRootForRecord && opts.kitRoot
+      ? readPlatformVersionForKitRoot(kitRootForRecord)
+      : readPlatformVersion();
+  let lock = {
+    lockSchemaVersion: LOCK_SCHEMA_VERSION,
     kitId: 'genetic-ai-starter',
     kitVersion: platformVersion,
     platformVersionSource: describePlatformVersionSource(),
@@ -132,6 +145,12 @@ function writeLock(targetRoot, opts, extensions, { dryRun }) {
     installedAt: new Date().toISOString(),
     paths: { docsAi: 'docs/ai', philosophy: 'philosophy' },
   };
+  if (opts.recordKitSource && kitRootForRecord) {
+    lock = applyKitSourceToLock(lock, targetRoot, kitRootForRecord, { preferSubmodule: true });
+    const src = { ...lock.kitSource };
+    if (!src.url) delete src.url;
+    lock.kitSource = src;
+  }
   const lockDir = path.join(targetRoot, '.genetic-ai');
   if (!dryRun) {
     fs.mkdirSync(lockDir, { recursive: true });
@@ -225,7 +244,8 @@ function main() {
     extensions.push('agentstack');
   }
 
-  writeLock(targetRoot, opts, extensions, { dryRun: opts.dryRun });
+  const kitRootForRecord = opts.kitRoot ? path.resolve(opts.kitRoot) : KIT_ROOT;
+  writeLock(targetRoot, opts, extensions, { dryRun: opts.dryRun, kitRootForRecord });
 
   if (opts.gitignoreKit === 'full') {
     applyGitignoreKit(targetRoot, opts.profile, extensions, { dryRun: opts.dryRun });
@@ -243,7 +263,13 @@ function main() {
   if (!opts.dryRun) {
     const validate = spawnSync(
       process.execPath,
-      [path.join(__dirname, 'validate-installed.mjs'), '--target', targetRoot],
+      [
+        path.join(__dirname, 'validate-installed.mjs'),
+        '--target',
+        targetRoot,
+        '--kit-root',
+        kitRootForRecord,
+      ],
       { encoding: 'utf8' },
     );
     if (validate.status !== 0) {

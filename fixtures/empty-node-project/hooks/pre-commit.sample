@@ -1,0 +1,5 @@
+#!/bin/sh
+# Copy to .git/hooks/pre-commit or use with pre-commit framework
+if [ -f tools/genetic-ai-starter/scripts/doctor.mjs ]; then
+  node tools/genetic-ai-starter/scripts/doctor.mjs --target . || exit 1
+fi

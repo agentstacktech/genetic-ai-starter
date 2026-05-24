@@ -42,6 +42,6 @@ See [CHANGELOG.md](CHANGELOG.md) for release notes and [meta/docs/INSTALL.md](me
 
 ---
 
-## Open work (not version blockers)
+## Roadmap
 
-Tracked in [meta/docs/GAP_REGISTER.md](meta/docs/GAP_REGISTER.md) and [meta/docs/AUDIT_PLAN.md](meta/docs/AUDIT_PLAN.md): npm/template (G35), manual benchmark (G38), Copilot (G37), SDK automation (G40).
+Open kit work is tracked in GitHub Issues on [agentstacktech/genetic-ai-starter](https://github.com/agentstacktech/genetic-ai-starter/issues). Monorepo maintainers use [GAP_REGISTER.md](../docs/genetic-ai-starter-maintainers/GAP_REGISTER.md) (not in the public kit mirror).

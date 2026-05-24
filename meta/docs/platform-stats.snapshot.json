@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-05-24T12:34:31.678Z",
+  "platformVersion": "0.4.11",
+  "monorepoRoot": "C:\\Projects\\AgentStack",
+  "includeCardGame": false,
+  "counts": {
+    "philosophyGenes": 223,
+    "aiIndexFilesRepoTotal": 123,
+    "aiIndexFilesPlatform": 99,
+    "navigationMapTier1Tags": 269,
+    "kitPayloadGenes": 17,
+    "kitCursorRulesStandard": 5,
+    "kitCursorSkillsStandard": 5,
+    "benchmarkTasks": 14,
+    "benchmarkArms": 8
+  },
+  "kitHarness": {
+    "ref": "meta/docs/metrics.snapshot.json"
+  },
+  "readmeFootnote": "Platform scale ≠ harness shop-api scores. Regenerate: node scripts/export-platform-stats.mjs"
+}

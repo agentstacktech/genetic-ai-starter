@@ -45,7 +45,7 @@ Files under `payload/` are intended for **redistribution** under Apache-2.0:
 
 **Not redistributed** from the monorepo: platform runtime, patent export packages, proprietary gene manager tooling.
 
-Maintainers run [meta/docs/PREFLIGHT_CHECKLIST.md](meta/docs/PREFLIGHT_CHECKLIST.md) before each mirror release.
+Monorepo maintainers run [PREFLIGHT_CHECKLIST.md](../docs/genetic-ai-starter-maintainers/PREFLIGHT_CHECKLIST.md) before each mirror release (not in the public kit mirror).
 
 ## SPDX headers
 

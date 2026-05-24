@@ -1,89 +1,59 @@
 # Token economics — map-first navigation
 
-**RU:** [TOKEN_ECONOMICS_ru.md](TOKEN_ECONOMICS_ru.md) · **Metrics:** [metrics.snapshot.json](metrics.snapshot.json)
+**RU:** [TOKEN_ECONOMICS_ru.md](TOKEN_ECONOMICS_ru.md) · **Report:** [benchmarks/results/TOKEN_REPORT.md](../../benchmarks/results/TOKEN_REPORT.md)
 
-## Genes
-
-- `foundation.ai_gene_interface.gen1` — compression before opening many genes
-- `repo.navigation.map.gen1` · `repo.navigation.index.gen1`
-
-## Philosophy
-
-PHILOSOPHY_INDEX → AI Builder «Fewer steps, lower token use» (navigation layer parallel)
+**Genes:** `foundation.ai_gene_interface.gen1` · `repo.navigation.map.gen1` · `repo.navigation.index.gen1`
 
 ---
 
-## Problem: exploration loops
+## Context token model (step 1.2.1)
+
+Estimates **one agent session’s context load** from benchmark transcripts. Not Cursor API billing.
+
+**Code:** `benchmarks/scripts/lib/token-model.mjs`
+
+| Component | Rule |
+|-----------|------|
+| File read | `ceil(bytes/4) + 280` (fixture file size when present) |
+| Repo-wide `rg` | share of fixture text (55% if ≤40 files), cap 2,500 on small repos |
+| Scoped `rg` | 15% share, cap 1,200 |
+| Task prompt | 420 base |
+| Assistant line | 180 per transcript line |
+
+**shop-api fixture:** ~20 files, ~6.3 KB source (~1,577 tokens if the whole repo were read). One unscoped `rg` line ≈ **1,148** model tokens.
+
+**Large monorepo** (model caps, outside shop-api): up to **14,000** per bad repo-wide `rg`.
+
+### Harness medians (14 tasks, synthetic)
+
+| Arm | All tasks | Discovery only* |
+|-----|-----------|-----------------|
+| bare | **~2,265** | **~2,985** |
+| kit + indexes | **~1,125** | **~1,125** |
+
+\*T01–T03, T06–T08, T12, T14.
+
+Compare **kit vs bare** on discovery; map-only and indexed medians are similar (~1.05k vs ~1.13k).
+
+## Kit path
 
 ```
-tokens_exploration ≈ N_grep × (context_window + hit_snippets)
+prompt → AI_NAVIGATION_MAP → AI_INDEX (optional) → 1–2 hot files → patch
 ```
 
-Repo-wide grep in large trees repeatedly loads overlapping chunks — high variance, wrong-file risk.
-
-## Kit path cost model
-
-```
-tokens_kit ≈ tokens(AGENTS) + tokens(map_row) + tokens(AI_INDEX) + tokens(1–2 hot files)
-```
-
-Stable path: **one screen map** + **one index** + **target sources** — then optional scoped grep.
-
-## Worked example T02 (JWT)
-
-| Path | Steps | Order-of-magnitude tokens (est.) |
-|------|-------|----------------------------------|
-| bare | 4× unscoped `rg jwt` | 4 × ~8k = **32k** |
-| kit_standard | map row → `sessionMiddleware.ts` | ~2k + ~4k = **6k** |
-
-Harness: [BENEFITS_AND_METRICS.md](BENEFITS_AND_METRICS.md) T02.
-
-## Worked example T06 (multi-area)
-
-| Path | Gene files read | Tokens |
-|------|-----------------|--------|
-| Open all philosophy | ~17 files | High |
-| **Compression map** → 3 cluster genes → map | 3 + map | **~70% less gene prose** |
-
-## Comparison by method
-
-| Method | Typical path | Tokens | Structure |
-|--------|--------------|--------|-----------|
-| Repo-wide grep | N tool rounds | High | None |
-| Embedding RAG only | top-k chunks | Medium | Implicit, drifts |
-| README tree | README + guess | Medium | Flat |
-| Community AGENTS | AGENTS layout | Medium | No Tier 1 |
-| **Genetic kit** | map → index → 2 files | **Low stable** | Explicit lattice |
-| **Hybrid (recommended)** | kit + RAG on docs | Medium-low | Map for code, RAG for prose |
-
-## Hybrid stack (kit + RAG)
-
-- **Map/index** = *where* code lives (boundaries, hot files, legacy warnings).
-- **RAG** = *what text* matches a fuzzy question in docs/logs.
-- Do not replace Tier 1 rows with embeddings alone — indexes stay git-reviewable.
-
-## Gene compression
-
-Before opening parallel genes, use [GENE_COMPRESSION_MAP](../../payload/philosophy/genes/GENE_COMPRESSION_MAP.md) clusters (Nav, Engineering, Product).
-
-## Leading metrics
-
-Track weekly ([ROI_PLAYBOOK.md](ROI_PLAYBOOK.md)):
-
-- `estimatedContextTokens` from scorer (per task)
-- TTFHF tool-call proxy
-- Map-first **(genetic)** rate in PR summaries
-
-CLI: `node benchmarks/scripts/estimate-tokens.mjs --transcript path.txt`
+vs bare discovery: `prompt → rg src (~1.1k per line on shop-api) → extra reads`.
 
 ## When kit saves less
 
-Single-file CLI, throwaway spike, &lt;5 obvious modules — use **minimal** profile only ([ROI_PLAYBOOK.md](ROI_PLAYBOOK.md)).
+Single-file tools, rare edits, &lt;5 modules — **minimal** profile. See [ROI_PLAYBOOK.md](ROI_PLAYBOOK.md).
 
-## Patterns (roadmap)
+## Tools
 
-| Pattern | Kit application |
-|---------|-----------------|
-| RAPTOR-style summaries | `AI_INDEX.md` as subtree summary node |
-| Repo map / compass | hot files ≈ ranked entry points |
-| Lost-in-middle | short map/index at start of agent context |
+```bash
+node genetic-ai-starter/benchmarks/scripts/run-matrix.mjs
+node genetic-ai-starter/benchmarks/scripts/estimate-tokens.mjs --transcript path.txt
+```
+
+## Limits
+
+Synthetic harness policy — not production Cursor averages. Validate on your repo via [benchmarks/METHODOLOGY.md](../../benchmarks/METHODOLOGY.md) § Manual validation.

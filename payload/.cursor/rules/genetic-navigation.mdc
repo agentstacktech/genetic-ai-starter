@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Genetic navigation — {{PROJECT_NAME}}
 
-Land in the right files **before** blind repo-wide search.
+Land in the right files **before** blind repo-wide search — including on weaker models (map-first raises the engineering floor; kit narrative: `meta/docs/AGENT_FLOOR.md` upstream).
 
 **System doc:** `docs/ai/AI_INDEXING_SYSTEM.md` · **Registry:** `docs/ai/AI_NAVIGATION_MAP.md`
 

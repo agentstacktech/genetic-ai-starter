@@ -1,6 +1,6 @@
 {
   "benchmarkVersion": "1",
-  "scorerVersion": "1.1.1",
+  "scorerVersion": "1.2.1",
   "executionMode": "synthetic_policy",
   "platformVersion": "0.4.11",
   "model": "composer-agent-matrix-v1",
@@ -8,7 +8,7 @@
   "date": "2026-05-24",
   "operator": "run-matrix.mjs",
   "language": "ru",
-  "runsTotal": 96,
-  "completedAt": "2026-05-24T04:16:42.917Z",
+  "runsTotal": 120,
+  "completedAt": "2026-05-24T10:10:24.592Z",
   "notes": "Harness v1: synthetic policy transcripts (not manual Cursor exports). Scored JSON in results/scored/ (gitignored). Committed: RESULTS.md, ANALYSIS.md, summary.csv, metrics.snapshot.json, RUN_MATRIX.md."
 }

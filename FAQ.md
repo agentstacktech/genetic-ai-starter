@@ -23,17 +23,24 @@ Requires Node 18+.
 
 ## Benchmark numbers in README — what do they mean?
 
-Scores come from our **reproducible harness** on a reference API repo (`shop-api`, 11 tasks, 7 arms). Run the same matrix locally:
+**Task score (0–10):** sum of rubric dimensions per task (correct files, navigation path, scope, outcome, efficiency). **Success** = score ≥ 6. **Median** = middle value across 14 tasks — use with **success rate** and task table T04/T05/T13.
+
+Harness: `shop-api`, 14 tasks, scorer **1.2.1**, synthetic policy transcripts. Run locally:
 
 ```bash
 node benchmarks/scripts/prepare-all-arms.mjs --force
 node benchmarks/scripts/run-matrix.mjs
-node benchmarks/scripts/analyze-results.mjs
 ```
 
-**What the kit improves (scorer 1.1.1, vs bare):** unscoped grep **13→1**, map-first **(genetic) 0%→36%** ( **73%** with indexes), T04 **2→8**, T05 **4→10**, T08 indexed **10**. Median score may tie the **agents_md optimistic benchmark arm** — use **task deltas**, not median alone: [METRICS_GLOSSARY.md](meta/docs/METRICS_GLOSSARY.md). Pessimistic arm `agents_md_weak`: median **3**.
+**Why `agents_md` median looks high (8):** benchmark arm with **optimistic** transcripts, not your production agent. Map-first (genetic) is only **7%**; arm `agents_md_weak` (same AGENTS file, pessimistic transcripts) median **2.5**. Compare **kit + indexes**: success **100%**, map-first **86%**.
 
-**What we do not claim:** vendor certification from Cursor or model vendors — run the harness on **your** repo for your own baseline.
+**What kit improves vs bare:** T04 refusal **2→8**, T05 maintenance **4→10**, T13 release gate, T08 **10** with indexes. Primary narrative: [AI_RELEASE_AUTONOMY_ru.md](meta/docs/AI_RELEASE_AUTONOMY_ru.md). Metrics: [METRICS_GLOSSARY.md](meta/docs/METRICS_GLOSSARY.md).
+
+**What we do not claim:** Cursor/vendor certification — validate on **your** repo via [benchmarks/METHODOLOGY.md](benchmarks/METHODOLOGY.md) § Manual validation.
+
+## Can a cheap / weak agent match top models?
+
+**On repo-bound engineering tasks — often yes for stability, not for everything.** The kit raises the **floor**: harness arm `agents_md_weak` scores median **2.5**, **0%** success; **kit + indexes** scores median **9**, **100%** success on the same 14 tasks. That is not “mini = Opus on product design”; it is **map + genes + doctor** so weak agents stop grep/sed chaos and hit T04/T05/T13 consistently. Full narrative: [AGENT_FLOOR.md](meta/docs/AGENT_FLOOR.md) · RU: [AGENT_FLOOR_ru.md](meta/docs/AGENT_FLOOR_ru.md). Evidence table: [DOC_CLAIMS_AUDIT.md](meta/docs/DOC_CLAIMS_AUDIT.md).
 
 ## Easter eggs?
 

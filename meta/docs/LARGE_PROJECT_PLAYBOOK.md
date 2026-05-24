@@ -1,5 +1,7 @@
 # Large project playbook — rolling out Navigation OS
 
+**Why (problem + metrics):** [KILLER_FEATURE_LARGE_PROJECTS_ru.md](KILLER_FEATURE_LARGE_PROJECTS_ru.md) · [KILLER_FEATURE_LARGE_PROJECTS.md](KILLER_FEATURE_LARGE_PROJECTS.md)
+
 **Genes:** `repo.tooling.genetic_starter.gen1` · `repo.navigation.map.gen1` · `repo.navigation.index.gen1` · `foundation.time_decomposition.gen1`
 
 ## Phase 0 — Bootstrap (day 0)

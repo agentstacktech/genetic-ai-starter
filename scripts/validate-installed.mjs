@@ -3,13 +3,16 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { findBrokenMarkdownLinks } from './lib/resolve-markdown-links.mjs';
 import { GITIGNORE_BEGIN } from './lib/merge-gitignore.mjs';
+import { resolveKitRoot } from './lib/resolve-kit-root.mjs';
 
 function parseArgs(argv) {
   let target = '.';
+  let kitRoot = null;
   for (let i = 2; i < argv.length; i++) {
     if (argv[i] === '--target') target = argv[++i];
+    else if (argv[i] === '--kit-root') kitRoot = argv[++i];
   }
-  return path.resolve(target);
+  return { target: path.resolve(target), kitRoot };
 }
 
 function collectMarkdown(root, acc = [], prefix = '') {
@@ -25,7 +28,14 @@ function collectMarkdown(root, acc = [], prefix = '') {
 }
 
 function main() {
-  const target = parseArgs(process.argv);
+  const { target, kitRoot: explicitKitRoot } = parseArgs(process.argv);
+  let kitRootRel = 'tools/genetic-ai-starter';
+  try {
+    const resolved = resolveKitRoot({ target, explicitKitRoot: explicitKitRoot });
+    kitRootRel = path.relative(target, resolved.root).replace(/\\/g, '/') || kitRootRel;
+  } catch {
+    /* consumer may validate without kit on path */
+  }
   const errors = [];
   const required = [
     'AGENTS.md',
@@ -85,7 +95,7 @@ function main() {
     if (philBroken) {
       console.error(
         '\nLikely fix: incomplete philosophy/ — run:\n' +
-          '  node <path-to-kit>/scripts/repair.mjs --target <this-project>\n' +
+          `  node ${kitRootRel}/scripts/repair.mjs --target <this-project>\n` +
           '  (or install.ps1 -ForcePhilosophy -Strict on Windows)',
       );
     }

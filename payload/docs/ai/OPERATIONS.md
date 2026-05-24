@@ -2,62 +2,51 @@
 
 Installed **genetic-ai-starter** (platform version in `.genetic-ai/kit.lock.json`).
 
+**Integration:** [INTEGRATION_MODES](https://github.com/agentstacktech/genetic-ai-starter/blob/main/meta/docs/INTEGRATION_MODES.md) · upstream [DOC_HUB](https://github.com/agentstacktech/genetic-ai-starter/blob/main/meta/docs/DOC_HUB.md).
+
 ## Health check
 
-From your project root (path to kit required):
+From your project root (submodule layout):
 
 ```bash
-node <path-to-genetic-ai-starter>/scripts/doctor.mjs --target .
-node <path-to-genetic-ai-starter>/scripts/validate-installed.mjs --target .
+node tools/genetic-ai-starter/scripts/doctor.mjs --target .
+node tools/genetic-ai-starter/scripts/validate-installed.mjs --target .
 ```
+
+Or CI: `node tools/genetic-ai-starter/scripts/ci-kit.mjs --target .`
 
 Windows:
 
 ```cmd
-"<path-to-kit>\scripts\repair.cmd" .
-```
-
-```text
-node "<path-to-kit>/scripts/repair.mjs" --target .
+tools\genetic-ai-starter\scripts\repair.cmd .
 ```
 
 ## Repair broken install
 
-Symptoms: `validate-installed` reports broken links to `philosophy/`, or install warned that philosophy was skipped.
-
 ```bash
-node <path-to-kit>/scripts/repair.mjs --target .
+node tools/genetic-ai-starter/scripts/repair.mjs --target .
 ```
-
-This re-runs install using `kit.lock.json` and refreshes `philosophy/`.
 
 ## Upgrade kit version
 
-After updating the kit folder to a newer platform patch:
+Sync submodule pin then re-install navigation payload:
 
 ```bash
-node <path-to-kit>/scripts/upgrade.mjs --target .
+node tools/genetic-ai-starter/scripts/upgrade.mjs --target . --sync-submodule
 ```
 
 ## Uninstall
 
 ```bash
-node <path-to-kit>/scripts/uninstall.mjs --target .
+node tools/genetic-ai-starter/scripts/uninstall.mjs --target .
 ```
 
-Removes genetic-ai markers and kit-managed files listed in lock (does not delete your application code).
+Removes navigation payload and `.genetic-ai/` metadata. **Does not** remove the `tools/genetic-ai-starter` git submodule by default.
+
+Optional (destructive): `--remove-submodule` runs `git submodule deinit` for the path in lock.
 
 ## Private install (not in git)
 
-If install used `--gitignore-kit full` (or wizard option «Не коммитить»), `.gitignore` contains a `# genetic-ai-starter:begin` … `end` block. Kit files remain on disk for agents but are not committed.
+If install used `--gitignore-kit full`, navigation paths are in `.gitignore` but the **submodule** at `tools/genetic-ai-starter` remains committed for scripts.
 
-To commit kit files later: remove that block from `.gitignore`, run `git add`, or reinstall with `--gitignore-kit none`.
-
-**Already tracked in git?** `.gitignore` only affects untracked files. After enabling full block, stop tracking kit paths (keeps local files):
-
-```bash
-git rm -r --cached AGENTS.md philosophy docs/ai .cursor/rules/genetic-navigation.mdc .cursor/rules/engineering-controlled-changes.mdc .cursor/rules/genetic-index-authoring.mdc .cursor/rules/engineering-tool-discipline.mdc .cursor/rules/engineering-planning-todos.mdc .cursor/rules/platform-vs-tenant-canary.mdc .cursor/skills .genetic-ai 2>/dev/null
-git commit -m "Stop tracking local genetic-ai-starter kit files"
-```
-
-Adjust paths to match your profile (minimal installs fewer rules).
+See [INTEGRATION_MODES](https://github.com/agentstacktech/genetic-ai-starter/blob/main/meta/docs/INTEGRATION_MODES.md) § gitignore-kit full + submodule.

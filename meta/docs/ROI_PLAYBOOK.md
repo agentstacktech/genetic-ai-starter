@@ -25,7 +25,7 @@ Harness: [`benchmarks/`](../../benchmarks/). Control arms for A/B:
 
 Run: [`benchmarks/RUNBOOK.md`](../../benchmarks/RUNBOOK.md). Aggregate: `node benchmarks/scripts/aggregate-results.mjs`.
 
-**Benchmark (reference):** [`metrics.snapshot.json`](metrics.snapshot.json) · scorer **1.1.1** — T04 **2→8**, T05 **4→10**, unscoped grep **13→1**, map-first **(genetic) 36%**. Median ties `agents_md` optimistic arm — cite task deltas: [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md). Reproduce: [benchmarks/RUNBOOK.md](../../benchmarks/RUNBOOK.md).
+**Benchmark (reference):** [`metrics.snapshot.json`](metrics.snapshot.json) · scorer **1.2.1**, **14** tasks — T04 **2→8**, T05 **4→10**, T13 release gate, unscoped grep **18→0** (indexed), map-first **(genetic) 86%** (indexed). `agents_md` optimistic arm median **8** but map-first **7%** — cite task deltas, not median alone: [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md). Reproduce: [benchmarks/RUNBOOK.md](../../benchmarks/RUNBOOK.md).
 
 **Token proxy:** `estimatedContextTokens` in scored JSON · [TOKEN_ECONOMICS.md](TOKEN_ECONOMICS.md).
 

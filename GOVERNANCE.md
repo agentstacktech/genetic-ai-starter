@@ -3,7 +3,7 @@
 ## Project leadership
 
 - **Founder maintainer:** Lance (AgentStack)
-- **Decision model:** Maintainer-led for v1 OSS launch; community maintainers may be added after sustained contributions (see 60-day post-launch review in [meta/docs/POSTLAUNCH_ROADMAP.md](meta/docs/POSTLAUNCH_ROADMAP.md))
+- **Decision model:** Maintainer-led for v1 OSS launch; community maintainers may be added after sustained contributions (monorepo: `docs/genetic-ai-starter-maintainers/POSTLAUNCH_ROADMAP.md`)
 
 ## Scope
 
@@ -15,7 +15,7 @@ The AgentStack **platform** (hosted services, economy, MCP server deployment) is
 
 - Version numbers track **AgentStack platform patch** (`0.4.11`), not independent kit semver.
 - Tags: `platform-0.4.11` and/or `genetic-ai-starter-v0.4.11`
-- Release process: [meta/docs/RELEASE_RUNBOOK.md](meta/docs/RELEASE_RUNBOOK.md)
+- Release process: monorepo [docs/genetic-ai-starter-maintainers/RELEASE_RUNBOOK.md](../docs/genetic-ai-starter-maintainers/RELEASE_RUNBOOK.md) (operators only)
 
 ## Community standards
 

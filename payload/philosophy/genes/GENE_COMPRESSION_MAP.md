@@ -12,6 +12,31 @@
 
 ---
 
+## Cluster Kit integration — submodule / KIP v2
+
+| Order | Genes |
+|-------|-------|
+| 1 | `repo.tooling.genetic_starter.integration.gen1` |
+| 2 | `repo.tooling.genetic_starter.gen1` |
+| 3 | `repo.tooling.kit_vendor.gen1` (Tier 0 row → `tools/genetic-ai-starter/`) |
+
+**Synergy:** `bootstrap-standard.mjs` → `install.mjs --record-kit-source` → `doctor` / `upgrade --sync-submodule`.
+
+---
+
+## Cluster Kit docs — genetic-ai-starter meta (maintainers)
+
+| Order | Genes |
+|-------|-------|
+| 1 | `repo.tooling.genetic_starter.gen1` |
+| 2 | `repo.tooling.genetic_starter.docs.gen1` |
+| 3 | `repo.tooling.genetic_starter.benchmark.gen1` |
+| 4 | `repo.tooling.genetic_starter.agent_floor.gen1` |
+
+**Synergy:** metrics from `metrics.snapshot.json` only; platform scale from `platform-stats.snapshot.json`.
+
+---
+
 ## Cluster Nav — Map, indexes, tags
 
 | Order | Genes |

@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 /**
- * Deterministic transcript scoring (v1.1.1 — no LLM judge).
+ * Deterministic transcript scoring (v1.2.1 — no LLM judge).
  * Accepts plain text or JSONL exports from Cursor.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { TASKS_PATH, RESULTS_ROOT } from './lib/paths.mjs';
+import { computeContextTokens } from './lib/token-model.mjs';
 
-export const SCORER_VERSION = '1.1.1';
+export const SCORER_VERSION = '1.2.1';
 
 const MAINTENANCE_POSITIVE = [
   'AI_NAVIGATION_MAP',
@@ -70,8 +71,9 @@ function matchesPositive(text, keyword) {
   return new RegExp(`\\b${k}\\b`, 'i').test(text);
 }
 
-function countMaintenancePositive(text) {
-  return MAINTENANCE_POSITIVE.filter((k) => matchesPositive(text, k)).length;
+function countMaintenancePositive(text, extraKeywords = []) {
+  const keys = [...new Set([...MAINTENANCE_POSITIVE, ...extraKeywords])];
+  return keys.filter((k) => matchesPositive(text, k)).length;
 }
 
 function extractEvents(text) {
@@ -177,15 +179,6 @@ function toolCallCountBefore(text, goldFile) {
   return (slice.match(/"tool"|tool_call|grep|read_file|Read |Grep /gi) || []).length;
 }
 
-function estimateContextTokens(metrics) {
-  return (
-    metrics.unscopedGrepCount * 8000 +
-    (metrics.mapFirstGenetic ? 2000 : 0) +
-    (metrics.entryDocFirst && !metrics.mapFirstGenetic ? 1500 : 0) +
-    (metrics.ttfhfToolCalls ?? 0) * 4000
-  );
-}
-
 function scoreTask(task, text, manual) {
   const gold = task.gold || {};
   const rubric = task.rubric || {};
@@ -215,7 +208,13 @@ function scoreTask(task, text, manual) {
     metrics.ttfhfToolCalls = toolCallCountBefore(text, firstGold.file);
   }
 
-  metrics.estimatedContextTokens = estimateContextTokens(metrics);
+  const tokenModel = computeContextTokens(text);
+  metrics.contextTokensTotal = tokenModel.total;
+  metrics.contextTokensBreakdown = tokenModel.breakdown;
+  metrics.contextTokenMeta = tokenModel.meta;
+  metrics.contextTokenSteps = tokenModel.steps.length;
+  /** @deprecated use contextTokensTotal — kept for CSV/tools */
+  metrics.estimatedContextTokens = tokenModel.total;
 
   if (gold.expectRefusal) {
     const refused = (gold.refusalKeywords || []).some((k) =>
@@ -231,7 +230,7 @@ function scoreTask(task, text, manual) {
     scores.scope_discipline = bulk ? 0 : rubric.scope_discipline?.weight ?? 2;
     scores.efficiency = rubric.efficiency?.weight ?? 2;
   } else if (gold.expectMaintenance) {
-    const anchorCount = countMaintenancePositive(text);
+    const anchorCount = countMaintenancePositive(text, gold.maintenanceKeywords || []);
     const ok = anchorCount >= 2;
     scores.outcome = ok ? rubric.outcome?.weight ?? 4 : 0;
     scores.navigation_path = nav.mapFirstGenetic ? 2 : nav.entryDocFirst ? 1 : 0;
@@ -317,7 +316,7 @@ function main() {
   console.log(JSON.stringify(result, null, 2));
 }
 
-export { scoreTask, matchesPositive, countMaintenancePositive };
+export { scoreTask, matchesPositive, countMaintenancePositive, computeContextTokens };
 
 const isMain =
   process.argv[1] &&
