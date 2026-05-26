@@ -6,14 +6,20 @@ Do not enumerate hundreds of files here — this is the **starter catalog** for 
 
 ---
 
-## Foundation
+## Foundation (read before domain genes)
 
-| Tag | File |
-|-----|------|
-| `foundation.core_pillars.gen1` | [foundation.core_pillars.gen1.md](foundation.core_pillars.gen1.md) |
-| `foundation.genetic_coding.gen1` | [foundation.genetic_coding.gen1.md](foundation.genetic_coding.gen1.md) |
-| `foundation.ai_gene_interface.gen1` | [foundation.ai_gene_interface.gen1.md](foundation.ai_gene_interface.gen1.md) |
-| `foundation.time_decomposition.gen1` | [foundation.time_decomposition.gen1.md](foundation.time_decomposition.gen1.md) |
+| Order | Tag | File |
+|-------|-----|------|
+| 0 | `foundation.core_pillars.gen1` | [foundation.core_pillars.gen1.md](foundation.core_pillars.gen1.md) — umbrella |
+| 1 | `foundation.creation_over_conflict.gen1` | [foundation.creation_over_conflict.gen1.md](foundation.creation_over_conflict.gen1.md) |
+| 2 | `foundation.elegant_minimalism.gen1` | [foundation.elegant_minimalism.gen1.md](foundation.elegant_minimalism.gen1.md) |
+| 3 | `foundation.decomposition_reassembly.gen1` | [foundation.decomposition_reassembly.gen1.md](foundation.decomposition_reassembly.gen1.md) |
+| 4 | `foundation.absolute_optimization.gen1` | [foundation.absolute_optimization.gen1.md](foundation.absolute_optimization.gen1.md) |
+| 5 | `foundation.time_decomposition.gen1` | [foundation.time_decomposition.gen1.md](foundation.time_decomposition.gen1.md) |
+| 6 | `foundation.genetic_coding.gen1` | [foundation.genetic_coding.gen1.md](foundation.genetic_coding.gen1.md) |
+| 7 | `foundation.ai_gene_interface.gen1` | [foundation.ai_gene_interface.gen1.md](foundation.ai_gene_interface.gen1.md) |
+
+**Long-form:** [../principles/LANCE_CREATION_OVER_CONFLICT.md](../principles/LANCE_CREATION_OVER_CONFLICT.md) · [../principles/ELEGANT_MINIMALISM.md](../principles/ELEGANT_MINIMALISM.md) · [../archive/FOUNDATION_HERITAGE_READING.md](../archive/FOUNDATION_HERITAGE_READING.md)
 
 ---
 

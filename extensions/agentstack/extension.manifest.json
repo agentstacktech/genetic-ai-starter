@@ -1,6 +1,6 @@
 {
   "id": "agentstack",
-  "requiresKit": ">=0.4.11",
+  "requiresKit": ">=0.4.13",
   "requiresPlatformVersion": "AGENTSTACK_CORE_VERSION",
   "docsBaseUrl": null,
   "overlays": [

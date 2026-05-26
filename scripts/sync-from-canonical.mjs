@@ -6,35 +6,69 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { KIT_ROOT } from './lib/paths.mjs';
+import {
+  kitDocsTransform,
+  kitFoundationGeneTransform,
+  kitHeritageTransform,
+  kitPrinciplesLongformTransform,
+  kitAiGeneInstructionsTransform,
+} from './lib/kit-sync-transforms.mjs';
 
 const REPO_ROOT = path.resolve(KIT_ROOT, '..');
 
+const FOUNDATION_GENES = [
+  'foundation.core_pillars.gen1.md',
+  'foundation.creation_over_conflict.gen1.md',
+  'foundation.elegant_minimalism.gen1.md',
+  'foundation.decomposition_reassembly.gen1.md',
+  'foundation.absolute_optimization.gen1.md',
+  'foundation.genetic_coding.gen1.md',
+  'foundation.time_decomposition.gen1.md',
+  'foundation.ai_gene_interface.gen1.md',
+];
+
+/** @type {{ from: string, to: string, transform: (c: string) => string }[]} */
 const SYNC_MAP = [
   {
     from: 'docs/AI_INDEXING_SYSTEM.md',
     to: 'payload/docs/ai/AI_INDEXING_SYSTEM.md',
-    transform: (c) =>
-      c
-        .replace(/AgentStack monorepo/g, '{{PROJECT_NAME}}')
-        .replace(/`docs\/AI_NAVIGATION_MAP\.md`/g, '`docs/ai/AI_NAVIGATION_MAP.md`')
-        .replace(/\.\.\/philosophy\//g, '../../philosophy/')
-        .replace(/agentstack-core\/|agentstack-frontend\//g, '')
-        .replace(/\.cursor\/rules\/ai-navigation-indexes\.mdc/g, '.cursor/rules/genetic-navigation.mdc')
-        .replace(/\.cursor\/rules\/ai-index-authoring\.mdc/g, '.cursor/rules/genetic-index-authoring.mdc')
-        .replace(/\[CACHE_INVALIDATION_CONVENTION\.md\][^\n]*/g, '')
-        .replace(/\[ECOSYSTEM_INTERACTION[^\n]*/g, ''),
+    transform: kitDocsTransform,
   },
   {
     from: 'philosophy/genes/repo.engineering.controlled_code_changes.gen1.md',
     to: 'payload/philosophy/genes/repo.engineering.controlled_changes.gen1.md',
-    transform: (c) =>
-      c.replace(/\.\.\/\.\.\/docs\/AI_NAVIGATION_MAP\.md/g, '../../docs/ai/AI_NAVIGATION_MAP.md'),
+    transform: kitFoundationGeneTransform,
   },
   {
     from: 'philosophy/genes/repo.engineering.founder_direct_ship.gen1.md',
     to: 'payload/philosophy/genes/repo.engineering.founder_direct_ship.gen1.md',
-    transform: (c) => c,
+    transform: kitFoundationGeneTransform,
   },
+  {
+    from: 'philosophy/AI_GENE_INSTRUCTIONS.md',
+    to: 'payload/philosophy/AI_GENE_INSTRUCTIONS.md',
+    transform: kitAiGeneInstructionsTransform,
+  },
+  {
+    from: 'philosophy/archive/FOUNDATION_HERITAGE_READING.md',
+    to: 'payload/philosophy/archive/FOUNDATION_HERITAGE_READING.md',
+    transform: kitHeritageTransform,
+  },
+  {
+    from: 'philosophy/LANCE_PRINCIPLE_CREATION_OVER_CONFLICT.md',
+    to: 'payload/philosophy/principles/LANCE_CREATION_OVER_CONFLICT.md',
+    transform: kitPrinciplesLongformTransform,
+  },
+  {
+    from: 'philosophy/ELEGANT_MINIMALISM_PRINCIPLE.md',
+    to: 'payload/philosophy/principles/ELEGANT_MINIMALISM.md',
+    transform: kitPrinciplesLongformTransform,
+  },
+  ...FOUNDATION_GENES.map((name) => ({
+    from: `philosophy/genes/${name}`,
+    to: `payload/philosophy/genes/${name}`,
+    transform: kitFoundationGeneTransform,
+  })),
 ];
 
 function main() {

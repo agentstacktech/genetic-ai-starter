@@ -1,11 +1,18 @@
 {
   "kitId": "genetic-ai-starter",
-  "version": "0.4.11",
+  "version": "0.4.13",
   "platformVersionSource": "shared/constants.py:AGENTSTACK_CORE_VERSION | genetic-ai-starter/PLATFORM_VERSION",
   "description": "Portable philosophy + AI navigation + Cursor rules for new projects (version = platform patch)",
   "payloadRoot": "payload",
-  "extensions": ["agentstack"],
-  "profiles": ["minimal", "standard", "full", "founder"],
+  "extensions": [
+    "agentstack"
+  ],
+  "profiles": [
+    "minimal",
+    "standard",
+    "full",
+    "founder"
+  ],
   "files": [
     "PLATFORM_VERSION",
     "payload/AGENTS.md",
@@ -14,9 +21,16 @@
     "payload/.genetic-ai/kit.manifest.stub.json",
     "payload/philosophy/PHILOSOPHY_INDEX.md",
     "payload/philosophy/AI_GENE_INSTRUCTIONS.md",
+    "payload/philosophy/archive/FOUNDATION_HERITAGE_READING.md",
+    "payload/philosophy/principles/LANCE_CREATION_OVER_CONFLICT.md",
+    "payload/philosophy/principles/ELEGANT_MINIMALISM.md",
     "payload/philosophy/genes/GENE_INDEX.md",
     "payload/philosophy/genes/GENE_COMPRESSION_MAP.md",
     "payload/philosophy/genes/foundation.core_pillars.gen1.md",
+    "payload/philosophy/genes/foundation.creation_over_conflict.gen1.md",
+    "payload/philosophy/genes/foundation.elegant_minimalism.gen1.md",
+    "payload/philosophy/genes/foundation.decomposition_reassembly.gen1.md",
+    "payload/philosophy/genes/foundation.absolute_optimization.gen1.md",
     "payload/philosophy/genes/foundation.genetic_coding.gen1.md",
     "payload/philosophy/genes/foundation.ai_gene_interface.gen1.md",
     "payload/philosophy/genes/foundation.time_decomposition.gen1.md",

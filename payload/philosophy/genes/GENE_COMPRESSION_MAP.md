@@ -6,9 +6,27 @@
 
 ## How to use
 
-1. Pick the **cluster** matching your task.
-2. Open the **primary** gene once for intent.
-3. Open only `.gen1` files that touch your diff.
+1. **Foundation first** — [foundation.core_pillars.gen1.md](foundation.core_pillars.gen1.md) (judgment after gene compression).
+2. Pick the **cluster** matching your task.
+3. Open the **primary** gene once for intent.
+4. Open only `.gen1` files that touch your diff.
+
+---
+
+## Cluster Foundation — Pillars (always first)
+
+| Order | Gene | Long-form in kit |
+|-------|------|------------------|
+| 0 | [foundation.core_pillars.gen1.md](foundation.core_pillars.gen1.md) | Umbrella + compression warning |
+| 1 | [foundation.creation_over_conflict.gen1.md](foundation.creation_over_conflict.gen1.md) | [LANCE_CREATION_OVER_CONFLICT.md](../principles/LANCE_CREATION_OVER_CONFLICT.md) |
+| 2 | [foundation.elegant_minimalism.gen1.md](foundation.elegant_minimalism.gen1.md) | [ELEGANT_MINIMALISM.md](../principles/ELEGANT_MINIMALISM.md) |
+| 3 | [foundation.decomposition_reassembly.gen1.md](foundation.decomposition_reassembly.gen1.md) | «Слон по кускам» + TDC pairing |
+| 4 | [foundation.absolute_optimization.gen1.md](foundation.absolute_optimization.gen1.md) | [FOUNDATION_HERITAGE_READING.md](../archive/FOUNDATION_HERITAGE_READING.md) |
+| 5 | [foundation.time_decomposition.gen1.md](foundation.time_decomposition.gen1.md) | Finish criteria per slice |
+| 6 | [foundation.genetic_coding.gen1.md](foundation.genetic_coding.gen1.md) | Tags → map → index |
+| 7 | [foundation.ai_gene_interface.gen1.md](foundation.ai_gene_interface.gen1.md) | Agent read order |
+
+**Synergy:** Insight ([PHILOSOPHY_INDEX.md](../PHILOSOPHY_INDEX.md)) → mechanics (this map) → implementation (`AI_INDEX.md`).
 
 ---
 
@@ -41,9 +59,10 @@
 
 | Order | Genes |
 |-------|-------|
-| 1 | `foundation.genetic_coding.gen1` |
-| 2 | `repo.navigation.map.gen1` |
-| 3 | `repo.navigation.index.gen1` |
+| 1 | `foundation.core_pillars.gen1` *(if not read yet)* |
+| 2 | `foundation.genetic_coding.gen1` |
+| 3 | `repo.navigation.map.gen1` |
+| 4 | `repo.navigation.index.gen1` |
 
 **Synergy:** Map row ↔ `AI_INDEX.md` ↔ genetic tag must stay aligned.
 

@@ -2,6 +2,20 @@
 
 Version numbers follow **AgentStack platform patch** (`AGENTSTACK_CORE_VERSION`), not a separate kit semver.
 
+## 0.4.13 — foundation pillars wave (2026-05-25)
+
+### Philosophy payload (aligned with AgentStack monorepo)
+
+- **8 foundation genes:** `foundation.core_pillars`, `creation_over_conflict`, `elegant_minimalism`, `decomposition_reassembly`, `absolute_optimization`, `genetic_coding`, `time_decomposition`, `ai_gene_interface`.
+- **Long-form in kit:** `payload/philosophy/principles/LANCE_CREATION_OVER_CONFLICT.md`, `ELEGANT_MINIMALISM.md`.
+- **Heritage guide:** `payload/philosophy/archive/FOUNDATION_HERITAGE_READING.md` — how to read meaning after gene compression.
+- **Sync:** `scripts/sync-from-canonical.mjs` + `scripts/lib/kit-sync-transforms.mjs` (15 files from monorepo).
+- **Navigation:** `AGENTS.md`, `PHILOSOPHY_INDEX.md`, `GENE_INDEX.md`, `GENE_COMPRESSION_MAP.md` — Cluster Foundation first.
+
+### Version
+
+- `PLATFORM_VERSION`, `KIT_MANIFEST.json`, npm `package.json` → **0.4.13**.
+
 ## 0.4.11 — kit release (OSS launch)
 
 ### Submodule integration (KIP v2, 2026-05-24)

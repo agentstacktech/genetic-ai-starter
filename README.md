@@ -1,6 +1,6 @@
 # Genetic AI Starter Kit
 
-**Platform version:** `0.4.11` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or `[PLATFORM_VERSION](PLATFORM_VERSION)` (standalone copy).
+**Platform version:** `0.4.13` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or `[PLATFORM_VERSION](PLATFORM_VERSION)` (standalone copy).
 
 **Languages:** [English](README.en.md) · **Русский** (this file)
 
@@ -49,7 +49,7 @@
 - **~222** active genes в monorepo philosophy
 - **~98** `AI_INDEX.md` на платформенных пакетах (без CardGame)
 - **~267** Tier-1 genetic tags в центральной карте
-- Kit ships **~15** starter genes + **5** Cursor rules + **5** skills (standard)
+- Kit ships **~20** starter genes (8 foundation + navigation + engineering) + **5** Cursor rules + **5** skills (standard)
 - Тот же Navigation OS, что в [AgentStack](https://github.com/agentstacktech/AgentStack) — [shared/AI_INDEX.md](../shared/AI_INDEX.md)
 
 Harness-метрики shop-api — отдельно: `[metrics.snapshot.json](meta/docs/metrics.snapshot.json)`.
@@ -59,7 +59,7 @@ Harness-метрики shop-api — отдельно: `[metrics.snapshot.json](m
 
 | Слой       | Monorepo AgentStack          | Установка kit       |
 | ---------- | ---------------------------- | ------------------- |
-| Genes      | ~222 `.gen1.md`              | ~15 стартовых genes |
+| Genes      | ~222 `.gen1.md`              | ~20 стартовых genes (8 foundation) |
 | `AI_INDEX` | ~98 на платформенных пакетах | заполняет ИИ сам    |
 | Карта      | ~267 Tier-1 tags             | шаблон + ваш Tier 1 |
 | Harness    | внутренний shop-api          | та же методология   |
@@ -67,12 +67,13 @@ Harness-метрики shop-api — отдельно: `[metrics.snapshot.json](m
 
 ### Кластеры genes (старт)
 
-- **Навигация:** `foundation.genetic_coding`, `repo.navigation.map`, `repo.navigation.index`
+- **Foundation (читать первыми):** `foundation.core_pillars` → creation, minimalism, decomposition («слон по кускам»), absolute optimization, TDC, genetic coding, AI interface — long-form: `philosophy/principles/`, `philosophy/archive/FOUNDATION_HERITAGE_READING.md`
+- **Навигация:** `repo.navigation.map`, `repo.navigation.index`
 - **Инженерия:** `repo.engineering.controlled_changes`, `repo.engineering.adr`, `repo.engineering.testing`
 - **Kit:** `repo.tooling.genetic_starter.`*
 - **Founder:** `repo.engineering.founder_direct_ship`
 
-См. [GENE_COMPRESSION_MAP.md](payload/philosophy/genes/GENE_COMPRESSION_MAP.md) после install.
+См. [GENE_COMPRESSION_MAP.md](payload/philosophy/genes/GENE_COMPRESSION_MAP.md) после install. Maintainer sync: `node genetic-ai-starter/scripts/sync-from-canonical.mjs`.
 
 ## Релиз с ИИ — результат, не счётчик токенов
 

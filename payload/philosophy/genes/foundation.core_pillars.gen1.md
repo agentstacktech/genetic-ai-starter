@@ -1,51 +1,53 @@
-# Gene — `foundation.core_pillars.gen1`
+# Gene — `foundation.core_pillars.gen1` (umbrella)
 
 **Genetic tag:** `foundation.core_pillars.gen1`  
 **Category:** foundation  
-**Priority:** HIGH for all agents  
+**Priority:** **READ FIRST** (before domain clusters in [GENE_COMPRESSION_MAP.md](GENE_COMPRESSION_MAP.md))  
 **Status:** ACTIVE  
 
 ---
 
 ## Intent
 
-Universal product-engineering pillars. Apply when designing features, reviewing diffs, or choosing between two implementations.
+**Product-engineering pillars** — the *judgment layer* behind every `.gen1` domain gene. Compression maps (Clusters A–M) answer *where files live*; pillars answer *whether the change is allowed*.
+
+> **Compression warning:** After the 2026 gene wave, many `GENE_*_GEN2.md` files became **redirect stubs** (tag preserved, body moved). Stubs are **not** empty philosophy — they point at umbrellas. If a principle reads like a one-line bullet in PHILOSOPHY_INDEX, open the **pillar gene** below or the **long-form** doc in the right column.
 
 ---
 
-## Pillars
+## Pillars (with canonical genes)
 
-### Creation over Conflict
+| Pillar | One-line test | Gene | Long-form / archive |
+|--------|---------------|------|---------------------|
+| **Creation over Conflict** | Does this **remove** a class of fights (second bus, second inbox)? | [foundation.creation_over_conflict.gen1.md](foundation.creation_over_conflict.gen1.md) | [LANCE_PRINCIPLE_CREATION_OVER_CONFLICT.md](../principles/LANCE_CREATION_OVER_CONFLICT.md) |
+| **Elegant Minimalism** | One primitive per job; native over special? | [foundation.elegant_minimalism.gen1.md](foundation.elegant_minimalism.gen1.md) | [ELEGANT_MINIMALISM_PRINCIPLE.md](../principles/ELEGANT_MINIMALISM.md) |
+| **Decomposition → Reassembly** | Can we ship **one bite** of the elephant with a done criterion? | [foundation.decomposition_reassembly.gen1.md](foundation.decomposition_reassembly.gen1.md) | PHILOSOPHY_INDEX § Decomposition; stories in [docs/journals/](https://github.com/agentstacktech/AgentStack/tree/main/docs/journals/) |
+| **Absolute Optimization** | Max function per unit cost *for the consumer of information* (human, AI, robot)? | [foundation.absolute_optimization.gen1.md](foundation.absolute_optimization.gen1.md) | [FOUNDATION_HERITAGE_READING.md](../archive/FOUNDATION_HERITAGE_READING.md) (heritage wording) |
+| **Time-Decomposition-Completion** | Is the slice **finished** (tests, docs, version gate)? | [foundation.time_decomposition.gen1.md](foundation.time_decomposition.gen1.md) | [JOURNAL_STORY_TEMPLATE.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/journals/JOURNAL_STORY_TEMPLATE.md) |
+| **Observability first** | Can ops/agent diagnose without guessing? | (cross-cutting) | `shared.diagnostics.unified.gen1`, OpTrace, runbooks |
+| **Biomimetic resilience** | Degrade gracefully; no silent user failure? | (cross-cutting) | `shared.immune.system.gen1`, organelle bundles |
+| **Controlled change** | Reviewable diffs, no throwaway tree rewriters? | [repo.engineering.controlled_changes.gen1.md](repo.engineering.controlled_changes.gen1.md) | [repo.engineering.founder_direct_ship.gen1.md](repo.engineering.founder_direct_ship.gen1.md) |
 
-Prefer **one wire, one source of truth**. Extend existing contours instead of parallel products (second cache, second protocol, duplicate admin surface).
+---
 
-### Elegant Minimalism
+## How pillars compose (example: messenger 0.4.9)
 
-**One primitive per job.** One facade, one table, one reducer — not three overlapping abstractions.
+1. **Creation** — IDB mirror instead of a second polling protocol.  
+2. **Minimalism** — one op-log, one delta endpoint.  
+3. **Decomposition** — SyncEngine = heap + hedge + breaker modules.  
+4. **TDC** — journal + ADR + beacons before percent rollout.  
+5. **Observability** — `messengerBeacons`, diagnostics page.
 
-### Decomposition → Reassembly
-
-Split into **testable slices** (atoms → services → UI). Compose in thin orchestrators; avoid big-bang files.
-
-### Observability first
-
-**Beacons, metrics, runbooks** before tuning blind. Every critical path should be diagnosable without reproducing production manually.
-
-### Biomimetic resilience
-
-**Graceful degrade:** missing capability → pass-through or safe default, not hard failure for users.
-
-### Controlled change
-
-Pair with `repo.engineering.controlled_changes.gen1` — reviewable diffs, maintained tools, no throwaway tree rewriters.
+Same pattern for unified 8DNA (0.4.7), dual-shell (0.4.11), ownership plane (0.4.13) — see [EVOLUTION_JOURNAL.md](../PHILOSOPHY_INDEX.md).
 
 ---
 
 ## AI instructions
 
-- When proposing architecture, name which pillar supports the choice.
-- When a solution adds a second path “for safety”, check **Creation over Conflict** — merge or delete instead.
-- Do **not** cite legacy `*.gen2` protein-universe genes; use this gene + domain-specific `.gen1` files.
+1. **Name the pillar** in design summaries (“Creation: extend delta, no parallel inbox”).  
+2. If a proposal adds a **second path** “for safety”, default to **merge or delete** unless the user explicitly asked for rollout machinery ([platform-vs-tenant-canary](https://github.com/agentstacktech/AgentStack/tree/main/.cursor/rules/platform-vs-tenant-canary.mdc)).  
+3. **Do not** treat empty-looking `GENE_*_GEN2` as doctrine — resolve via [gene_document_resolver.py](https://github.com/agentstacktech/AgentStack/tree/main/philosophy/gene_document_resolver.py) or open the linked `.gen1`.  
+4. **Reading order:** this file → pillar gene for your decision → [GENE_COMPRESSION_MAP.md](GENE_COMPRESSION_MAP.md) cluster → subsystem `AI_INDEX.md`.
 
 ---
 
@@ -53,6 +55,8 @@ Pair with `repo.engineering.controlled_changes.gen1` — reviewable diffs, maint
 
 | Resource | Role |
 |----------|------|
-| [PHILOSOPHY_INDEX.md](../PHILOSOPHY_INDEX.md) | Master index |
-| [repo.engineering.controlled_changes.gen1.md](repo.engineering.controlled_changes.gen1.md) | How to edit code |
-| [GENE_COMPRESSION_MAP.md](GENE_COMPRESSION_MAP.md) | Multi-gene reading order |
+| [PHILOSOPHY_INDEX.md](../PHILOSOPHY_INDEX.md) | Insight layer (why) — do not confuse with mechanics |
+| [GENE_COMPRESSION_MAP.md](GENE_COMPRESSION_MAP.md) | Mechanics layer (which tags) |
+| [docs/journals/README.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/journals/README.md) | Story layer (what shipped when) |
+| [archive/FOUNDATION_HERITAGE_READING.md](../archive/FOUNDATION_HERITAGE_READING.md) | How to read post-compression stubs |
+| [EVOLUTION_JOURNAL.md](../PHILOSOPHY_INDEX.md) | Organism timeline |

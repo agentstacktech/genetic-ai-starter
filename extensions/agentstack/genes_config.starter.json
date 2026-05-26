@@ -1,6 +1,18 @@
 {
   "_comment": "Optional bridge if you vendor philosophy/gene_manager.py from AgentStack monorepo",
   "gene_metadata": {
+    "foundation.core_pillars.gen1": {
+      "path": "philosophy/genes/foundation.core_pillars.gen1.md"
+    },
+    "foundation.creation_over_conflict.gen1": {
+      "path": "philosophy/genes/foundation.creation_over_conflict.gen1.md"
+    },
+    "foundation.elegant_minimalism.gen1": {
+      "path": "philosophy/genes/foundation.elegant_minimalism.gen1.md"
+    },
+    "foundation.decomposition_reassembly.gen1": {
+      "path": "philosophy/genes/foundation.decomposition_reassembly.gen1.md"
+    },
     "repo.engineering.controlled_changes.gen1": {
       "path": "philosophy/genes/repo.engineering.controlled_changes.gen1.md"
     },

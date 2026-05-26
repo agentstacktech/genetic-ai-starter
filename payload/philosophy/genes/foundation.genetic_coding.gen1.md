@@ -1,54 +1,62 @@
-# Gene — `foundation.genetic_coding.gen1`
+# Gene — `foundation.genetic_coding.gen1` (foundation tier)
 
 **Genetic tag:** `foundation.genetic_coding.gen1`  
-**Category:** foundation (navigation language)  
-**Status:** ACTIVE  
+**Scope:** Semantic tags + AI navigation — the **address language** for meaning → module trees.
+
+**Canonical docs:** [docs/AI_INDEXING_SYSTEM.md](../../docs/ai/AI_INDEXING_SYSTEM.md), [docs/AI_NAVIGATION_MAP.md](../../docs/ai/AI_NAVIGATION_MAP.md), [AI_GENE_INSTRUCTIONS.md](../AI_GENE_INSTRUCTIONS.md).
 
 ---
 
-## Intent
+## Why tags exist (meaning lost if only filenames remain)
 
-**Genetic tags** are semantic addresses: `domain.subsystem.role.gen1`. They link **task meaning** → **row in `docs/ai/AI_NAVIGATION_MAP.md`** → **local `AI_INDEX.md`** → **hot files**.
+A folder name (`services/`, `modules/`) tells you **where** code lives, not **what task** you are doing. Tags like `core.social.support.gen1` are **semantic addresses**: they bind *intent* (support desk on messenger plane) to a **Tier-1 row** in the navigation map and a **hot-file list** in `AI_INDEX.md`.
 
----
+**Compression did not delete meaning** — it moved long duplicate prose into:
 
-## Forming a path
+1. **Umbrella `.gen1` genes** (one contour, one story)  
+2. **Cluster tables** in [GENE_COMPRESSION_MAP.md](GENE_COMPRESSION_MAP.md)  
+3. **Git history** + heritage `GENE_*_GEN2` stubs (tag preserved)
 
-```text
-<domain>.<subsystem-or-area>.<role>.<generation>
-```
-
-| Segment | Examples |
-|---------|----------|
-| domain | `repo`, `app`, `api`, `frontend`, `docs` |
-| subsystem | `auth`, `billing`, `mcp`, `storage` |
-| role | `tools`, `endpoints`, `ui`, `registry` |
-| generation | `gen1` (default); bump when two lineages coexist |
-
-**Rules:**
-
-- Lowercase segments, dot-separated.
-- **One tag per index**; split folders get separate tags.
-- Register new tags in `docs/ai/AI_NAVIGATION_MAP.md` before wide use.
+If a stub looks empty, resolve via [gene_document_resolver.py](https://github.com/agentstacktech/AgentStack/tree/main/philosophy/gene_document_resolver.py) or read the umbrella named in the stub header.
 
 ---
 
-## Where tags live
+## Tag shape
 
-- **Registry:** `docs/ai/AI_NAVIGATION_MAP.md` (Tier 0 / Tier 1).
-- **Local index:** first block of `AI_INDEX.md` — line `**Genetic code:**` ``tag``.
+Pattern: `<domain>.<subsystem>.<role>.<generation>`
+
+| Segment | Examples | Notes |
+|---------|----------|-------|
+| **domain** | `core`, `shared`, `frontend`, `sdk`, `repo`, `docs` | Package / plane |
+| **subsystem** | `social.messenger`, `agents.fleet`, `database.8dna` | Bounded context |
+| **role** | `gen1` (stable contract), `gen2` (heritage / rare) | Prefer **gen1** for new work |
+| **generation** | `gen1` = current contract generation | Bump only with ADR + map row |
+
+**Forming new tags:** follow [AI_INDEXING_SYSTEM.md](../../docs/ai/AI_INDEXING_SYSTEM.md) §2; add **Tier 1** row when ~10+ integration points.
 
 ---
 
-## AI instructions
+## Reading order (agents)
 
-1. Infer task domain from user request.
-2. Open map → pick tag → open index → open 1–2 hot files.
-3. Use tag in PR titles/commits when pointing at subsystem boundaries.
+1. [foundation.core_pillars.gen1.md](foundation.core_pillars.gen1.md) — judgment  
+2. [GENE_COMPRESSION_MAP.md](GENE_COMPRESSION_MAP.md) — cluster for your subsystem  
+3. `docs/ai/AI_NAVIGATION_MAP.md` — genetic tag → path  
+4. Subsystem **`AI_INDEX.md`** — hot files only  
+5. Targeted symbol search — **after** the above
+
+**Anti-pattern:** unscoped ripgrep across `` or `src/` for exploration.
+
+---
+
+## Heritage
+
+- GEN2 format era + v0.2.54 refactor — [54_GEN2_FORMAT_AND_AI_GENE_INSTRUCTIONS.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/journals/stories/54_GEN2_FORMAT_AND_AI_GENE_INSTRUCTIONS.md)  
+- [archive/genes-legacy/AI_INDEX.md](../archive/FOUNDATION_HERITAGE_READING.md) — legacy filename → umbrella  
+- [archive/FOUNDATION_HERITAGE_READING.md](../archive/FOUNDATION_HERITAGE_READING.md)
 
 ---
 
 ## Cross-links
 
-- [docs/ai/AI_INDEXING_SYSTEM.md](../../docs/ai/AI_INDEXING_SYSTEM.md)
-- [repo.navigation.map.gen1.md](repo.navigation.map.gen1.md)
+- [foundation.ai_gene_interface.gen1.md](foundation.ai_gene_interface.gen1.md)  
+- `.cursor/rules/genetic-navigation.mdc`

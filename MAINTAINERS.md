@@ -1,6 +1,6 @@
 # Maintainers — Genetic AI Starter Kit
 
-Kit path: `genetic-ai-starter/` in AgentStack monorepo. Platform line **0.4.11**.
+Kit path: `genetic-ai-starter/` in AgentStack monorepo. Platform line **0.4.13**.
 
 **Operator docs (monorepo git only, outside kit subtree):** [docs/genetic-ai-starter-maintainers/README.md](../docs/genetic-ai-starter-maintainers/README.md)
 
@@ -30,6 +30,11 @@ node genetic-ai-starter/scripts/sync-from-canonical.mjs
 | Canonical (monorepo) | Kit payload |
 |----------------------|-------------|
 | `docs/AI_INDEXING_SYSTEM.md` | `payload/docs/ai/AI_INDEXING_SYSTEM.md` |
+| `philosophy/genes/foundation.*.gen1.md` (8 files) | `payload/philosophy/genes/` |
+| `philosophy/LANCE_PRINCIPLE_CREATION_OVER_CONFLICT.md` | `payload/philosophy/principles/LANCE_CREATION_OVER_CONFLICT.md` |
+| `philosophy/ELEGANT_MINIMALISM_PRINCIPLE.md` | `payload/philosophy/principles/ELEGANT_MINIMALISM.md` |
+| `philosophy/archive/FOUNDATION_HERITAGE_READING.md` | `payload/philosophy/archive/` |
+| `philosophy/AI_GENE_INSTRUCTIONS.md` | `payload/philosophy/` (banner + read order) |
 | `philosophy/genes/repo.engineering.controlled_changes.gen1.md` | same under payload |
 | `.cursor/rules/ai-navigation-indexes.mdc` | `genetic-navigation.mdc` |
 

@@ -14,10 +14,11 @@ description: Use the AI navigation map and indexes before repo-wide search. Appl
 ## Steps
 
 1. Read `AGENTS.md` (30s).
-2. Open `docs/ai/AI_NAVIGATION_MAP.md` — pick Tier 0 or Tier 1 row (**genetic map-first**, not README alone).
-3. Open linked `AI_INDEX.md` if present (summary of subtree — hot files only).
-4. Open **1–2 hot files** only.
-5. Search in **that directory** or for a known symbol.
+2. Open `philosophy/genes/foundation.core_pillars.gen1.md` when choosing architecture (creation vs second path).
+3. Open `docs/ai/AI_NAVIGATION_MAP.md` — pick Tier 0 or Tier 1 row (**genetic map-first**, not README alone).
+4. Open linked `AI_INDEX.md` if present (summary of subtree — hot files only).
+5. Open **1–2 hot files** only.
+6. Search in **that directory** or for a known symbol.
 
 ## Do not
 
@@ -27,4 +28,6 @@ description: Use the AI navigation map and indexes before repo-wide search. Appl
 ## References
 
 - `docs/ai/AI_INDEXING_SYSTEM.md`
+- `philosophy/genes/foundation.core_pillars.gen1.md`
 - `philosophy/genes/foundation.genetic_coding.gen1.md`
+- `philosophy/archive/FOUNDATION_HERITAGE_READING.md`

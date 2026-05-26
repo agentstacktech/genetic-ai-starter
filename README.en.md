@@ -1,9 +1,9 @@
 # Genetic AI Starter Kit
 
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
-[![platform](https://img.shields.io/badge/platform-0.4.11-informational)](PLATFORM_VERSION)
+[![platform](https://img.shields.io/badge/platform-0.4.13-informational)](PLATFORM_VERSION)
 
-**Platform version:** `0.4.11` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or [`PLATFORM_VERSION`](PLATFORM_VERSION) (standalone copy).
+**Platform version:** `0.4.13` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or [`PLATFORM_VERSION`](PLATFORM_VERSION) (standalone copy).
 
 **Languages:** **English** (this file) · [Русский](README.md)
 
@@ -71,7 +71,7 @@ Figures from [`platform-stats.snapshot.json`](meta/docs/platform-stats.snapshot.
 - **~222** active genes in monorepo philosophy
 - **~98** `AI_INDEX.md` on platform packages (excluding CardGame)
 - **~267** Tier-1 genetic tags in the central map
-- Kit ships **~15** starter genes + **5** Cursor rules + **5** skills (standard)
+- Kit ships **~20** starter genes (8 foundation + navigation + engineering) + **5** Cursor rules + **5** skills (standard)
 - Same Navigation OS as [AgentStack](https://github.com/agentstacktech/AgentStack)
 
 Harness metrics (shop-api) are separate: [`metrics.snapshot.json`](meta/docs/metrics.snapshot.json).
@@ -80,19 +80,20 @@ Harness metrics (shop-api) are separate: [`metrics.snapshot.json`](meta/docs/met
 
 | Layer | AgentStack monorepo | Kit install |
 |-------|---------------------|-------------|
-| Genes | ~222 `.gen1.md` | ~15 starter genes |
+| Genes | ~222 `.gen1.md` | ~20 starter genes (8 foundation) |
 | `AI_INDEX` | ~98 platform packages | you fill per subsystem |
 | Navigation map | ~267 Tier-1 tags | template + your Tier 1 |
 | Harness | internal shop-api | same methodology |
 
 ### Gene clusters (starter)
 
+- **Foundation (read first):** `foundation.core_pillars` → creation, minimalism, decomposition, absolute optimization, TDC — long-form under `payload/philosophy/principles/` and `archive/FOUNDATION_HERITAGE_READING.md`
 - **Navigation:** `foundation.genetic_coding`, `repo.navigation.map`, `repo.navigation.index`
 - **Engineering:** `repo.engineering.controlled_changes`, `repo.engineering.adr`, `repo.engineering.testing`
 - **Kit tooling:** `repo.tooling.genetic_starter.*`
 - **Founder:** `repo.engineering.founder_direct_ship`
 
-See [GENE_COMPRESSION_MAP.md](payload/philosophy/genes/GENE_COMPRESSION_MAP.md) in your project after install.
+See [GENE_COMPRESSION_MAP.md](payload/philosophy/genes/GENE_COMPRESSION_MAP.md) after install. Maintainers: `node genetic-ai-starter/scripts/sync-from-canonical.mjs`.
 
 ## Large codebases (killer feature)
 

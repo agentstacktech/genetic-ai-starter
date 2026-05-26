@@ -7,10 +7,11 @@
 ## Read order (mandatory for non-trivial tasks)
 
 1. **This file** — lookup order (30 seconds).
-2. `.cursor/rules/genetic-navigation.mdc` — alwaysApply workflow.
-3. `docs/ai/AI_NAVIGATION_MAP.md` — Tier 0 / Tier 1 registry.
-4. `philosophy/genes/GENE_COMPRESSION_MAP.md` — if task spans multiple subsystems.
-5. Nearest `**/AI_INDEX.md` — hot files only, then scoped search.
+2. `philosophy/genes/foundation.core_pillars.gen1.md` — **why** (creation, minimalism, decomposition, TDC).
+3. `.cursor/rules/genetic-navigation.mdc` — alwaysApply workflow.
+4. `docs/ai/AI_NAVIGATION_MAP.md` — Tier 0 / Tier 1 registry.
+5. `philosophy/genes/GENE_COMPRESSION_MAP.md` — cluster for multi-subsystem tasks.
+6. Nearest `**/AI_INDEX.md` — hot files only, then scoped search.
 
 ---
 
@@ -19,6 +20,7 @@
 | Tag | Where |
 |-----|-------|
 | Philosophy | [philosophy/PHILOSOPHY_INDEX.md](philosophy/PHILOSOPHY_INDEX.md) |
+| Foundation pillars | [philosophy/genes/foundation.core_pillars.gen1.md](philosophy/genes/foundation.core_pillars.gen1.md) |
 | Controlled edits | [philosophy/genes/repo.engineering.controlled_changes.gen1.md](philosophy/genes/repo.engineering.controlled_changes.gen1.md) |
 | Navigation map | [docs/ai/AI_NAVIGATION_MAP.md](docs/ai/AI_NAVIGATION_MAP.md) |
 | App source | `src/` (adjust in map) |
