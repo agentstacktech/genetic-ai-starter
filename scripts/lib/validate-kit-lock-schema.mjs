@@ -23,15 +23,39 @@ export function validateKitLockKipV2(lock) {
     issues.push(`profile must be one of: ${profiles.join(', ')}`);
   }
   if (lock.kitSource) {
-    const types = ['submodule', 'npm', 'path', 'monorepo'];
+    const types = ['submodule', 'npm', 'path', 'monorepo', 'ephemeral'];
     if (!types.includes(lock.kitSource.type)) {
       issues.push(`kitSource.type must be one of: ${types.join(', ')}`);
     }
-    if (!lock.kitSource.path) issues.push('kitSource.path required');
+    if (lock.kitSource.type !== 'ephemeral') {
+      if (!lock.kitSource.path) issues.push('kitSource.path required');
+    }
+    if (lock.kitRootRel && String(lock.kitRootRel).startsWith('..')) {
+      issues.push('kitRootRel must not escape repo (use ephemeral kitSource)');
+    }
     if (!lock.kitSource.ref) issues.push('kitSource.ref required');
     if (!lock.kitSource.refType) issues.push('kitSource.refType required');
   } else if (lock.lockSchemaVersion === 2) {
     issues.push('kitSource missing for KIP v2 lock');
   }
   return issues;
+}
+
+/**
+ * @param {object} lock
+ * @returns {string[]} warnings (non-fatal)
+ */
+export function validateKitLockWarnings(lock) {
+  const warnings = [];
+  if (lock?.kitSource?.type === 'ephemeral') {
+    warnings.push('kitSource.type=ephemeral — re-run with submodule for reproducible CI');
+  }
+  if (lock?.kitVersion && lock?.kitSource?.refName) {
+    const platform = lock.kitVersion;
+    const tagVer = lock.kitSource.refName.replace(/^genetic-ai-starter-v/, '');
+    if (tagVer && platform !== tagVer && lock.kitSource.refType === 'commit') {
+      warnings.push(`lock kitVersion ${platform} differs from refName tag ${tagVer}`);
+    }
+  }
+  return warnings;
 }

@@ -2,7 +2,7 @@
 
 Version numbers follow **AgentStack platform patch** (`AGENTSTACK_CORE_VERSION`), not a separate kit semver.
 
-## 0.4.13 — foundation pillars wave (2026-05-25)
+## 0.4.13 — foundation pillars + consumer-safe upgrade (KIP v2.1, 2026-05-25)
 
 ### Philosophy payload (aligned with AgentStack monorepo)
 
@@ -12,9 +12,21 @@ Version numbers follow **AgentStack platform patch** (`AGENTSTACK_CORE_VERSION`)
 - **Sync:** `scripts/sync-from-canonical.mjs` + `scripts/lib/kit-sync-transforms.mjs` (15 files from monorepo).
 - **Navigation:** `AGENTS.md`, `PHILOSOPHY_INDEX.md`, `GENE_INDEX.md`, `GENE_COMPRESSION_MAP.md` — Cluster Foundation first.
 
+### Consumer-safe upgrade (KIP v2.1)
+
+- **Navigation contract** — `contracts/NAVIGATION_CONTRACT.v1.json`; region markers on `AGENTS.md`, `AI_NAVIGATION_MAP.md`, `OPERATIONS.md`, `GENE_COMPRESSION_MAP.md`.
+- **Preserve by default** — `upgrade.mjs` / `install.mjs` merge kit regions; `--force-navigation` + `--yes` for reset.
+- **Reports** — `.genetic-ai/last-upgrade-report.json`; exit codes 0/1/2/3 in `meta/docs/UPGRADE_GUIDE.md`.
+- **Lock** — `kitSource.type: ephemeral` for external `--kit-root`; no `../` in `kitRootRel`.
+- **validate-installed** — link aliases (`.cursorrules.fragment` → `.cursorrules`); `[LINK]`/`[PHILOSOPHY]`/`[LOCK]` codes.
+- **doctor** — staged gitlink WARN vs ERROR; `readSubmoduleRefFromIndex`.
+- **repair.mjs** — `--validate-only`, `--repair-philosophy`; preserve navigation default.
+- **migrate-navigation-markers.mjs** — legacy consumer one-shot.
+- **OPERATIONS variants** — path-only / submodule / npm bodies.
+
 ### Version
 
-- `PLATFORM_VERSION`, `KIT_MANIFEST.json`, npm `package.json` → **0.4.13**.
+- `PLATFORM_VERSION`, `KIT_MANIFEST.json`, npm `package.json` → **0.4.13** (same platform patch as foundation wave).
 
 ## 0.4.11 — kit release (OSS launch)
 

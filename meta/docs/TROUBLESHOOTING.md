@@ -16,9 +16,13 @@
 | Symptom | Cause | Fix |
 |---------|--------|-----|
 | `philosophy/ skipped` then broken links | Old folder in target; docs installed without genes | Re-run install (auto-repair) or `repair.mjs` / `-Repair -Strict` |
-| `validate-installed FAILED` philosophy links | Incomplete or stale `philosophy/` | `node <kit>/scripts/repair.mjs --target <project>` |
-| Want to keep custom genes | Default skip when complete | `--merge-philosophy` |
-| Replace all starter genes | Full reset | `--force-philosophy` or `upgrade.mjs` |
+| `validate-installed FAILED` philosophy links | Incomplete or stale `philosophy/` | `node <kit>/scripts/repair.mjs --target <project> --repair-philosophy` |
+| `[LINK] .cursorrules.fragment.md` | Pre–0.4.13 KIP kit / stale gene link | Upgrade kit **0.4.13+**; alias resolves to `.cursorrules` |
+| Tenant map rows lost after upgrade | Pre–KIP v2.1 full overwrite | Upgrade with preserve (default); recover from git; `migrate-navigation-markers.mjs --write` |
+| `repair.mjs` wiped custom navigation | Repair used to equal full upgrade | **0.4.13+** repair preserves navigation; use `--repair-philosophy` only when needed |
+| `Installed OK` but validate failed | Old install UX | **0.4.13+** exits 1; see `.genetic-ai/last-upgrade-report.json` |
+| Want to keep custom genes | Default skip when complete | `--merge-philosophy` / `upgrade --no-force-philosophy` |
+| Replace all starter genes | Full reset | `--force-philosophy` on upgrade |
 
 ## Cursor / rules
 

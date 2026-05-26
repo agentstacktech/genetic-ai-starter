@@ -6,6 +6,7 @@
 
 ---
 
+<!-- genetic-ai-map:tier0:begin -->
 ## Tier 0 — Always relevant
 
 | Genetic tag | Path | When to read |
@@ -15,9 +16,9 @@
 | `repo.navigation.map.gen1` | [docs/ai/AI_NAVIGATION_MAP.md](AI_NAVIGATION_MAP.md) | This registry |
 | `{{DOMAIN}}.app.root.gen1` | `src/` | Application source (adjust path) |
 | `{{DOMAIN}}.app.tests.gen1` | `tests/` | Tests (adjust path) |
+<!-- genetic-ai-map:tier0:end -->
 
----
-
+<!-- tenant-map:tier1:begin -->
 ## Tier 1 — Large subsystems
 
 _Add rows when subsystems gain `AI_INDEX.md` (~10+ integration points)._
@@ -25,6 +26,11 @@ _Add rows when subsystems gain `AI_INDEX.md` (~10+ integration points)._
 | Genetic tag | Path | When to read |
 |-------------|------|--------------|
 | *(example)* `{{DOMAIN}}.auth.gen1` | `src/auth/` | Auth boundary |
+<!-- tenant-map:tier1:end -->
+
+<!-- genetic-ai-map:tier1-seed:begin -->
+<!-- Kit seed rows for new projects -->
+<!-- genetic-ai-map:tier1-seed:end -->
 
 ---
 

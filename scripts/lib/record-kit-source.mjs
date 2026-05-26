@@ -7,10 +7,13 @@ import {
 } from './kit-integration-constants.mjs';
 import {
   readSubmoduleRef,
+  readSubmoduleRefFromIndex,
   parseGitmodules,
   resolveRemoteTagToSha,
 } from './git-submodule.mjs';
 import { readPlatformVersionForKitRoot } from './read-platform-version-for-kit.mjs';
+
+const NAV_CONTRACT_VERSION = 1;
 
 /**
  * Build kitSource block for lock from resolved kit root.
@@ -18,9 +21,16 @@ import { readPlatformVersionForKitRoot } from './read-platform-version-for-kit.m
  * @param {string} kitRoot absolute kit path
  * @param {{ preferSubmodule?: boolean }} opts
  */
+function readPlatformVersionSafe(kitRoot) {
+  try {
+    return readPlatformVersionForKitRoot(kitRoot);
+  } catch {
+    return '0.0.0';
+  }
+}
+
 export function buildKitSourceRecord(targetRoot, kitRoot, opts = {}) {
   const rel = path.relative(targetRoot, kitRoot).replace(/\\/g, '/');
-  const platformVersion = readPlatformVersionForKitRoot(kitRoot);
 
   const gitmodules = parseGitmodules(targetRoot);
   const mod = gitmodules.find((e) => e.path === rel) || gitmodules.find((e) => e.path);
@@ -29,10 +39,39 @@ export function buildKitSourceRecord(targetRoot, kitRoot, opts = {}) {
   if (rel.startsWith('node_modules/')) type = 'npm';
   else if (mod || rel === DEFAULT_KIT_SUBMODULE_PATH) type = 'submodule';
 
+  const isEphemeral =
+    rel.startsWith('..') && type !== 'submodule' && !mod;
+
+  if (isEphemeral) {
+    const platformVersion = readPlatformVersionSafe(kitRoot);
+    let ref = platformVersion;
+    let refType = 'platform-version-fallback';
+    const refName = kitReleaseTag(platformVersion);
+    const remoteSha = resolveRemoteTagToSha(refName, DEFAULT_KIT_REPO_URL);
+    if (remoteSha) {
+      ref = remoteSha;
+      refType = 'commit';
+    }
+    return {
+      lockSchemaVersion: LOCK_SCHEMA_VERSION,
+      kitSource: {
+        type: 'ephemeral',
+        ref,
+        refType,
+        refName,
+      },
+      kitRootRel: undefined,
+      navigationContractVersion: NAV_CONTRACT_VERSION,
+      navigationPreserveDefault: true,
+      warnings: ['EPHEMERAL_KIT_ROOT: pin submodule for reproducible CI'],
+    };
+  }
+
+  const platformVersion = readPlatformVersionForKitRoot(kitRoot);
   const kitPath = mod?.path || rel || DEFAULT_KIT_SUBMODULE_PATH;
   const url = mod?.url || DEFAULT_KIT_REPO_URL;
 
-  let ref = readSubmoduleRef(targetRoot, kitPath);
+  let ref = readSubmoduleRefFromIndex(targetRoot, kitPath) || readSubmoduleRef(targetRoot, kitPath);
   let refType = 'commit';
   let refName = kitReleaseTag(platformVersion);
 
@@ -44,7 +83,6 @@ export function buildKitSourceRecord(targetRoot, kitRoot, opts = {}) {
   if (!ref) {
     ref = platformVersion;
     refType = 'platform-version-fallback';
-    refName = refName;
   }
 
   return {
@@ -58,6 +96,8 @@ export function buildKitSourceRecord(targetRoot, kitRoot, opts = {}) {
       refName,
     },
     kitRootRel: kitPath,
+    navigationContractVersion: NAV_CONTRACT_VERSION,
+    navigationPreserveDefault: true,
   };
 }
 
@@ -66,14 +106,21 @@ export function buildKitSourceRecord(targetRoot, kitRoot, opts = {}) {
  */
 export function applyKitSourceToLock(lock, targetRoot, kitRoot, opts) {
   const rec = buildKitSourceRecord(targetRoot, kitRoot, opts);
-  return {
+  const next = {
     ...lock,
     lockSchemaVersion: rec.lockSchemaVersion,
     kitSource: rec.kitSource,
-    kitRootRel: rec.kitRootRel,
+    navigationContractVersion: rec.navigationContractVersion,
+    navigationPreserveDefault: rec.navigationPreserveDefault,
     paths: {
       ...(lock.paths || { docsAi: 'docs/ai', philosophy: 'philosophy' }),
-      kitRootRel: rec.kitRootRel,
     },
   };
+  if (rec.kitRootRel) {
+    next.kitRootRel = rec.kitRootRel;
+    next.paths.kitRootRel = rec.kitRootRel;
+  } else {
+    delete next.kitRootRel;
+  }
+  return { lock: next, warnings: rec.warnings || [] };
 }

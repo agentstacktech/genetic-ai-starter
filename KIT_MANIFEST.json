@@ -15,6 +15,13 @@
   ],
   "files": [
     "PLATFORM_VERSION",
+    "contracts/NAVIGATION_CONTRACT.v1.json",
+    "meta/docs/NAVIGATION_CONTRACT_ADR.md",
+    "meta/docs/UPGRADE_GUIDE.md",
+    "meta/docs/POST_UPGRADE_TENANT.md",
+    "payload/docs/ai/OPERATIONS.path-only.md",
+    "payload/docs/ai/OPERATIONS.submodule.md",
+    "payload/docs/ai/OPERATIONS.npm.md",
     "payload/AGENTS.md",
     "payload/AGENTS.minimal.md",
     "payload/.cursorrules.fragment.md",

@@ -1,18 +1,13 @@
-# Sample consumer CI — rename to genetic-ai-validate.yml and adjust kit path
+# Sample CI for consumer repos with genetic-ai-starter submodule
 name: genetic-ai-validate
 
 on:
+  push:
+    branches: [main]
   pull_request:
-    paths:
-      - 'docs/ai/**'
-      - 'philosophy/**'
-      - '**/AI_INDEX.md'
-      - '.cursor/**'
-      - 'tools/genetic-ai-starter/**'
-      - '.genetic-ai/**'
 
 jobs:
-  validate:
+  kit-health:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,8 +16,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: genetic-ai kit CI
+      - name: ci-kit
         run: node tools/genetic-ai-starter/scripts/ci-kit.mjs --target .
-      - name: submodule drift (optional)
-        run: node tools/genetic-ai-starter/scripts/check-submodule-drift.mjs --target .
-        continue-on-error: true
+      - name: Upload upgrade report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: genetic-ai-upgrade-report
+          path: .genetic-ai/last-upgrade-report.json
+          if-no-files-found: ignore

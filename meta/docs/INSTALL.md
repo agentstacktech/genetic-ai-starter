@@ -17,6 +17,8 @@ The wizard asks for target path, project name, domain, profile, and optional Age
 
 Non-interactive: `node scripts/init.mjs --yes --target <path> --profile standard --project-name "My App" --domain app`
 
+**Upgrade (0.4.13+):** preserve tenant navigation by default — see [UPGRADE_GUIDE.md](UPGRADE_GUIDE.md) and [POST_UPGRADE_TENANT.md](POST_UPGRADE_TENANT.md).
+
 ---
 
 ## Prerequisites

@@ -51,7 +51,9 @@ function main() {
     }
   }
 
-  const textFiles = manifest.files.filter((f) => f.endsWith('.md') || f.endsWith('.mdc'));
+  const textFiles = manifest.files.filter(
+    (f) => f.startsWith('payload/') && (f.endsWith('.md') || f.endsWith('.mdc')),
+  );
   const relPayload = textFiles.map((f) => f.replace(/^payload\//, ''));
   const broken = findBrokenMarkdownLinks(PAYLOAD_ROOT, relPayload);
   for (const b of broken) {

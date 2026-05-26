@@ -54,7 +54,7 @@ export function kitFoundationGeneTransform(c) {
       .replace(/\]\(ai_gene_interface\.py\)/g, `](${AGENTSTACK_TREE}/philosophy/ai_gene_interface.py)`)
       .replace(/\.\.\/\.\.\/docs\/ai\/journals\/stories\//g, `${AGENTSTACK_TREE}/docs/journals/stories/`)
       .replace(/\]\(axiom\.version\.control\.lance_will\.gen2\.md\)/g, `](${AGENTSTACK_TREE}/philosophy/genes/axiom.version.control.lance_will.gen2.md)`)
-      .replace(/\]\(\.\.\/\.\.\/\.cursorrules\)/g, '](../../.cursorrules.fragment.md)')
+      .replace(/\]\(\.\.\/\.\.\/\.cursorrules\)/g, '](../../.cursorrules)')
       .replace(/repo\.engineering\.controlled_code_changes\.gen1\.md/g, 'repo.engineering.controlled_changes.gen1.md')
       .replace(/`gene_document_resolver\.py`/g, '`gene_document_resolver` (AgentStack monorepo)')
       .replace(/`ai_gene_interface\.py`/g, '`ai_gene_interface` (AgentStack monorepo)')
@@ -69,6 +69,7 @@ export function kitFoundationGeneTransform(c) {
       .replace(/repo\.engineering\.controlled_code_changes\.gen1\.md/g, 'repo.engineering.controlled_changes.gen1.md')
       .replace(/\.\.\/\.\.\/docs\/AI_NAVIGATION_MAP\.md/g, '../../docs/ai/AI_NAVIGATION_MAP.md')
       .replace(/\.\.\/\.\.\/\.cursorrules/g, '../../.cursorrules')
+      .replace(/\]\(repo\.tooling\.kit_vendor\.gen1\.md\)/g, '](https://github.com/agentstacktech/genetic-ai-starter/tree/main)')
       .replace(
         /\]\(\.\.\/\.\.\/docs\/ai\/journals\/JOURNAL_STORY_TEMPLATE\.md\)/g,
         `](${AGENTSTACK_TREE}/docs/journals/JOURNAL_STORY_TEMPLATE.md)`,

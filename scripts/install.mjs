@@ -8,7 +8,6 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-import { copyPayloadFiles } from './lib/copy-payload.mjs';
 import { mergeCursorrules, appendInsideCursorrulesBlock } from './lib/merge-cursorrules.mjs';
 import { loadProfile, resolveProfileFiles } from './lib/profile-include.mjs';
 import { installSkills } from './lib/install-skills.mjs';
@@ -20,6 +19,9 @@ import { resolvePhilosophyInstallOpts } from './lib/philosophy-state.mjs';
 import { applyGitignoreKit } from './lib/gitignore-kit.mjs';
 import { applyKitSourceToLock } from './lib/record-kit-source.mjs';
 import { LOCK_SCHEMA_VERSION } from './lib/kit-integration-constants.mjs';
+import { applyUpgrade, finalizeUpgradeReport, runPostUpgradeValidate } from './lib/upgrade-engine.mjs';
+import { printUpgradeReportHuman } from './lib/upgrade-report.mjs';
+import { mergeExtensionOverlayMissingSections } from './lib/tenant-protected-files.mjs';
 
 const NAV_EXTENSION_MARKER = '<!-- genetic-ai-extension:agentstack-nav -->';
 
@@ -38,6 +40,10 @@ function parseArgs(argv) {
     gitignoreKit: 'none',
     recordKitSource: false,
     kitRoot: null,
+    preserveNavigation: true,
+    forceNavigation: false,
+    yes: false,
+    jsonReport: false,
   };
   for (let i = 2; i < argv.length; i++) {
     const a = argv[i];
@@ -50,6 +56,11 @@ function parseArgs(argv) {
     else if (a === '--strict') opts.strict = true;
     else if (a === '--merge-philosophy') opts.mergePhilosophy = true;
     else if (a === '--force-philosophy') opts.forcePhilosophy = true;
+    else if (a === '--preserve-navigation') opts.preserveNavigation = true;
+    else if (a === '--no-preserve-navigation') opts.preserveNavigation = false;
+    else if (a === '--force-navigation') opts.forceNavigation = true;
+    else if (a === '--yes') opts.yes = true;
+    else if (a === '--json-report') opts.jsonReport = true;
     else if (a === '--skills' && argv[i + 1] === 'global') {
       opts.skillsMode = 'global';
       i++;
@@ -64,16 +75,11 @@ function parseArgs(argv) {
     else if (a === '--kit-root') opts.kitRoot = argv[++i];
     else if (a === '--help') {
       console.log(`Usage: node install.mjs --target <path> [options]
-  --profile minimal|standard|full|founder  (see meta/docs/PROFILE_COMPARISON.md)
-  --project-name "Name"
-  --domain app
-  --with-agentstack  (auto for full|founder)
-  --dry-run --strict
+  --profile minimal|standard|full|founder
+  --preserve-navigation (default) | --no-preserve-navigation | --force-navigation
+  --dry-run --yes --json-report
   --merge-philosophy --force-philosophy
-  --skills global|project (default: project)
-  --gitignore-kit full|none  (full: kit docs/rules not committed)
-  --record-kit-source  (KIP v2 kitSource in lock)
-  --kit-root <path>  (kit used for install; default: script cwd kit)`);
+  --record-kit-source --kit-root <path>`);
       process.exit(0);
     }
   }
@@ -84,7 +90,7 @@ function parseArgs(argv) {
   return opts;
 }
 
-function applyExtension(targetRoot, extId, vars, { dryRun }) {
+function applyExtension(targetRoot, extId, vars, { dryRun, preserveOverlays }) {
   const extRoot = path.join(EXTENSIONS_DIR, extId);
   const manifestPath = path.join(extRoot, 'extension.manifest.json');
   if (!fs.existsSync(manifestPath)) throw new Error(`Extension not found: ${extId}`);
@@ -98,6 +104,9 @@ function applyExtension(targetRoot, extId, vars, { dryRun }) {
       fs.mkdirSync(path.dirname(dest), { recursive: true });
       let c = fs.readFileSync(src, 'utf8');
       c = substitute(c, vars, {});
+      if (preserveOverlays && fs.existsSync(dest) && ov.to.endsWith('CONTEXT_FOR_AI.md')) {
+        c = mergeExtensionOverlayMissingSections(fs.readFileSync(dest, 'utf8'), c);
+      }
       fs.writeFileSync(dest, c, 'utf8');
     }
   }
@@ -143,10 +152,15 @@ function writeLock(targetRoot, opts, extensions, { dryRun, kitRootForRecord }) {
     domain: opts.domain,
     gitignoreKit: opts.gitignoreKit,
     installedAt: new Date().toISOString(),
+    navigationContractVersion: 1,
+    navigationPreserveDefault: opts.preserveNavigation,
     paths: { docsAi: 'docs/ai', philosophy: 'philosophy' },
   };
+  const warnings = [];
   if (opts.recordKitSource && kitRootForRecord) {
-    lock = applyKitSourceToLock(lock, targetRoot, kitRootForRecord, { preferSubmodule: true });
+    const applied = applyKitSourceToLock(lock, targetRoot, kitRootForRecord, { preferSubmodule: true });
+    lock = applied.lock;
+    warnings.push(...(applied.warnings || []));
     const src = { ...lock.kitSource };
     if (!src.url) delete src.url;
     lock.kitSource = src;
@@ -157,18 +171,19 @@ function writeLock(targetRoot, opts, extensions, { dryRun, kitRootForRecord }) {
     fs.writeFileSync(path.join(lockDir, 'kit.lock.json'), JSON.stringify(lock, null, 2) + '\n', 'utf8');
     fs.writeFileSync(path.join(lockDir, 'paths.json'), JSON.stringify(lock.paths, null, 2) + '\n', 'utf8');
   }
-  return lock;
+  return { lock, warnings };
 }
 
 function main() {
   const opts = parseArgs(process.argv);
   const targetRoot = path.resolve(opts.target);
+  const kitRootForRecord = opts.kitRoot ? path.resolve(opts.kitRoot) : KIT_ROOT;
   const vars = {
     PROJECT_NAME: opts.projectName,
     DOMAIN: opts.domain,
     SUBSYSTEM: 'feature',
     DECISION_SLUG: 'decision',
-    AGENTSTACK_VERSION: readPlatformVersion(),
+    AGENTSTACK_VERSION: readPlatformVersionForKitRoot(kitRootForRecord),
   };
 
   const profile = loadProfile(opts.profile);
@@ -179,34 +194,33 @@ function main() {
 
   const philOpts = resolvePhilosophyInstallOpts(targetRoot, files, opts);
   if (philOpts.autoRepaired) {
-    console.warn(
-      'Note: philosophy/ existed but was incomplete — reinstalling starter genes (--force-philosophy).',
-    );
-  } else if (philOpts.skipPhilosophy) {
-    console.warn(
-      'Note: existing complete philosophy/ kept. Use --merge-philosophy or --force-philosophy to change.',
-    );
+    console.warn('Note: philosophy/ incomplete — reinstalling starter genes.');
   }
 
-  const written = copyPayloadFiles({
+  const kitSourceType = 'path';
+  const partial = applyUpgrade({
     targetRoot,
     relativeFiles: files,
     vars,
-    strict: opts.strict,
-    dryRun: opts.dryRun,
-    skipPhilosophy: philOpts.skipPhilosophy,
-    forcePhilosophy: philOpts.forcePhilosophy,
-    mergePhilosophy: philOpts.mergePhilosophy,
+    options: {
+      dryRun: opts.dryRun,
+      preserveNavigation: opts.preserveNavigation,
+      forceNavigation: opts.forceNavigation,
+      strict: opts.strict,
+      kitSourceType,
+      skipPhilosophy: philOpts.skipPhilosophy,
+      forcePhilosophy: philOpts.forcePhilosophy,
+      mergePhilosophy: philOpts.mergePhilosophy,
+    },
   });
 
   if (opts.profile === 'minimal' && !opts.dryRun) {
     const agentsMinimal = path.join(PAYLOAD_ROOT, 'AGENTS.minimal.md');
     const agentsDest = path.join(targetRoot, 'AGENTS.md');
-    if (fs.existsSync(agentsMinimal)) {
+    if (fs.existsSync(agentsMinimal) && !fs.existsSync(agentsDest)) {
       let agents = fs.readFileSync(agentsMinimal, 'utf8');
       agents = substitute(agents, vars, { strict: opts.strict });
       fs.writeFileSync(agentsDest, agents, 'utf8');
-      if (!written.includes('AGENTS.md')) written.push('AGENTS.md');
     }
     const stubSrc = path.join(PAYLOAD_ROOT, 'docs/ai/AI_NAVIGATION_MAP.minimal.stub.md');
     const mapDest = path.join(targetRoot, 'docs/ai/AI_NAVIGATION_MAP.md');
@@ -215,17 +229,13 @@ function main() {
       let stub = fs.readFileSync(stubSrc, 'utf8');
       stub = substitute(stub, vars, { strict: opts.strict });
       fs.writeFileSync(mapDest, stub, 'utf8');
-      written.push('docs/ai/AI_NAVIGATION_MAP.md');
     }
   }
 
   const fragmentPath = path.join(PAYLOAD_ROOT, '.cursorrules.fragment.md');
   const wantsCursorrules =
     files.some((f) => f === '.cursorrules.fragment.md') ||
-    profile.id === 'minimal' ||
-    profile.id === 'standard' ||
-    profile.id === 'full' ||
-    profile.id === 'founder';
+    ['minimal', 'standard', 'full', 'founder'].includes(profile.id);
 
   if (wantsCursorrules && fs.existsSync(fragmentPath)) {
     const frag = substitute(fs.readFileSync(fragmentPath, 'utf8'), vars, { strict: opts.strict });
@@ -240,46 +250,58 @@ function main() {
 
   const extensions = [];
   if (opts.withAgentstack || (profile.extensions || []).includes('agentstack')) {
-    applyExtension(targetRoot, 'agentstack', vars, { dryRun: opts.dryRun });
+    applyExtension(targetRoot, 'agentstack', vars, {
+      dryRun: opts.dryRun,
+      preserveOverlays: opts.preserveNavigation,
+    });
     extensions.push('agentstack');
   }
 
-  const kitRootForRecord = opts.kitRoot ? path.resolve(opts.kitRoot) : KIT_ROOT;
-  writeLock(targetRoot, opts, extensions, { dryRun: opts.dryRun, kitRootForRecord });
+  const { lock, warnings } = writeLock(targetRoot, opts, extensions, { dryRun: opts.dryRun, kitRootForRecord });
+  for (const w of warnings) console.warn(`WARN: ${w}`);
 
   if (opts.gitignoreKit === 'full') {
     applyGitignoreKit(targetRoot, opts.profile, extensions, { dryRun: opts.dryRun });
   }
 
-  console.log(
-    opts.dryRun ? '[dry-run] Would install' : 'Installed',
-    `profile=${opts.profile}`,
-    `files=${written.length}`,
-    `skills=${opts.skillsMode}`,
-    `gitignore=${opts.gitignoreKit}`,
-    `→ ${targetRoot}`,
+  let validation = { status: 'skipped' };
+  let exitCode = 0;
+  if (!opts.dryRun) {
+    validation = runPostUpgradeValidate(targetRoot, kitRootForRecord, __dirname);
+    if (validation.status !== 'ok') exitCode = 1;
+  }
+
+  const report = finalizeUpgradeReport(
+    targetRoot,
+    { ...partial, warnings: [...(partial.warnings || []), ...warnings] },
+    validation,
+    {
+      dryRun: opts.dryRun,
+      preserveNavigation: opts.preserveNavigation,
+      forceNavigation: opts.forceNavigation,
+      kitVersion: lock.kitVersion,
+    },
   );
 
-  if (!opts.dryRun) {
-    const validate = spawnSync(
-      process.execPath,
-      [
-        path.join(__dirname, 'validate-installed.mjs'),
-        '--target',
-        targetRoot,
-        '--kit-root',
-        kitRootForRecord,
-      ],
-      { encoding: 'utf8' },
-    );
-    if (validate.status !== 0) {
-      console.error(validate.stderr || validate.stdout);
-      console.error(
-        '\nFix: node <kit>/scripts/repair.mjs --target <project>  (or install.ps1 -ForcePhilosophy -Strict)',
-      );
-      process.exit(1);
-    }
+  if (opts.jsonReport) console.log(JSON.stringify(report, null, 2));
+  else printUpgradeReportHuman(report);
+
+  if (opts.dryRun) {
+    console.log('[dry-run] Would install', `profile=${opts.profile}`, `→ ${targetRoot}`);
+    process.exit(0);
   }
+
+  if (exitCode !== 0) {
+    console.error('Applied with validation errors — see report above.');
+    process.exit(exitCode);
+  }
+
+  console.log(
+    'Installed',
+    `profile=${opts.profile}`,
+    `files=${(partial.written || []).length}`,
+    `→ ${targetRoot}`,
+  );
 }
 
 main();

@@ -6,17 +6,24 @@
 
 ## Read order (mandatory for non-trivial tasks)
 
+<!-- genetic-ai-agents:read-order:begin -->
 1. **This file** — lookup order (30 seconds).
 2. `philosophy/genes/foundation.core_pillars.gen1.md` — **why** (creation, minimalism, decomposition, TDC).
 3. `.cursor/rules/genetic-navigation.mdc` — alwaysApply workflow.
 4. `docs/ai/AI_NAVIGATION_MAP.md` — Tier 0 / Tier 1 registry.
 5. `philosophy/genes/GENE_COMPRESSION_MAP.md` — cluster for multi-subsystem tasks.
 6. Nearest `**/AI_INDEX.md` — hot files only, then scoped search.
+<!-- genetic-ai-agents:read-order:end -->
+
+<!-- tenant-agents:begin -->
+<!-- Add project-specific read steps (e.g. agent-debug-first.mdc) above kit order via your rules precedence. -->
+<!-- tenant-agents:end -->
 
 ---
 
 ## Tier 0 (quick links)
 
+<!-- genetic-ai-agents:tier0:begin -->
 | Tag | Where |
 |-----|-------|
 | Philosophy | [philosophy/PHILOSOPHY_INDEX.md](philosophy/PHILOSOPHY_INDEX.md) |
@@ -24,6 +31,7 @@
 | Controlled edits | [philosophy/genes/repo.engineering.controlled_changes.gen1.md](philosophy/genes/repo.engineering.controlled_changes.gen1.md) |
 | Navigation map | [docs/ai/AI_NAVIGATION_MAP.md](docs/ai/AI_NAVIGATION_MAP.md) |
 | App source | `src/` (adjust in map) |
+<!-- genetic-ai-agents:tier0:end -->
 
 ---
 

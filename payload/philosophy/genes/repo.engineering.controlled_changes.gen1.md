@@ -43,7 +43,7 @@ Same standards as production code: **predictable transformations**, **traceable 
 | [GENE_INDEX.md](GENE_INDEX.md) | Catalog entry for this gene |
 | [repo.engineering.founder_direct_ship.gen1.md](repo.engineering.founder_direct_ship.gen1.md) | Lance + AI: direct ship, no personal canary / duplicate paths by default |
 | [docs/AI_NAVIGATION_MAP.md](../../docs/ai/AI_NAVIGATION_MAP.md) | Tier 0 tag `repo.engineering.controlled_changes.gen1` |
-| [.cursorrules](../../.cursorrules.fragment.md) | Workspace rule: codebase edit protocol |
+| `.cursorrules` (merged from kit fragment at install) | Workspace rule: codebase edit protocol |
 
 ---
 

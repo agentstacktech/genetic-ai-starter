@@ -1,0 +1,84 @@
+{
+  "contractVersion": 1,
+  "mergeModeDefault": "preserve_regions",
+  "philosophyPolicy": "force_starter_on_upgrade",
+  "protectedFiles": [
+    "AGENTS.md",
+    "docs/ai/AI_NAVIGATION_MAP.md",
+    "docs/ai/OPERATIONS.md",
+    "docs/ai/CONTEXT_FOR_AI.md",
+    "philosophy/genes/GENE_COMPRESSION_MAP.md"
+  ],
+  "regions": [
+    {
+      "file": "AGENTS.md",
+      "id": "read-order",
+      "beginMarker": "<!-- genetic-ai-agents:read-order:begin -->",
+      "endMarker": "<!-- genetic-ai-agents:read-order:end -->",
+      "owner": "kit"
+    },
+    {
+      "file": "AGENTS.md",
+      "id": "tier0",
+      "beginMarker": "<!-- genetic-ai-agents:tier0:begin -->",
+      "endMarker": "<!-- genetic-ai-agents:tier0:end -->",
+      "owner": "kit"
+    },
+    {
+      "file": "AGENTS.md",
+      "id": "tenant",
+      "beginMarker": "<!-- tenant-agents:begin -->",
+      "endMarker": "<!-- tenant-agents:end -->",
+      "owner": "tenant"
+    },
+    {
+      "file": "docs/ai/AI_NAVIGATION_MAP.md",
+      "id": "tier0",
+      "beginMarker": "<!-- genetic-ai-map:tier0:begin -->",
+      "endMarker": "<!-- genetic-ai-map:tier0:end -->",
+      "owner": "kit"
+    },
+    {
+      "file": "docs/ai/AI_NAVIGATION_MAP.md",
+      "id": "tier1-seed",
+      "beginMarker": "<!-- genetic-ai-map:tier1-seed:begin -->",
+      "endMarker": "<!-- genetic-ai-map:tier1-seed:end -->",
+      "owner": "kit"
+    },
+    {
+      "file": "docs/ai/AI_NAVIGATION_MAP.md",
+      "id": "tenant-tier1",
+      "beginMarker": "<!-- tenant-map:tier1:begin -->",
+      "endMarker": "<!-- tenant-map:tier1:end -->",
+      "owner": "tenant"
+    },
+    {
+      "file": "docs/ai/OPERATIONS.md",
+      "id": "body",
+      "beginMarker": "<!-- genetic-ai-operations:body:begin -->",
+      "endMarker": "<!-- genetic-ai-operations:body:end -->",
+      "owner": "kit"
+    },
+    {
+      "file": "philosophy/genes/GENE_COMPRESSION_MAP.md",
+      "id": "kit-integration",
+      "beginMarker": "<!-- genetic-ai-compression:kit-integration:begin -->",
+      "endMarker": "<!-- genetic-ai-compression:kit-integration:end -->",
+      "owner": "kit"
+    },
+    {
+      "file": "docs/ai/AI_NAVIGATION_MAP.md",
+      "id": "agentstack-nav",
+      "beginMarker": "<!-- genetic-ai-extension:agentstack-nav -->",
+      "endMarker": null,
+      "owner": "extension",
+      "appendOnly": true
+    }
+  ],
+  "extensionOverlays": {
+    "CONTEXT_FOR_AI.md": {
+      "mode": "merge_missing_sections",
+      "owner": "extension"
+    }
+  }
+}

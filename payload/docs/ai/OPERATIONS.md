@@ -4,49 +4,37 @@ Installed **genetic-ai-starter** (platform version in `.genetic-ai/kit.lock.json
 
 **Integration:** [INTEGRATION_MODES](https://github.com/agentstacktech/genetic-ai-starter/blob/main/meta/docs/INTEGRATION_MODES.md) · upstream [DOC_HUB](https://github.com/agentstacktech/genetic-ai-starter/blob/main/meta/docs/DOC_HUB.md).
 
+<!-- genetic-ai-operations:body:begin -->
 ## Health check
 
-From your project root (submodule layout):
+Resolve kit root (first match): `--kit-root` → `GENETIC_AI_KIT_ROOT` → `lock.kitRootRel` → `tools/genetic-ai-starter`.
 
 ```bash
-node tools/genetic-ai-starter/scripts/doctor.mjs --target .
-node tools/genetic-ai-starter/scripts/validate-installed.mjs --target .
+node <kit>/scripts/doctor.mjs --target .
+node <kit>/scripts/validate-installed.mjs --target .
 ```
 
-Or CI: `node tools/genetic-ai-starter/scripts/ci-kit.mjs --target .`
+Or CI: `node <kit>/scripts/ci-kit.mjs --target .`
 
-Windows:
-
-```cmd
-tools\genetic-ai-starter\scripts\repair.cmd .
-```
-
-## Repair broken install
+## Upgrade (preserve tenant map by default)
 
 ```bash
-node tools/genetic-ai-starter/scripts/repair.mjs --target .
+node <kit>/scripts/upgrade.mjs --target . --dry-run
+node <kit>/scripts/upgrade.mjs --target . --yes
 ```
 
-## Upgrade kit version
+Use `--force-navigation` only to reset kit-owned regions. See `meta/docs/POST_UPGRADE_TENANT.md`.
 
-Sync submodule pin then re-install navigation payload:
+## Repair
 
 ```bash
-node tools/genetic-ai-starter/scripts/upgrade.mjs --target . --sync-submodule
+node <kit>/scripts/repair.mjs --target . --validate-only
+node <kit>/scripts/repair.mjs --target . --repair-philosophy
 ```
 
 ## Uninstall
 
 ```bash
-node tools/genetic-ai-starter/scripts/uninstall.mjs --target .
+node <kit>/scripts/uninstall.mjs --target .
 ```
-
-Removes navigation payload and `.genetic-ai/` metadata. **Does not** remove the `tools/genetic-ai-starter` git submodule by default.
-
-Optional (destructive): `--remove-submodule` runs `git submodule deinit` for the path in lock.
-
-## Private install (not in git)
-
-If install used `--gitignore-kit full`, navigation paths are in `.gitignore` but the **submodule** at `tools/genetic-ai-starter` remains committed for scripts.
-
-See [INTEGRATION_MODES](https://github.com/agentstacktech/genetic-ai-starter/blob/main/meta/docs/INTEGRATION_MODES.md) § gitignore-kit full + submodule.
+<!-- genetic-ai-operations:body:end -->

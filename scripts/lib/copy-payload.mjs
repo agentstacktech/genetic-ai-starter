@@ -2,12 +2,16 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { PAYLOAD_ROOT } from './paths.mjs';
 import { substitute } from './substitute-placeholders.mjs';
+import { isProtectedNavigationFile } from './tenant-protected-files.mjs';
 
 /** Never copy to target — merged into .cursorrules by install.mjs */
 export const SKIP_COPY_TO_TARGET = new Set([
   '.cursorrules.fragment.md',
   'AGENTS.minimal.md',
   'docs/ai/AI_NAVIGATION_MAP.minimal.stub.md',
+  'docs/ai/OPERATIONS.path-only.md',
+  'docs/ai/OPERATIONS.submodule.md',
+  'docs/ai/OPERATIONS.npm.md',
 ]);
 
 const TEXT_EXT = new Set([
@@ -29,10 +33,18 @@ export function copyPayloadFiles({
   skipPhilosophy = true,
   forcePhilosophy = false,
   mergePhilosophy = false,
+  preserveNavigation = false,
+  forceNavigation = false,
+  navigationFilesHandled = [],
 }) {
+  const handled = new Set(navigationFilesHandled);
   const written = [];
   for (const rel of relativeFiles) {
     if (SKIP_COPY_TO_TARGET.has(rel)) continue;
+
+    if (preserveNavigation && !forceNavigation && handled.has(rel)) {
+      continue;
+    }
 
     if (rel.startsWith('philosophy/') && skipPhilosophy && !forcePhilosophy && !mergePhilosophy) {
       continue;
@@ -54,6 +66,9 @@ export function copyPayloadFiles({
     if (fs.existsSync(dest) && forcePhilosophy && rel.startsWith('philosophy/')) {
       // overwrite
     } else if (fs.existsSync(dest) && !rel.includes('kit.manifest.stub')) {
+      if (preserveNavigation && !forceNavigation && isProtectedNavigationFile(rel)) {
+        continue;
+      }
       if (!rel.startsWith('.cursor/') && rel !== 'AGENTS.md' && !rel.startsWith('docs/ai/')) {
         continue;
       }

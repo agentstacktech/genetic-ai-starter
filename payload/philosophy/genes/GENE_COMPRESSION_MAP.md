@@ -32,13 +32,15 @@
 
 ## Cluster Kit integration — submodule / KIP v2
 
+<!-- genetic-ai-compression:kit-integration:begin -->
 | Order | Genes |
 |-------|-------|
 | 1 | `repo.tooling.genetic_starter.integration.gen1` |
 | 2 | `repo.tooling.genetic_starter.gen1` |
-| 3 | `repo.tooling.kit_vendor.gen1` (Tier 0 row → `tools/genetic-ai-starter/`) |
+| 3 | `repo.tooling.kit_vendor.gen1` — Tier 0 row in map → `tools/genetic-ai-starter/` (no separate gene file in starter payload) |
 
-**Synergy:** `bootstrap-standard.mjs` → `install.mjs --record-kit-source` → `doctor` / `upgrade --sync-submodule`.
+**Synergy:** `bootstrap-standard.mjs` → `install.mjs --record-kit-source` → `doctor` / `upgrade --sync-submodule --yes`.
+<!-- genetic-ai-compression:kit-integration:end -->
 
 ---
 

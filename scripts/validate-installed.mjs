@@ -4,15 +4,18 @@ import path from 'node:path';
 import { findBrokenMarkdownLinks } from './lib/resolve-markdown-links.mjs';
 import { GITIGNORE_BEGIN } from './lib/merge-gitignore.mjs';
 import { resolveKitRoot } from './lib/resolve-kit-root.mjs';
+import { loadNavigationContract } from './lib/tenant-protected-files.mjs';
 
 function parseArgs(argv) {
   let target = '.';
   let kitRoot = null;
+  let checkGeneLinks = true;
   for (let i = 2; i < argv.length; i++) {
     if (argv[i] === '--target') target = argv[++i];
     else if (argv[i] === '--kit-root') kitRoot = argv[++i];
+    else if (argv[i] === '--no-check-gene-links') checkGeneLinks = false;
   }
-  return { target: path.resolve(target), kitRoot };
+  return { target: path.resolve(target), kitRoot, checkGeneLinks };
 }
 
 function collectMarkdown(root, acc = [], prefix = '') {
@@ -27,8 +30,51 @@ function collectMarkdown(root, acc = [], prefix = '') {
   return acc;
 }
 
+function classifyError(msg) {
+  if (msg.startsWith('Broken link')) return 'LINK';
+  if (msg.includes('philosophy/') || msg.includes('Missing .cursor/rules')) return 'PHILOSOPHY';
+  if (msg.includes('kit.lock')) return 'LOCK';
+  if (msg.includes('stub')) return 'STUB';
+  return 'OTHER';
+}
+
+function printHints(errors, kitRootRel) {
+  const codes = new Set(errors.map(classifyError));
+  if (codes.has('PHILOSOPHY')) {
+    console.error(
+      '\n[PHILOSOPHY] Incomplete philosophy/ — run:\n' +
+        `  node ${kitRootRel}/scripts/repair.mjs --target <this-project> --repair-philosophy\n`,
+    );
+  }
+  if (codes.has('LINK') && !codes.has('PHILOSOPHY')) {
+    console.error(
+      '\n[LINK] Broken markdown links — if only .cursorrules.fragment.md aliases, upgrade kit 0.4.13+.\n' +
+        '  Otherwise: node <kit>/scripts/repair.mjs --target <project> --validate-only\n',
+    );
+  }
+  if (codes.has('LOCK')) {
+    console.error('\n[LOCK] Run install.mjs or migrate-kit-lock.mjs\n');
+  }
+}
+
+function checkGeneFileLinks(target, errors) {
+  const mapPath = path.join(target, 'philosophy/genes/GENE_COMPRESSION_MAP.md');
+  if (!fs.existsSync(mapPath)) return;
+  const content = fs.readFileSync(mapPath, 'utf8');
+  const re = /\]\(([^)]+\.gen1\.md)\)/g;
+  let m;
+  while ((m = re.exec(content)) !== null) {
+    const href = m[1];
+    if (href.startsWith('http')) continue;
+    const resolved = path.normalize(path.join(path.dirname(mapPath), href));
+    if (!fs.existsSync(resolved)) {
+      errors.push(`[LINK] Broken gene link in GENE_COMPRESSION_MAP: ${href}`);
+    }
+  }
+}
+
 function main() {
-  const { target, kitRoot: explicitKitRoot } = parseArgs(process.argv);
+  const { target, kitRoot: explicitKitRoot, checkGeneLinks } = parseArgs(process.argv);
   let kitRootRel = 'tools/genetic-ai-starter';
   try {
     const resolved = resolveKitRoot({ target, explicitKitRoot: explicitKitRoot });
@@ -43,11 +89,11 @@ function main() {
     '.cursor/rules/genetic-navigation.mdc',
   ];
   for (const r of required) {
-    if (!fs.existsSync(path.join(target, r))) errors.push(`Missing: ${r}`);
+    if (!fs.existsSync(path.join(target, r))) errors.push(`[OTHER] Missing: ${r}`);
   }
 
   const lock = path.join(target, '.genetic-ai/kit.lock.json');
-  if (!fs.existsSync(lock)) errors.push('Missing .genetic-ai/kit.lock.json');
+  if (!fs.existsSync(lock)) errors.push('[LOCK] Missing .genetic-ai/kit.lock.json');
 
   let profile = 'standard';
   let gitignoreKit = 'none';
@@ -62,18 +108,33 @@ function main() {
   if (gitignoreKit === 'full') {
     const gi = path.join(target, '.gitignore');
     if (!fs.existsSync(gi) || !fs.readFileSync(gi, 'utf8').includes(GITIGNORE_BEGIN)) {
-      errors.push('Missing genetic-ai-starter block in .gitignore (lock has gitignoreKit=full)');
+      errors.push('[OTHER] Missing genetic-ai-starter block in .gitignore (lock has gitignoreKit=full)');
     }
   }
 
   const stubLeak = path.join(target, 'docs/ai/AI_NAVIGATION_MAP.minimal.stub.md');
   if (fs.existsSync(stubLeak)) {
-    errors.push('Stale docs/ai/AI_NAVIGATION_MAP.minimal.stub.md (should not be copied to target)');
+    errors.push('[STUB] Stale docs/ai/AI_NAVIGATION_MAP.minimal.stub.md');
   }
   if (profile === 'minimal' && !fs.existsSync(path.join(target, 'philosophy'))) {
     const minimalRules = path.join(target, '.cursor/rules/engineering-controlled-changes.mdc');
     if (!fs.existsSync(minimalRules)) {
-      errors.push('Missing .cursor/rules/engineering-controlled-changes.mdc (minimal profile)');
+      errors.push('[PHILOSOPHY] Missing .cursor/rules/engineering-controlled-changes.mdc (minimal profile)');
+    }
+  }
+
+  if (profile !== 'minimal') {
+    const contract = loadNavigationContract();
+    for (const rel of contract.protectedFiles || []) {
+      const fp = path.join(target, rel);
+      if (!fs.existsSync(fp)) continue;
+      const content = fs.readFileSync(fp, 'utf8');
+      for (const region of contract.regions || []) {
+        if (region.file !== rel || !region.endMarker) continue;
+        if (!content.includes(region.beginMarker)) {
+          errors.push(`[OTHER] Missing region marker ${region.beginMarker} in ${rel}`);
+        }
+      }
     }
   }
 
@@ -87,18 +148,13 @@ function main() {
   if (fs.existsSync(path.join(target, 'AGENTS.md'))) mdRoots.push('AGENTS.md');
 
   const broken = findBrokenMarkdownLinks(target, mdRoots);
-  for (const b of broken) errors.push(`Broken link in ${b.file}: ${b.target}`);
+  for (const b of broken) errors.push(`[LINK] Broken link in ${b.file}: ${b.target}`);
+
+  if (checkGeneLinks) checkGeneFileLinks(target, errors);
 
   if (errors.length) {
     console.error('validate-installed FAILED:\n' + errors.map((e) => `  - ${e}`).join('\n'));
-    const philBroken = errors.some((e) => e.includes('philosophy/'));
-    if (philBroken) {
-      console.error(
-        '\nLikely fix: incomplete philosophy/ — run:\n' +
-          `  node ${kitRootRel}/scripts/repair.mjs --target <this-project>\n` +
-          '  (or install.ps1 -ForcePhilosophy -Strict on Windows)',
-      );
-    }
+    printHints(errors, kitRootRel);
     process.exit(1);
   }
   console.log('validate-installed OK', target);

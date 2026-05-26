@@ -1,6 +1,7 @@
 {
   "id": "agentstack",
   "requiresKit": ">=0.4.13",
+  "preserveTargets": ["docs/ai/CONTEXT_FOR_AI.md"],
   "requiresPlatformVersion": "AGENTSTACK_CORE_VERSION",
   "docsBaseUrl": null,
   "overlays": [

@@ -35,6 +35,22 @@ export function readSubmoduleRef(targetRoot, submodulePath) {
 }
 
 /**
+ * Read gitlink SHA from index (staged but parent not committed).
+ * @param {string} targetRoot
+ * @param {string} submodulePath
+ */
+export function readSubmoduleRefFromIndex(targetRoot, submodulePath) {
+  const ls = git(targetRoot, ['ls-files', '-s', submodulePath]);
+  if (ls.status === 0 && ls.stdout.trim()) {
+    const parts = ls.stdout.trim().split(/\s+/);
+    if (parts[0] && /^[0-9a-f]{40}$/i.test(parts[0])) return parts[0];
+  }
+  const indexed = git(targetRoot, ['rev-parse', `:${submodulePath}`]);
+  if (indexed.status === 0 && indexed.stdout.trim()) return indexed.stdout.trim();
+  return readSubmoduleRef(targetRoot, submodulePath);
+}
+
+/**
  * Parse .gitmodules for path → { url, name }.
  * @param {string} targetRoot
  */
@@ -139,10 +155,46 @@ export function resolveRemoteTagToSha(tag, url = DEFAULT_KIT_REPO_URL) {
  * @param {string} targetRoot
  * @param {{ path: string, ref: string }} kitSource
  */
-export function detectSubmoduleDrift(targetRoot, kitSource) {
+export function detectSubmoduleDrift(targetRoot, kitSource, { strict = false } = {}) {
   if (!kitSource?.ref || !kitSource?.path) return { drift: false };
+  const indexRef = readSubmoduleRefFromIndex(targetRoot, kitSource.path);
   const head = readSubmoduleRef(targetRoot, kitSource.path);
-  if (!head) return { drift: true, reason: 'submodule missing or empty' };
-  if (head !== kitSource.ref) return { drift: true, reason: 'sha mismatch', head, expected: kitSource.ref };
-  return { drift: false, head };
+
+  if (!indexRef && !head) {
+    return { drift: true, severity: 'error', reason: 'submodule missing or empty' };
+  }
+
+  const effective = indexRef || head;
+  if (effective === kitSource.ref) {
+    if (head && head !== kitSource.ref && indexRef === kitSource.ref) {
+      return {
+        drift: true,
+        severity: strict ? 'error' : 'warn',
+        reason: 'gitlink staged; commit parent repo to clear WARN',
+        head,
+        indexRef,
+        expected: kitSource.ref,
+      };
+    }
+    return { drift: false, head: effective };
+  }
+
+  if (indexRef === kitSource.ref && head !== kitSource.ref) {
+    return {
+      drift: true,
+      severity: strict ? 'error' : 'warn',
+      reason: 'index matches lock; HEAD differs — commit gitlink in parent',
+      head,
+      indexRef,
+      expected: kitSource.ref,
+    };
+  }
+
+  return {
+    drift: true,
+    severity: 'error',
+    reason: 'sha mismatch',
+    head: head || indexRef,
+    expected: kitSource.ref,
+  };
 }

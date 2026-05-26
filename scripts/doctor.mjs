@@ -17,8 +17,9 @@ import {
   submodulePathExists,
 } from './lib/git-submodule.mjs';
 import { verifyKitVersionPin } from './lib/verify-kit-version.mjs';
-import { validateKitLockKipV2 } from './lib/validate-kit-lock-schema.mjs';
+import { validateKitLockKipV2, validateKitLockWarnings } from './lib/validate-kit-lock-schema.mjs';
 import { DEFAULT_KIT_SUBMODULE_PATH } from './lib/kit-integration-constants.mjs';
+import { readUpgradeReport, UPGRADE_REPORT_REL } from './lib/upgrade-report.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const KIT_ROOT = path.resolve(__dirname, '..');
@@ -66,6 +67,7 @@ function main() {
     return;
   }
   const issues = [];
+  const warnings = [];
 
   let kitRoot = KIT_ROOT;
   let kitSourceLabel = 'script.cwd';
@@ -73,39 +75,45 @@ function main() {
     const resolved = resolveKitRoot({ target, explicitKitRoot: explicitKitRoot });
     kitRoot = resolved.root;
     kitSourceLabel = resolved.source;
-    for (const w of resolved.warnings) issues.push(`resolver warning: ${w}`);
+    for (const w of resolved.warnings) warnings.push(`resolver: ${w}`);
     if (beacon) printKitResolveBeacon(kitRoot, kitSourceLabel);
   } catch (e) {
     issues.push(`Kit root: ${e.message}`);
   }
 
   const lockPath = path.join(target, '.genetic-ai/kit.lock.json');
+  let lock = null;
   if (!fs.existsSync(lockPath)) {
     issues.push('Missing .genetic-ai/kit.lock.json — run install');
   } else {
-    const lock = JSON.parse(fs.readFileSync(lockPath, 'utf8'));
+    lock = JSON.parse(fs.readFileSync(lockPath, 'utf8'));
     console.log(
       `Kit ${lock.kitId}@${lock.kitVersion} profile=${lock.profile} gitignore=${lock.gitignoreKit || 'none'}`,
     );
     console.log(`kitRoot=${kitRoot} (${kitSourceLabel})`);
+
+    for (const w of validateKitLockWarnings(lock)) warnings.push(w);
+
     if (lock.kitSource?.url && !assertKitRepoUrlAllowed(lock.kitSource.url)) {
-      console.warn(
-        `WARN: kitSource.url not on allowlist (fork?): ${lock.kitSource.url} — prefer official mirror or GENETIC_AI_KIT_URL_ALLOWLIST_EXTRA`,
-      );
+      warnings.push(`kitSource.url not on allowlist: ${lock.kitSource.url}`);
     }
     if (lock.kitSource?.type === 'submodule') {
-      const drift = detectSubmoduleDrift(target, lock.kitSource);
+      const drift = detectSubmoduleDrift(target, lock.kitSource, { strict: strictLock });
       if (drift.drift) {
-        process.env.GENETIC_AI_KIT_DRIFT = '1';
-        issues.push(
-          `submodule drift: ${drift.reason} — run: node ${lock.kitSource.path}/scripts/upgrade.mjs --target . --sync-submodule`,
-        );
+        const msg = `submodule drift: ${drift.reason}`;
+        if (drift.severity === 'warn') warnings.push(msg);
+        else {
+          process.env.GENETIC_AI_KIT_DRIFT = '1';
+          issues.push(
+            `${msg} — run: node ${lock.kitSource.path}/scripts/upgrade.mjs --target . --sync-submodule`,
+          );
+        }
       } else if (drift.head) {
         console.log(`submoduleRef=${drift.head} lockRef=${lock.kitSource.ref} OK`);
       }
       const subPath = lock.kitSource.path || DEFAULT_KIT_SUBMODULE_PATH;
       if (!submodulePathExists(target, subPath)) {
-        issues.push(`submodule path empty or missing install.mjs: ${subPath} — git submodule update --init`);
+        issues.push(`submodule path empty or missing install.mjs: ${subPath}`);
       }
     }
     const ver = verifyKitVersionPin(lock, kitRoot);
@@ -118,7 +126,7 @@ function main() {
     if (lock.gitignoreKit === 'full') {
       const gi = path.join(target, '.gitignore');
       if (!fs.existsSync(gi) || !fs.readFileSync(gi, 'utf8').includes(GITIGNORE_BEGIN)) {
-        issues.push('gitignoreKit=full but .gitignore missing genetic-ai block — re-run install --gitignore-kit full');
+        issues.push('gitignoreKit=full but .gitignore missing genetic-ai block');
       }
     }
     if ((lock.extensions || []).includes('agentstack')) {
@@ -127,24 +135,31 @@ function main() {
     }
   }
 
+  const lastReport = readUpgradeReport(target);
+  if (lastReport) {
+    console.log(`last upgrade: ${lastReport.generatedAt} validation=${lastReport.validation?.status}`);
+    if (lastReport.validation?.status === 'failed') {
+      warnings.push(`See ${UPGRADE_REPORT_REL} for last upgrade validation failure`);
+    }
+  }
+
   if (fs.existsSync(path.join(target, '.cursorrules.fragment.md'))) {
-    issues.push('Stale .cursorrules.fragment.md in target — safe to delete (content merged into .cursorrules)');
+    issues.push('Stale .cursorrules.fragment.md — safe to delete');
   }
 
   const stubLeak = path.join(target, 'docs/ai/AI_NAVIGATION_MAP.minimal.stub.md');
   if (fs.existsSync(stubLeak)) {
-    issues.push('Stale docs/ai/AI_NAVIGATION_MAP.minimal.stub.md — delete (use AI_NAVIGATION_MAP.md only)');
+    issues.push('Stale AI_NAVIGATION_MAP.minimal.stub.md — delete');
   }
 
-  if (fs.existsSync(lockPath)) {
+  if (lock) {
     try {
-      const lock = JSON.parse(fs.readFileSync(lockPath, 'utf8'));
       const profile = loadProfile(lock.profile || 'standard');
       let files = resolveProfileFiles(profile);
       if (profile.id === 'minimal') files = files.filter((f) => !f.startsWith('philosophy/'));
       if (isPhilosophyIncomplete(target, files)) {
         issues.push(
-          `philosophy/ incomplete — run: node ${path.relative(target, path.join(kitRoot, 'scripts/repair.mjs')).replace(/\\/g, '/') || 'tools/genetic-ai-starter/scripts/repair.mjs'} --target .`,
+          `philosophy/ incomplete — run: node ${path.relative(target, path.join(kitRoot, 'scripts/repair.mjs')).replace(/\\/g, '/') || 'tools/genetic-ai-starter/scripts/repair.mjs'} --target . --repair-philosophy`,
         );
       }
     } catch {
@@ -155,23 +170,21 @@ function main() {
   const rulesPath = path.join(target, '.cursorrules');
   if (fs.existsSync(rulesPath)) {
     const n = (fs.readFileSync(rulesPath, 'utf8').match(/<!-- genetic-ai:begin -->/g) || []).length;
-    if (n !== 1) issues.push(`.cursorrules has ${n} genetic-ai blocks (expected 1) — re-run upgrade`);
+    if (n !== 1) issues.push(`.cursorrules has ${n} genetic-ai blocks (expected 1)`);
   }
 
   const validate = spawnSync(
     process.execPath,
-    [
-      path.join(kitRoot, 'scripts/validate-installed.mjs'),
-      '--target',
-      target,
-      '--kit-root',
-      kitRoot,
-    ],
+    [path.join(kitRoot, 'scripts/validate-installed.mjs'), '--target', target, '--kit-root', kitRoot],
     { encoding: 'utf8' },
   );
   if (validate.status !== 0) {
     issues.push('validate-installed failed');
     console.error(validate.stderr || validate.stdout);
+  }
+
+  if (warnings.length) {
+    console.warn('doctor warnings:\n' + warnings.map((w) => `  - ${w}`).join('\n'));
   }
 
   if (issues.length) {

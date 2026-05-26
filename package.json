@@ -49,7 +49,7 @@
     "audit:docs": "node scripts/export-metrics-snapshot.mjs && node scripts/export-platform-stats.mjs && node scripts/generate-i18n-manifest.mjs && node scripts/check-meta-docs-boundary.mjs && node scripts/check-i18n-parity.mjs && node scripts/check-docs-metrics.mjs && node scripts/check-platform-stats.mjs && node scripts/check-doc-hub-links.mjs",
     "audit:bench:full": "node benchmarks/scripts/analyze-results.mjs && node scripts/export-metrics-snapshot.mjs",
     "audit:platform": "node scripts/export-platform-stats.mjs && node scripts/check-platform-stats.mjs",
-    "validate-kit": "node scripts/validate-kit.mjs"
+    "validate-kit": "node scripts/validate-kit.mjs && node scripts/audit-navigation-contract.mjs"
   },
   "publishConfig": {
     "access": "public",

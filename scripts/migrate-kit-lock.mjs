@@ -47,9 +47,15 @@ function main() {
     ...lock,
     lockSchemaVersion: rec.lockSchemaVersion,
     kitSource: rec.kitSource,
-    kitRootRel: rec.kitRootRel,
-    paths: rec.paths,
+    navigationContractVersion: rec.navigationContractVersion,
+    navigationPreserveDefault: rec.navigationPreserveDefault,
+    paths: {
+      ...(lock.paths || { docsAi: 'docs/ai', philosophy: 'philosophy' }),
+      ...(rec.kitRootRel ? { kitRootRel: rec.kitRootRel } : {}),
+    },
   };
+  if (rec.kitRootRel) next.kitRootRel = rec.kitRootRel;
+  else delete next.kitRootRel;
   writeKitLock(target, next);
   console.log(`migrated ${lockPath} → lockSchemaVersion ${LOCK_SCHEMA_VERSION}`);
 }
