@@ -36,6 +36,11 @@ const PROFILE_OPTIONS = [
     hint: 'малый репозиторий: AGENTS + 2 rules + stub-карта',
   },
   {
+    id: 'agentstack-app',
+    label: 'AgentStack (build-on)',
+    hint: 'SDK bootstrap, recipes в examples/, 5 AgentStack skills, MCP template',
+  },
+  {
     id: 'full',
     label: 'AgentStack (полный)',
     hint: 'всё из standard + overlay MCP/8DNA + CI sample',
@@ -65,6 +70,7 @@ function parseArgs(argv) {
     yes: false,
     dryRun: false,
     gitignoreKit: null,
+    lang: null,
     help: false,
   };
   for (let i = 2; i < argv.length; i++) {
@@ -78,6 +84,7 @@ function parseArgs(argv) {
     else if (a === '--yes' || a === '-y') opts.yes = true;
     else if (a === '--dry-run') opts.dryRun = true;
     else if (a === '--gitignore-kit') opts.gitignoreKit = argv[++i];
+    else if (a === '--lang') opts.lang = argv[++i];
     else if (a === '--help' || a === '-h') opts.help = true;
   }
   return opts;
@@ -124,7 +131,7 @@ function readExistingLock(targetRoot) {
 
 function profileIncludesAgentstack(profileId) {
   const p = loadProfile(profileId);
-  return (p.extensions || []).includes('agentstack');
+  return (p.extensions || []).includes('agentstack') || profileId === 'agentstack-app';
 }
 
 async function resolveTarget(cliTarget) {
@@ -201,6 +208,19 @@ async function runWizard(cli) {
     cli.profile ||
     (await chooseMenu('Профиль установки', PROFILE_OPTIONS, 0));
 
+  let lang = cli.lang || 'typescript';
+  if (profile === 'agentstack-app' && !cli.lang && !cli.yes) {
+    const langChoice = await chooseMenu(
+      'Язык recipes AgentStack',
+      [
+        { id: 'typescript', label: 'TypeScript', hint: 'examples/agentstack/ + npm scripts' },
+        { id: 'python', label: 'Python', hint: 'examples/agentstack-python/' },
+      ],
+      0,
+    );
+    lang = langChoice;
+  }
+
   let gitignoreKit = cli.gitignoreKit;
   if (!gitignoreKit) {
     if (cli.yes) {
@@ -256,6 +276,7 @@ async function runWizard(cli) {
     '--strict',
   ];
   if (withAgentstack) installArgs.push('--with-agentstack');
+  if (profile === 'agentstack-app') installArgs.push('--lang', lang);
   if (gitignoreKit === 'full') installArgs.push('--gitignore-kit', 'full');
   if (cli.dryRun) installArgs.push('--dry-run');
   if (existing) installArgs.push('--force-philosophy');
@@ -304,8 +325,21 @@ async function runWizard(cli) {
     console.log(`1. Откройте в Cursor: ${targetRoot}`);
     console.log('2. Прочитайте AGENTS.md и docs/ai/AI_NAVIGATION_MAP.md');
     console.log('3. Проверка: node scripts/doctor.mjs --target "' + targetRoot + '"');
+    if (profile === 'agentstack-app') {
+      let pv = '0.4.13';
+      try {
+        pv = readPlatformVersion();
+      } catch {
+        /* */
+      }
+      console.log(`4. AgentStack: cd examples/agentstack && npm install @agentstack/sdk@${pv}`);
+      console.log('   npm run recipe:00-bootstrap · гайд: meta/docs/AGENTSTACK_APP_GUIDE_ru.md (в kit)');
+      console.log('   MCP: /agentstack-init в Cursor');
+    } else if (withAgentstack) {
+      console.log('4. AgentStack overlay: docs/ai/CONTEXT_FOR_AI.md');
+    }
     if (gitignoreKit === 'full') {
-      console.log('4. Файлы kit в .gitignore — не попадут в git push (локально остаются для Cursor).');
+      console.log('5. Файлы kit в .gitignore — не попадут в git push (локально остаются для Cursor).');
     }
     console.log('');
   }

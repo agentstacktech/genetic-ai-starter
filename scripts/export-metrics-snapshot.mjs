@@ -92,7 +92,9 @@ function main() {
     generatedAt: new Date().toISOString(),
     scorerVersion,
     executionMode: 'synthetic_policy',
-    platformVersion: '0.4.11',
+    platformVersion: fs.existsSync(path.join(KIT_ROOT, 'PLATFORM_VERSION'))
+      ? fs.readFileSync(path.join(KIT_ROOT, 'PLATFORM_VERSION'), 'utf8').trim()
+      : '0.4.13',
     tokenModel: 'step-based v1.2.1 (fixture-calibrated grep pools) — see benchmarks/results/TOKEN_REPORT.md',
     arms,
     headlineDeltas: {

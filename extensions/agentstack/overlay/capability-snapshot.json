@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "kind": "static-kit-snapshot",
+  "gene": "repo.plugins.capability_routing.gen1",
+  "platformVersion": "0.4.13",
+  "sdkPackage": "@agentstack/sdk",
+  "generatedNote": "Phase 1 static snapshot for offline AI routing. Refresh from GET /mcp/actions or sdk.getCapabilityMatrix() when online.",
+  "discovery": {
+    "mcpActionsLive": "GET https://agentstack.tech/mcp/actions",
+    "mcpExecute": "POST https://agentstack.tech/mcp",
+    "sdkCatalog": "sdk.getModuleCatalog()",
+    "sdkMatrix": "sdk.getCapabilityMatrix()"
+  },
+  "sdkExports": {
+    ".": "@agentstack/sdk",
+    "./i18n": "@agentstack/sdk/i18n",
+    "./i18n/useI18n": "@agentstack/sdk/i18n/useI18n",
+    "./economy": "@agentstack/sdk/economy",
+    "./public/grants": "@agentstack/sdk/public/grants",
+    "./finance": "@agentstack/sdk/finance",
+    "./guidance": "@agentstack/sdk/guidance",
+    "./guidance/react": "@agentstack/sdk/guidance/react",
+    "./commerce/assets": "@agentstack/sdk/commerce/assets",
+    "./commerce/marketplace": "@agentstack/sdk/commerce/marketplace",
+    "./commerce/checkout": "@agentstack/sdk/commerce/checkout",
+    "./commerce/cart": "@agentstack/sdk/commerce/cart",
+    "./commerce/orders": "@agentstack/sdk/commerce/orders",
+    "./commerce/shop": "@agentstack/sdk/commerce/shop",
+    "./commerce/merchant": "@agentstack/sdk/commerce/merchant",
+    "./commerce/guidance": "@agentstack/sdk/commerce/guidance",
+    "./commerce/participant": "@agentstack/sdk/commerce/participant",
+    "./commerce": "@agentstack/sdk/commerce",
+    "./pwa": "@agentstack/sdk/pwa",
+    "./seo": "@agentstack/sdk/seo",
+    "./mobile": "@agentstack/sdk/mobile",
+    "./logic/blueprints": "@agentstack/sdk/logic/blueprints",
+    "./capability-tasks": "@agentstack/sdk/capability-tasks",
+    "./manifest": "@agentstack/sdk/manifest"
+  },
+  "platformCapabilities": [
+    { "id": "http", "group": "transport", "accessPaths": ["sdk.httpClient", "sdk.platform.http"] },
+    { "id": "auth", "group": "identity", "accessPaths": ["sdk.platform.auth"] },
+    { "id": "api", "group": "data", "accessPaths": ["sdk.platform.api"] },
+    { "id": "dna", "group": "data", "accessPaths": ["sdk.platform.dna"] },
+    { "id": "projects", "group": "data", "accessPaths": ["sdk.platform.projects"] },
+    { "id": "users", "group": "data", "accessPaths": ["sdk.platform.users"] },
+    { "id": "protocol", "group": "ecosystem", "accessPaths": ["sdk.protocol", "sdk.platform.protocol"] },
+    { "id": "command", "group": "ecosystem", "accessPaths": ["sdk.platform.command"] },
+    { "id": "snapshots", "group": "cache", "accessPaths": ["sdk.entitySnapshotRepository", "sdk.platform.snapshots"] },
+    { "id": "rbac", "group": "security", "accessPaths": ["sdk.platform.rbac"] },
+    { "id": "social", "group": "social", "accessPaths": ["sdk.social", "sdk.platform.social"] },
+    { "id": "support", "group": "social", "accessPaths": ["sdk.support", "sdk.platform.support"] },
+    { "id": "economy", "group": "commerce", "accessPaths": ["sdk.platform.economy", "@agentstack/sdk/economy"] }
+  ],
+  "domainCapabilities": [
+    { "id": "payments", "group": "commerce" },
+    { "id": "wallets", "group": "commerce" },
+    { "id": "assets", "group": "media" },
+    { "id": "storage", "group": "media" },
+    { "id": "logic", "group": "rules" },
+    { "id": "scheduler", "group": "integrations" },
+    { "id": "webhooks", "group": "integrations" },
+    { "id": "integrations", "group": "integrations" },
+    { "id": "notifications", "group": "integrations" },
+    { "id": "buffs", "group": "game" },
+    { "id": "agentsFleet", "group": "agents" },
+    { "id": "commerce.shop", "group": "commerce", "export": "@agentstack/sdk/commerce/shop" },
+    { "id": "commerce.cart", "group": "commerce", "export": "@agentstack/sdk/commerce/cart" },
+    { "id": "commerce.checkout", "group": "commerce", "export": "@agentstack/sdk/commerce/checkout" }
+  ],
+  "integratorBlocked": ["admin", "adminData", "sdk.admin"],
+  "serviceCapsCommon": [
+    "payments",
+    "scheduler",
+    "api_keys",
+    "project_admin",
+    "assets_write",
+    "data_access_admin",
+    "logic_write",
+    "agents_run",
+    "agents_admin",
+    "analytics"
+  ],
+  "mcpActionDomains": [
+    {
+      "domain": "projects",
+      "sampleActions": ["projects.get_project", "projects.get_projects", "projects.update_project", "projects.list_users"]
+    },
+    {
+      "domain": "auth",
+      "sampleActions": ["auth.login", "auth.register", "auth.whoami"]
+    },
+    {
+      "domain": "storage",
+      "sampleActions": ["storage.list_files", "storage.get_quota", "storage.delete_file"]
+    },
+    {
+      "domain": "hosting",
+      "sampleActions": ["hosting.site.quick_start", "hosting.deploy_files", "hosting.release.list"]
+    },
+    {
+      "domain": "logic",
+      "sampleActions": ["logic.create", "logic.dry_run", "logic.execute"]
+    },
+    {
+      "domain": "rag",
+      "sampleActions": ["rag.search", "rag.document_upsert", "rag.collection_create"]
+    },
+    {
+      "domain": "payments",
+      "sampleActions": ["payments.create_intent", "payments.capture", "payments.refund"],
+      "requiredCap": "payments"
+    },
+    {
+      "domain": "wallets",
+      "sampleActions": ["wallets.get_balance", "wallets.transfer"],
+      "requiredCap": "payments"
+    },
+    {
+      "domain": "scheduler",
+      "sampleActions": ["scheduler.create_task", "scheduler.list_tasks"],
+      "requiredCap": "scheduler"
+    },
+    {
+      "domain": "webhooks",
+      "sampleActions": ["webhooks.register", "webhooks.rotate_secret"]
+    },
+    {
+      "domain": "integrations",
+      "sampleActions": ["integrations.recipe_list", "integrations.connection_create"]
+    },
+    {
+      "domain": "agents",
+      "sampleActions": ["agents.list", "agents.run", "agents.create"],
+      "requiredCap": "agents_run | agents_admin"
+    },
+    {
+      "domain": "data_access",
+      "sampleActions": ["data_access.set_policy", "data_access.apply_defaults_template"]
+    },
+    {
+      "domain": "apikeys",
+      "sampleActions": ["apikeys.create", "apikeys.list", "apikeys.delete"],
+      "requiredCap": "api_keys"
+    },
+    {
+      "domain": "commands",
+      "sampleActions": ["commands.execute"]
+    }
+  ],
+  "upstream": {
+    "capabilityMatrix": "https://github.com/agentstacktech/AgentStack/blob/master/docs/plugins/CAPABILITY_MATRIX.md",
+    "serviceCaps": "https://github.com/agentstacktech/AgentStack/blob/master/docs/API_KEY_SERVICE_CAPS.md",
+    "sdkPackageJson": "https://github.com/agentstacktech/AgentStack/blob/master/agentstack-unified-sdk/packages/core/package.json"
+  }
+}

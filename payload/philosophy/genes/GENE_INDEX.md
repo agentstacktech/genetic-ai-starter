@@ -46,6 +46,11 @@ Do not enumerate hundreds of files here — this is the **starter catalog** for 
 | `repo.tooling.genetic_starter.docs.gen1` | [repo.tooling.genetic_starter.docs.gen1.md](repo.tooling.genetic_starter.docs.gen1.md) *(kit meta docs only)* |
 | `repo.tooling.genetic_starter.agent_floor.gen1` | [repo.tooling.genetic_starter.agent_floor.gen1.md](repo.tooling.genetic_starter.agent_floor.gen1.md) *(kit meta only)* |
 | `repo.tooling.genetic_starter.integration.gen1` | [repo.tooling.genetic_starter.integration.gen1.md](repo.tooling.genetic_starter.integration.gen1.md) *(kit transport / submodule)* |
+| `repo.tooling.genetic_starter.agentstack_dx.gen1` | [repo.tooling.genetic_starter.agentstack_dx.gen1.md](repo.tooling.genetic_starter.agentstack_dx.gen1.md) *(AgentStack DX umbrella — `--with-agentstack`)* |
+| `repo.platform.sdk.onboarding.gen1` | [repo.platform.sdk.onboarding.gen1.md](repo.platform.sdk.onboarding.gen1.md) *(plugin → SDK → MCP → 8DNA)* |
+| `repo.platform.sdk.recipes.gen1` | [repo.platform.sdk.recipes.gen1.md](repo.platform.sdk.recipes.gen1.md) *(recipes 00–11 in kit extension)* |
+| `repo.platform.capability_contract.gen1` | [repo.platform.capability_contract.gen1.md](repo.platform.capability_contract.gen1.md) *(matrix / MCP / SDK drift)* |
+| `repo.tooling.gene_lifecycle.gen1` | [repo.tooling.gene_lifecycle.gen1.md](repo.tooling.gene_lifecycle.gen1.md) *(gen bump, validate-genes)* |
 | `repo.community.starter_spirit.gen1` | [repo.community.starter_spirit.gen1.md](repo.community.starter_spirit.gen1.md) *(community easter egg)* |
 
 ---

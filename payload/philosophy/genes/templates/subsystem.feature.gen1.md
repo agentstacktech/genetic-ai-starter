@@ -5,6 +5,12 @@
 
 ---
 
+## Intent
+
+When to read this gene before touching the **{{SUBSYSTEM}}** subsystem.
+
+---
+
 ## Scope
 
 Boundary for subsystem **{{SUBSYSTEM}}** (e.g. auth, billing, notifications).

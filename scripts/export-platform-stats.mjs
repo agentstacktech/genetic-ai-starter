@@ -83,7 +83,11 @@ function main() {
       kitCursorRulesStandard: cursorCounts.rules,
       kitCursorSkillsStandard: cursorCounts.skills,
       benchmarkTasks: 14,
-      benchmarkArms: 8,
+      benchmarkArms: 9,
+      agentstackTaskPack: fs.existsSync(path.join(KIT_ROOT, 'benchmarks/tasks/agentstack-tasks.json'))
+        ? JSON.parse(fs.readFileSync(path.join(KIT_ROOT, 'benchmarks/tasks/agentstack-tasks.json'), 'utf8')).tasks
+            ?.length || 0
+        : 0,
     },
     kitHarness: { ref: 'meta/docs/metrics.snapshot.json' },
     readmeFootnote:

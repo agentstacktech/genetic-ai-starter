@@ -10,6 +10,8 @@
 |------|------|
 | Install / init | [scripts/install.mjs](scripts/install.mjs) · [SETUP.cmd](SETUP.cmd) · [meta/docs/INSTALL.md](meta/docs/INSTALL.md) |
 | Doc hub | [meta/docs/DOC_HUB.md](meta/docs/DOC_HUB.md) |
+| Canvas economics | [meta/docs/GENETIC_SYSTEM_ECONOMICS.md](meta/docs/GENETIC_SYSTEM_ECONOMICS.md) · [RU](meta/docs/GENETIC_SYSTEM_ECONOMICS_ru.md) |
+| Doc data flow / tasks | [meta/docs/DOC_DATA_FLOW.md](meta/docs/DOC_DATA_FLOW.md) · [DOC_MAINTENANCE_TASKS.md](meta/docs/DOC_MAINTENANCE_TASKS.md) |
 | Metrics SoT | [meta/docs/metrics.snapshot.json](meta/docs/metrics.snapshot.json) |
 | Platform scale | [meta/docs/platform-stats.snapshot.json](meta/docs/platform-stats.snapshot.json) |
 | Benchmark | [benchmarks/scripts/run-matrix.mjs](benchmarks/scripts/run-matrix.mjs) · [benchmarks/scripts/analyze-results.mjs](benchmarks/scripts/analyze-results.mjs) |

@@ -1,0 +1,8 @@
+{
+  "id": "agentstack-app",
+  "description": "Full payload + AgentStack extension + recipes copied to examples/agentstack/",
+  "include": ["payload/**"],
+  "extensions": ["agentstack"],
+  "copyRecipes": true,
+  "recipeLang": "typescript"
+}

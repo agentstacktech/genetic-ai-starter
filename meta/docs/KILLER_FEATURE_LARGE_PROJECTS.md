@@ -39,7 +39,7 @@ See RU doc §1–2 for mermaid vicious-cycle vs kit loop and order-of-magnitude 
 
 ## Platform scale (reference)
 
-Monorepo lattice size: [platform-stats.snapshot.json](platform-stats.snapshot.json) (~222 genes, ~98 platform `AI_INDEX`, ~267 Tier-1 tags). Separate from shop-api harness below.
+Monorepo lattice size: [platform-stats.snapshot.json](platform-stats.snapshot.json) (**406** genes, **186** repo / **162** platform `AI_INDEX`, **421** Tier-1 tags). Separate from shop-api harness below.
 
 ## Harness evidence (scorer 1.2.1, synthetic — not a production SLA)
 

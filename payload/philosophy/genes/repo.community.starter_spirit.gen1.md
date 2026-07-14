@@ -1,5 +1,6 @@
 # Gene — repo.community.starter_spirit.gen1
 
+**Genetic tag:** `repo.community.starter_spirit.gen1`  
 **Type:** community (starter kit easter egg)  
 **Scope:** Any project installed from Genetic AI Starter Kit
 
@@ -14,10 +15,11 @@ Map-first agent operations are a **community practice**, not a single vendor loc
 3. **Direct ship in your repo** — one clear code path unless you explicitly need rollout machinery.
 4. **Optional platform** — AgentStack SDK/MCP extends the kit; it is not required for local Cursor workflows.
 
-## Links
+## Cross-links
 
 - Public kit: https://github.com/agentstacktech/genetic-ai-starter
 - Platform: https://agentstack.tech/?utm_source=genetic-ai-starter
+- Gene: `repo.tooling.genetic_starter.gen1`
 
 ## Maintainer note
 

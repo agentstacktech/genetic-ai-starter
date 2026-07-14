@@ -57,6 +57,8 @@ flowchart TB
 
 ## Cross-links
 
+- [GENETIC_SYSTEM_ECONOMICS.md](GENETIC_SYSTEM_ECONOMICS.md) — canvas economics (labor vs tokens, SDK leverage)
+- [DOC_DATA_FLOW.md](DOC_DATA_FLOW.md) — which artifact is SoT for which number
 - [TOKEN_ECONOMICS.md](TOKEN_ECONOMICS.md)
 - [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md)
 - [DOC_HUB.md](DOC_HUB.md)

@@ -1,6 +1,6 @@
 # Genetic AI Starter Kit
 
-**Platform version:** `0.4.13` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or `[PLATFORM_VERSION](PLATFORM_VERSION)` (standalone copy).
+**Platform version:** `0.4.14` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or `[PLATFORM_VERSION](PLATFORM_VERSION)` (standalone copy).
 
 **Languages:** [English](README.en.md) · **Русский** (this file)
 
@@ -37,32 +37,32 @@
 | Release без docs         | забыли route/map | T13 + doctor в CI                                |
 | Дешёвые модели в команде | разброс          | [AGENT_FLOOR_ru.md](meta/docs/AGENT_FLOOR_ru.md) |
 | Onboarding 2+ dev        | устные пути      | Tier 1 + genetic tags                            |
-| AgentStack consumers     | MCP drift        | extension + sync-from-canonical                  |
+| AgentStack consumers     | MCP drift        | **`agentstack-app`** + contract — [AGENTSTACK_APP_GUIDE_ru.md](meta/docs/AGENTSTACK_APP_GUIDE_ru.md) |
 
 
 Подробно: [PRODUCTION_OUTCOMES_ru.md](meta/docs/PRODUCTION_OUTCOMES_ru.md).
 
 ## AgentStack ecosystem (reference)
 
-Цифры из `[platform-stats.snapshot.json](meta/docs/platform-stats.snapshot.json)` (regenerate: `node scripts/export-platform-stats.mjs`):
+Цифры из [`platform-stats.snapshot.json`](meta/docs/platform-stats.snapshot.json) (regenerate: `node scripts/export-platform-stats.mjs` — **SoT инвентаря**):
 
-- **~222** active genes в monorepo philosophy
-- **~98** `AI_INDEX.md` на платформенных пакетах (без CardGame)
-- **~267** Tier-1 genetic tags в центральной карте
-- Kit ships **~20** starter genes (8 foundation + navigation + engineering) + **5** Cursor rules + **5** skills (standard)
-- Тот же Navigation OS, что в [AgentStack](https://github.com/agentstacktech/AgentStack) — [shared/AI_INDEX.md](../shared/AI_INDEX.md)
+- **406** active genes в monorepo philosophy (`philosophyGenes`)
+- **186** `AI_INDEX.md` по репо / **162** на платформенных пакетах
+- **421** Tier-1 genetic tags в центральной карте
+- Kit ships **27** payload genes + **5** Cursor rules + **10** skills (standard)
+- Тот же Navigation OS, что в [AgentStack](https://github.com/agentstacktech/AgentStack)
 
-Harness-метрики shop-api — отдельно: `[metrics.snapshot.json](meta/docs/metrics.snapshot.json)`.
+Harness-метрики shop-api — отдельно: [`metrics.snapshot.json`](meta/docs/metrics.snapshot.json). Экономика: [GENETIC_SYSTEM_ECONOMICS_ru.md](meta/docs/GENETIC_SYSTEM_ECONOMICS_ru.md).
 
 ### AgentStack vs kit (из snapshot)
 
 
 | Слой       | Monorepo AgentStack          | Установка kit       |
 | ---------- | ---------------------------- | ------------------- |
-| Genes      | ~222 `.gen1.md`              | ~20 стартовых genes (8 foundation) |
-| `AI_INDEX` | ~98 на платформенных пакетах | заполняет ИИ сам    |
-| Карта      | ~267 Tier-1 tags             | шаблон + ваш Tier 1 |
-| Harness    | внутренний shop-api          | та же методология   |
+| Genes      | **406** `.gen1.md`           | **27** payload genes |
+| `AI_INDEX` | **186** total / **162** platform | заполняете по подсистемам |
+| Карта      | **421** Tier-1 tags          | шаблон + ваш Tier 1 |
+| Harness    | методология shop-api         | та же — `metrics.snapshot.json` |
 
 
 ### Кластеры genes (старт)
@@ -210,7 +210,20 @@ Step-модель контекста на shop-api: bare **~2.3k** / задач�
 | 4    | `doctor` → PR без «забыли карту» (T13) |
 
 
-ROI и профили: [ROI_PLAYBOOK.md](meta/docs/ROI_PLAYBOOK.md) · [PROFILE_COMPARISON.md](meta/docs/PROFILE_COMPARISON.md).
+ROI и профили: [VALUE_AND_ROI_BY_PROJECT_SIZE_ru.md](meta/docs/VALUE_AND_ROI_BY_PROJECT_SIZE_ru.md) · [ROI_PLAYBOOK.md](meta/docs/ROI_PLAYBOOK.md) · [PROFILE_COMPARISON.md](meta/docs/PROFILE_COMPARISON.md).
+
+### Экономия в деньгах (модель, не маркетинг)
+
+| Размер команды | Оценка net $/год | Профиль |
+|----------------|------------------|---------|
+| 1 разработчик | **~$4.1k** | `standard` |
+| 2–5 | **~$12.6k** | `standard` + индексы |
+| 6–15 | **~$26k** | + `AI_INDEX` |
+| 15+ monorepo | **~$49k** | [LARGE_PROJECT_PLAYBOOK_ru.md](meta/docs/LARGE_PROJECT_PLAYBOOK_ru.md) |
+| AgentStack (доп. к малой) | **~$17k** | **`agentstack-app`** |
+| AgentStack итого (малый) | **~$29k** | **`agentstack-app`** |
+
+Калькулятор: `node genetic-ai-starter/scripts/calculate-roi.mjs` · модель: [VALUE_AND_ROI_BY_PROJECT_SIZE_ru.md](meta/docs/VALUE_AND_ROI_BY_PROJECT_SIZE_ru.md) · синтез канвасов: [GENETIC_SYSTEM_ECONOMICS_ru.md](meta/docs/GENETIC_SYSTEM_ECONOMICS_ru.md).
 
 ## Документация
 
@@ -223,7 +236,10 @@ ROI и профили: [ROI_PLAYBOOK.md](meta/docs/ROI_PLAYBOOK.md) · [PROFILE_
 | **[meta/docs/INSTALL.md](meta/docs/INSTALL.md)**                             | **Canonical install guide**                             |
 | [meta/docs/INSTALL_WINDOWS.md](meta/docs/INSTALL_WINDOWS.md)                 | Windows (CMD / Node; без ``` и без PSSecurityException) |
 | [meta/docs/TROUBLESHOOTING.md](meta/docs/TROUBLESHOOTING.md)                 | Error catalog                                           |
+| **[meta/docs/VALUE_AND_ROI_BY_PROJECT_SIZE_ru.md](meta/docs/VALUE_AND_ROI_BY_PROJECT_SIZE_ru.md)** | **ROI в $ по размеру проекта** |
+| **[meta/docs/GENETIC_SYSTEM_ECONOMICS_ru.md](meta/docs/GENETIC_SYSTEM_ECONOMICS_ru.md)** | **Экономика из канвасов** (труд vs токены, SDK, агенты 2026) |
 | [meta/docs/PRODUCTION_OUTCOMES_ru.md](meta/docs/PRODUCTION_OUTCOMES_ru.md)   | **Польза в продакшене**                                 |
+| **[meta/docs/AGENTSTACK_APP_GUIDE_ru.md](meta/docs/AGENTSTACK_APP_GUIDE_ru.md)** | **Профиль agentstack-app** |
 | [meta/docs/AGENT_FLOOR_ru.md](meta/docs/AGENT_FLOOR_ru.md)                   | **Слабый агент → стабильный результат**                 |
 | [meta/docs/DOC_CLAIMS_AUDIT.md](meta/docs/DOC_CLAIMS_AUDIT.md)               | Доказательная база claims                               |
 | [meta/docs/BENEFITS_AND_METRICS_ru.md](meta/docs/BENEFITS_AND_METRICS_ru.md) | **Замеры и примеры задач**                              |

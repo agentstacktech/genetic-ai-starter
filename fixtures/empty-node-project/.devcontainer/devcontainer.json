@@ -1,0 +1,29 @@
+{
+  "name": "AgentStack consumer devcontainer",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.12"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "typescript.tsdk": "node_modules/typescript/lib"
+      }
+    }
+  },
+  "postCreateCommand": "npm install && (test -d examples/agentstack && cd examples/agentstack && npm install || true)",
+  "remoteEnv": {
+    "AGENTSTACK_API_BASE": "https://agentstack.tech/api"
+  },
+  "forwardPorts": [3000, 5173],
+  "comments": {
+    "geneticTag": "repo.platform.sdk.onboarding.gen1",
+    "note": "Copy .env.example to .env.local before running recipes"
+  }
+}

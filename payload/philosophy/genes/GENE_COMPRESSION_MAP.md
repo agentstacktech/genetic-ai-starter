@@ -37,10 +37,25 @@
 |-------|-------|
 | 1 | `repo.tooling.genetic_starter.integration.gen1` |
 | 2 | `repo.tooling.genetic_starter.gen1` |
-| 3 | `repo.tooling.kit_vendor.gen1` — Tier 0 row in map → `tools/genetic-ai-starter/` (no separate gene file in starter payload) |
+| 3 | `repo.tooling.genetic_starter.agentstack_dx.gen1` — DX umbrella |
+| 4 | `repo.tooling.gene_lifecycle.gen1` — validate-genes + gen bump |
+| 5 | `repo.tooling.kit_vendor.gen1` — Tier 0 row in map → `tools/genetic-ai-starter/` (no separate gene file in starter payload) |
 
 **Synergy:** `bootstrap-standard.mjs` → `install.mjs --record-kit-source` → `doctor` / `upgrade --sync-submodule --yes`.
 <!-- genetic-ai-compression:kit-integration:end -->
+
+---
+
+## Cluster Kit — AgentStack extension (`--with-agentstack`)
+
+| Order | Genes |
+|-------|-------|
+| 1 | `repo.tooling.genetic_starter.agentstack_dx.gen1` |
+| 2 | `repo.platform.sdk.onboarding.gen1` |
+| 3 | `repo.platform.sdk.recipes.gen1` |
+| 4 | `repo.platform.capability_contract.gen1` |
+
+**Synergy:** `/agentstack-init` → `.cursor/mcp.json.template` → recipe `00-bootstrap`; refresh `docs/ai/agentstack-capability-snapshot.json` when MCP domains change. Extension index: `tools/genetic-ai-starter/extensions/agentstack/AI_INDEX.md`.
 
 ---
 
@@ -125,7 +140,11 @@ _Add React Query / state-management gene here when you create one._
 
 Only when `--with-agentstack` was used on install:
 
+- Umbrella: `repo.tooling.genetic_starter.agentstack_dx.gen1`
 - Read `docs/ai/CONTEXT_FOR_AI.md` (or overlay path)
+- Onboarding: `repo.platform.sdk.onboarding.gen1` · Recipes: `repo.platform.sdk.recipes.gen1`
+- Drift contract: `repo.platform.capability_contract.gen1`
 - Platform vs tenant canary: `.cursor/rules/platform-vs-tenant-canary.mdc`
+- Extension index: `tools/genetic-ai-starter/extensions/agentstack/AI_INDEX.md`
 
 Canonical AgentStack docs remain upstream in the monorepo.

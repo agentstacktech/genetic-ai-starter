@@ -8,6 +8,8 @@ import { LOCK_SCHEMA_VERSION } from './lib/kit-integration-constants.mjs';
 import { buildKitSourceRecord } from './lib/record-kit-source.mjs';
 import { resolveKitRoot } from './lib/resolve-kit-root.mjs';
 import { parseGitmodules } from './lib/git-submodule.mjs';
+import { readCapabilitySnapshotHash } from './lib/copy-agentstack-recipes.mjs';
+import { readPlatformVersionForKitRoot } from './lib/read-platform-version-for-kit.mjs';
 
 function parseArgs(argv) {
   let target = '.';
@@ -56,6 +58,15 @@ function main() {
   };
   if (rec.kitRootRel) next.kitRootRel = rec.kitRootRel;
   else delete next.kitRootRel;
+
+  if ((lock.extensions || []).includes('agentstack') || lock.profile === 'agentstack-app') {
+    next.capabilitySnapshotHash = readCapabilitySnapshotHash(kitRoot);
+    if (lock.profile === 'agentstack-app' || lock.recipeSetVersion) {
+      next.recipeSetVersion = lock.recipeSetVersion || readPlatformVersionForKitRoot(kitRoot);
+      next.recipeLang = lock.recipeLang || 'typescript';
+    }
+  }
+
   writeKitLock(target, next);
   console.log(`migrated ${lockPath} → lockSchemaVersion ${LOCK_SCHEMA_VERSION}`);
 }

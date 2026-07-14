@@ -1,0 +1,39 @@
+---
+description: Prefer AgentStack SDK + MCP over ad hoc REST; integrator scope and cache invalidation
+alwaysApply: true
+---
+
+# AgentStack SDK-first (consumer projects)
+
+**Genetic tag:** `repo.platform.sdk.onboarding.gen1`
+
+When this project integrates with AgentStack, prefer the typed SDK and MCP over raw fetch to undocumented REST paths.
+
+## Channel order
+
+1. **MCP** — `POST /mcp` with `agentstack.execute`; discover via `GET /mcp/actions`.
+2. **SDK** — `sdk.protocol` / `sdk.platform` on a shared `AgentStackSDK` instance (`src/lib/agentstack.ts`).
+3. **8DNA KV** — only when MCP/SDK are unavailable.
+4. **Name the channel** in code comments and agent summaries (`MCP`, `sdk.protocol`, `8DNA KV`).
+
+## Do
+
+- Bootstrap once: `src/lib/agentstack.ts` — `catalog()`, `capabilities()`, `ensureScope()`.
+- Call `assertProjectIdConfigured(sdk)` (or `ensureScope()`) before tenant-scoped writes.
+- Gate features with `sdk.getCapabilityMatrix()` — skip disabled domains.
+- After mutations in React, use **`invalidateAfterWrite`** (or `invalidateSnapshotPrefix` on `sdk.protocol`) so Query and snapshot caches stay aligned.
+- Create API keys with **narrow `service_caps`** — see upstream `docs/API_KEY_SERVICE_CAPS.md`.
+- Read routing context: `docs/ai/CONTEXT_FOR_AI.md`.
+
+## Do not
+
+- Do **not** use **`sdk.admin`**, **`sdk.adminData`**, or `/api/admin/*` in tenant/integrator apps — default `sdkAudience` is `integrator`.
+- Do **not** guess MCP action names — always discover from `GET /mcp/actions` or `docs/ai/agentstack-capability-snapshot.json`.
+- Do **not** invent parallel REST resources when an MCP action or DNA key exists.
+- Do **not** store secrets or full DNA dumps in model prompts.
+
+## References
+
+- [docs/ai/CONTEXT_FOR_AI.md](../../docs/ai/CONTEXT_FOR_AI.md)
+- Upstream [AGENT_PROTOCOL_QUICKSTART.md](https://github.com/agentstacktech/AgentStack/blob/master/docs/AGENT_PROTOCOL_QUICKSTART.md)
+- Recipes: `extensions/agentstack/recipes/` (gene `repo.platform.sdk.recipes.gen1`)

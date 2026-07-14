@@ -1,0 +1,29 @@
+# Dependabot — @agentstack/sdk (consumer sample)
+
+Copy to `.github/dependabot.yml` in a project using `agentstack-app` profile.
+
+```yaml
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    allow:
+      - dependency-name: "@agentstack/sdk"
+    labels:
+      - dependencies
+      - agentstack-sdk
+
+  - package-ecosystem: npm
+    directory: "/examples/agentstack"
+    schedule:
+      interval: weekly
+    allow:
+      - dependency-name: "@agentstack/sdk"
+    labels:
+      - dependencies
+      - agentstack-recipes
+```
+
+Gene: `repo.platform.sdk.onboarding.gen1`

@@ -18,7 +18,7 @@ export function validateKitLockKipV2(lock) {
   if (!/^\d+\.\d+\.\d+$/.test(String(lock.kitVersion || ''))) {
     issues.push('kitVersion must be semver x.y.z');
   }
-  const profiles = ['minimal', 'standard', 'full', 'founder'];
+  const profiles = ['minimal', 'standard', 'full', 'founder', 'agentstack-app'];
   if (!profiles.includes(lock.profile)) {
     issues.push(`profile must be one of: ${profiles.join(', ')}`);
   }

@@ -46,9 +46,22 @@ function runKitDocChecks() {
     'check-docs-metrics.mjs',
     'check-platform-stats.mjs',
     'check-i18n-parity.mjs',
+    'calculate-roi.mjs',
+    'check-roi-model.mjs',
   ];
+  const extDir = path.join(KIT_ROOT, 'extensions/agentstack');
+  if (fs.existsSync(path.join(extDir, 'extension.manifest.json'))) {
+    scripts.push('check-capability-contract.mjs');
+  }
   for (const name of scripts) {
-    const r = spawnSync(process.execPath, [path.join(KIT_ROOT, 'scripts', name)], {
+    const args = [path.join(KIT_ROOT, 'scripts', name)];
+    if (name === 'check-capability-contract.mjs') {
+      args.push('--kit-root', KIT_ROOT);
+    }
+    if (name === 'calculate-roi.mjs') {
+      args.push('--export');
+    }
+    const r = spawnSync(process.execPath, args, {
       cwd: KIT_ROOT,
       encoding: 'utf8',
     });
@@ -129,9 +142,18 @@ function main() {
         issues.push('gitignoreKit=full but .gitignore missing genetic-ai block');
       }
     }
-    if ((lock.extensions || []).includes('agentstack')) {
+    if ((lock.extensions || []).includes('agentstack') || lock.profile === 'agentstack-app') {
       const ctx = path.join(target, 'docs/ai/CONTEXT_FOR_AI.md');
       if (!fs.existsSync(ctx)) issues.push('AgentStack extension enabled but CONTEXT_FOR_AI.md missing');
+      const mcpTpl = path.join(target, '.cursor/mcp.json.template');
+      if (!fs.existsSync(mcpTpl)) issues.push('AgentStack: missing .cursor/mcp.json.template');
+      const bootstrap = path.join(target, 'src/lib/agentstack.ts');
+      if (!fs.existsSync(bootstrap)) issues.push('AgentStack: missing src/lib/agentstack.ts bootstrap');
+      const recipesTs = path.join(target, 'examples/agentstack/00-bootstrap');
+      const recipesPy = path.join(target, 'examples/agentstack-python/00-bootstrap.py');
+      if (lock.profile === 'agentstack-app' && !fs.existsSync(recipesTs) && !fs.existsSync(recipesPy)) {
+        issues.push('agentstack-app: missing examples/agentstack/ or examples/agentstack-python/ recipes');
+      }
     }
   }
 

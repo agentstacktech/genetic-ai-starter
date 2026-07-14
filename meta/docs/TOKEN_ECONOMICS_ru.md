@@ -111,6 +111,7 @@ flowchart LR
 - Не заменяет замеры на вашем monorepo — см. [benchmarks/METHODOLOGY.md](../../benchmarks/METHODOLOGY.md) § Manual validation.
 - Не учитывает `@codebase`, кэш, повторные уточнения пользователя.
 - Harness: `executionMode: synthetic_policy` — см. [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md).
+- Полная картина труд vs токены: [GENETIC_SYSTEM_ECONOMICS_ru.md](GENETIC_SYSTEM_ECONOMICS_ru.md).
 
 ---
 

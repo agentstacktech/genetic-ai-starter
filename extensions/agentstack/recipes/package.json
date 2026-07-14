@@ -1,0 +1,32 @@
+{
+  "name": "@agentstack/recipes",
+  "private": true,
+  "description": "Runnable AgentStack SDK recipe templates (repo.platform.sdk.recipes.gen1)",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "recipe:00-bootstrap": "tsx 00-bootstrap/run.ts",
+    "recipe:01-discover-capabilities": "tsx 01-discover-capabilities/run.ts",
+    "recipe:02-8dna-crud": "tsx 02-8dna-crud/run.ts",
+    "recipe:03-mcp-execute": "tsx 03-mcp-execute/run.ts",
+    "recipe:04-commerce": "tsx 04-commerce/run.ts",
+    "recipe:05-economy": "tsx 05-economy/run.ts",
+    "recipe:06-logic": "tsx 06-logic/run.ts",
+    "recipe:07-hosting": "tsx 07-hosting/run.ts",
+    "recipe:08-capability-task": "tsx 08-capability-task/run.ts",
+    "recipe:09-rag": "tsx 09-rag/run.ts",
+    "recipe:10-uam-app": "tsx 10-uam-app/run.ts",
+    "recipe:11-integration-webhook": "tsx 11-integration-webhook/run.ts"
+  },
+  "dependencies": {
+    "@agentstack/sdk": "file:../../../../agentstack-unified-sdk/packages/core"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.0",
+    "tsx": "^4.22.4",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

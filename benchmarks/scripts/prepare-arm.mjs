@@ -24,6 +24,7 @@ const ARMS = new Set([
   'kit_minimal',
   'kit_standard',
   'kit_standard_indexed',
+  'kit_agentstack',
 ]);
 
 function parseArgs(argv) {
@@ -63,7 +64,7 @@ function overlayShopMapAndIndexes(targetRoot, { indexes }) {
   }
 }
 
-function runInstall(targetRoot, profile) {
+function runInstall(targetRoot, profile, extraArgs = []) {
   const r = spawnSync(
     process.execPath,
     [
@@ -77,6 +78,7 @@ function runInstall(targetRoot, profile) {
       '--domain',
       'shop',
       '--strict',
+      ...extraArgs,
     ],
     { cwd: KIT_ROOT, encoding: 'utf8' },
   );
@@ -127,6 +129,11 @@ function applyArm(arm, targetRoot) {
   if (arm === 'kit_standard_indexed') {
     runInstall(targetRoot, 'standard');
     overlayShopMapAndIndexes(targetRoot, { indexes: true });
+    return;
+  }
+  if (arm === 'kit_agentstack') {
+    runInstall(targetRoot, 'agentstack-app');
+    overlayShopMapAndIndexes(targetRoot, { indexes: false });
   }
 }
 

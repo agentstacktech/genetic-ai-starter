@@ -38,6 +38,11 @@ node benchmarks/scripts/run-matrix.mjs
 
 **What we do not claim:** Cursor/vendor certification — validate on **your** repo via [benchmarks/METHODOLOGY.md](benchmarks/METHODOLOGY.md) § Manual validation.
 
+## Where do 406 genes / 186 indexes come from?
+
+Those are **platform inventory** counts from [`meta/docs/platform-stats.snapshot.json`](meta/docs/platform-stats.snapshot.json) (`philosophyGenes`, `aiIndexFilesRepoTotal`), regenerated with `node scripts/export-platform-stats.mjs`. They are **not** harness scores. Harness weak→kit numbers live in [`metrics.snapshot.json`](meta/docs/metrics.snapshot.json). See [DOC_DATA_FLOW.md](meta/docs/DOC_DATA_FLOW.md) and [GENETIC_SYSTEM_ECONOMICS.md](meta/docs/GENETIC_SYSTEM_ECONOMICS.md).
+
+
 ## Can a cheap / weak agent match top models?
 
 **On repo-bound engineering tasks — often yes for stability, not for everything.** The kit raises the **floor**: harness arm `agents_md_weak` scores median **2.5**, **0%** success; **kit + indexes** scores median **9**, **100%** success on the same 14 tasks. That is not “mini = Opus on product design”; it is **map + genes + doctor** so weak agents stop grep/sed chaos and hit T04/T05/T13 consistently. Full narrative: [AGENT_FLOOR.md](meta/docs/AGENT_FLOOR.md) · RU: [AGENT_FLOOR_ru.md](meta/docs/AGENT_FLOOR_ru.md). Evidence table: [DOC_CLAIMS_AUDIT.md](meta/docs/DOC_CLAIMS_AUDIT.md).

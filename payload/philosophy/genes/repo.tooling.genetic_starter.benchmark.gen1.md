@@ -1,14 +1,13 @@
-# Gene: `repo.tooling.genetic_starter.benchmark.gen1`
+# Gene — `repo.tooling.genetic_starter.benchmark.gen1`
 
-
-
+**Genetic tag:** `repo.tooling.genetic_starter.benchmark.gen1`  
 **Domain:** repo · tooling · genetic-ai-starter benchmark harness.
-
-
 
 **Note:** Benchmark files live in the **genetic-ai-starter** kit tree (monorepo), not in consumer installs after `install.mjs`.
 
+## Intent
 
+Compare **genetic-ai-starter** against baselines with reproducible synthetic policy transcripts.
 
 ## Purpose
 
@@ -52,11 +51,8 @@ Compare **genetic-ai-starter** against baselines with reproducible synthetic pol
 
 
 
-## See also
-
-
+## Cross-links
 
 - `repo.tooling.genetic_starter.gen1`
-
 - `repo.tooling.genetic_starter.docs.gen1`
 

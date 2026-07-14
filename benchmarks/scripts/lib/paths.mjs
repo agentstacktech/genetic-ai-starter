@@ -8,5 +8,7 @@ export const FIXTURE_ROOT = path.join(BENCH_ROOT, 'fixture-shop-api');
 export const WORK_ROOT = path.join(BENCH_ROOT, 'work');
 export const TASKS_PATH = path.join(BENCH_ROOT, 'tasks/tasks.json');
 export const OVERLAY_SHOP = path.join(BENCH_ROOT, 'overlays/shop');
+export const OVERLAY_AGENTSTACK = path.join(BENCH_ROOT, 'overlays/agentstack');
+export const AGENTSTACK_TASKS_PATH = path.join(BENCH_ROOT, 'tasks/agentstack-tasks.json');
 export const BASELINES_DIR = path.join(BENCH_ROOT, 'baselines');
 export const RESULTS_ROOT = path.join(BENCH_ROOT, 'results');

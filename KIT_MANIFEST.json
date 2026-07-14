@@ -11,7 +11,8 @@
     "minimal",
     "standard",
     "full",
-    "founder"
+    "founder",
+    "agentstack-app"
   ],
   "files": [
     "PLATFORM_VERSION",
@@ -48,7 +49,18 @@
     "payload/philosophy/genes/repo.evolution.compression.gen1.md",
     "payload/philosophy/genes/repo.navigation.map.gen1.md",
     "payload/philosophy/genes/repo.navigation.index.gen1.md",
+    "payload/philosophy/genes/repo.tooling.genetic_starter.gen1.md",
+    "payload/philosophy/genes/repo.tooling.genetic_starter.integration.gen1.md",
+    "payload/philosophy/genes/repo.tooling.genetic_starter.agent_floor.gen1.md",
     "payload/philosophy/genes/repo.tooling.genetic_starter.benchmark.gen1.md",
+    "payload/philosophy/genes/repo.tooling.genetic_starter.agentstack_dx.gen1.md",
+    "payload/philosophy/genes/repo.platform.sdk.onboarding.gen1.md",
+    "payload/philosophy/genes/repo.platform.sdk.recipes.gen1.md",
+    "payload/philosophy/genes/repo.platform.capability_contract.gen1.md",
+    "payload/philosophy/genes/repo.tooling.gene_lifecycle.gen1.md",
+    "payload/philosophy/genes/repo.tooling.genetic_starter.docs.gen1.md",
+    "payload/philosophy/genes/repo.community.starter_spirit.gen1.md",
+    "payload/philosophy/genes/frontend.spa.ui_surface_registry.gen1.md",
     "payload/philosophy/genes/templates/project.domain.seed.gen1.md",
     "payload/philosophy/genes/templates/subsystem.feature.gen1.md",
     "payload/philosophy/genes/templates/adr.decision.seed.gen1.md",
@@ -57,6 +69,7 @@
     "payload/docs/ai/local/README.md",
     "payload/docs/ai/AI_NAVIGATION_MAP.md",
     "payload/templates/gitignore.genetic-ai.header.txt",
+    "payload/templates/hosted-storefront.export.md",
     "payload/docs/ai/AI_NAVIGATION_MAP.minimal.stub.md",
     "payload/docs/ai/CUSTOMIZE_DOMAIN.md",
     "payload/docs/ai/adr/ADR_TEMPLATE.md",
@@ -71,6 +84,13 @@
     "payload/.cursor/skills/index-authoring/SKILL.md",
     "payload/.cursor/skills/bootstrap-subsystem/SKILL.md",
     "payload/.cursor/skills/gene-authoring/SKILL.md",
+    "payload/.cursor/skills/gene-first-debug/SKILL.md",
+    "payload/.cursor/skills/agentstack-sdk-bootstrap/SKILL.md",
+    "payload/.cursor/skills/agentstack-mcp-discover/SKILL.md",
+    "payload/.cursor/skills/agentstack-8dna-data/SKILL.md",
+    "payload/.cursor/skills/agentstack-recipe-run/SKILL.md",
+    "payload/.cursor/skills/agentstack-capability-gate/SKILL.md",
+    "payload/hooks/pre-commit.sample",
     "payload/.github/workflows/genetic-ai-validate.yml.sample"
   ]
 }

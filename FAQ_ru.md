@@ -15,3 +15,5 @@
 ## Цифры в README?
 
 Harness synthetic 14 tasks, scorer 1.2.1 — [METRICS_GLOSSARY_ru.md](meta/docs/METRICS_GLOSSARY_ru.md).
+
+Инвентарь платформы (**406** genes / **186** indexes) — из [`platform-stats.snapshot.json`](meta/docs/platform-stats.snapshot.json), не из harness. Поток данных: [DOC_DATA_FLOW.md](meta/docs/DOC_DATA_FLOW.md).

@@ -5,6 +5,12 @@
 
 ---
 
+## Intent
+
+Semantic handle for decision **{{DECISION_SLUG}}** — read the linked ADR before implementing.
+
+---
+
 ## Scope
 
 Semantic handle for decision **{{DECISION_SLUG}}**. Full text lives in `docs/ai/adr/`.

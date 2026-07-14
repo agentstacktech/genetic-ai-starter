@@ -1,0 +1,25 @@
+{
+  "$schema": "https://cursor.com/schemas/mcp.json",
+  "mcpServers": {
+    "agentstack": {
+      "type": "streamable-http",
+      "url": "https://agentstack.tech/mcp",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${AGENTSTACK_ACCESS_TOKEN}"
+      },
+      "tools": {
+        "enabled": true,
+        "autoDiscover": true
+      }
+    }
+  },
+  "_kit_notes": {
+    "token_source": "AGENTSTACK_ACCESS_TOKEN — short-lived OAuth Bearer from the AgentStack Cursor plugin Device Code flow (/agentstack-init). The plugin writes Authorization into ~/.cursor/mcp.json after you confirm at https://agentstack.tech/activate.",
+    "env_substitution": "Copy this template to ~/.cursor/mcp.json or project .cursor/mcp.json and replace ${AGENTSTACK_ACCESS_TOKEN} with the Bearer value, or export AGENTSTACK_ACCESS_TOKEN in your shell if your editor expands env vars in MCP config.",
+    "manual_fallback": "Replace Authorization with X-API-Key: ask_... from https://agentstack.tech/me/keys — use narrow service_caps. See docs/plugins/MCP_QUICKSTART.md upstream.",
+    "discovery": "GET https://agentstack.tech/mcp/actions lists the live catalog. POST /mcp/cache/clear refreshes discovery after key rotation.",
+    "refresh": "Cursor plugin sessionStart hook rotates the Bearer ~2 minutes before expiry.",
+    "upstream": "provided_plugins/cursor-plugin/mcp.json in AgentStack monorepo"
+  }
+}

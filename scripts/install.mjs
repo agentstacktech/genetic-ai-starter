@@ -8,10 +8,10 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-import { mergeCursorrules, appendInsideCursorrulesBlock } from './lib/merge-cursorrules.mjs';
+import { mergeCursorrules } from './lib/merge-cursorrules.mjs';
 import { loadProfile, resolveProfileFiles } from './lib/profile-include.mjs';
 import { installSkills } from './lib/install-skills.mjs';
-import { KIT_ROOT, EXTENSIONS_DIR, PAYLOAD_ROOT } from './lib/paths.mjs';
+import { KIT_ROOT, PAYLOAD_ROOT } from './lib/paths.mjs';
 import { substitute } from './lib/substitute-placeholders.mjs';
 import { readPlatformVersion, describePlatformVersionSource } from './lib/platform-version.mjs';
 import { readPlatformVersionForKitRoot } from './lib/read-platform-version-for-kit.mjs';
@@ -21,9 +21,11 @@ import { applyKitSourceToLock } from './lib/record-kit-source.mjs';
 import { LOCK_SCHEMA_VERSION } from './lib/kit-integration-constants.mjs';
 import { applyUpgrade, finalizeUpgradeReport, runPostUpgradeValidate } from './lib/upgrade-engine.mjs';
 import { printUpgradeReportHuman } from './lib/upgrade-report.mjs';
-import { mergeExtensionOverlayMissingSections } from './lib/tenant-protected-files.mjs';
-
-const NAV_EXTENSION_MARKER = '<!-- genetic-ai-extension:agentstack-nav -->';
+import { readCapabilitySnapshotHash } from './lib/copy-agentstack-recipes.mjs';
+import {
+  applyAgentstackExtension,
+  refreshAgentstackRecipes,
+} from './lib/apply-agentstack-extension.mjs';
 
 function parseArgs(argv) {
   const opts = {
@@ -40,6 +42,7 @@ function parseArgs(argv) {
     gitignoreKit: 'none',
     recordKitSource: false,
     kitRoot: null,
+    lang: 'typescript',
     preserveNavigation: true,
     forceNavigation: false,
     yes: false,
@@ -73,9 +76,18 @@ function parseArgs(argv) {
       opts.gitignoreKit = mode;
     } else if (a === '--record-kit-source') opts.recordKitSource = true;
     else if (a === '--kit-root') opts.kitRoot = argv[++i];
+    else if (a === '--lang') {
+      const lang = argv[++i];
+      if (lang !== 'typescript' && lang !== 'python') {
+        console.error('--lang must be typescript or python');
+        process.exit(1);
+      }
+      opts.lang = lang;
+    }
     else if (a === '--help') {
       console.log(`Usage: node install.mjs --target <path> [options]
-  --profile minimal|standard|full|founder
+  --profile minimal|standard|full|founder|agentstack-app
+  --lang typescript|python (agentstack-app recipes copy)
   --preserve-navigation (default) | --no-preserve-navigation | --force-navigation
   --dry-run --yes --json-report
   --merge-philosophy --force-philosophy
@@ -90,52 +102,7 @@ function parseArgs(argv) {
   return opts;
 }
 
-function applyExtension(targetRoot, extId, vars, { dryRun, preserveOverlays }) {
-  const extRoot = path.join(EXTENSIONS_DIR, extId);
-  const manifestPath = path.join(extRoot, 'extension.manifest.json');
-  if (!fs.existsSync(manifestPath)) throw new Error(`Extension not found: ${extId}`);
-  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-
-  for (const ov of manifest.overlays || []) {
-    const src = path.join(extRoot, ov.from);
-    const dest = path.join(targetRoot, ov.to);
-    if (!fs.existsSync(src)) continue;
-    if (!dryRun) {
-      fs.mkdirSync(path.dirname(dest), { recursive: true });
-      let c = fs.readFileSync(src, 'utf8');
-      c = substitute(c, vars, {});
-      if (preserveOverlays && fs.existsSync(dest) && ov.to.endsWith('CONTEXT_FOR_AI.md')) {
-        c = mergeExtensionOverlayMissingSections(fs.readFileSync(dest, 'utf8'), c);
-      }
-      fs.writeFileSync(dest, c, 'utf8');
-    }
-  }
-
-  const navAppend = path.join(extRoot, 'merge/navigation-map.append.md');
-  if (fs.existsSync(navAppend)) {
-    const dest = path.join(targetRoot, 'docs/ai/AI_NAVIGATION_MAP.md');
-    let chunk = fs.readFileSync(navAppend, 'utf8');
-    chunk = substitute(chunk, vars, {});
-    if (!dryRun && fs.existsSync(dest)) {
-      const current = fs.readFileSync(dest, 'utf8');
-      if (!current.includes(NAV_EXTENSION_MARKER)) {
-        fs.appendFileSync(dest, '\n' + chunk, 'utf8');
-      }
-    }
-  }
-
-  const rulesAppend = path.join(extRoot, 'merge/cursorrules.append.md');
-  if (fs.existsSync(rulesAppend)) {
-    const append = substitute(fs.readFileSync(rulesAppend, 'utf8'), vars, {});
-    if (!dryRun) {
-      appendInsideCursorrulesBlock(path.join(targetRoot, '.cursorrules'), append);
-    }
-  }
-
-  return manifest;
-}
-
-function writeLock(targetRoot, opts, extensions, { dryRun, kitRootForRecord }) {
+function writeLock(targetRoot, opts, extensions, { dryRun, kitRootForRecord, profile }) {
   const platformVersion =
     kitRootForRecord && opts.kitRoot
       ? readPlatformVersionForKitRoot(kitRootForRecord)
@@ -156,6 +123,13 @@ function writeLock(targetRoot, opts, extensions, { dryRun, kitRootForRecord }) {
     navigationPreserveDefault: opts.preserveNavigation,
     paths: { docsAi: 'docs/ai', philosophy: 'philosophy' },
   };
+  if (extensions.includes('agentstack')) {
+    lock.capabilitySnapshotHash = readCapabilitySnapshotHash(kitRootForRecord || KIT_ROOT);
+    if (profile?.copyRecipes || opts.profile === 'agentstack-app') {
+      lock.recipeSetVersion = platformVersion;
+      lock.recipeLang = opts.lang;
+    }
+  }
   const warnings = [];
   if (opts.recordKitSource && kitRootForRecord) {
     const applied = applyKitSourceToLock(lock, targetRoot, kitRootForRecord, { preferSubmodule: true });
@@ -183,8 +157,11 @@ function main() {
     DOMAIN: opts.domain,
     SUBSYSTEM: 'feature',
     DECISION_SLUG: 'decision',
+    DECISION_TITLE: 'Architecture decision',
+    DATE: new Date().toISOString().slice(0, 10),
     AGENTSTACK_VERSION: readPlatformVersionForKitRoot(kitRootForRecord),
   };
+  const platformVersion = vars.AGENTSTACK_VERSION;
 
   const profile = loadProfile(opts.profile);
   let files = resolveProfileFiles(profile);
@@ -235,7 +212,7 @@ function main() {
   const fragmentPath = path.join(PAYLOAD_ROOT, '.cursorrules.fragment.md');
   const wantsCursorrules =
     files.some((f) => f === '.cursorrules.fragment.md') ||
-    ['minimal', 'standard', 'full', 'founder'].includes(profile.id);
+    ['minimal', 'standard', 'full', 'founder', 'agentstack-app'].includes(profile.id);
 
   if (wantsCursorrules && fs.existsSync(fragmentPath)) {
     const frag = substitute(fs.readFileSync(fragmentPath, 'utf8'), vars, { strict: opts.strict });
@@ -249,15 +226,30 @@ function main() {
   }
 
   const extensions = [];
-  if (opts.withAgentstack || (profile.extensions || []).includes('agentstack')) {
-    applyExtension(targetRoot, 'agentstack', vars, {
+  const wantsAgentstack =
+    opts.withAgentstack ||
+    (profile.extensions || []).includes('agentstack') ||
+    opts.profile === 'agentstack-app';
+  if (wantsAgentstack) {
+    applyAgentstackExtension(targetRoot, 'agentstack', vars, {
       dryRun: opts.dryRun,
       preserveOverlays: opts.preserveNavigation,
     });
     extensions.push('agentstack');
+    if (profile.copyRecipes || opts.profile === 'agentstack-app') {
+      refreshAgentstackRecipes(targetRoot, {
+        dryRun: opts.dryRun,
+        lang: opts.lang,
+        platformVersion,
+      });
+    }
   }
 
-  const { lock, warnings } = writeLock(targetRoot, opts, extensions, { dryRun: opts.dryRun, kitRootForRecord });
+  const { lock, warnings } = writeLock(targetRoot, opts, extensions, {
+    dryRun: opts.dryRun,
+    kitRootForRecord,
+    profile,
+  });
   for (const w of warnings) console.warn(`WARN: ${w}`);
 
   if (opts.gitignoreKit === 'full') {
@@ -302,6 +294,20 @@ function main() {
     `files=${(partial.written || []).length}`,
     `→ ${targetRoot}`,
   );
+
+  if (extensions.includes('agentstack') && (profile.copyRecipes || opts.profile === 'agentstack-app')) {
+    const recipesDir =
+      opts.lang === 'python' ? 'examples/agentstack-python' : 'examples/agentstack';
+    console.log('');
+    console.log('AgentStack recipes →', path.join(targetRoot, recipesDir));
+    if (opts.lang !== 'python') {
+      console.log(`Flow A (npm): cd ${recipesDir} && npm install @agentstack/sdk@${platformVersion}`);
+      console.log('Then: npm run recipe:00-bootstrap');
+      console.log(
+        `Flow B (submodule): see ${recipesDir}/SDK_ACQUISITION.md or run kit scripts/submodule-add-sdk.mjs`,
+      );
+    }
+  }
 }
 
 main();

@@ -7,6 +7,7 @@ import { findUnresolved } from './lib/substitute-placeholders.mjs';
 import { resolveProfileFiles, loadProfile } from './lib/profile-include.mjs';
 import { SKIP_COPY_TO_TARGET } from './lib/copy-payload.mjs';
 import { assertKitManifestMatchesPlatform } from './lib/platform-version.mjs';
+import { validateAllGenes } from './validate-genes.mjs';
 
 const ALLOWED_PLACEHOLDERS = new Set([
   'PROJECT_NAME',
@@ -73,6 +74,10 @@ function main() {
       errors.push(`Profile ${id}: ${e.message}`);
     }
   }
+
+  const geneResult = validateAllGenes();
+  for (const e of geneResult.errors) errors.push(`Gene: ${e}`);
+  for (const w of geneResult.warnings) console.warn(`validate-genes WARN: ${w}`);
 
   if (errors.length) {
     console.error('validate-kit FAILED:\n' + errors.map((e) => `  - ${e}`).join('\n'));

@@ -57,3 +57,5 @@ node genetic-ai-starter/benchmarks/scripts/estimate-tokens.mjs --transcript path
 ## Limits
 
 Synthetic harness policy — not production Cursor averages. Validate on your repo via [benchmarks/METHODOLOGY.md](../../benchmarks/METHODOLOGY.md) § Manual validation.
+
+**Labor vs tokens (full picture):** [GENETIC_SYSTEM_ECONOMICS.md](GENETIC_SYSTEM_ECONOMICS.md) — primary ROI is calendar; token savings are secondary when map→index prefixes stabilize.

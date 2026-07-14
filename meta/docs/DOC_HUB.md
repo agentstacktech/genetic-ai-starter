@@ -11,7 +11,7 @@ Documentation for **installing and using** the kit in your project. Operator-onl
 | **Tutorial** | [GETTING_STARTED.md](GETTING_STARTED.md) · [QUICK_SETUP.md](QUICK_SETUP.md) · **[INTEGRATION_MODES.md](INTEGRATION_MODES.md)** |
 | **How-to** | [INSTALL.md](INSTALL.md) · [INTEGRATION_MODES.md](INTEGRATION_MODES.md) · [INSTALL_WINDOWS.md](INSTALL_WINDOWS.md) · [TROUBLESHOOTING.md](TROUBLESHOOTING.md) |
 | **Reference** | [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md) · [METRICS_GLOSSARY_ru.md](METRICS_GLOSSARY_ru.md) · [metrics.snapshot.json](metrics.snapshot.json) · [PROFILE_COMPARISON.md](PROFILE_COMPARISON.md) |
-| **Explanation** | [NAVIGATION_OS.md](NAVIGATION_OS.md) · [AGENT_FLOOR.md](AGENT_FLOOR.md) · [AI_RELEASE_AUTONOMY.md](AI_RELEASE_AUTONOMY.md) · [KILLER_FEATURE_LARGE_PROJECTS.md](KILLER_FEATURE_LARGE_PROJECTS.md) |
+| **Explanation** | [NAVIGATION_OS.md](NAVIGATION_OS.md) · [AGENT_FLOOR.md](AGENT_FLOOR.md) · [AI_RELEASE_AUTONOMY.md](AI_RELEASE_AUTONOMY.md) · [KILLER_FEATURE_LARGE_PROJECTS.md](KILLER_FEATURE_LARGE_PROJECTS.md) · **[VALUE_AND_ROI_BY_PROJECT_SIZE.md](VALUE_AND_ROI_BY_PROJECT_SIZE.md)** · **[GENETIC_SYSTEM_ECONOMICS.md](GENETIC_SYSTEM_ECONOMICS.md)** |
 
 ## Start here
 
@@ -20,7 +20,9 @@ Documentation for **installing and using** the kit in your project. Operator-onl
 | New user | [GETTING_STARTED.md](GETTING_STARTED.md) · [QUICK_SETUP.md](QUICK_SETUP.md) |
 | Install | [INSTALL.md](INSTALL.md) · [INSTALL_WINDOWS.md](INSTALL_WINDOWS.md) |
 | **Production** | [PRODUCTION_OUTCOMES.md](PRODUCTION_OUTCOMES.md) · [RU](PRODUCTION_OUTCOMES_ru.md) |
-| **Claims / evidence** | [DOC_CLAIMS_AUDIT.md](DOC_CLAIMS_AUDIT.md) |
+| **ROI / money saved** | **[VALUE_AND_ROI_BY_PROJECT_SIZE.md](VALUE_AND_ROI_BY_PROJECT_SIZE.md)** · [RU](VALUE_AND_ROI_BY_PROJECT_SIZE_ru.md) · **[GENETIC_SYSTEM_ECONOMICS.md](GENETIC_SYSTEM_ECONOMICS.md)** · [RU](GENETIC_SYSTEM_ECONOMICS_ru.md) |
+| **AgentStack consumer** | **[AGENTSTACK_APP_GUIDE.md](AGENTSTACK_APP_GUIDE.md)** · [RU](AGENTSTACK_APP_GUIDE_ru.md) |
+| **Claims / evidence** | [DOC_CLAIMS_AUDIT.md](DOC_CLAIMS_AUDIT.md) · [DOC_DATA_FLOW.md](DOC_DATA_FLOW.md) · [DOC_MAINTENANCE_TASKS.md](DOC_MAINTENANCE_TASKS.md) |
 | **Large repos** | [KILLER_FEATURE_LARGE_PROJECTS_ru.md](KILLER_FEATURE_LARGE_PROJECTS_ru.md) · [EN](KILLER_FEATURE_LARGE_PROJECTS.md) |
 | **Tokens** | [TOKEN_ECONOMICS_ru.md](TOKEN_ECONOMICS_ru.md) · [EN](TOKEN_ECONOMICS.md) |
 | **Metrics** | [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md) · [metrics.snapshot.json](metrics.snapshot.json) |
@@ -42,7 +44,12 @@ Documentation for **installing and using** the kit in your project. Operator-onl
 | [COMPARISON_METHODS.md](COMPARISON_METHODS.md) · [_ru](COMPARISON_METHODS_ru.md) | vs other approaches |
 | [LARGE_PROJECT_PLAYBOOK.md](LARGE_PROJECT_PLAYBOOK.md) · [_ru](LARGE_PROJECT_PLAYBOOK_ru.md) | Rollout phases |
 | [PROFILE_COMPARISON.md](PROFILE_COMPARISON.md) · [.en](PROFILE_COMPARISON.en.md) | Install profiles |
-| [ROI_PLAYBOOK.md](ROI_PLAYBOOK.md) · [_ru](ROI_PLAYBOOK_ru.md) | KPIs |
+| [ROI_PLAYBOOK.md](ROI_PLAYBOOK.md) · [_ru](ROI_PLAYBOOK_ru.md) | KPIs + calculator |
+| [VALUE_AND_ROI_BY_PROJECT_SIZE.md](VALUE_AND_ROI_BY_PROJECT_SIZE.md) · [_ru](VALUE_AND_ROI_BY_PROJECT_SIZE_ru.md) | **$ savings by team size** |
+| [GENETIC_SYSTEM_ECONOMICS.md](GENETIC_SYSTEM_ECONOMICS.md) · [_ru](GENETIC_SYSTEM_ECONOMICS_ru.md) | **Canvas economics synthesis** (labor vs tokens, SDK leverage) |
+| [DOC_DATA_FLOW.md](DOC_DATA_FLOW.md) | **SoT map** — which file owns which number |
+| [DOC_MAINTENANCE_TASKS.md](DOC_MAINTENANCE_TASKS.md) | **Detailed TODO register** for docs consistency |
+| [AGENTSTACK_APP_GUIDE.md](AGENTSTACK_APP_GUIDE.md) · [_ru](AGENTSTACK_APP_GUIDE_ru.md) | **Build on AgentStack** |
 
 ## Benchmarks (optional)
 

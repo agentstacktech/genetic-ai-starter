@@ -17,8 +17,11 @@ import {
   runPostUpgradeValidate,
 } from './lib/upgrade-engine.mjs';
 import { printUpgradeReportHuman } from './lib/upgrade-report.mjs';
-import { appendInsideCursorrulesBlock } from './lib/merge-cursorrules.mjs';
-import { EXTENSIONS_DIR } from './lib/paths.mjs';
+import {
+  applyAgentstackExtension,
+  refreshAgentstackRecipes,
+} from './lib/apply-agentstack-extension.mjs';
+import { readCapabilitySnapshotHash } from './lib/copy-agentstack-recipes.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -140,24 +143,15 @@ function main() {
   });
 
   if ((lock.extensions || []).includes('agentstack') && !opts.dryRun) {
-    const extRoot = path.join(EXTENSIONS_DIR, 'agentstack');
-    const navAppend = path.join(extRoot, 'merge/navigation-map.append.md');
-    if (fs.existsSync(navAppend)) {
-      const dest = path.join(target, 'docs/ai/AI_NAVIGATION_MAP.md');
-      if (fs.existsSync(dest)) {
-        const chunk = substitute(fs.readFileSync(navAppend, 'utf8'), vars, {});
-        const current = fs.readFileSync(dest, 'utf8');
-        if (!current.includes('genetic-ai-extension:agentstack-nav')) {
-          fs.appendFileSync(dest, '\n' + chunk, 'utf8');
-        }
-      }
-    }
-    const rulesAppend = path.join(extRoot, 'merge/cursorrules.append.md');
-    if (fs.existsSync(rulesAppend)) {
-      appendInsideCursorrulesBlock(
-        path.join(target, '.cursorrules'),
-        substitute(fs.readFileSync(rulesAppend, 'utf8'), vars, {}),
-      );
+    const platformVersion = vars.AGENTSTACK_VERSION;
+    applyAgentstackExtension(target, 'agentstack', vars, {
+      preserveOverlays: opts.preserveNavigation,
+    });
+    if (lock.profile === 'agentstack-app' || lock.recipeSetVersion) {
+      refreshAgentstackRecipes(target, {
+        lang: lock.recipeLang || 'typescript',
+        platformVersion,
+      });
     }
   }
 
@@ -169,6 +163,12 @@ function main() {
       lastUpgradeAt: new Date().toISOString(),
       lastUpgradeReport: '.genetic-ai/last-upgrade-report.json',
     };
+    if ((lock.extensions || []).includes('agentstack')) {
+      nextLock.capabilitySnapshotHash = readCapabilitySnapshotHash(kitRoot);
+      if (lock.profile === 'agentstack-app' || lock.recipeSetVersion) {
+        nextLock.recipeSetVersion = readPlatformVersionForKitRoot(kitRoot);
+      }
+    }
     if (!opts.noRecordKitSource) {
       const applied = applyKitSourceToLock(nextLock, target, kitRoot, { preferSubmodule: true });
       nextLock = applied.lock;

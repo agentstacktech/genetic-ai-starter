@@ -128,6 +128,7 @@ function main() {
     for (const rel of contract.protectedFiles || []) {
       const fp = path.join(target, rel);
       if (!fs.existsSync(fp)) continue;
+      if (fs.statSync(fp).isDirectory()) continue;
       const content = fs.readFileSync(fp, 'utf8');
       for (const region of contract.regions || []) {
         if (region.file !== rel || !region.endMarker) continue;

@@ -1,6 +1,7 @@
 # Быстрая установка — Genetic AI Starter Kit
 
-**Зачем kit:** карта навигации + правила Cursor + genes — см. [README.md](../../README.md).
+**Зачем kit:** карта навигации + правила Cursor + genes — см. [README.md](../../README.md).  
+**ROI (модель):** [VALUE_AND_ROI_BY_PROJECT_SIZE_ru.md](VALUE_AND_ROI_BY_PROJECT_SIZE_ru.md) · `node scripts/calculate-roi.mjs`
 
 ## Submodule standard (3 команды)
 
@@ -14,6 +15,16 @@ node tools/genetic-ai-starter/scripts/bootstrap-standard.mjs --target . --projec
 
 Проверка: `node tools/genetic-ai-starter/scripts/doctor.mjs --target .`
 
+## Приложение на AgentStack
+
+```bash
+node tools/genetic-ai-starter/scripts/install.mjs \
+  --target . --profile agentstack-app --project-name "My App" --domain app --strict
+cd examples/agentstack && npm install @agentstack/sdk@0.4.13 && npm run recipe:00-bootstrap
+```
+
+Гайд: [AGENTSTACK_APP_GUIDE_ru.md](AGENTSTACK_APP_GUIDE_ru.md)
+
 **Zero-kit:** см. [INTEGRATION_MODES.md](INTEGRATION_MODES.md) (`remote-bootstrap.mjs`).
 
 ---
@@ -22,7 +33,7 @@ node tools/genetic-ai-starter/scripts/bootstrap-standard.mjs --target . --projec
 
 1. Node.js 18+
 2. Откройте папку kit → **`SETUP.cmd`** или `node scripts/init.mjs`
-3. Укажите путь к проекту, профиль **Стандарт**
+3. Профиль **Стандарт** или **agentstack-app** для SDK/MCP
 
 ---
 

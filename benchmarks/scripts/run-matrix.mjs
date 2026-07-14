@@ -28,6 +28,7 @@ const ARMS = [
   'kit_minimal',
   'kit_standard',
   'kit_standard_indexed',
+  'kit_agentstack',
 ];
 
 const SYNTHETIC = [
@@ -47,7 +48,7 @@ const SYNTHETIC = [
   'T14',
 ];
 const SMOKE = ['S01', 'S02', 'S03', 'S04'];
-const SMOKE_ARMS = ['bare', 'kit_standard'];
+const SMOKE_ARMS = ['bare', 'kit_standard', 'kit_agentstack'];
 
 /** @type {Record<string, Record<string, string>>} */
 const TRANSCRIPTS = {
@@ -226,11 +227,22 @@ Read agentstack-core/services/agents_endpoints.py.`,
     S03: `repo.engineering.controlled_changes.gen1 — refuse PowerShell bulk rename; scoped component edits.`,
     S04: `frontend.spa.dual_shell.pages_map.gen1 — must update docs/dual-shell/PAGES_MAP.md and App.tsx route parity.`,
   },
+  kit_agentstack_smoke: {
+    S01: `agentstack-capability-gate → docs/ai/agentstack-capability-snapshot.json MCP discovery — invalidate via sdk.protocol / MCP after write.`,
+    S02: `agentstack-sdk-bootstrap → src/lib/agentstack.ts + map core.agents.fleet.gen1 → agents_endpoints.py.`,
+    S03: `controlled_changes — refuse bulk rename; agentstack-sdk-first.mdc scoped edits.`,
+    S04: `PAGES_MAP.md + dual-shell gene — navigation maintenance before route ship.`,
+  },
 };
 
 function transcriptFor(arm, taskId) {
   if (SMOKE.includes(taskId)) {
-    const key = arm === 'kit_standard' ? 'kit_standard_smoke' : 'bare_smoke';
+    const key =
+      arm === 'kit_agentstack'
+        ? 'kit_agentstack_smoke'
+        : arm === 'kit_standard'
+          ? 'kit_standard_smoke'
+          : 'bare_smoke';
     return TRANSCRIPTS[key]?.[taskId] || `Task ${taskId} on ${arm}.`;
   }
   return TRANSCRIPTS[arm]?.[taskId] || `Completed ${taskId} on ${arm}.`;

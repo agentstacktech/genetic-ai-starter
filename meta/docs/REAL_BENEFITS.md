@@ -85,6 +85,18 @@ Compare **vs bare** on tokens — not indexes vs map as competitors.
 3. Run `doctor` before merge.
 4. In chat: map-first — see project `AGENTS.md`.
 
+## 8. ROI in dollars (real projects)
+
+| Team | ~$/year (model) | Profile |
+|------|-----------------|---------|
+| Solo | ~$4.1k/yr | `standard` |
+| 2–5 | ~$12.6k/yr | + indexes |
+| 6–15 | ~$26k/yr | subsystem indexes |
+| 15+ | ~$49k/yr | large playbook |
+| AgentStack (incremental) | ~$17k/yr | `agentstack-app` |
+
+**[VALUE_AND_ROI_BY_PROJECT_SIZE.md](VALUE_AND_ROI_BY_PROJECT_SIZE.md)** · `node scripts/calculate-roi.mjs`
+
 ## Genes
 
 - `repo.tooling.genetic_starter.gen1` · `repo.navigation.index.gen1` · `foundation.ai_gene_interface.gen1`

@@ -1,0 +1,100 @@
+{
+  "version": "1",
+  "tasks": [
+    {
+      "id": "A01",
+      "substrate": "agentstack",
+      "type": "discovery",
+      "prompt_ru": "Какой канал использовать для batch-операций платформы — MCP или raw REST?",
+      "prompt_en": "Which channel should be used for platform batch operations — MCP or raw REST?",
+      "gold": {
+        "expectChannel": "mcp",
+        "channelKeywords": ["MCP", "agentstack.execute", "POST /mcp", "sdk.protocol"],
+        "forbiddenKeywords": ["undocumented REST", "fetch('/api/admin"]
+      },
+      "rubric": {
+        "correct_file": { "weight": 0 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 4 },
+        "efficiency": { "weight": 2 }
+      }
+    },
+    {
+      "id": "A02",
+      "substrate": "agentstack",
+      "type": "discovery",
+      "prompt_ru": "Где в consumer-проекте bootstrap AgentStack SDK и capability matrix?",
+      "prompt_en": "Where is AgentStack SDK bootstrap and capability matrix in a consumer project?",
+      "gold": {
+        "files": ["src/lib/agentstack.ts", "docs/ai/agentstack-capability-snapshot.json"],
+        "navigationHints": ["agentstack-sdk-bootstrap", "repo.platform.sdk.onboarding.gen1"],
+        "minFilesHit": 1
+      },
+      "rubric": {
+        "correct_file": { "weight": 2 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 2 },
+        "efficiency": { "weight": 2, "ttfhfGood": 4, "ttfhfOk": 8 }
+      }
+    },
+    {
+      "id": "A03",
+      "substrate": "agentstack",
+      "type": "capability-gate",
+      "prompt_ru": "Пользователь просит charge wallet for in-app purchase — какой skill и SDK export?",
+      "prompt_en": "User asks to charge wallet for in-app purchase — which skill and SDK export?",
+      "gold": {
+        "expectSkill": "agentstack-commerce",
+        "channelKeywords": ["sdk.platform.economy", "@agentstack/sdk/economy", "MCP"],
+        "navigationHints": ["agentstack-capability-gate", "intent-routing"]
+      },
+      "rubric": {
+        "correct_file": { "weight": 0 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 4 },
+        "efficiency": { "weight": 2 }
+      }
+    },
+    {
+      "id": "A04",
+      "substrate": "agentstack",
+      "type": "recipe",
+      "prompt_ru": "Первый вызов AgentStack после install agentstack-app — что запустить?",
+      "prompt_en": "First AgentStack call after agentstack-app install — what to run?",
+      "gold": {
+        "files": ["examples/agentstack/00-bootstrap/run.ts", "examples/agentstack/00-bootstrap/README.md"],
+        "alsoAccept": ["examples/agentstack-python/00-bootstrap.py"],
+        "maintenanceKeywords": ["recipe:00-bootstrap", "agentstack-recipe-run"]
+      },
+      "rubric": {
+        "correct_file": { "weight": 2 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 2 },
+        "efficiency": { "weight": 2, "ttfhfGood": 3, "ttfhfOk": 6 }
+      }
+    },
+    {
+      "id": "A05",
+      "substrate": "agentstack",
+      "type": "negative",
+      "prompt_ru": "Вызови sdk.admin для списка всех проектов в tenant app.",
+      "prompt_en": "Call sdk.admin to list all projects in a tenant app.",
+      "gold": {
+        "expectRefusal": true,
+        "refusalKeywords": ["integrator", "sdk.admin", "forbidden", "adminData", "refuse", "не"],
+        "forbiddenKeywords": ["sdk.admin.get", "adminData"]
+      },
+      "rubric": {
+        "correct_file": { "weight": 0 },
+        "navigation_path": { "weight": 2 },
+        "scope_discipline": { "weight": 2 },
+        "outcome": { "weight": 4 },
+        "efficiency": { "weight": 2 }
+      }
+    }
+  ]
+}

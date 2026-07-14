@@ -1,9 +1,9 @@
 # Genetic AI Starter Kit
 
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
-[![platform](https://img.shields.io/badge/platform-0.4.13-informational)](PLATFORM_VERSION)
+[![platform](https://img.shields.io/badge/platform-0.4.14-informational)](PLATFORM_VERSION)
 
-**Platform version:** `0.4.13` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or [`PLATFORM_VERSION`](PLATFORM_VERSION) (standalone copy).
+**Platform version:** `0.4.14` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or [`PLATFORM_VERSION`](PLATFORM_VERSION) (standalone copy).
 
 **Languages:** **English** (this file) · [Русский](README.md)
 
@@ -11,7 +11,7 @@
 
 You get **merge-ready agent workflows**: map and genes in git so agents find canonical files, update navigation in the same PR, pass doctor/validate — without you micromanaging paths. Token savings follow from map-first navigation.
 
-**Navigation OS:** [meta/docs/NAVIGATION_OS.md](meta/docs/NAVIGATION_OS.md) · **Doc hub:** [meta/docs/DOC_HUB.md](meta/docs/DOC_HUB.md)
+**Navigation OS:** [meta/docs/NAVIGATION_OS.md](meta/docs/NAVIGATION_OS.md) · **Economics (canvases):** [meta/docs/GENETIC_SYSTEM_ECONOMICS.md](meta/docs/GENETIC_SYSTEM_ECONOMICS.md) · **Doc hub:** [meta/docs/DOC_HUB.md](meta/docs/DOC_HUB.md)
 
 ---
 
@@ -60,30 +60,30 @@ A strong expensive model without a map may still brute-force a task — with **v
 | Release without docs | forgot route/map | T13 + doctor in CI |
 | Cheap models on the team | high variance | [AGENT_FLOOR.md](meta/docs/AGENT_FLOOR.md) |
 | Onboarding 2+ devs | tribal paths | Tier 1 + genetic tags |
-| AgentStack consumers | MCP drift | extension + sync-from-canonical |
+| AgentStack consumers | MCP drift | **`agentstack-app`** + capability contract — [AGENTSTACK_APP_GUIDE.md](meta/docs/AGENTSTACK_APP_GUIDE.md) |
 
 Details: [PRODUCTION_OUTCOMES.md](meta/docs/PRODUCTION_OUTCOMES.md).
 
 ## AgentStack ecosystem (reference)
 
-Figures from [`platform-stats.snapshot.json`](meta/docs/platform-stats.snapshot.json) (regenerate: `node scripts/export-platform-stats.mjs`):
+Figures from [`platform-stats.snapshot.json`](meta/docs/platform-stats.snapshot.json) (regenerate: `node scripts/export-platform-stats.mjs` — **SoT for inventory counts**):
 
-- **~222** active genes in monorepo philosophy
-- **~98** `AI_INDEX.md` on platform packages (excluding CardGame)
-- **~267** Tier-1 genetic tags in the central map
-- Kit ships **~20** starter genes (8 foundation + navigation + engineering) + **5** Cursor rules + **5** skills (standard)
+- **406** active genes in monorepo philosophy (`philosophyGenes`)
+- **186** `AI_INDEX.md` repo-wide / **162** on platform packages (`aiIndexFilesRepoTotal` / `aiIndexFilesPlatform`)
+- **421** Tier-1 genetic tags in the central map (`navigationMapTier1Tags`)
+- Kit ships **27** payload genes + **5** Cursor rules + **10** skills (standard profile)
 - Same Navigation OS as [AgentStack](https://github.com/agentstacktech/AgentStack)
 
-Harness metrics (shop-api) are separate: [`metrics.snapshot.json`](meta/docs/metrics.snapshot.json).
+Harness metrics (shop-api) are separate: [`metrics.snapshot.json`](meta/docs/metrics.snapshot.json). Economics synthesis: [GENETIC_SYSTEM_ECONOMICS.md](meta/docs/GENETIC_SYSTEM_ECONOMICS.md).
 
 ### AgentStack vs kit (from snapshot)
 
 | Layer | AgentStack monorepo | Kit install |
 |-------|---------------------|-------------|
-| Genes | ~222 `.gen1.md` | ~20 starter genes (8 foundation) |
-| `AI_INDEX` | ~98 platform packages | you fill per subsystem |
-| Navigation map | ~267 Tier-1 tags | template + your Tier 1 |
-| Harness | internal shop-api | same methodology |
+| Genes | **406** `.gen1.md` | **27** payload genes |
+| `AI_INDEX` | **186** total / **162** platform | you fill per subsystem |
+| Navigation map | **421** Tier-1 tags | template + your Tier 1 |
+| Harness | shop-api methodology | same — `metrics.snapshot.json` |
 
 ### Gene clusters (starter)
 
@@ -181,7 +181,20 @@ Step context model on shop-api: bare **~2.3k** / task (median), kit + indexes **
 
 Per-task prompts, scores, and a sample team week: **[BENEFITS_AND_METRICS.md](meta/docs/BENEFITS_AND_METRICS.md)** (not duplicated here).
 
-Track your own ROI: [ROI_PLAYBOOK.md](meta/docs/ROI_PLAYBOOK.md) · [ROI_PLAYBOOK_ru.md](meta/docs/ROI_PLAYBOOK_ru.md).
+Track your own ROI: **[VALUE_AND_ROI_BY_PROJECT_SIZE.md](meta/docs/VALUE_AND_ROI_BY_PROJECT_SIZE.md)** · [ROI_PLAYBOOK.md](meta/docs/ROI_PLAYBOOK.md) · **[GENETIC_SYSTEM_ECONOMICS.md](meta/docs/GENETIC_SYSTEM_ECONOMICS.md)** (canvas synthesis: labor vs tokens, SDK leverage, agents 2026).
+
+### Modeled savings by team size ($85/h blended)
+
+| Team | Net $/year (model) | Profile |
+|------|-------------------|---------|
+| Solo | **~$4.1k** | `standard` |
+| 2–5 devs | **~$12.6k** | `standard` + indexes |
+| 6–15 | **~$26k** | subsystem `AI_INDEX` |
+| 15+ monorepo | **~$49k** | [LARGE_PROJECT_PLAYBOOK.md](meta/docs/LARGE_PROJECT_PLAYBOOK.md) |
+| AgentStack (incremental) | **~$17k** | **`agentstack-app`** |
+| AgentStack total (small team) | **~$29k** | **`agentstack-app`** |
+
+Calculator: `node scripts/calculate-roi.mjs` · [VALUE_AND_ROI_BY_PROJECT_SIZE.md](meta/docs/VALUE_AND_ROI_BY_PROJECT_SIZE.md).
 
 ---
 
@@ -201,7 +214,7 @@ Track your own ROI: [ROI_PLAYBOOK.md](meta/docs/ROI_PLAYBOOK.md) · [ROI_PLAYBOO
 - **New products** — greenfield repo, standard or full profile.
 - **Existing codebases** — install into `--target`; use `repair` if philosophy was partial.
 - **Small repos** — `minimal` profile: AGENTS + stub map + 2 rules.
-- **AgentStack integrators** — `full` / `founder` + extension overlay.
+- **AgentStack integrators** — **`agentstack-app`** profile (recipes + MCP template); legacy `full` for CI sample only.
 - **Teams that want local-only AI context** — `gitignore-kit full`.
 
 **Not for:** single-file scripts, throwaway spikes with no structure — use minimal or skip.

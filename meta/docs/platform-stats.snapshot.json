@@ -1,18 +1,19 @@
 {
-  "generatedAt": "2026-05-24T12:34:31.678Z",
-  "platformVersion": "0.4.11",
+  "generatedAt": "2026-07-10T20:12:04.347Z",
+  "platformVersion": "0.4.14",
   "monorepoRoot": "C:\\Projects\\AgentStack",
   "includeCardGame": false,
   "counts": {
-    "philosophyGenes": 223,
-    "aiIndexFilesRepoTotal": 123,
-    "aiIndexFilesPlatform": 99,
-    "navigationMapTier1Tags": 269,
-    "kitPayloadGenes": 17,
+    "philosophyGenes": 406,
+    "aiIndexFilesRepoTotal": 186,
+    "aiIndexFilesPlatform": 162,
+    "navigationMapTier1Tags": 421,
+    "kitPayloadGenes": 27,
     "kitCursorRulesStandard": 5,
-    "kitCursorSkillsStandard": 5,
+    "kitCursorSkillsStandard": 10,
     "benchmarkTasks": 14,
-    "benchmarkArms": 8
+    "benchmarkArms": 9,
+    "agentstackTaskPack": 5
   },
   "kitHarness": {
     "ref": "meta/docs/metrics.snapshot.json"

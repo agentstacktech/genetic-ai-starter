@@ -18,6 +18,11 @@ jobs:
           node-version: '20'
       - name: ci-kit
         run: node tools/genetic-ai-starter/scripts/ci-kit.mjs --target .
+      - name: validate-genes (payload)
+        run: node tools/genetic-ai-starter/scripts/validate-genes.mjs
+      - name: check-capability-contract
+        if: hashFiles('tools/genetic-ai-starter/extensions/agentstack/extension.manifest.json') != ''
+        run: node tools/genetic-ai-starter/scripts/check-capability-contract.mjs --target . --kit-root tools/genetic-ai-starter
       - name: Upload upgrade report on failure
         if: failure()
         uses: actions/upload-artifact@v4

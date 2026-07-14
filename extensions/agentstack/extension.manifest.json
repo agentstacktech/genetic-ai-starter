@@ -1,17 +1,46 @@
 {
   "id": "agentstack",
   "requiresKit": ">=0.4.13",
-  "preserveTargets": ["docs/ai/CONTEXT_FOR_AI.md"],
+  "preserveTargets": [
+    "docs/ai/CONTEXT_FOR_AI.md",
+    "src/lib/agentstack.ts",
+    ".env.example",
+    ".cursor/mcp.json.template"
+  ],
   "requiresPlatformVersion": "AGENTSTACK_CORE_VERSION",
-  "docsBaseUrl": null,
+  "docsBaseUrl": "https://github.com/agentstacktech/AgentStack/blob/master",
   "overlays": [
     {
       "from": "overlay/CONTEXT_FOR_AI.md",
       "to": "docs/ai/CONTEXT_FOR_AI.md"
     },
     {
+      "from": "overlay/capability-snapshot.json",
+      "to": "docs/ai/agentstack-capability-snapshot.json"
+    },
+    {
       "from": "overlay/platform-vs-tenant-canary.mdc",
       "to": ".cursor/rules/platform-vs-tenant-canary.mdc"
+    },
+    {
+      "from": "overlay/.cursor/rules/agentstack-sdk-first.mdc",
+      "to": ".cursor/rules/agentstack-sdk-first.mdc"
+    },
+    {
+      "from": "overlay/.cursor/mcp.json.template",
+      "to": ".cursor/mcp.json.template"
+    },
+    {
+      "from": "overlay/src/lib/agentstack.ts",
+      "to": "src/lib/agentstack.ts"
+    },
+    {
+      "from": "overlay/.env.example",
+      "to": ".env.example"
+    },
+    {
+      "from": "overlay/.devcontainer/devcontainer.json",
+      "to": ".devcontainer/devcontainer.json"
     }
   ],
   "merge": {

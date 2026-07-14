@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-06-26T20:26:32.521Z",
+  "platformVersion": "0.4.13",
+  "capabilitySnapshotHash": "98990778d0a70e61",
+  "counts": {
+    "payloadSkills": 10,
+    "agentstackOverlays": 8,
+    "agentstackTasks": 5,
+    "benchmarkArms": 9,
+    "shopSyntheticTasks": 14
+  },
+  "profiles": [
+    "minimal",
+    "standard",
+    "full",
+    "founder",
+    "agentstack-app"
+  ]
+}

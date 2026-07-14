@@ -1,6 +1,6 @@
 # Сравнение профилей установки — Genetic AI Starter Kit
 
-**Платформа:** `0.4.11` · источник правды для состава: `profiles/*.json` + `scripts/lib/profile-include.mjs`.
+**Платформа:** `0.4.13` · источник правды для состава: `profiles/*.json` + `scripts/lib/profile-include.mjs`.
 
 Профиль задаёт **какие файлы копируются** в целевой репозиторий. Расширение **AgentStack** — отдельный слой (overlay + merge), подключается флагом или встроено в `full` / `founder`.
 
@@ -14,7 +14,8 @@
 |---------------|---------|------------|
 | Скрипт, утилита, &lt;5 модулей, без философии | **minimal** | нет |
 | Новый продукт, open source, обычный репозиторий | **standard** | опционально `--with-agentstack` |
-| Приложение **на** AgentStack (MCP, 8DNA, SDK) | **full** | **включено** |
+| Приложение **на** AgentStack (MCP, 8DNA, SDK) | **agentstack-app** | **включено** + recipes в `examples/` |
+| Полный payload + CI sample (legacy name) | **full** | **включено** |
 | Монорепо AgentStack / сессии основателя (direct ship) | **founder** | **включено** |
 | Уже есть `standard`, нужен только MCP/canary слой | **standard** | `--with-agentstack` |
 
@@ -28,6 +29,7 @@
 |-----------------|--------------|----------------------------|
 | **minimal** | AGENTS.minimal + 2 rules + stub map | `kit_minimal` |
 | **standard** | philosophy + map + 5 rules + 4 skills | `kit_standard` |
+| **agentstack-app** | full payload + extension + recipes + 5 AgentStack skills | `kit_agentstack` |
 | — | Только файл AGENTS без rules (не install) | `agents_md` / `agents_md_weak` |
 
 README-колонка «AGENTS.md» относится к **arm `agents_md`**, не к профилю `minimal`. См. [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md).
@@ -36,18 +38,19 @@ README-колонка «AGENTS.md» относится к **arm `agents_md`**, �
 
 ## 2. Что получает агент (поведение)
 
-| Возможность | minimal | standard | standard + AgentStack | full | founder |
-|-------------|:-------:|:--------:|:---------------------:|:----:|:-------:|
+| Возможность | minimal | standard | standard + AgentStack | agentstack-app | full | founder |
+|-------------|:-------:|:--------:|:---------------------:|:--------------:|:----:|:-------:|
 | Точка входа `AGENTS.md` | краткая | полная | полная | полная | полная |
 | Порядок «карта → индекс → hot files» | stub map | да | да + Tier 0 AgentStack | да | да |
 | Запрет слепого repo-wide grep (rules) | базовый | полный набор | + canary/platform rule | полный + canary | полный + canary |
 | Controlled changes (без bulk-скриптов) | да | да | да | да | да |
 | Планирование / tool discipline (rules) | нет | да | да | да | да |
 | Индексация подсистем (index-authoring) | нет | да | да | да | да |
-| Cursor Skills (4 шт.) | нет | да | да | да | да |
+| Cursor Skills (4 шт.) | нет | да | да | **9** (4 kit + 5 AgentStack) | да | да |
 | Philosophy / genes | нет | ядро (~17 gene-файлов) | то же | то же | то же + **акцент** на direct-ship |
 | `docs/ai/OPERATIONS.md` (repair/upgrade) | нет | да | да | да | да |
-| MCP / capability routing (`CONTEXT_FOR_AI`) | нет | нет | **да** | **да** | **да** |
+| MCP / capability routing (`CONTEXT_FOR_AI`) | нет | нет | **да** | **да** | **да** | **да** |
+| SDK bootstrap + recipes (`examples/agentstack/`) | нет | нет | нет | **да** | нет* | нет* |
 | Tenant canary vs founder direct-ship | нет | нет | rule + gene-ссылки | **да** | **да** (приоритет direct-ship) |
 | CI sample (validate kit в проекте) | нет | нет | нет* | **да** | **да** |
 
@@ -57,7 +60,7 @@ README-колонка «AGENTS.md» относится к **arm `agents_md`**, �
 
 ## 3. Состав файлов (после install)
 
-Подсчёт по `resolveProfileFiles` (платформа 0.4.11). Для **minimal** `AGENTS.md` и stub-карта создаются отдельным шагом install (не входят в glob профиля).
+Подсчёт по `resolveProfileFiles` (платформа 0.4.13). Для **minimal** `AGENTS.md` и stub-карта создаются отдельным шагом install (не входят в glob профиля).
 
 | Категория | minimal | standard | full / founder |
 |-----------|--------:|---------:|---------------:|
@@ -101,7 +104,22 @@ README-колонка «AGENTS.md» относится к **arm `agents_md`**, �
 
 **philosophy/:** индексы + foundation genes + `repo.engineering.*` + `repo.navigation.*` + `repo.evolution.compression` + шаблоны genes + *файл* `repo.engineering.founder_direct_ship.gen1.md` (лежит на диске; в `GENE_INDEX` помечен как ориентир для профиля `founder`).
 
-### 3.3 full / founder — отличие от standard
+\*`full`/`founder` включают extension, но **не** копируют recipes в `examples/` — используйте **`agentstack-app`** или `--profile agentstack-app`.
+
+### 3.4 agentstack-app — отличие от full
+
+| Отличие | agentstack-app | full |
+|---------|----------------|------|
+| Extension AgentStack | auto | auto |
+| Recipes в `examples/agentstack/` | **да** | нет |
+| Lock fields | `recipeSetVersion`, `capabilitySnapshotHash`, `recipeLang` | extension only |
+| AgentStack skills (5) | да (payload) | да (payload) |
+| Benchmark arm | `kit_agentstack` | — |
+| **ROI (modeled)** | +~$1.4k/mo vs standard alone | extension only |
+
+**Consumer guide:** [AGENTSTACK_APP_GUIDE.md](AGENTSTACK_APP_GUIDE.md) · **ROI by size:** [VALUE_AND_ROI_BY_PROJECT_SIZE_ru.md](VALUE_AND_ROI_BY_PROJECT_SIZE_ru.md).
+
+### 3.5 full / founder — отличие от standard
 
 | Отличие | full | founder |
 |---------|------|---------|
@@ -119,7 +137,7 @@ README-колонка «AGENTS.md» относится к **arm `agents_md`**, �
 Подключается если:
 
 - явно: `--with-agentstack` (любой профиль), или  
-- профиль `full` / `founder` (`extensions: ["agentstack"]` в JSON).
+- профиль `full` / `founder` / `agentstack-app` (`extensions: ["agentstack"]` в JSON).
 
 ### 4.1 Что добавляется в проект
 
@@ -142,6 +160,7 @@ README-колонка «AGENTS.md» относится к **arm `agents_md`**, �
 | `standard --with-agentstack` | да | **да** | нет |
 | `full` | да | **да** (auto) | **да** |
 | `founder` | да | **да** (auto) | **да** |
+| **`agentstack-app`** | да | **да** (auto) + recipes в `examples/` | **да** |
 
 ### 4.3 Поведение агента с AgentStack
 

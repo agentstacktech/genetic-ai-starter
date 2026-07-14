@@ -7,7 +7,11 @@
     "docs/ai/AI_NAVIGATION_MAP.md",
     "docs/ai/OPERATIONS.md",
     "docs/ai/CONTEXT_FOR_AI.md",
-    "philosophy/genes/GENE_COMPRESSION_MAP.md"
+    "philosophy/genes/GENE_COMPRESSION_MAP.md",
+    "src/lib/agentstack.ts",
+    ".env.example",
+    "docs/ai/agentstack-capability-snapshot.json",
+    "examples/agentstack/"
   ],
   "regions": [
     {
@@ -78,6 +82,26 @@
   "extensionOverlays": {
     "CONTEXT_FOR_AI.md": {
       "mode": "merge_missing_sections",
+      "owner": "extension"
+    },
+    "docs/ai/agentstack-capability-snapshot.json": {
+      "mode": "replace_on_upgrade",
+      "owner": "extension"
+    },
+    ".cursor/rules/agentstack-sdk-first.mdc": {
+      "mode": "replace_on_upgrade",
+      "owner": "extension"
+    },
+    ".cursor/rules/platform-vs-tenant-canary.mdc": {
+      "mode": "replace_on_upgrade",
+      "owner": "extension"
+    },
+    ".cursor/mcp.json.template": {
+      "mode": "preserve_tenant_copy",
+      "owner": "extension"
+    },
+    ".devcontainer/devcontainer.json": {
+      "mode": "replace_on_upgrade",
       "owner": "extension"
     }
   }

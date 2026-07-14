@@ -94,8 +94,11 @@ C:\Projects\genetic-ai-starter\scripts\install-here.cmd
 |---------|----------|----------------------|
 | **minimal** | Tiny repos; stub map + 2 rules only | Optional: `--with-agentstack` |
 | **standard** | **Default** — philosophy + `docs/ai/` + 5 rules + 4 skills | Optional: `--with-agentstack` |
-| **full** | Building on AgentStack (MCP, SDK, 8DNA) + CI sample workflow | **Included** |
-| **founder** | Same files as `full`; lock + docs emphasize direct-ship (no default personal canary) | **Included** |
+| **agentstack-app** | **Product on AgentStack** — SDK recipes, MCP template, bootstrap | **Included** + `examples/agentstack/` |
+| **full** | Full payload + CI sample (legacy name for platform consumers) | **Included** |
+| **founder** | Same files as `full`; lock emphasizes direct-ship | **Included** |
+
+**Build on AgentStack:** prefer **`agentstack-app`** over `full` — recipes, lock fields, and [AGENTSTACK_APP_GUIDE.md](AGENTSTACK_APP_GUIDE.md). **ROI:** [VALUE_AND_ROI_BY_PROJECT_SIZE.md](VALUE_AND_ROI_BY_PROJECT_SIZE.md).
 
 `full` and `founder` copy the same payload paths (~41 files); difference is mainly `profile` in `.genetic-ai/kit.lock.json` and documented agent priority for `repo.engineering.founder_direct_ship.gen1`. The founder gene file is also present on disk with `standard`, but indexed for founder-led sessions.
 
@@ -106,13 +109,15 @@ C:\Projects\genetic-ai-starter\scripts\install-here.cmd
 | Flag | Purpose |
 |------|---------|
 | `--target` | Project root (required) |
-| `--profile` | `minimal` \| `standard` \| `full` \| `founder` |
+| `--profile` | `minimal` \| `standard` \| `full` \| `founder` \| **`agentstack-app`** |
+| `--lang` | `typescript` \| `python` (with `agentstack-app` — recipe set) |
 | `--project-name` | Substituted into `AGENTS.md` |
 | `--domain` | Genetic tag prefix (`app`, `api`, …) |
 | `--strict` | Fail if `{{PLACEHOLDER}}` remain |
 | `--merge-philosophy` | Keep existing genes; add missing |
 | `--force-philosophy` | Overwrite starter `philosophy/` |
 | `--with-agentstack` | Platform extension overlay |
+| `--lang typescript` | Default recipes (`examples/agentstack/`) when profile copies recipes |
 | `--skills global` | Skills under `~/.cursor/skills/` |
 | `--gitignore-kit full` | Merge `.gitignore` block so kit docs/rules are not committed |
 | `--gitignore-kit none` | Default — kit files may be committed |
@@ -129,6 +134,16 @@ Install **always** runs `validate-installed` at the end; exit code 1 on failure.
 2. Edit [`docs/ai/AI_NAVIGATION_MAP.md`](../../payload/docs/ai/AI_NAVIGATION_MAP.md) — Tier 0 / Tier 1 (example tag: `app.auth.session.gen1` → `src/auth/sessionMiddleware.ts`).
 3. Add [`AI_INDEX.md`](../../payload/docs/ai/templates/AI_INDEX.template.md) per large subsystem (~10+ integration points).
 4. Run `node <kit>/scripts/doctor.mjs --target .` before PRs.
+
+### AgentStack consumer (`agentstack-app`)
+
+```bash
+node <kit>/scripts/install.mjs --target . --profile agentstack-app \
+  --project-name "My App" --domain app --strict
+cd examples/agentstack && npm install @agentstack/sdk@0.4.13 && npm run recipe:00-bootstrap
+```
+
+Full flow: [AGENTSTACK_APP_GUIDE.md](AGENTSTACK_APP_GUIDE.md) · SDK submodule: `submodule-add-sdk.mjs` → `link-sdk-deps.mjs`.
 
 **Large repo rollout:** [LARGE_PROJECT_PLAYBOOK.md](LARGE_PROJECT_PLAYBOOK.md) · **Metrics:** [METRICS_GLOSSARY.md](METRICS_GLOSSARY.md)
 

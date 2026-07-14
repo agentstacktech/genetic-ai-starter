@@ -37,8 +37,18 @@ Per task, sum of rubric dimensions (max 10). **Success** = total ≥ 6.
 | `kit_minimal` | `install --profile minimal` on fixture | `agents_md` arm |
 | `kit_standard` | standard + shop map overlay | — |
 | `kit_standard_indexed` | standard + pre-filled `AI_INDEX.md` | Higher map-first and success on discovery |
+| `kit_agentstack` | `install --profile agentstack-app` on fixture | Consumer build-on-AgentStack + recipes + capability snapshot |
 
 **Install profiles vs arms:** [PROFILE_COMPARISON.md](PROFILE_COMPARISON.md) § Benchmark arms vs install profiles.
+
+## AgentStack DX metrics
+
+| Metric | Definition |
+|--------|------------|
+| **TTFC** | Time from `agentstack-app` install to successful `recipe:00-bootstrap` |
+| **Channel-correctness** | Transcript mentions MCP / sdk.protocol / sdk.platform before raw REST (`assert-channel.mjs`) |
+| **Capability snapshot hash** | `capabilitySnapshotHash` in `.genetic-ai/kit.lock.json` — drift vs kit extension |
+| **AgentStack task pack** | A01–A05 in `benchmarks/tasks/agentstack-tasks.json` |
 
 ## Metrics
 
@@ -93,6 +103,20 @@ Prefer **task-level deltas** over median alone:
 - Synthetic transcripts model **affordances**, not live model variance.
 - Scorer heuristics; T09–T11 may need `--manual` overrides.
 - Smoke tasks (S01–S04) on AgentStack are optional and confounded by repo familiarity.
+
+## Platform inventory (not harness)
+
+**SoT:** [platform-stats.snapshot.json](platform-stats.snapshot.json) — regenerate with `node scripts/export-platform-stats.mjs`.
+
+| Field | Meaning |
+|-------|---------|
+| `philosophyGenes` | Count of `*.gen1.md` (and related) in monorepo philosophy |
+| `aiIndexFilesRepoTotal` | All `AI_INDEX.md` under the monorepo root |
+| `aiIndexFilesPlatform` | Subset on platform packages (excludes some demos) |
+| `navigationMapTier1Tags` | Tier-1 tags in central `AI_NAVIGATION_MAP` |
+| `kitPayloadGenes` | Genes shipped in kit `payload/` |
+
+Do **not** compare these to harness median scores. Full economics: [GENETIC_SYSTEM_ECONOMICS.md](GENETIC_SYSTEM_ECONOMICS.md) · flow: [DOC_DATA_FLOW.md](DOC_DATA_FLOW.md).
 
 ## Reproduce
 

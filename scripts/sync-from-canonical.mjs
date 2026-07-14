@@ -69,6 +69,36 @@ const SYNC_MAP = [
     to: `payload/philosophy/genes/${name}`,
     transform: kitFoundationGeneTransform,
   })),
+  {
+    from: 'philosophy/genes/repo.tooling.genetic_starter.agentstack_dx.gen1.md',
+    to: 'payload/philosophy/genes/repo.tooling.genetic_starter.agentstack_dx.gen1.md',
+    transform: kitFoundationGeneTransform,
+  },
+  {
+    from: 'philosophy/genes/repo.platform.sdk.onboarding.gen1.md',
+    to: 'payload/philosophy/genes/repo.platform.sdk.onboarding.gen1.md',
+    transform: kitFoundationGeneTransform,
+  },
+  {
+    from: 'philosophy/genes/repo.platform.sdk.recipes.gen1.md',
+    to: 'payload/philosophy/genes/repo.platform.sdk.recipes.gen1.md',
+    transform: kitFoundationGeneTransform,
+  },
+  {
+    from: 'philosophy/genes/repo.platform.capability_contract.gen1.md',
+    to: 'payload/philosophy/genes/repo.platform.capability_contract.gen1.md',
+    transform: kitFoundationGeneTransform,
+  },
+  {
+    from: 'philosophy/genes/repo.tooling.gene_lifecycle.gen1.md',
+    to: 'payload/philosophy/genes/repo.tooling.gene_lifecycle.gen1.md',
+    transform: kitFoundationGeneTransform,
+  },
+  {
+    from: 'docs/plugins/CONTEXT_FOR_AI.md',
+    to: 'extensions/agentstack/overlay/CONTEXT_FOR_AI.md',
+    transform: kitDocsTransform,
+  },
 ];
 
 function main() {

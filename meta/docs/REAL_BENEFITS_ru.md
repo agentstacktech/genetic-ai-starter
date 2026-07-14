@@ -138,6 +138,20 @@ AGENTS.md (короткий) → строка в AI_NAVIGATION_MAP → AI_INDEX 
 3. `doctor` перед merge.
 4. В чате с агентом: «сначала карта, потом index» — [AGENTS.md](../payload/AGENTS.md) в проекте.
 
+## 8. ROI в деньгах (реальные проекты)
+
+Модель по размеру команды (ставка $85/ч, прозрачные допущения):
+
+| Команда | ~$/год | Профиль |
+|---------|--------|---------|
+| 1 dev | ~$4.1k | `standard` |
+| 2–5 | ~$12.6k | + индексы |
+| 6–15 | ~$26k | индексы подсистем |
+| 15+ | ~$49k | large playbook |
+| AgentStack (доп.) | ~$17k | `agentstack-app` |
+
+`node scripts/calculate-roi.mjs` · **[VALUE_AND_ROI_BY_PROJECT_SIZE_ru.md](VALUE_AND_ROI_BY_PROJECT_SIZE_ru.md)** · **[AGENTSTACK_APP_GUIDE_ru.md](AGENTSTACK_APP_GUIDE_ru.md)**.
+
 ## Genes
 
 - `repo.tooling.genetic_starter.gen1` · `repo.navigation.index.gen1` · `foundation.ai_gene_interface.gen1`
