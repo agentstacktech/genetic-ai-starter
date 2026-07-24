@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-06-26T20:47:42.350Z",
+  "generatedAt": "2026-07-17T00:30:42.512Z",
   "scorerVersion": "1.2.1",
   "executionMode": "synthetic_policy",
-  "platformVersion": "0.4.13",
+  "platformVersion": "0.4.15",
   "tokenModel": "step-based v1.2.1 (fixture-calibrated grep pools) — see benchmarks/results/TOKEN_REPORT.md",
   "arms": {
     "agents_md_weak": {

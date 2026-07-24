@@ -1,8 +1,12 @@
-# Gene — `repo.engineering.testing.gen1`
+# Gene — `repo.engineering.testing.gen1` (kit pointer)
 
-**Genetic tag:** `repo.engineering.testing.gen1`  
-**Category:** engineering  
-**Status:** ACTIVE  
+**Genetic tag:** `repo.engineering.testing.gen1`
+
+**Canonical SoT:** AgentStack main tree  
+`philosophy/genes/repo.engineering.testing.gen1.md` + Dev Test Atlas  
+`repo.engineering.dev_test_atlas.gen1`.
+
+This kit copy is a thin mirror for portable installs. Prefer the monorepo genes when working inside AgentStack.
 
 ---
 
@@ -10,22 +14,13 @@
 
 Tests should prove **real behavior**, not mirror implementation details.
 
----
-
 ## AI instructions
 
-### Do
-
-- Add tests when requested or when covering regression-prone boundaries (auth, payments, public API).
-- Run the project's test command after meaningful edits when available.
-
-### Do not
-
-- Add tests that only assert mocks return mocks.
-- Add trivial tests for getters/setters unless they encode business rules.
-
----
+- Add tests at regression-prone boundaries.
+- Run the project's test command after meaningful edits.
+- Do not add tests that only assert mocks return mocks.
 
 ## Cross-links
 
-- [repo.engineering.controlled_changes.gen1.md](repo.engineering.controlled_changes.gen1.md)
+- `repo.engineering.controlled_changes.gen1`
+- AgentStack: `docs/testing/TEST_ATLAS.md`

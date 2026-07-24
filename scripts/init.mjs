@@ -12,7 +12,7 @@ import { KIT_ROOT } from './lib/paths.mjs';
 import { resolveKitRoot } from './lib/resolve-kit-root.mjs';
 import { submodulePathExists } from './lib/git-submodule.mjs';
 import { DEFAULT_KIT_SUBMODULE_PATH } from './lib/kit-integration-constants.mjs';
-import { readPlatformVersion } from './lib/platform-version.mjs';
+import { readPlatformVersion, readPlatformVersionSafe } from './lib/platform-version.mjs';
 import { loadProfile } from './lib/profile-include.mjs';
 import {
   shouldShowStarterBanner,
@@ -326,12 +326,7 @@ async function runWizard(cli) {
     console.log('2. Прочитайте AGENTS.md и docs/ai/AI_NAVIGATION_MAP.md');
     console.log('3. Проверка: node scripts/doctor.mjs --target "' + targetRoot + '"');
     if (profile === 'agentstack-app') {
-      let pv = '0.4.13';
-      try {
-        pv = readPlatformVersion();
-      } catch {
-        /* */
-      }
+      let pv = readPlatformVersionSafe('0.4.14');
       console.log(`4. AgentStack: cd examples/agentstack && npm install @agentstack/sdk@${pv}`);
       console.log('   npm run recipe:00-bootstrap · гайд: meta/docs/AGENTSTACK_APP_GUIDE_ru.md (в kit)');
       console.log('   MCP: /agentstack-init в Cursor');

@@ -140,7 +140,7 @@ Install **always** runs `validate-installed` at the end; exit code 1 on failure.
 ```bash
 node <kit>/scripts/install.mjs --target . --profile agentstack-app \
   --project-name "My App" --domain app --strict
-cd examples/agentstack && npm install @agentstack/sdk@0.4.13 && npm run recipe:00-bootstrap
+cd examples/agentstack && npm install @agentstack/sdk@0.4.15 && npm run recipe:00-bootstrap
 ```
 
 Full flow: [AGENTSTACK_APP_GUIDE.md](AGENTSTACK_APP_GUIDE.md) · SDK submodule: `submodule-add-sdk.mjs` → `link-sdk-deps.mjs`.

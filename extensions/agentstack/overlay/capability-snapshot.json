@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "kind": "static-kit-snapshot",
   "gene": "repo.plugins.capability_routing.gen1",
-  "platformVersion": "0.4.13",
+  "platformVersion": "0.4.15",
   "sdkPackage": "@agentstack/sdk",
   "generatedNote": "Phase 1 static snapshot for offline AI routing. Refresh from GET /mcp/actions or sdk.getCapabilityMatrix() when online.",
   "discovery": {

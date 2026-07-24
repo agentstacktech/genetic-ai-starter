@@ -148,7 +148,7 @@ function main() {
   }
   if (fs.existsSync(path.join(target, 'AGENTS.md'))) mdRoots.push('AGENTS.md');
 
-  const broken = findBrokenMarkdownLinks(target, mdRoots);
+  const broken = findBrokenMarkdownLinks(target, mdRoots, { mode: 'consumer' });
   for (const b of broken) errors.push(`[LINK] Broken link in ${b.file}: ${b.target}`);
 
   if (checkGeneLinks) checkGeneFileLinks(target, errors);

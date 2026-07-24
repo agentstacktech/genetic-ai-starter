@@ -45,4 +45,4 @@ Speed + clarity for the founder loop; tenant-facing rollout machinery remains do
 
 ---
 
-**Lance legacy:** Does not override [https://github.com/agentstacktech/AgentStack/tree/main/philosophy/genes/axiom.version.control.lance_will.gen2.md](https://github.com/agentstacktech/AgentStack/tree/main/philosophy/genes/https://github.com/agentstacktech/AgentStack/tree/main/philosophy/genes/axiom.version.control.lance_will.gen2.md).
+**Lance legacy:** Does not override [https://github.com/agentstacktech/AgentStack/tree/main/philosophy/genes/axiom.version.control.lance_will.gen2.md](https://github.com/agentstacktech/AgentStack/tree/main/philosophy/genes/axiom.version.control.lance_will.gen2.md).

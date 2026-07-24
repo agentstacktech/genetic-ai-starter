@@ -97,3 +97,15 @@ export function assertKitManifestMatchesPlatform() {
 export function writePlatformVersionFile(version) {
   fs.writeFileSync(PLATFORM_VERSION_FILE, `${version}\n`, 'utf8');
 }
+
+/**
+ * Never throw — for CLI fallbacks (init/scaffold messages).
+ * @param {string} [fallback='0.0.0']
+ */
+export function readPlatformVersionSafe(fallback = '0.0.0') {
+  try {
+    return readPlatformVersion();
+  } catch {
+    return readFromPlatformFile() || readFromManifest() || fallback;
+  }
+}

@@ -16,6 +16,8 @@ Land in the right files **before** blind repo-wide search — including on weake
 3. Open **1–2 hot files** from the index.
 4. **Scoped** search (single directory or known symbol) only after that.
 
+When the host is **AgentStack monorepo**, optional machine adapters (`docs/_generated/ai-nav/`, `npm run search:ai-nav`, MCP `docs_nav.*`) are docs-nav only — not MCP capability discovery. Kit genes: `repo.navigation.map.gen1` / `index.gen1`.
+
 ## Genetic tags
 
 - Pattern: `<domain>.<subsystem>.<role>.gen1` — see `philosophy/genes/foundation.genetic_coding.gen1.md`.

@@ -11,14 +11,15 @@ Living checklist for keeping kit + public mirror + site consistent. Prefer closi
 
 | ID | Task | Status | Notes |
 |----|------|--------|-------|
-| A1 | Regenerate `platform-stats.snapshot.json` when monorepo genes/indexes/map change | **done** (2026-07-10) | `node scripts/export-platform-stats.mjs` → 406 / 186 / 162 / 421 / 27 |
+| A1 | Regenerate `platform-stats.snapshot.json` when monorepo genes/indexes/map change | **done** (2026-07-16) | `npm run audit:docs` → 431 / 204 / 179 / 449 / 27 |
 | A2 | Align README EN/RU inventory tables to snapshot | **done** | Was stale ~222 / ~98 / ~267 |
 | A3 | Align `GENETIC_SYSTEM_ECONOMICS*.md` inventory to snapshot; remove contradictory old footnote | **done** | |
 | A4 | Align `KILLER_FEATURE_LARGE_PROJECTS*.md` lattice line | **done** | |
 | A5 | Update `DOC_CLAIMS_AUDIT.md` gene/index/tag claims | **done** | |
-| A6 | Keep site HTML hardcodes (406 / 186 / 16 / 12.4×) in sync after next inventory jump | **watch** | `docs/genetic-system-site/index.html` + locales labels |
+| A6 | Keep site HTML inventory hardcodes in sync with snapshot | **done** (2026-07-16) | `check-site-inventory.mjs` in audit:docs + CI; HTML 431 / 204 |
 | A7 | Re-run harness + `export-metrics-snapshot.mjs` when scorer/tasks change | **watch** | Do not invent new harness % without matrix |
-
+| A8 | Platform pin 0.4.14 + `sync-kit-version` / `sync-from-canonical` green | **done** | [KIT_SYNC_FLOW.md](../../../docs/genetic-ai-starter-maintainers/KIT_SYNC_FLOW.md) |
+| A9 | `sync-smoke.mjs` maintainer E2E entry | **done** | `npm run sync-smoke` from kit |
 ---
 
 ## B. Public mirror (`agentstack_repo`)
@@ -49,7 +50,8 @@ Living checklist for keeping kit + public mirror + site consistent. Prefer closi
 | C7 | METRICS_GLOSSARY: add fields for platform-stats keys if missing | **done** | |
 | C8 | TOKEN_ECONOMICS: one-line pointer to GENETIC_SYSTEM_ECONOMICS | **done** | |
 | C9 | FAQ: “Where do 406 / 186 come from?” | **done** | |
-
+| C10 | `kitAiIndexingTransform` + transform regression test | **done** | `tests/kit-sync-transforms.test.mjs` |
+| C11 | Dual-mode link alias (kit vs consumer) | **done** | `link-resolution-aliases.mjs` |
 ---
 
 ## D. Flow of calls (agent / human workflow)

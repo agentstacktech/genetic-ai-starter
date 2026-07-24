@@ -1,6 +1,6 @@
 {
   "kitId": "genetic-ai-starter",
-  "kitVersion": "0.4.13",
+  "kitVersion": "0.4.15",
   "platformVersionSource": "shared/constants.py:AGENTSTACK_CORE_VERSION",
   "profile": "standard",
   "extensions": [],

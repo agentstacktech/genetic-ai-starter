@@ -19,6 +19,8 @@
 | Narrative RU | [meta/docs/AGENT_FLOOR_ru.md](meta/docs/AGENT_FLOOR_ru.md) · [meta/docs/PRODUCTION_OUTCOMES_ru.md](meta/docs/PRODUCTION_OUTCOMES_ru.md) |
 | Claims | [meta/docs/DOC_CLAIMS_AUDIT.md](meta/docs/DOC_CLAIMS_AUDIT.md) |
 | Maintainers | [docs/genetic-ai-starter-maintainers/README.md](../docs/genetic-ai-starter-maintainers/README.md) (monorepo only; outside kit subtree) |
+| Sync from AgentStack | [scripts/sync-from-canonical.mjs](scripts/sync-from-canonical.mjs) · [lib/kit-sync-transforms.mjs](scripts/lib/kit-sync-transforms.mjs) |
+| Validate | [scripts/validate-kit.mjs](scripts/validate-kit.mjs) · `npm run audit:docs` |
 | Doc boundary CI | [scripts/check-meta-docs-boundary.mjs](scripts/check-meta-docs-boundary.mjs) |
 | Integration modes | [meta/docs/INTEGRATION_MODES.md](meta/docs/INTEGRATION_MODES.md) |
 | Bootstrap standard | [scripts/bootstrap-standard.mjs](scripts/bootstrap-standard.mjs) |

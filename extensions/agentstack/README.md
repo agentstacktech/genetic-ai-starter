@@ -41,7 +41,7 @@ See [`recipes/AI_INDEX.md`](recipes/AI_INDEX.md) · [`recipes/SDK_ACQUISITION.md
 
 ```bash
 node <kit>/scripts/install.mjs --target . --profile agentstack-app --strict
-cd examples/agentstack && npm install @agentstack/sdk@0.4.13 && npm run recipe:00-bootstrap
+cd examples/agentstack && npm install @agentstack/sdk@0.4.15 && npm run recipe:00-bootstrap
 ```
 
 1. Copy `.env.example` → `.env.local`; set `AGENTSTACK_PROJECT_ID`.

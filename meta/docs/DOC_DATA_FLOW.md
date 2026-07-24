@@ -67,17 +67,18 @@ flowchart LR
 
 ---
 
-## Current inventory (after 2026-07-10 export)
+## Current inventory (after 2026-07-16 export)
 
 | Field | Value |
 |-------|-------|
-| `philosophyGenes` | 406 |
-| `aiIndexFilesRepoTotal` | 186 |
-| `aiIndexFilesPlatform` | 162 |
-| `navigationMapTier1Tags` | 421 |
+| `philosophyGenes` | 431 |
+| `aiIndexFilesRepoTotal` | 204 |
+| `aiIndexFilesPlatform` | 179 |
+| `navigationMapTier1Tags` | 449 |
 | `kitPayloadGenes` | 27 |
 | `kitCursorRulesStandard` | 5 |
 | `kitCursorSkillsStandard` | 10 |
+
 
 Site narrative extras (not in snapshot): cross-cluster SYN **~16**, compression **12.36×** / **12.4×** display.
 

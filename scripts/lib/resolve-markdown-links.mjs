@@ -12,12 +12,13 @@ const LINK_RE = /\[[^\]]*\]\(([^)#\s]+)(?:#[^)]*)?\)/g;
  * @param {string} rootDir
  * @param {string} fromRel
  * @param {string} target
+ * @param {{ mode?: 'kit' | 'consumer' }} [opts]
  */
-export function resolveLinkTarget(rootDir, fromRel, target) {
+export function resolveLinkTarget(rootDir, fromRel, target, opts = {}) {
   if (shouldSkipLinkValidation(target)) {
     return { skip: true };
   }
-  const aliased = applyLinkAliasForResolve(target);
+  const aliased = applyLinkAliasForResolve(target, opts);
   const filePath = path.join(rootDir, fromRel);
   const dir = path.dirname(filePath);
   const resolved = path.normalize(path.join(dir, aliased));
@@ -26,8 +27,11 @@ export function resolveLinkTarget(rootDir, fromRel, target) {
 
 /**
  * Resolve relative markdown links from a file; return list of broken targets.
+ * @param {string} rootDir
+ * @param {string[]} relativeFiles
+ * @param {{ mode?: 'kit' | 'consumer' }} [opts]
  */
-export function findBrokenMarkdownLinks(rootDir, relativeFiles) {
+export function findBrokenMarkdownLinks(rootDir, relativeFiles, opts = {}) {
   const broken = [];
   for (const rel of relativeFiles) {
     if (!rel.endsWith('.md') && !rel.endsWith('.mdc')) continue;
@@ -39,7 +43,7 @@ export function findBrokenMarkdownLinks(rootDir, relativeFiles) {
     while ((m = LINK_RE.exec(content)) !== null) {
       const target = m[1];
       if (target.startsWith('http://') || target.startsWith('https://')) continue;
-      const { skip, resolved } = resolveLinkTarget(rootDir, rel, target);
+      const { skip, resolved } = resolveLinkTarget(rootDir, rel, target, opts);
       if (skip) continue;
       if (!resolved) continue;
       if (!fs.existsSync(resolved)) {

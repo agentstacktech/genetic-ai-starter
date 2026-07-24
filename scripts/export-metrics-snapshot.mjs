@@ -94,7 +94,7 @@ function main() {
     executionMode: 'synthetic_policy',
     platformVersion: fs.existsSync(path.join(KIT_ROOT, 'PLATFORM_VERSION'))
       ? fs.readFileSync(path.join(KIT_ROOT, 'PLATFORM_VERSION'), 'utf8').trim()
-      : '0.4.13',
+      : '0.4.14',
     tokenModel: 'step-based v1.2.1 (fixture-calibrated grep pools) — see benchmarks/results/TOKEN_REPORT.md',
     arms,
     headlineDeltas: {

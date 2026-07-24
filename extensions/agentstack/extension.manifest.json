@@ -1,6 +1,6 @@
 {
   "id": "agentstack",
-  "requiresKit": ">=0.4.13",
+  "requiresKit": ">=0.4.15",
   "preserveTargets": [
     "docs/ai/CONTEXT_FOR_AI.md",
     "src/lib/agentstack.ts",

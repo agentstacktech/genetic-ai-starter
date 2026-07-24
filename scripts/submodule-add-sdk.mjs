@@ -31,7 +31,7 @@ function parseArgs(argv) {
     else if (a === '--ref') opts.ref = argv[++i];
     else if (a === '--kit-root') opts.kitRoot = path.resolve(argv[++i]);
     else if (a === '--help') {
-      console.log(`Usage: node submodule-add-sdk.mjs --target <repo> [--tag v0.4.13] [--path vendor/agentstack-sdk]
+      console.log(`Usage: node submodule-add-sdk.mjs --target <repo> [--tag vX.Y.Z] [--path vendor/agentstack-sdk]
 
 Flow B — pin SDK commit in git, then wire recipes:
   node scripts/link-sdk-deps.mjs --target <repo>
@@ -63,7 +63,10 @@ function main() {
       const ver = readPlatformVersionForKitRoot(opts.kitRoot);
       tag = `v${ver}`;
     } catch {
-      tag = 'v0.4.13';
+      const pv = path.join(opts.kitRoot, 'PLATFORM_VERSION');
+      tag = fs.existsSync(pv)
+        ? `v${fs.readFileSync(pv, 'utf8').trim()}`
+        : 'v0.4.14';
     }
   }
 
@@ -78,7 +81,7 @@ function main() {
     console.error(
       'SDK submodule script not found. Add submodule manually:\n' +
         `  git submodule add https://github.com/agentstacktech/agentstack-sdk.git ${opts.path}\n` +
-        `  cd ${opts.path} && git checkout ${tag || 'v0.4.13'}`,
+        `  cd ${opts.path} && git checkout ${tag || 'v0.4.14'}`,
     );
     process.exit(1);
   }

@@ -1,6 +1,6 @@
 # Сравнение профилей установки — Genetic AI Starter Kit
 
-**Платформа:** `0.4.13` · источник правды для состава: `profiles/*.json` + `scripts/lib/profile-include.mjs`.
+**Платформа:** `0.4.15` · источник правды для состава: `profiles/*.json` + `scripts/lib/profile-include.mjs`.
 
 Профиль задаёт **какие файлы копируются** в целевой репозиторий. Расширение **AgentStack** — отдельный слой (overlay + merge), подключается флагом или встроено в `full` / `founder`.
 

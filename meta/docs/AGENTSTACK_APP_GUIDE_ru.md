@@ -67,7 +67,7 @@ node tools/genetic-ai-starter/scripts/init.mjs --target .
 
 ```bash
 cd examples/agentstack
-npm install @agentstack/sdk@0.4.13
+npm install @agentstack/sdk@0.4.15
 npm run recipe:00-bootstrap
 ```
 
@@ -78,7 +78,7 @@ npm run recipe:00-bootstrap
 ## Flow B — submodule SDK
 
 ```bash
-node tools/genetic-ai-starter/scripts/submodule-add-sdk.mjs --target . --tag v0.4.13
+node tools/genetic-ai-starter/scripts/submodule-add-sdk.mjs --target . --tag v0.4.15
 node tools/genetic-ai-starter/scripts/link-sdk-deps.mjs --target .
 cd vendor/agentstack-sdk && npm install && npm run build
 cd examples/agentstack && npm install

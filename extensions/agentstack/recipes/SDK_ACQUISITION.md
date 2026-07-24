@@ -2,7 +2,7 @@
 
 Genetic tag: `repo.platform.sdk.recipes.gen1`
 
-Recipes depend on `@agentstack/sdk@0.4.13`. **Never auto-run `npm install`** from agents or CI without explicit human approval — document flows only.
+Recipes depend on `@agentstack/sdk@0.4.15`. **Never auto-run `npm install`** from agents or CI without explicit human approval — document flows only.
 
 ## Flow A — npm (published package)
 
@@ -34,7 +34,7 @@ When developing inside or beside the AgentStack monorepo:
 
 ```bash
 # From consumer repo (git required):
-node path/to/genetic-ai-starter/scripts/submodule-add-sdk.mjs --target . --tag v0.4.13
+node path/to/genetic-ai-starter/scripts/submodule-add-sdk.mjs --target . --tag v0.4.15
 node path/to/genetic-ai-starter/scripts/link-sdk-deps.mjs --target .
 cd vendor/agentstack-sdk && npm install && npm run build
 cd examples/agentstack && npm install

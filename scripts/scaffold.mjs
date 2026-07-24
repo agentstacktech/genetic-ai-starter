@@ -9,7 +9,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { substitute } from './lib/substitute-placeholders.mjs';
 import { PAYLOAD_ROOT, KIT_ROOT } from './lib/paths.mjs';
-import { readPlatformVersion } from './lib/platform-version.mjs';
+import { readPlatformVersionSafe } from './lib/platform-version.mjs';
 import {
   loadNavigationContract,
   validateMarkerRegion,
@@ -94,12 +94,7 @@ function toPascal(slug) {
 function buildVars(opts) {
   const slug = opts.slug || opts.name;
   const feature = opts.name.replace(/[^a-z0-9_]/gi, '_').toLowerCase();
-  let platformVersion = '0.4.13';
-  try {
-    platformVersion = readPlatformVersion();
-  } catch {
-    /* kit outside monorepo */
-  }
+  const platformVersion = readPlatformVersionSafe('0.4.14');
   return {
     PROJECT_NAME: path.basename(opts.target),
     DOMAIN: opts.domain,

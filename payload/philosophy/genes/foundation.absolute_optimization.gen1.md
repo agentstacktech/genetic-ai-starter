@@ -39,7 +39,7 @@ Minimalism is the **visible** consequence: we optimize what the **consumer of in
 
 ## Immune system tie-in (heritage, still valid)
 
-Immune metaphors (v0.2.7) are a **special case**: store antibodies only while pathogens recur. Long-unused patterns may **decay** from active docs (not necessarily delete git history) — same 0%-waste logic. Modern mechanics: [immune gene](https://github.com/agentstacktech/AgentStack/tree/main/philosophy/genes/https://github.com/agentstacktech/AgentStack/tree/main/philosophy/genes/shared.immune.system.gen1.md) + resilience organelles.
+Immune metaphors (v0.2.7) are a **special case**: store antibodies only while pathogens recur. Long-unused patterns may **decay** from active docs (not necessarily delete git history) — same 0%-waste logic. Modern mechanics: [immune gene](https://github.com/agentstacktech/AgentStack/tree/main/philosophy/genes/shared.immune.system.gen1.md) + resilience organelles.
 
 **Navigation of immunity** must stay cheap; if finding a gene is hard, fix **indexing** ([foundation.genetic_coding.gen1.md](foundation.genetic_coding.gen1.md)), not add more filenames.
 

@@ -2,7 +2,7 @@
 
 **Genetic tag:** `repo.platform.sdk.recipes.gen1`  
 **Package:** `genetic-ai-starter/extensions/agentstack/recipes/`  
-**SDK pin:** `@agentstack/sdk@0.4.13`
+**SDK pin:** `@agentstack/sdk@0.4.15`
 
 Runnable TypeScript templates for integrators and AI agents. Each folder has `run.ts`, `README.md`, and `README_ru.md`.
 

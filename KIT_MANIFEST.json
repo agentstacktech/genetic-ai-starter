@@ -1,6 +1,6 @@
 {
   "kitId": "genetic-ai-starter",
-  "version": "0.4.13",
+  "version": "0.4.15",
   "platformVersionSource": "shared/constants.py:AGENTSTACK_CORE_VERSION | genetic-ai-starter/PLATFORM_VERSION",
   "description": "Portable philosophy + AI navigation + Cursor rules for new projects (version = platform patch)",
   "payloadRoot": "payload",

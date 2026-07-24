@@ -2,6 +2,27 @@
 
 Version numbers follow **AgentStack platform patch** (`AGENTSTACK_CORE_VERSION`), not a separate kit semver.
 
+## 0.4.14 — AI-nav plane sync + consumer-safe transforms (2026-07-16)
+
+### Sync / transforms
+
+- **`kitAiIndexingTransform`** — syncs monorepo `docs/AI_INDEXING_SYSTEM.md` into payload without broken monorepo-only links; kit genes remain `repo.navigation.map|index.gen1`.
+- **`kitFoundationGeneTransform`** — safe rewrite of DX/SDK genes (no `../../scripts` substring corruption of `../../../scripts`); monorepo-only paths → GitHub tree.
+- **Link validation** — keep `.cursorrules.fragment.md` as kit SoT; skip example `](...)` placeholders.
+- Platform pin **0.4.14** (`PLATFORM_VERSION` / `KIT_MANIFEST.json` / MAINTAINERS).
+
+### Navigation
+
+- Kit navigation genes document monorepo alias → `repo.engineering.ai_navigation.gen1`.
+- AI_INDEX template Remarks + Genetic code contract aligned.
+
+### Verify
+
+- `validate-kit` · `validate-genes` · `check-capability-contract` · `npm run audit:docs` green.
+- Regression: `tests/kit-sync-transforms.test.mjs` · dual-mode `validate-link-aliases.test.mjs`.
+- Site inventory guard: `scripts/check-site-inventory.mjs` (431 genes / 204 AI_INDEX).
+- Maintainer E2E: `npm run sync-smoke` · flow doc [KIT_SYNC_FLOW.md](../docs/genetic-ai-starter-maintainers/KIT_SYNC_FLOW.md).
+
 ## 0.4.13 — foundation pillars + consumer-safe upgrade (KIP v2.1, 2026-05-25)
 
 ### Philosophy payload (aligned with AgentStack monorepo)

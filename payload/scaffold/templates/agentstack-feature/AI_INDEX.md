@@ -1,6 +1,7 @@
 # AI_INDEX — `examples/agentstack/{{FEATURE}}`
 
-**Genetic tag:** `{{DOMAIN}}.{{FEATURE}}.feature.gen1`
+**Genetic code:** `example.agentstack.feature.gen1`  
+_(Replace with your real tag when scaffolding, e.g. `myapp.billing.feature.gen1`.)_
 
 ## Hot files
 

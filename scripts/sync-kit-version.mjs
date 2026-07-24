@@ -26,11 +26,27 @@ const replacements = [
   [/\*\*Version:\*\* \d+\.\d+\.\d+ \(starter kit\)/g, `**Version:** ${version} (platform patch, \`AGENTSTACK_CORE_VERSION\`)`],
   [/"kitVersion":\s*"[^"]+"/g, `"kitVersion": "${version}"`],
   [/"requiresKit":\s*">=[^"]+"/g, `"requiresKit": ">=${version}"`],
+  [/"platformVersion":\s*"\d+\.\d+\.\d+"/g, `"platformVersion": "${version}"`],
+  [/"requiresPlatformVersion":\s*"[^"]+"/g, `"requiresPlatformVersion": "AGENTSTACK_CORE_VERSION"`],
   [/Version \*\*\d+\.\d+\.\d+\*\*/g, `Version **${version}**`],
   [/Genetic AI Starter Kit v\d+\.\d+\.\d+/g, `Genetic AI Starter Kit (${version})`],
   [/Living list after v\d+\.\d+\.\d+ audit/g, `Living list after platform ${version} audit`],
   [/## v\d+\.\d+\.\d+ — recommended next/g, `## Next platform patch — recommended`],
   [/## v\d+\.\d+\.\d+ \(current\)/g, `## Current (platform ${version})`],
+  [/@agentstack\/sdk@\d+\.\d+\.\d+/g, `@agentstack/sdk@${version}`],
+  [/--tag v\d+\.\d+\.\d+/g, `--tag v${version}`],
+  [/\*\*Платформа:\*\* `\d+\.\d+\.\d+`/g, `**Платформа:** \`${version}\``],
+  [/\*\*Platform:\*\* `\d+\.\d+\.\d+`/g, `**Platform:** \`${version}\``],
+  [/\(platform \d+\.\d+\.\d+\)/g, `(platform ${version})`],
+];
+
+const SKIP_SUBSTR = [
+  'sync-kit-version',
+  'platform-version',
+  `${path.sep}fixtures${path.sep}`,
+  `${path.sep}benchmarks${path.sep}results${path.sep}`,
+  'baseline-metrics.snapshot.json',
+  'CHANGELOG.md', // preserve historical section headers
 ];
 
 const roots = [
@@ -43,9 +59,17 @@ const roots = [
 let n = 0;
 for (const root of roots) {
   if (!fs.existsSync(root)) continue;
-  const files = root === KIT_ROOT ? [path.join(KIT_ROOT, 'README.md'), path.join(KIT_ROOT, 'README.en.md'), path.join(KIT_ROOT, 'CHANGELOG.md'), path.join(KIT_ROOT, 'KIT_MANIFEST.json'), path.join(KIT_ROOT, 'package.json')] : walk(root);
+  const files =
+    root === KIT_ROOT
+      ? [
+          path.join(KIT_ROOT, 'README.md'),
+          path.join(KIT_ROOT, 'README.en.md'),
+          path.join(KIT_ROOT, 'KIT_MANIFEST.json'),
+          path.join(KIT_ROOT, 'package.json'),
+        ]
+      : walk(root);
   for (const file of files) {
-    if (file.includes('sync-kit-version') || file.includes('platform-version')) continue;
+    if (SKIP_SUBSTR.some((s) => file.includes(s))) continue;
     let c = fs.readFileSync(file, 'utf8');
     const before = c;
     for (const [re, rep] of replacements) c = c.replace(re, rep);

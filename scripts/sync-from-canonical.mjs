@@ -8,6 +8,7 @@ import path from 'node:path';
 import { KIT_ROOT } from './lib/paths.mjs';
 import {
   kitDocsTransform,
+  kitAiIndexingTransform,
   kitFoundationGeneTransform,
   kitHeritageTransform,
   kitPrinciplesLongformTransform,
@@ -32,7 +33,7 @@ const SYNC_MAP = [
   {
     from: 'docs/AI_INDEXING_SYSTEM.md',
     to: 'payload/docs/ai/AI_INDEXING_SYSTEM.md',
-    transform: kitDocsTransform,
+    transform: kitAiIndexingTransform,
   },
   {
     from: 'philosophy/genes/repo.engineering.controlled_code_changes.gen1.md',

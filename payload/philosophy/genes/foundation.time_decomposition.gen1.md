@@ -33,7 +33,7 @@
 
 ## Version gating (owner time)
 
-Platform version string: `AGENTSTACK_CORE_VERSION` in `shared/constants.py`. **Bump only with owner approval** — [https://github.com/agentstacktech/AgentStack/tree/main/philosophy/genes/axiom.version.control.lance_will.gen2.md](https://github.com/agentstacktech/AgentStack/tree/main/philosophy/genes/https://github.com/agentstacktech/AgentStack/tree/main/philosophy/genes/axiom.version.control.lance_will.gen2.md), [docs/VERSIONING.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/VERSIONING.md).
+Platform version string: `AGENTSTACK_CORE_VERSION` in `shared/constants.py`. **Bump only with owner approval** — [https://github.com/agentstacktech/AgentStack/tree/main/philosophy/genes/axiom.version.control.lance_will.gen2.md](https://github.com/agentstacktech/AgentStack/tree/main/philosophy/genes/axiom.version.control.lance_will.gen2.md), [docs/VERSIONING.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/VERSIONING.md).
 
 TDC for releases: code + docs + genes + indexes in **one** publish story (e.g. 0.4.12–13 combined journal).
 

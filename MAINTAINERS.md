@@ -1,8 +1,8 @@
 # Maintainers — Genetic AI Starter Kit
 
-Kit path: `genetic-ai-starter/` in AgentStack monorepo. Platform line **0.4.13**.
+Kit path: `genetic-ai-starter/` in AgentStack monorepo. Platform line **0.4.15**.
 
-**Operator docs (monorepo git only, outside kit subtree):** [docs/genetic-ai-starter-maintainers/README.md](../docs/genetic-ai-starter-maintainers/README.md)
+**Operator docs (monorepo git only, outside kit subtree):** [docs/genetic-ai-starter-maintainers/README.md](../docs/genetic-ai-starter-maintainers/README.md) · **Sync flow:** [KIT_SYNC_FLOW.md](../docs/genetic-ai-starter-maintainers/KIT_SYNC_FLOW.md)
 
 ## Release checklist (platform bump)
 
@@ -30,7 +30,17 @@ genetic-ai-starter\scripts\verify-install.cmd
 
 ## Sync from canonical
 
+Preferred one-shot (version + sync + validate + transform/alias/site guards):
+
 ```bash
+node genetic-ai-starter/scripts/sync-smoke.mjs
+# or: cd genetic-ai-starter && npm run sync-smoke
+```
+
+Step-by-step:
+
+```bash
+node genetic-ai-starter/scripts/sync-kit-version.mjs
 node genetic-ai-starter/scripts/sync-from-canonical.mjs
 ```
 
@@ -38,6 +48,8 @@ node genetic-ai-starter/scripts/sync-from-canonical.mjs
 |----------------------|-------------|
 | `docs/AI_INDEXING_SYSTEM.md` | `payload/docs/ai/AI_INDEXING_SYSTEM.md` |
 | `philosophy/genes/foundation.*.gen1.md` (8 files) | `payload/philosophy/genes/` |
+| `philosophy/genes/repo.engineering.ai_navigation.gen1.md` (+ `retrieve.gen1`) | Kit keeps `repo.navigation.map.gen1` / `index.gen1` (aliases); monorepo mirrors those tags as thin redirects. Sync via transforms — do not fork a third catalog shape. |
+| `docs/AI_INDEXING_SYSTEM.md` | `payload/docs/ai/AI_INDEXING_SYSTEM.md` via **`kitAiIndexingTransform`** (strips monorepo-only adapters; points kit genes) |
 | `philosophy/LANCE_PRINCIPLE_CREATION_OVER_CONFLICT.md` | `payload/philosophy/principles/LANCE_CREATION_OVER_CONFLICT.md` |
 | `philosophy/ELEGANT_MINIMALISM_PRINCIPLE.md` | `payload/philosophy/principles/ELEGANT_MINIMALISM.md` |
 | `philosophy/archive/FOUNDATION_HERITAGE_READING.md` | `payload/philosophy/archive/` |
@@ -57,11 +69,12 @@ node genetic-ai-starter/scripts/sync-from-canonical.mjs
 ```bash
 cd genetic-ai-starter
 npm run audit:bench:full   # after run-matrix
-npm run audit:docs
+npm run audit:docs         # includes check-site-inventory (431/204)
+npm run test:sync-transforms
 node scripts/validate-kit.mjs
 ```
 
-See [DOC_WAVE_V3_RUNBOOK.md](../docs/genetic-ai-starter-maintainers/DOC_WAVE_V3_RUNBOOK.md).
+See [DOC_WAVE_V3_RUNBOOK.md](../docs/genetic-ai-starter-maintainers/DOC_WAVE_V3_RUNBOOK.md) · [KIT_SYNC_FLOW.md](../docs/genetic-ai-starter-maintainers/KIT_SYNC_FLOW.md).
 
 ### DX scripts (post-expansion)
 
@@ -75,6 +88,9 @@ See [DOC_WAVE_V3_RUNBOOK.md](../docs/genetic-ai-starter-maintainers/DOC_WAVE_V3_
 | `scripts/submodule-add-sdk.mjs` | Flow B — delegate to SDK submodule script |
 | `scripts/link-sdk-deps.mjs` | Wire `examples/agentstack/package.json` to SDK submodule |
 | `scripts/lib/pin-recipe-package.mjs` | npm pin vs file: link for consumer recipes |
+| `scripts/check-site-inventory.mjs` | HTML inventory vs `platform-stats.snapshot.json` |
+| `scripts/sync-smoke.mjs` | Maintainer E2E: version → sync → validate → tests |
+| `scripts/lib/kit-sync-transforms.mjs` | Canonical → kit text transforms (indexing / foundation) |
 | `scripts/lib/navigation-contract.mjs` | Contract region helpers for scaffolder |
 
 Windows: `scaffold.cmd`, `generate-llms-txt.cmd`, `check-capability-contract.cmd`.
