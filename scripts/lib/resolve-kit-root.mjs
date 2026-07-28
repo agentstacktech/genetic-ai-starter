@@ -6,6 +6,7 @@ import { resolveFromMonorepo } from './kit-source-resolvers/monorepo.mjs';
 import { resolveFromPath } from './kit-source-resolvers/path.mjs';
 import { readKitLock } from './read-kit-lock.mjs';
 import { KIT_ROOT } from './paths.mjs';
+import { readKitRootEnv } from './env-kit-root.mjs';
 
 const HINT = `Kit root not found.
   Quick fix (zero-kit): curl -fsSL https://raw.githubusercontent.com/agentstacktech/genetic-ai-starter/main/scripts/remote-bootstrap.mjs -o /tmp/gai-bootstrap.mjs && node /tmp/gai-bootstrap.mjs --target .
@@ -32,10 +33,14 @@ export function resolveKitRoot(opts = {}) {
     };
   }
 
-  if (process.env.GENETIC_AI_KIT_ROOT?.trim()) {
+  const envKit = readKitRootEnv();
+  if (envKit) {
+    const source = process.env.GENETIC_AI_KIT_ROOT?.trim()
+      ? 'env.GENETIC_AI_KIT_ROOT'
+      : 'env.GENETIC_AI_STARTER_KIT';
     return {
-      root: path.resolve(process.env.GENETIC_AI_KIT_ROOT.trim()),
-      source: 'env.GENETIC_AI_KIT_ROOT',
+      root: envKit,
+      source,
       warnings,
     };
   }

@@ -1,28 +1,11 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-  Install Genetic AI Starter Kit into a project (Windows).
-
-.EXAMPLE
-  # From AgentStack monorepo — install into another folder:
-  .\genetic-ai-starter\scripts\install.ps1 -Target C:\Projects\AgentScreen -ProjectName "Agent Screen" -Domain app
-
-.EXAMPLE
-  # Install into current directory (run from target project, pass kit path):
-  C:\Projects\AgentStack\genetic-ai-starter\scripts\install.ps1 -Target . -KitRoot C:\Projects\AgentStack\genetic-ai-starter
-
-.EXAMPLE
-  Set env once, then from any project:
-  $env:GENETIC_AI_STARTER_KIT = 'C:\Projects\AgentStack\genetic-ai-starter'
-  & "$env:GENETIC_AI_STARTER_KIT\scripts\install.ps1" -Target .
+  Install Genetic AI Starter Kit into a project (Windows thin wrapper → Node).
 
 .NOTES
-  Profile comparison: meta/docs/PROFILE_COMPARISON.md
-
-  If you see PSSecurityException (unsigned script), do NOT use bare "& install.ps1". Use:
-    install.cmd <target>
-    powershell -NoProfile -ExecutionPolicy Bypass -File "<kit>\scripts\install.ps1" ...
-    node "<kit>\scripts\install.mjs" ...
+  Prefer SETUP.cmd or: node scripts/install.mjs --target <path>
+  Profile list: profiles/*.json (includes agentstack-app).
 #>
 [CmdletBinding()]
 param(
@@ -33,7 +16,6 @@ param(
     [string] $KitRoot = '',
 
     [Parameter()]
-    [ValidateSet('minimal', 'standard', 'full', 'founder')]
     [string] $Profile = 'standard',
 
     [Parameter()]
@@ -57,72 +39,82 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-function Resolve-KitRoot {
+function Resolve-KitRootPath {
     param([string] $Explicit)
     $candidates = @()
     if ($Explicit) { $candidates += $Explicit }
+    if ($env:GENETIC_AI_KIT_ROOT) { $candidates += $env:GENETIC_AI_KIT_ROOT }
     if ($env:GENETIC_AI_STARTER_KIT) { $candidates += $env:GENETIC_AI_STARTER_KIT }
-  # Script lives in <kit>/scripts/install.ps1
     $fromScript = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
     $candidates += $fromScript
-    $candidates += 'C:\Projects\AgentStack\genetic-ai-starter'
-    $candidates += (Join-Path (Split-Path $PSScriptRoot -Parent) 'genetic-ai-starter')
 
     foreach ($c in $candidates) {
         if (-not $c) { continue }
-        try {
-            $full = [System.IO.Path]::GetFullPath($c)
-        } catch {
-            continue
-        }
+        try { $full = [System.IO.Path]::GetFullPath($c) } catch { continue }
         $installMjs = Join-Path $full 'scripts\install.mjs'
-        if (Test-Path -LiteralPath $installMjs) {
-            return $full
+        if (Test-Path -LiteralPath $installMjs) { return $full }
+    }
+
+    $cli = Join-Path $PSScriptRoot 'lib\resolve-kit-root-cli.mjs'
+    if (Test-Path -LiteralPath $cli) {
+        $node = Get-Command node -ErrorAction SilentlyContinue
+        if ($node) {
+            $resolved = & $node.Source $cli --target $Target 2>$null
+            if ($resolved -and (Test-Path (Join-Path $resolved 'scripts\install.mjs'))) {
+                return $resolved.Trim()
+            }
         }
     }
+
     throw @"
 Cannot find genetic-ai-starter (install.mjs missing).
 
-You are probably inside the target project only (e.g. C:\Projects\AgentScreen).
-The kit lives in the AgentStack monorepo, e.g.:
-  C:\Projects\AgentStack\genetic-ai-starter
-
-Run:
-  C:\Projects\AgentStack\genetic-ai-starter\scripts\install.ps1 -Target C:\Projects\AgentScreen -ProjectName "My App"
-
-Or set:
-  `$env:GENETIC_AI_STARTER_KIT = 'C:\Projects\AgentStack\genetic-ai-starter'
+Set GENETIC_AI_KIT_ROOT or run from kit folder:
+  node "<kit>\scripts\install.mjs" --target "<project>" --profile standard
 "@
 }
 
-function Find-Node {
+function Find-NodeExe {
     $node = Get-Command node -ErrorAction SilentlyContinue
-    if (-not $node) {
-        throw 'Node.js not found. Install Node 18+ from https://nodejs.org and reopen PowerShell.'
+    if ($node) { return $node.Source }
+    foreach ($c in @(
+        "$env:ProgramFiles\nodejs\node.exe",
+        "$env:LocalAppData\Programs\nodejs\node.exe"
+    )) {
+        if (Test-Path -LiteralPath $c) { return $c }
     }
-    return $node.Source
+    throw 'Node.js not found. Install Node 18+ from https://nodejs.org'
 }
 
-$kit = Resolve-KitRoot -Explicit $KitRoot
+$kit = Resolve-KitRootPath -Explicit $KitRoot
 if ([System.IO.Path]::IsPathRooted($Target)) {
     $targetPath = [System.IO.Path]::GetFullPath($Target)
 } else {
     $targetPath = [System.IO.Path]::GetFullPath((Join-Path (Get-Location).Path $Target))
 }
-$installMjs = Join-Path $kit 'scripts\install.mjs'
+
+$profilesDir = Join-Path $kit 'profiles'
+$validProfiles = Get-ChildItem -LiteralPath $profilesDir -Filter '*.json' |
+    Where-Object { $_.Name -ne 'manifest.json' } |
+    ForEach-Object { $_.BaseName }
+if ($Profile -notin $validProfiles) {
+    throw "Unknown profile '$Profile'. Valid: $($validProfiles -join ', ')"
+}
 
 if (-not (Test-Path -LiteralPath $targetPath)) {
     New-Item -ItemType Directory -Path $targetPath -Force | Out-Null
     Write-Host "Created target directory: $targetPath"
 }
 
-$nodeExe = Find-Node
+$nodeExe = Find-NodeExe
+$installMjs = Join-Path $kit 'scripts\install.mjs'
 $args = @(
     $installMjs,
     '--target', $targetPath,
     '--profile', $Profile,
     '--project-name', $ProjectName,
-    '--domain', $Domain
+    '--domain', $Domain,
+    '--kit-root', $kit
 )
 if ($WithAgentstack) { $args += '--with-agentstack' }
 if ($Strict) { $args += '--strict' }
@@ -135,20 +127,10 @@ if ($GitignoreKit -eq 'full') { $args += '--gitignore-kit', 'full' }
 Write-Host "Kit:    $kit"
 Write-Host "Target: $targetPath"
 Write-Host "Profile: $Profile"
-Write-Host ""
+Write-Host ''
 
 & $nodeExe @args
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-if (-not $DryRun) {
-    $validate = Join-Path $kit 'scripts\validate-installed.mjs'
-    if (Test-Path -LiteralPath $validate) {
-        Write-Host ""
-        Write-Host "Validating install..."
-        & $nodeExe $validate '--target' $targetPath
-        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-    }
-}
-
-Write-Host ""
+Write-Host ''
 Write-Host "Done. Open $targetPath in Cursor and read AGENTS.md + docs/ai/AI_NAVIGATION_MAP.md"

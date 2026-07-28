@@ -10,8 +10,19 @@
 
 | OS | Command |
 |----|---------|
-| **Windows** | Double-click **`SETUP.cmd`** |
+| **Windows** | Double-click **`SETUP.cmd`** (pick **your app folder**, not the kit folder) |
 | **macOS / Linux** | `node scripts/init.mjs` |
+
+### Windows anti-patterns
+
+```
+✓ SETUP.cmd from kit folder → target C:\Projects\MyApp
+✗ SETUP.cmd → «current folder» when cwd is the kit vendor tree
+✗ SETUP.ps1 without Bypass (use SETUP.cmd instead)
+✗ & install.ps1 (use node install.mjs or install.cmd)
+```
+
+Matrix: [WINDOWS_INSTALL_MATRIX.md](WINDOWS_INSTALL_MATRIX.md)
 
 4. In the wizard: choose target folder → project name → domain → profile → confirm.
 5. Open the target project in Cursor → read `AGENTS.md` and `docs/ai/AI_NAVIGATION_MAP.md`.

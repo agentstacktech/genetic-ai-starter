@@ -22,7 +22,10 @@
     "agentstack"
   ],
   "bin": {
-    "genetic-ai-init": "./bin/genetic-ai-init.js"
+    "genetic-ai-init": "./bin/genetic-ai-init.js",
+    "genetic-ai-install": "./bin/genetic-ai-install.js",
+    "genetic-ai-doctor": "./bin/genetic-ai-doctor.js",
+    "genetic-ai-preflight": "./bin/genetic-ai-preflight.js"
   },
   "exports": {
     ".": "./README.md",
@@ -35,10 +38,15 @@
     "profiles",
     "extensions",
     "scripts",
+    "contracts",
     "benchmarks",
     "PLATFORM_VERSION",
     "KIT_MANIFEST.json",
     "SETUP.cmd",
+    "SETUP.en.cmd",
+    "SETUP.ps1",
+    "install.ps1",
+    "install.sh",
     "LICENSE",
     "NOTICE"
   ],

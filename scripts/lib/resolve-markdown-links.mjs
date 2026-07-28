@@ -22,6 +22,13 @@ export function resolveLinkTarget(rootDir, fromRel, target, opts = {}) {
   const filePath = path.join(rootDir, fromRel);
   const dir = path.dirname(filePath);
   const resolved = path.normalize(path.join(dir, aliased));
+  if (!fs.existsSync(resolved) && opts.kitRoot && /^\.\.\/\.\.\/\.\.\//.test(aliased)) {
+    const kitRel = aliased.replace(/^\.\.\/\.\.\/\.\.\//, '');
+    const kitResolved = path.normalize(path.join(opts.kitRoot, kitRel));
+    if (fs.existsSync(kitResolved)) {
+      return { skip: true, resolved: kitResolved, aliased };
+    }
+  }
   return { skip: false, resolved, aliased };
 }
 

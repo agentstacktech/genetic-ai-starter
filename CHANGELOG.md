@@ -2,6 +2,26 @@
 
 Version numbers follow **AgentStack platform patch** (`AGENTSTACK_CORE_VERSION`), not a separate kit semver.
 
+## 0.4.15 — Windows install runtime (Node-first, 2026-07-27)
+
+### Install plane
+
+- **`preflight.mjs`** — read-only checks before install; `SETUP.cmd` runs `--quick` preflight.
+- **`guard-target.mjs`** — blocks install into kit vendor folder (`E_TARGET_IS_KIT`).
+- **`find-node.mjs` / `resolve-node.cmd`** — Node discovery when Explorer PATH lacks `node`; `resolve-node.cmd` exports `NODE_EXE` to callers via `endlocal`.
+- **`install.cmd` / `repair.cmd` / `verify-install.cmd`** — Node-only (no PowerShell required).
+- **`verify-install.mjs`** — cross-platform smoke test (replaces PS-only chain for CI).
+- **`install-errors.mjs`** — structured error codes + repair hints.
+- **Env:** canonical `GENETIC_AI_KIT_ROOT` (+ legacy `GENETIC_AI_STARTER_KIT` alias).
+- **npm bins:** `genetic-ai-install`, `genetic-ai-doctor`, `genetic-ai-preflight`.
+- **Docs:** [WINDOWS_INSTALL_MATRIX.md](meta/docs/WINDOWS_INSTALL_MATRIX.md) · [INSTALL_CONTRACT.v1.json](contracts/INSTALL_CONTRACT.v1.json).
+
+### Wizard
+
+- Default target when cwd is kit folder → **specify project path**, not «install here».
+- Non-interactive `--yes` from kit cwd requires explicit `--target`.
+- **`SETUP.cmd`** — skips `pause` on `--yes` / `CI`; batch-safe exit messages (no nested parentheses).
+
 ## 0.4.14 — AI-nav plane sync + consumer-safe transforms (2026-07-16)
 
 ### Sync / transforms

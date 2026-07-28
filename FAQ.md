@@ -6,7 +6,15 @@ A copy-paste **AI operations** starter: genetic tags, navigation map, Cursor rul
 
 ## Windows: PowerShell blocks install.ps1
 
-Use **`SETUP.cmd`** or **`install.cmd`** — they bypass default ExecutionPolicy. See [meta/docs/INSTALL_WINDOWS.md](meta/docs/INSTALL_WINDOWS.md).
+Use **`SETUP.cmd`** or **`node scripts/install.mjs`** — no PowerShell required (0.4.15+). See [meta/docs/INSTALL_WINDOWS.md](meta/docs/INSTALL_WINDOWS.md).
+
+## Windows: SETUP.cmd says Node not found
+
+Node may be installed but not on Explorer PATH. Reopen terminal after install, or use full path. Kit runs preflight with `E_NODE_MISSING` repair hint.
+
+## Windows: installed into kit folder by mistake
+
+Re-run wizard and pick your **app project** folder. Guard `E_TARGET_IS_KIT` blocks this in 0.4.15+.
 
 ## Should kit files be in git?
 

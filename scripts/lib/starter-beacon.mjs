@@ -33,3 +33,16 @@ export function printKitResolveBeacon(kitRoot, source) {
     );
   }
 }
+
+/**
+ * Post-install hint for Windows users (E3).
+ * @param {string} targetRoot
+ * @param {string} kitRoot
+ */
+export function printPostInstallWindowsHint(targetRoot, kitRoot) {
+  if (process.platform !== 'win32') return;
+  const repair = `${kitRoot.replace(/\\/g, '/')}/scripts/repair.mjs`;
+  console.log('');
+  console.log('Windows: repair without PowerShell:');
+  console.log(`  node "${repair}" --target "${targetRoot}"`);
+}

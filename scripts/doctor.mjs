@@ -20,6 +20,9 @@ import { verifyKitVersionPin } from './lib/verify-kit-version.mjs';
 import { validateKitLockKipV2, validateKitLockWarnings } from './lib/validate-kit-lock-schema.mjs';
 import { DEFAULT_KIT_SUBMODULE_PATH } from './lib/kit-integration-constants.mjs';
 import { readUpgradeReport, UPGRADE_REPORT_REL } from './lib/upgrade-report.mjs';
+import { readInstallAttempt } from './lib/install-attempt-log.mjs';
+import { readKitRootEnv } from './lib/env-kit-root.mjs';
+import { INSTALL_ERRORS } from './lib/install-errors.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const KIT_ROOT = path.resolve(__dirname, '..');
@@ -207,6 +210,22 @@ function main() {
 
   if (warnings.length) {
     console.warn('doctor warnings:\n' + warnings.map((w) => `  - ${w}`).join('\n'));
+  }
+
+  if (process.platform === 'win32') {
+    console.log('\nplatform.windows:');
+    console.log('  launcher: prefer SETUP.cmd or node scripts/install.mjs (no PowerShell required)');
+    const envKit = readKitRootEnv();
+    console.log(`  GENETIC_AI_KIT_ROOT: ${envKit || '(not set)'}`);
+    if (process.env.GENETIC_AI_STARTER_KIT && !process.env.GENETIC_AI_KIT_ROOT) {
+      console.warn('  note: GENETIC_AI_STARTER_KIT is legacy; use GENETIC_AI_KIT_ROOT');
+    }
+    console.log(`  hint: ${INSTALL_ERRORS.E_PS_POLICY.repair}`);
+    const lastAttempt = readInstallAttempt(target);
+    if (lastAttempt) {
+      console.log(`  last-install-attempt: ${lastAttempt.code} @ ${lastAttempt.at}`);
+      if (lastAttempt.repair) console.log(`  repair: ${lastAttempt.repair}`);
+    }
   }
 
   if (issues.length) {

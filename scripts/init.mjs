@@ -20,6 +20,12 @@ import {
   isAgentStackProjectName,
   printAgentStackThanks,
 } from './lib/starter-banner.mjs';
+import { assertNodeMin } from './lib/check-node.mjs';
+import { assertSafeInstallTarget, isRunningFromKitRoot } from './lib/guard-target.mjs';
+import { expandEnvPath } from './lib/launcher/windows-path.mjs';
+import { t } from './lib/i18n.mjs';
+import { InstallError, formatInstallError } from './lib/install-errors.mjs';
+import { printPostInstallWindowsHint } from './lib/starter-beacon.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const INSTALL_SCRIPT = path.join(__dirname, 'install.mjs');
@@ -115,8 +121,34 @@ function isInteractive() {
 }
 
 /** Expand %VAR% on Windows when passed literally from cmd. */
-function expandEnvPath(p) {
-  return p.replace(/%([^%]+)%/g, (_, name) => process.env[name] ?? `%${name}%`);
+function expandEnvPathLocal(p) {
+  return expandEnvPath(p);
+}
+
+async function resolveTarget(cliTarget) {
+  if (cliTarget) return path.resolve(expandEnvPathLocal(cliTarget));
+
+  const fromKit = isRunningFromKitRoot(process.cwd(), KIT_ROOT);
+  if (fromKit) {
+    console.log('\n' + t('wizard.kit_cwd_hint') + '\n');
+  }
+
+  const defaultIndex = fromKit ? 1 : 0;
+  const choice = await chooseMenu(
+    t('wizard.target_title'),
+    [
+      { id: 'here', label: t('wizard.target_here'), hint: path.resolve(process.cwd()) },
+      { id: 'path', label: t('wizard.target_path'), hint: '' },
+    ],
+    defaultIndex,
+  );
+
+  if (choice === 'here') {
+    return path.resolve(process.cwd());
+  }
+
+  const entered = await ask('Путь к папке проекта', process.cwd());
+  return path.resolve(expandEnvPathLocal(entered));
 }
 
 function readExistingLock(targetRoot) {
@@ -132,26 +164,6 @@ function readExistingLock(targetRoot) {
 function profileIncludesAgentstack(profileId) {
   const p = loadProfile(profileId);
   return (p.extensions || []).includes('agentstack') || profileId === 'agentstack-app';
-}
-
-async function resolveTarget(cliTarget) {
-  if (cliTarget) return path.resolve(cliTarget);
-
-  const choice = await chooseMenu(
-    'Куда установить kit?',
-    [
-      { id: 'here', label: 'В текущую папку', hint: path.resolve(process.cwd()) },
-      { id: 'path', label: 'Указать путь к проекту', hint: '' },
-    ],
-    0,
-  );
-
-  if (choice === 'here') {
-    return path.resolve(process.cwd());
-  }
-
-  const entered = await ask('Путь к папке проекта', process.cwd());
-  return path.resolve(entered);
 }
 
 async function ensureTargetDir(targetRoot, skipConfirm = false) {
@@ -175,7 +187,8 @@ async function runWizard(cli) {
   console.log(`Платформа: ${version} · kit: ${KIT_ROOT}`);
   console.log('');
 
-  const targetRoot = expandEnvPath(await resolveTarget(cli.target));
+  const targetRoot = expandEnvPathLocal(await resolveTarget(cli.target));
+  assertSafeInstallTarget(targetRoot, KIT_ROOT);
   await ensureTargetDir(targetRoot, cli.yes);
 
   const existing = readExistingLock(targetRoot);
@@ -324,7 +337,9 @@ async function runWizard(cli) {
     console.log('\n--- Готово ---');
     console.log(`1. Откройте в Cursor: ${targetRoot}`);
     console.log('2. Прочитайте AGENTS.md и docs/ai/AI_NAVIGATION_MAP.md');
-    console.log('3. Проверка: node scripts/doctor.mjs --target "' + targetRoot + '"');
+    const doctorScript = path.join(kitRootForInstall, 'scripts', 'doctor.mjs');
+    console.log(`3. Проверка: node "${doctorScript}" --target "${targetRoot}"`);
+    printPostInstallWindowsHint(targetRoot, kitRootForInstall);
     if (profile === 'agentstack-app') {
       let pv = readPlatformVersionSafe('0.4.14');
       console.log(`4. AgentStack: cd examples/agentstack && npm install @agentstack/sdk@${pv}`);
@@ -341,8 +356,13 @@ async function runWizard(cli) {
 }
 
 function applyNonInteractiveDefaults(cli) {
-  const raw = cli.target ? expandEnvPath(cli.target) : process.cwd();
+  const raw = cli.target ? expandEnvPathLocal(cli.target) : process.cwd();
   const target = path.resolve(raw);
+  if (!cli.target && isRunningFromKitRoot(process.cwd(), KIT_ROOT)) {
+    throw new InstallError('E_TARGET_IS_KIT', {
+      message: 'Non-interactive mode requires --target when run from kit folder.',
+    });
+  }
   return {
     ...cli,
     yes: true,
@@ -354,6 +374,7 @@ function applyNonInteractiveDefaults(cli) {
 }
 
 async function main() {
+  assertNodeMin(18);
   const cli = parseArgs(process.argv);
   if (cli.help) {
     printHelp();
@@ -368,9 +389,7 @@ async function main() {
   }
 
   if (!isInteractive()) {
-    console.error(
-      'Интерактивный ввод недоступен (нет TTY). Укажите флаги и --yes, либо запустите SETUP.cmd / node scripts/init.mjs в терминале.',
-    );
+    console.error(t('no_tty'));
     printHelp();
     process.exit(1);
   }
@@ -379,6 +398,10 @@ async function main() {
 }
 
 main().catch((err) => {
+  if (err instanceof InstallError) {
+    console.error(formatInstallError(err));
+    process.exit(err.exitCode);
+  }
   console.error(err.message || err);
   process.exit(1);
 });

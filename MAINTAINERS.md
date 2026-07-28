@@ -22,7 +22,13 @@ Kit path: `genetic-ai-starter/` in AgentStack monorepo. Platform line **0.4.15**
 12. `node genetic-ai-starter/tests/philosophy-incomplete.test.mjs`
 13. Update [CHANGELOG.md](CHANGELOG.md) and [GAP_REGISTER.md](../docs/genetic-ai-starter-maintainers/GAP_REGISTER.md) if surface changes
 
-Windows:
+Windows QA (required before release):
+
+1. `scripts\verify-install.cmd` (Node smoke)
+2. `node scripts\preflight.mjs --quick`
+3. `SETUP.cmd` dry path: `node scripts\init.mjs --yes --target <temp> --profile standard --dry-run`
+4. Guard: `node scripts\install.mjs --target <kit-root>` must fail `E_TARGET_IS_KIT`
+5. `node tests\guard-target.test.mjs` + `node tests\preflight.test.mjs`
 
 ```cmd
 genetic-ai-starter\scripts\verify-install.cmd

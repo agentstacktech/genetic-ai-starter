@@ -76,9 +76,11 @@ function checkGeneFileLinks(target, errors) {
 function main() {
   const { target, kitRoot: explicitKitRoot, checkGeneLinks } = parseArgs(process.argv);
   let kitRootRel = 'tools/genetic-ai-starter';
+  let kitRootAbs = explicitKitRoot ? path.resolve(explicitKitRoot) : null;
   try {
     const resolved = resolveKitRoot({ target, explicitKitRoot: explicitKitRoot });
     kitRootRel = path.relative(target, resolved.root).replace(/\\/g, '/') || kitRootRel;
+    kitRootAbs = resolved.root;
   } catch {
     /* consumer may validate without kit on path */
   }
@@ -148,7 +150,7 @@ function main() {
   }
   if (fs.existsSync(path.join(target, 'AGENTS.md'))) mdRoots.push('AGENTS.md');
 
-  const broken = findBrokenMarkdownLinks(target, mdRoots, { mode: 'consumer' });
+  const broken = findBrokenMarkdownLinks(target, mdRoots, { mode: 'consumer', kitRoot: kitRootAbs });
   for (const b of broken) errors.push(`[LINK] Broken link in ${b.file}: ${b.target}`);
 
   if (checkGeneLinks) checkGeneFileLinks(target, errors);

@@ -1,2 +1,5 @@
 # Operator runbooks live in monorepo docs/genetic-ai-starter-maintainers/ (never under kit subtree)
 meta/maintainers/
+
+# Local install attempt logs from failed guard tests (never commit)
+.genetic-ai/

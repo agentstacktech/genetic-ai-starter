@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "scripts": {
+    "install": {
+      "path": "scripts/install.mjs",
+      "required": ["--target"],
+      "profiles": "profiles/manifest.json"
+    },
+    "init": {
+      "path": "scripts/init.mjs",
+      "interactive": true,
+      "nonInteractiveFlag": "--yes"
+    },
+    "preflight": {
+      "path": "scripts/preflight.mjs",
+      "flags": ["--quick", "--json", "--launcher", "--kit-root", "--target"]
+    },
+    "doctor": {
+      "path": "scripts/doctor.mjs"
+    }
+  },
+  "exitCodes": {
+    "0": "ok",
+    "1": "validation_or_user_cancel",
+    "2": "preflight_or_node",
+    "3": "unsafe_target"
+  },
+  "launchers": {
+    "windows": {
+      "primary": "SETUP.cmd",
+      "install": "scripts/install.cmd",
+      "repair": "scripts/repair.cmd",
+      "verify": "scripts/verify-install.cmd"
+    },
+    "unix": {
+      "install": "install.sh"
+    },
+    "npm": {
+      "init": "genetic-ai-init",
+      "install": "genetic-ai-install",
+      "doctor": "genetic-ai-doctor",
+      "preflight": "genetic-ai-preflight"
+    }
+  }
+}

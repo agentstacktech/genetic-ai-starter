@@ -26,6 +26,13 @@ import {
   applyAgentstackExtension,
   refreshAgentstackRecipes,
 } from './lib/apply-agentstack-extension.mjs';
+import { assertNodeMin } from './lib/check-node.mjs';
+import { assertSafeInstallTarget } from './lib/guard-target.mjs';
+import { assertKnownProfile } from './lib/read-profiles.mjs';
+import { runAllPreflightChecks, preflightOk } from './lib/preflight-checks/index.mjs';
+import { formatInstallError, InstallError } from './lib/install-errors.mjs';
+import { writeInstallAttempt, clearInstallAttempt } from './lib/install-attempt-log.mjs';
+import { expandEnvPath } from './lib/launcher/windows-path.mjs';
 
 function parseArgs(argv) {
   const opts = {
@@ -47,6 +54,7 @@ function parseArgs(argv) {
     forceNavigation: false,
     yes: false,
     jsonReport: false,
+    skipPreflight: false,
   };
   for (let i = 2; i < argv.length; i++) {
     const a = argv[i];
@@ -64,6 +72,7 @@ function parseArgs(argv) {
     else if (a === '--force-navigation') opts.forceNavigation = true;
     else if (a === '--yes') opts.yes = true;
     else if (a === '--json-report') opts.jsonReport = true;
+    else if (a === '--skip-preflight') opts.skipPreflight = true;
     else if (a === '--skills' && argv[i + 1] === 'global') {
       opts.skillsMode = 'global';
       i++;
@@ -149,9 +158,53 @@ function writeLock(targetRoot, opts, extensions, { dryRun, kitRootForRecord, pro
 }
 
 function main() {
-  const opts = parseArgs(process.argv);
-  const targetRoot = path.resolve(opts.target);
-  const kitRootForRecord = opts.kitRoot ? path.resolve(opts.kitRoot) : KIT_ROOT;
+  try {
+    assertNodeMin(18);
+    const opts = parseArgs(process.argv);
+    const targetRoot = path.resolve(expandEnvPath(opts.target));
+    const kitRootForRecord = opts.kitRoot ? path.resolve(opts.kitRoot) : KIT_ROOT;
+
+    assertKnownProfile(opts.profile);
+    assertSafeInstallTarget(targetRoot, kitRootForRecord);
+
+    if (!opts.skipPreflight && !opts.dryRun) {
+      const checks = runAllPreflightChecks({
+        quick: false,
+        target: targetRoot,
+        kitRoot: kitRootForRecord,
+      });
+      if (!preflightOk(checks)) {
+        throw new InstallError('E_PREFLIGHT_FAILED', { phase: 'preflight' });
+      }
+    }
+
+    runInstall(opts, targetRoot, kitRootForRecord);
+    clearInstallAttempt(targetRoot);
+  } catch (e) {
+    const opts = parseArgs(process.argv);
+    const targetRoot = opts.target ? path.resolve(expandEnvPath(opts.target)) : process.cwd();
+    if (e instanceof InstallError) {
+      writeInstallAttempt(targetRoot, {
+        code: e.code,
+        phase: e.phase,
+        repair: e.repair,
+        message: e.message,
+      });
+      console.error(formatInstallError(e));
+      process.exit(e.exitCode);
+    }
+    if (opts.target) {
+      writeInstallAttempt(targetRoot, {
+        code: 'E_INSTALL_UNKNOWN',
+        phase: 'install',
+        message: e.message || String(e),
+      });
+    }
+    throw e;
+  }
+}
+
+function runInstall(opts, targetRoot, kitRootForRecord) {
   const vars = {
     PROJECT_NAME: opts.projectName,
     DOMAIN: opts.domain,

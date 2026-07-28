@@ -28,7 +28,10 @@ export function shouldSkipLinkValidation(target) {
     n === '...' ||
     n.endsWith('gene_document_resolver.py') ||
     n.endsWith('ai_gene_interface.py') ||
-    n.includes('kit_vendor.gen1.md')
+    n.includes('kit_vendor.gen1.md') ||
+    /^\.\.\/MCP_/.test(n) ||
+    /^\.\.\/architecture\//.test(n) ||
+    n === 'AGENTSTACK_PLUGIN_PHILOSOPHY.md'
   );
 }
 

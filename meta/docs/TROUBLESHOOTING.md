@@ -2,14 +2,18 @@
 
 ## Install / path
 
-| Symptom | Cause | Fix |
-|---------|--------|-----|
-| `Cannot find module ... install.mjs` | Running from **target** repo; kit not there | Full path: `node "C:\...\genetic-ai-starter\scripts\install.mjs" --target ...` |
-| `PSSecurityException` / unsigned script | `& install.ps1` under Restricted policy | **`install.cmd`** or `powershell -ExecutionPolicy Bypass -File "...\install.ps1" ...` — see [INSTALL_WINDOWS.md](INSTALL_WINDOWS.md) |
-| PowerShell `CommandNotFoundException` for `.ps1` | Missing `&` when not using `-File` | Prefer `install.cmd` / Node; or Bypass `-File` |
-| `Missing C:\Projects\shared\constants.py` | Standalone kit without `PLATFORM_VERSION` | Update kit; ensure `PLATFORM_VERSION` exists or set `$env:AGENTSTACK_CORE_VERSION` |
-| Command breaks mid-line | Copied `` ` `` line continuation | **One line** per command; see INSTALL_WINDOWS |
-| Line continuation with `\` at EOL | Bash style on Windows | One line, or `install.cmd` |
+| Symptom | Code | Cause | Fix |
+|---------|------|--------|-----|
+| Node not found (SETUP.cmd) | `E_NODE_MISSING` | Explorer PATH missing Node | Install Node 18+; reopen terminal; `SETUP.cmd` uses Program Files fallback |
+| Install into kit folder | `E_TARGET_IS_KIT` | Wizard «current folder» = kit root | Choose **project** path; see [INSTALL_WINDOWS.md](INSTALL_WINDOWS.md) |
+| `PSSecurityException` / unsigned script | `E_PS_POLICY` | `& install.ps1` under Restricted policy | **`SETUP.cmd`** or `node scripts/install.mjs` — see [INSTALL_WINDOWS.md](INSTALL_WINDOWS.md) |
+| `Cannot find module ... install.mjs` | `E_KIT_NOT_FOUND` | Running from **target** repo; kit not there | Full path: `node "C:\...\genetic-ai-starter\scripts\install.mjs" --target ...` |
+| Preflight failed | `E_PREFLIGHT_FAILED` | Node/kit/platform/target checks | `node <kit>/scripts/preflight.mjs --target <project>` |
+| `Missing ...\shared\constants.py` | `E_PLATFORM_VERSION` | Standalone kit without `PLATFORM_VERSION` | Update kit; set `AGENTSTACK_CORE_VERSION` |
+| No TTY / CI | `E_NO_TTY` | Non-interactive without flags | `node scripts/init.mjs --yes --target <path> --profile standard ...` |
+| PowerShell `CommandNotFoundException` for `.ps1` | — | Missing `&` when not using `-File` | Prefer `install.cmd` / Node |
+| Command breaks mid-line | — | Copied `` ` `` line continuation | **One line** per command |
+| Line continuation with `\` at EOL | — | Bash style on Windows | One line, or `install.cmd` |
 
 ## Philosophy / validation
 

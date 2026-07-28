@@ -50,6 +50,22 @@ function main() {
   }
 
   const hub = path.join(DOCS, 'DOC_HUB.md');
+  const LEAK_PATTERNS = [
+    /platform_db_init/,
+    /admin\.database\./,
+    /social\.admin\./,
+    /docs\/operations\//,
+  ];
+  for (const name of fs.readdirSync(DOCS)) {
+    if (!name.endsWith('.md')) continue;
+    const full = path.join(DOCS, name);
+    const text = fs.readFileSync(full, 'utf8');
+    for (const re of LEAK_PATTERNS) {
+      if (re.test(text)) {
+        errors.push(`meta/docs/${name}: forbidden pattern ${re}`);
+      }
+    }
+  }
   if (fs.existsSync(hub)) {
     const text = fs.readFileSync(hub, 'utf8');
     for (const op of OPERATOR_ONLY) {
