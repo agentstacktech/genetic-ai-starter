@@ -34,6 +34,12 @@ description: Route user intent to the correct AgentStack skill or MCP domain usi
 | cron digest, signals | `agentstack-signals` / scheduler |
 | deploy AI agent tickets | `agentstack-agents-ai` / agentsFleet |
 | comfort task onboarding | `agentstack-capability-tasks` / capability-tasks |
+| CRM contacts, deals pipeline | `agentstack-crm` / crm |
+| AGNT vault, economy bridge | `agentstack-agentnet` / economy |
+| hosted storefront studio | `agentstack-storefront-studio` / commerce |
+| project treasury, payouts | `agentstack-project-wallet` / project-wallet |
+| guided paths, playbooks | `agentstack-guidance` / guidance |
+| backend routing (multi-domain) | `agentstack-backend` / discovery |
 | Solana grant MCP | `solana` (scoped actions only) |
 
 Source of truth for eval prompts: `provided_plugins/cursor-plugin/evals/intent-routing.yaml`.

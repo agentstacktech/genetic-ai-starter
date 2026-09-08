@@ -71,11 +71,11 @@ flowchart LR
 
 | Field | Value |
 |-------|-------|
-| `philosophyGenes` | 431 |
-| `aiIndexFilesRepoTotal` | 204 |
-| `aiIndexFilesPlatform` | 179 |
-| `navigationMapTier1Tags` | 449 |
-| `kitPayloadGenes` | 27 |
+| `philosophyGenes` | 498 |
+| `aiIndexFilesRepoTotal` | 244 |
+| `aiIndexFilesPlatform` | 219 |
+| `navigationMapTier1Tags` | 546 |
+| `kitPayloadGenes` | 28 |
 | `kitCursorRulesStandard` | 5 |
 | `kitCursorSkillsStandard` | 10 |
 

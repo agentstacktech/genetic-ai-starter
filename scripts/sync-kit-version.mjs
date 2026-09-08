@@ -4,21 +4,14 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { KIT_ROOT } from './lib/paths.mjs';
 import { readPlatformVersion, writePlatformVersionFile } from './lib/platform-version.mjs';
+import { walkFiles } from './lib/walk-files.mjs';
 
 const version = readPlatformVersion();
+const includeFixtures = process.argv.includes('--include-fixtures');
 writePlatformVersionFile(version);
-
-function walk(dir, acc = []) {
-  for (const name of fs.readdirSync(dir)) {
-    const full = path.join(dir, name);
-    if (name === 'node_modules' || name === 'fixtures') continue;
-    if (fs.statSync(full).isDirectory()) walk(full, acc);
-    else if (/\.(md|json|mdc)$/.test(name)) acc.push(full);
-  }
-  return acc;
-}
 
 const replacements = [
   [/\*\*Genetic AI Starter Kit\*\* \d+\.\d+\.\d+/g, `**Genetic AI Starter Kit** ${version}`],
@@ -37,17 +30,31 @@ const replacements = [
   [/--tag v\d+\.\d+\.\d+/g, `--tag v${version}`],
   [/\*\*Платформа:\*\* `\d+\.\d+\.\d+`/g, `**Платформа:** \`${version}\``],
   [/\*\*Platform:\*\* `\d+\.\d+\.\d+`/g, `**Platform:** \`${version}\``],
+  [/\*\*Platform:\*\* \d+\.\d+\.\d+/g, `**Platform:** ${version}`],
+  [/platform \*\*`\d+\.\d+\.\d+`\*\*/g, `platform **\`${version}\`**`],
+  [/tracks platform `\d+\.\d+\.\d+`/g, `tracks platform \`${version}\``],
+  [/`@agentstack\/sdk@\d+\.\d+\.\d+`/g, `\`@agentstack/sdk@${version}\``],
+  [/"@agentstack\/sdk":\s*"\d+\.\d+\.\d+"/g, `"@agentstack/sdk": "${version}"`],
   [/\(platform \d+\.\d+\.\d+\)/g, `(platform ${version})`],
+  [/\*\*Platform version:\*\* `\d+\.\d+\.\d+`/g, `**Platform version:** \`${version}\``],
+  [/\(currently \*\*\d+\.\d+\.\d+\*\*\)/g, `(currently **${version}**)`],
+  [/badge\/platform-\d+\.\d+\.\d+/g, `badge/platform-${version}`],
+  [/genetic-ai-starter-v\d+\.\d+\.\d+/g, `genetic-ai-starter-v${version}`],
+  [/@agentstack\/genetic-ai-starter@\d+\.\d+\.\d+/g, `@agentstack/genetic-ai-starter@${version}`],
+  [/\(v0\.\d+\.\d+\)/g, `(v${version})`],
 ];
 
 const SKIP_SUBSTR = [
   'sync-kit-version',
   'platform-version',
-  `${path.sep}fixtures${path.sep}`,
   `${path.sep}benchmarks${path.sep}results${path.sep}`,
   'baseline-metrics.snapshot.json',
-  'CHANGELOG.md', // preserve historical section headers
+  'CHANGELOG.md',
 ];
+
+if (!includeFixtures) {
+  SKIP_SUBSTR.push(`${path.sep}fixtures${path.sep}`);
+}
 
 const roots = [
   path.join(KIT_ROOT, 'payload'),
@@ -64,10 +71,13 @@ for (const root of roots) {
       ? [
           path.join(KIT_ROOT, 'README.md'),
           path.join(KIT_ROOT, 'README.en.md'),
+          path.join(KIT_ROOT, 'VERSION.md'),
           path.join(KIT_ROOT, 'KIT_MANIFEST.json'),
           path.join(KIT_ROOT, 'package.json'),
+          path.join(KIT_ROOT, 'template-repo/README.md'),
+          path.join(KIT_ROOT, 'actions/README.md'),
         ]
-      : walk(root);
+      : walkFiles(root, { skipDirs: includeFixtures ? ['node_modules'] : ['node_modules', 'fixtures'] });
   for (const file of files) {
     if (SKIP_SUBSTR.some((s) => file.includes(s))) continue;
     let c = fs.readFileSync(file, 'utf8');
@@ -80,9 +90,24 @@ for (const root of roots) {
   }
 }
 
+const pkgPath = path.join(KIT_ROOT, 'package.json');
+const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+pkg.version = version;
+pkg.description = pkg.description?.replace(/\(platform [^)]+\)/, `(platform ${version})`) ??
+  `Navigation OS for AI agents (platform ${version})`;
+fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf8');
+
 const manifestPath = path.join(KIT_ROOT, 'KIT_MANIFEST.json');
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 manifest.version = version;
 fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
+
+if (includeFixtures) {
+  const r = spawnSync(process.execPath, [path.join(KIT_ROOT, 'scripts/sync-fixtures-version.mjs')], {
+    cwd: KIT_ROOT,
+    stdio: 'inherit',
+  });
+  if (r.status !== 0) process.exit(r.status ?? 1);
+}
 
 console.log(`sync-kit-version: AGENTSTACK_CORE_VERSION=${version}, updated ${n} file(s)`);

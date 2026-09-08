@@ -14,6 +14,8 @@ node <kit>/scripts/doctor.mjs --target .
 node <kit>/scripts/validate-installed.mjs --target .
 ```
 
+`doctor` also warns on `kitVersion` / `capabilitySnapshotHash` drift vs the kit you installed from. When navigation drifts, prefer `upgrade.mjs --preserve-navigation` (keeps your Tier 1 rows) over editing the map cold.
+
 Or CI: `node <kit>/scripts/ci-kit.mjs --target .`
 
 ## Upgrade (preserve tenant map by default)

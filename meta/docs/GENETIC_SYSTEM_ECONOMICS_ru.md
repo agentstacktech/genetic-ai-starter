@@ -34,10 +34,10 @@
 
 | Счётчик | Поле | Значение |
 |---------|------|----------|
-| Гены | `philosophyGenes` | **406** |
-| Indexes (репо) | `aiIndexFilesRepoTotal` | **186** |
-| Indexes (платформа) | `aiIndexFilesPlatform` | **162** |
-| Tier-1 tags | `navigationMapTier1Tags` | **421** |
+| Гены | `philosophyGenes` | **498** |
+| Indexes (репо) | `aiIndexFilesRepoTotal` | **244** |
+| Indexes (платформа) | `aiIndexFilesPlatform` | **219** |
+| Tier-1 tags | `navigationMapTier1Tags` | **546** |
 | Payload genes кита | `kitPayloadGenes` | **27** |
 
 Cross-cluster SYN **~16** и сжатие philosophy **12,36×** — из genetic-system-site / `bench_gene_access.json`, не из этого snapshot. Не смешивайте harness (`metrics.snapshot.json`) с инвентарём.

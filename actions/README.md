@@ -8,7 +8,7 @@ Post-launch: publish `validate-genetic-ai` composite action on the public mirror
 - uses: agentstacktech/genetic-ai-starter/actions/validate@v1
   with:
     target: .
-    kit-version: '0.4.11'
+    kit-version: '<PLATFORM_VERSION>'
 ```
 
 Draft composite: [validate/action.yml](validate/action.yml) — tag as `@v1` on public mirror post-launch.

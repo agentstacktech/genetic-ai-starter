@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "kind": "static-kit-snapshot",
   "gene": "repo.plugins.capability_routing.gen1",
-  "platformVersion": "0.4.15",
+  "platformVersion": "0.4.18",
   "sdkPackage": "@agentstack/sdk",
-  "generatedNote": "Phase 1 static snapshot for offline AI routing. Refresh from GET /mcp/actions or sdk.getCapabilityMatrix() when online.",
+  "generatedNote": "Codegen from SDK exports + CAPABILITY_MATRIX.public.md + recipe pins",
   "discovery": {
     "mcpActionsLive": "GET https://agentstack.tech/mcp/actions",
     "mcpExecute": "POST https://agentstack.tech/mcp",
@@ -13,62 +13,211 @@
   },
   "sdkExports": {
     ".": "@agentstack/sdk",
-    "./i18n": "@agentstack/sdk/i18n",
-    "./i18n/useI18n": "@agentstack/sdk/i18n/useI18n",
-    "./economy": "@agentstack/sdk/economy",
-    "./public/grants": "@agentstack/sdk/public/grants",
-    "./finance": "@agentstack/sdk/finance",
-    "./guidance": "@agentstack/sdk/guidance",
-    "./guidance/react": "@agentstack/sdk/guidance/react",
-    "./commerce/assets": "@agentstack/sdk/commerce/assets",
-    "./commerce/marketplace": "@agentstack/sdk/commerce/marketplace",
-    "./commerce/checkout": "@agentstack/sdk/commerce/checkout",
-    "./commerce/cart": "@agentstack/sdk/commerce/cart",
-    "./commerce/orders": "@agentstack/sdk/commerce/orders",
-    "./commerce/shop": "@agentstack/sdk/commerce/shop",
-    "./commerce/merchant": "@agentstack/sdk/commerce/merchant",
-    "./commerce/guidance": "@agentstack/sdk/commerce/guidance",
-    "./commerce/participant": "@agentstack/sdk/commerce/participant",
-    "./commerce": "@agentstack/sdk/commerce",
-    "./pwa": "@agentstack/sdk/pwa",
-    "./seo": "@agentstack/sdk/seo",
-    "./mobile": "@agentstack/sdk/mobile",
-    "./logic/blueprints": "@agentstack/sdk/logic/blueprints",
-    "./capability-tasks": "@agentstack/sdk/capability-tasks",
-    "./manifest": "@agentstack/sdk/manifest"
+    "diagnostics": "@agentstack/sdk/diagnostics",
+    "mcp": "@agentstack/sdk/mcp",
+    "i18n": "@agentstack/sdk/i18n",
+    "i18n/useI18n": "@agentstack/sdk/i18n/useI18n",
+    "economy": "@agentstack/sdk/economy",
+    "public/grants": "@agentstack/sdk/public/grants",
+    "services": "@agentstack/sdk/services",
+    "finance": "@agentstack/sdk/finance",
+    "fabric": "@agentstack/sdk/fabric",
+    "cost": "@agentstack/sdk/cost",
+    "cost/explorer": "@agentstack/sdk/cost/explorer",
+    "guidance": "@agentstack/sdk/guidance",
+    "rag": "@agentstack/sdk/rag",
+    "guidance/react": "@agentstack/sdk/guidance/react",
+    "commerce/assets": "@agentstack/sdk/commerce/assets",
+    "commerce/marketplace": "@agentstack/sdk/commerce/marketplace",
+    "commerce/checkout": "@agentstack/sdk/commerce/checkout",
+    "commerce/cart": "@agentstack/sdk/commerce/cart",
+    "commerce/orders": "@agentstack/sdk/commerce/orders",
+    "commerce/shop": "@agentstack/sdk/commerce/shop",
+    "commerce/merchant": "@agentstack/sdk/commerce/merchant",
+    "commerce/guidance": "@agentstack/sdk/commerce/guidance",
+    "commerce/participant": "@agentstack/sdk/commerce/participant",
+    "commerce/money": "@agentstack/sdk/commerce/money",
+    "commerce/topup": "@agentstack/sdk/commerce/topup",
+    "commerce/storefront": "@agentstack/sdk/commerce/storefront",
+    "commerce/errors": "@agentstack/sdk/commerce/errors",
+    "commerce/entitlements": "@agentstack/sdk/commerce/entitlements",
+    "commerce/sell": "@agentstack/sdk/commerce/sell",
+    "commerce/subscription": "@agentstack/sdk/commerce/subscription",
+    "commerce/refund": "@agentstack/sdk/commerce/refund",
+    "commerce/surfaces": "@agentstack/sdk/commerce/surfaces",
+    "commerce": "@agentstack/sdk/commerce",
+    "pwa": "@agentstack/sdk/pwa",
+    "seo": "@agentstack/sdk/seo",
+    "mobile": "@agentstack/sdk/mobile",
+    "logic/blueprints": "@agentstack/sdk/logic/blueprints",
+    "capability-tasks": "@agentstack/sdk/capability-tasks",
+    "manifest": "@agentstack/sdk/manifest"
   },
   "platformCapabilities": [
-    { "id": "http", "group": "transport", "accessPaths": ["sdk.httpClient", "sdk.platform.http"] },
-    { "id": "auth", "group": "identity", "accessPaths": ["sdk.platform.auth"] },
-    { "id": "api", "group": "data", "accessPaths": ["sdk.platform.api"] },
-    { "id": "dna", "group": "data", "accessPaths": ["sdk.platform.dna"] },
-    { "id": "projects", "group": "data", "accessPaths": ["sdk.platform.projects"] },
-    { "id": "users", "group": "data", "accessPaths": ["sdk.platform.users"] },
-    { "id": "protocol", "group": "ecosystem", "accessPaths": ["sdk.protocol", "sdk.platform.protocol"] },
-    { "id": "command", "group": "ecosystem", "accessPaths": ["sdk.platform.command"] },
-    { "id": "snapshots", "group": "cache", "accessPaths": ["sdk.entitySnapshotRepository", "sdk.platform.snapshots"] },
-    { "id": "rbac", "group": "security", "accessPaths": ["sdk.platform.rbac"] },
-    { "id": "social", "group": "social", "accessPaths": ["sdk.social", "sdk.platform.social"] },
-    { "id": "support", "group": "social", "accessPaths": ["sdk.support", "sdk.platform.support"] },
-    { "id": "economy", "group": "commerce", "accessPaths": ["sdk.platform.economy", "@agentstack/sdk/economy"] }
+    {
+      "id": "http",
+      "group": "transport",
+      "accessPaths": [
+        "sdk.httpClient",
+        "sdk.platform.http"
+      ]
+    },
+    {
+      "id": "auth",
+      "group": "identity",
+      "accessPaths": [
+        "sdk.platform.auth"
+      ]
+    },
+    {
+      "id": "api",
+      "group": "data",
+      "accessPaths": [
+        "sdk.platform.api"
+      ]
+    },
+    {
+      "id": "dna",
+      "group": "data",
+      "accessPaths": [
+        "sdk.platform.dna"
+      ]
+    },
+    {
+      "id": "projects",
+      "group": "data",
+      "accessPaths": [
+        "sdk.platform.projects"
+      ]
+    },
+    {
+      "id": "users",
+      "group": "data",
+      "accessPaths": [
+        "sdk.platform.users"
+      ]
+    },
+    {
+      "id": "protocol",
+      "group": "ecosystem",
+      "accessPaths": [
+        "sdk.protocol",
+        "sdk.platform.protocol"
+      ]
+    },
+    {
+      "id": "command",
+      "group": "ecosystem",
+      "accessPaths": [
+        "sdk.platform.command"
+      ]
+    },
+    {
+      "id": "snapshots",
+      "group": "cache",
+      "accessPaths": [
+        "sdk.entitySnapshotRepository",
+        "sdk.platform.snapshots"
+      ]
+    },
+    {
+      "id": "rbac",
+      "group": "security",
+      "accessPaths": [
+        "sdk.platform.rbac"
+      ]
+    },
+    {
+      "id": "social",
+      "group": "social",
+      "accessPaths": [
+        "sdk.social",
+        "sdk.platform.social"
+      ]
+    },
+    {
+      "id": "support",
+      "group": "social",
+      "accessPaths": [
+        "sdk.support",
+        "sdk.platform.support"
+      ]
+    },
+    {
+      "id": "economy",
+      "group": "commerce",
+      "accessPaths": [
+        "sdk.platform.economy",
+        "@agentstack/sdk/economy"
+      ]
+    }
   ],
   "domainCapabilities": [
-    { "id": "payments", "group": "commerce" },
-    { "id": "wallets", "group": "commerce" },
-    { "id": "assets", "group": "media" },
-    { "id": "storage", "group": "media" },
-    { "id": "logic", "group": "rules" },
-    { "id": "scheduler", "group": "integrations" },
-    { "id": "webhooks", "group": "integrations" },
-    { "id": "integrations", "group": "integrations" },
-    { "id": "notifications", "group": "integrations" },
-    { "id": "buffs", "group": "game" },
-    { "id": "agentsFleet", "group": "agents" },
-    { "id": "commerce.shop", "group": "commerce", "export": "@agentstack/sdk/commerce/shop" },
-    { "id": "commerce.cart", "group": "commerce", "export": "@agentstack/sdk/commerce/cart" },
-    { "id": "commerce.checkout", "group": "commerce", "export": "@agentstack/sdk/commerce/checkout" }
+    {
+      "id": "payments",
+      "group": "commerce"
+    },
+    {
+      "id": "wallets",
+      "group": "commerce"
+    },
+    {
+      "id": "assets",
+      "group": "media"
+    },
+    {
+      "id": "storage",
+      "group": "media"
+    },
+    {
+      "id": "logic",
+      "group": "rules"
+    },
+    {
+      "id": "scheduler",
+      "group": "integrations"
+    },
+    {
+      "id": "webhooks",
+      "group": "integrations"
+    },
+    {
+      "id": "integrations",
+      "group": "integrations"
+    },
+    {
+      "id": "notifications",
+      "group": "integrations"
+    },
+    {
+      "id": "buffs",
+      "group": "game"
+    },
+    {
+      "id": "agentsFleet",
+      "group": "agents"
+    },
+    {
+      "id": "commerce.shop",
+      "group": "commerce",
+      "export": "@agentstack/sdk/commerce/shop"
+    },
+    {
+      "id": "commerce.cart",
+      "group": "commerce",
+      "export": "@agentstack/sdk/commerce/cart"
+    },
+    {
+      "id": "commerce.checkout",
+      "group": "commerce",
+      "export": "@agentstack/sdk/commerce/checkout"
+    }
   ],
-  "integratorBlocked": ["admin", "adminData", "sdk.admin"],
+  "integratorBlocked": [
+    "admin",
+    "adminData",
+    "sdk.admin"
+  ],
   "serviceCapsCommon": [
     "payments",
     "scheduler",
@@ -83,74 +232,451 @@
   ],
   "mcpActionDomains": [
     {
-      "domain": "projects",
-      "sampleActions": ["projects.get_project", "projects.get_projects", "projects.update_project", "projects.list_users"]
-    },
-    {
-      "domain": "auth",
-      "sampleActions": ["auth.login", "auth.register", "auth.whoami"]
-    },
-    {
-      "domain": "storage",
-      "sampleActions": ["storage.list_files", "storage.get_quota", "storage.delete_file"]
-    },
-    {
-      "domain": "hosting",
-      "sampleActions": ["hosting.site.quick_start", "hosting.deploy_files", "hosting.release.list"]
-    },
-    {
-      "domain": "logic",
-      "sampleActions": ["logic.create", "logic.dry_run", "logic.execute"]
-    },
-    {
-      "domain": "rag",
-      "sampleActions": ["rag.search", "rag.document_upsert", "rag.collection_create"]
-    },
-    {
-      "domain": "payments",
-      "sampleActions": ["payments.create_intent", "payments.capture", "payments.refund"],
-      "requiredCap": "payments"
-    },
-    {
-      "domain": "wallets",
-      "sampleActions": ["wallets.get_balance", "wallets.transfer"],
-      "requiredCap": "payments"
-    },
-    {
-      "domain": "scheduler",
-      "sampleActions": ["scheduler.create_task", "scheduler.list_tasks"],
-      "requiredCap": "scheduler"
-    },
-    {
-      "domain": "webhooks",
-      "sampleActions": ["webhooks.register", "webhooks.rotate_secret"]
-    },
-    {
-      "domain": "integrations",
-      "sampleActions": ["integrations.recipe_list", "integrations.connection_create"]
+      "domain": "agentnet",
+      "sampleActions": [
+        "agentnet.arb.proof_bundle_for_run",
+        "agentnet.arb.status",
+        "agentnet.balance",
+        "agentnet.batch_proof",
+        "agentnet.bnb.apex_jobs_list"
+      ]
     },
     {
       "domain": "agents",
-      "sampleActions": ["agents.list", "agents.run", "agents.create"],
-      "requiredCap": "agents_run | agents_admin"
+      "sampleActions": [
+        "agents.admin.execute",
+        "agents.approve_run",
+        "agents.automation_map",
+        "agents.create",
+        "agents.create_from_template"
+      ]
     },
     {
-      "domain": "data_access",
-      "sampleActions": ["data_access.set_policy", "data_access.apply_defaults_template"]
+      "domain": "ai_builder",
+      "sampleActions": [
+        "ai_builder.compose.preview",
+        "ai_builder.manifest.get",
+        "ai_builder.manifest.validate"
+      ]
+    },
+    {
+      "domain": "analytics",
+      "sampleActions": [
+        "analytics.get_metrics",
+        "analytics.get_usage"
+      ]
     },
     {
       "domain": "apikeys",
-      "sampleActions": ["apikeys.create", "apikeys.list", "apikeys.delete"],
-      "requiredCap": "api_keys"
+      "sampleActions": [
+        "apikeys.create",
+        "apikeys.delete",
+        "apikeys.list"
+      ]
+    },
+    {
+      "domain": "assets",
+      "sampleActions": [
+        "assets.create",
+        "assets.delete",
+        "assets.get",
+        "assets.list",
+        "assets.list_presets"
+      ]
+    },
+    {
+      "domain": "auth",
+      "sampleActions": [
+        "auth.channel_identities.list",
+        "auth.channel_identities.revoke",
+        "auth.get_profile",
+        "auth.identity.conflicts",
+        "auth.identity.resolve"
+      ]
+    },
+    {
+      "domain": "bots",
+      "sampleActions": [
+        "bots.archive",
+        "bots.attach_channel",
+        "bots.broadcast",
+        "bots.commands.upsert",
+        "bots.conversations"
+      ]
+    },
+    {
+      "domain": "buffs",
+      "sampleActions": [
+        "buffs.apply_buff",
+        "buffs.apply_persistent_effect",
+        "buffs.apply_temporary_effect",
+        "buffs.cancel_buff",
+        "buffs.create_buff"
+      ]
+    },
+    {
+      "domain": "business",
+      "sampleActions": [
+        "business.apply_tariff",
+        "business.attach_child",
+        "business.command_snapshot",
+        "business.create_composite",
+        "business.detach_child"
+      ]
+    },
+    {
+      "domain": "cardgame",
+      "sampleActions": [
+        "cardgame.dna.read_rows",
+        "cardgame.rules.execute"
+      ]
     },
     {
       "domain": "commands",
-      "sampleActions": ["commands.execute"]
+      "sampleActions": [
+        "commands.execute",
+        "commands.execute_batch"
+      ]
+    },
+    {
+      "domain": "commerce",
+      "sampleActions": [
+        "commerce.ai.generate_products",
+        "commerce.ai.magic_fill",
+        "commerce.coupon.create",
+        "commerce.coupon.delete",
+        "commerce.coupon.list",
+        "commerce.cart",
+        "commerce.shop"
+      ]
+    },
+    {
+      "domain": "commerce_rest",
+      "sampleActions": [
+        "rest.commerce.cart.apply_coupon",
+        "rest.commerce.cart.checkout",
+        "rest.commerce.checkout.confirm_session",
+        "rest.commerce.checkout.create_session",
+        "rest.commerce.checkout.get_session"
+      ]
+    },
+    {
+      "domain": "context",
+      "sampleActions": [
+        "context.get"
+      ]
+    },
+    {
+      "domain": "crm",
+      "sampleActions": [
+        "crm.create_company",
+        "crm.create_deal",
+        "crm.erase_contact",
+        "crm.export_contact",
+        "crm.get_contact_360"
+      ]
+    },
+    {
+      "domain": "data_access",
+      "sampleActions": [
+        "data_access.apply_defaults_template",
+        "data_access.check_field",
+        "data_access.get_defaults_template",
+        "data_access.get_policy",
+        "data_access.get_triggers"
+      ]
+    },
+    {
+      "domain": "diagnostics",
+      "sampleActions": [
+        "diagnostics.gene_token_query",
+        "diagnostics.neural_graph",
+        "diagnostics.promote_hot_gene"
+      ]
+    },
+    {
+      "domain": "discovery",
+      "sampleActions": [
+        "discovery.get_platform_surfaces",
+        "discovery.job_status",
+        "discovery.list"
+      ]
+    },
+    {
+      "domain": "dna",
+      "sampleActions": [
+        "dna.lineage.get_ancestors",
+        "dna.lineage.get_descendants"
+      ]
+    },
+    {
+      "domain": "docs_nav",
+      "sampleActions": [
+        "docs_nav.resolve",
+        "docs_nav.search"
+      ]
+    },
+    {
+      "domain": "energy",
+      "sampleActions": [
+        "energy.get_balance",
+        "energy.list_packs",
+        "energy.purchase"
+      ]
+    },
+    {
+      "domain": "finance",
+      "sampleActions": [
+        "finance.activity",
+        "finance.dashboard_bundle",
+        "finance.pay.execute",
+        "finance.pay.quote",
+        "finance.portfolio"
+      ]
+    },
+    {
+      "domain": "generation",
+      "sampleActions": [
+        "generation.approve",
+        "generation.canary.abort",
+        "generation.canary.advance",
+        "generation.checkpoint",
+        "generation.diff"
+      ]
+    },
+    {
+      "domain": "guidance",
+      "sampleActions": [
+        "guidance.complete_step",
+        "guidance.funnel_stats",
+        "guidance.get_session",
+        "guidance.list_active_paths",
+        "guidance.list_active_sessions"
+      ]
+    },
+    {
+      "domain": "hosting",
+      "sampleActions": [
+        "hosting.bucket.file.get",
+        "hosting.bucket.file.rename",
+        "hosting.bucket.files.bulk_delete",
+        "hosting.bucket.files.list",
+        "hosting.demo.status"
+      ]
+    },
+    {
+      "domain": "integrations",
+      "sampleActions": [
+        "integrations.activate_webhook",
+        "integrations.connection_health",
+        "integrations.connector_schema",
+        "integrations.create_connection",
+        "integrations.create_scenario"
+      ]
+    },
+    {
+      "domain": "knowledge",
+      "sampleActions": [
+        "knowledge.access.grant",
+        "knowledge.access.list",
+        "knowledge.access.revoke",
+        "knowledge.config.get",
+        "knowledge.config.patch"
+      ]
+    },
+    {
+      "domain": "logic",
+      "sampleActions": [
+        "logic.attach_template",
+        "logic.create",
+        "logic.delete",
+        "logic.diff_versions",
+        "logic.dry_run"
+      ]
+    },
+    {
+      "domain": "mentor",
+      "sampleActions": [
+        "mentor.eval.retrieval",
+        "mentor.eval.run",
+        "mentor.eval.run_all",
+        "mentor.export",
+        "mentor.journal.list"
+      ]
+    },
+    {
+      "domain": "messaging",
+      "sampleActions": [
+        "messaging.get_delivery_health",
+        "messaging.list_recent_deliveries",
+        "messaging.list_suppressions",
+        "messaging.remove_suppression",
+        "messaging.send_test_email"
+      ]
+    },
+    {
+      "domain": "notifications",
+      "sampleActions": [
+        "notifications.cancel_push",
+        "notifications.list_prefs",
+        "notifications.register_category",
+        "notifications.send",
+        "notifications.send_push"
+      ]
+    },
+    {
+      "domain": "organelle",
+      "sampleActions": [
+        "organelle.execute"
+      ]
+    },
+    {
+      "domain": "payments",
+      "sampleActions": [
+        "payments.create",
+        "payments.get",
+        "payments.get_balance",
+        "payments.list_transactions",
+        "payments.refund"
+      ]
+    },
+    {
+      "domain": "processors",
+      "sampleActions": [
+        "processors.execute",
+        "processors.get_metadata",
+        "processors.list"
+      ]
+    },
+    {
+      "domain": "projects",
+      "sampleActions": [
+        "projects.add_user",
+        "projects.create_project",
+        "projects.create_project_anonymous",
+        "projects.delete_project",
+        "projects.execute_deletion",
+        "projects.get_projects"
+      ]
+    },
+    {
+      "domain": "rag",
+      "sampleActions": [
+        "rag.collection_create",
+        "rag.collection_delete",
+        "rag.collection_list",
+        "rag.document_add",
+        "rag.document_add_batch",
+        "rag.search"
+      ]
+    },
+    {
+      "domain": "rbac",
+      "sampleActions": [
+        "rbac.assign_role",
+        "rbac.check_permission",
+        "rbac.get_roles",
+        "rbac.revoke_role"
+      ]
+    },
+    {
+      "domain": "safety",
+      "sampleActions": [
+        "safety.evaluate"
+      ]
+    },
+    {
+      "domain": "scheduler",
+      "sampleActions": [
+        "scheduler.cancel_task",
+        "scheduler.clear_pool_tasks",
+        "scheduler.create_task",
+        "scheduler.delete_pool_task",
+        "scheduler.execute_task"
+      ]
+    },
+    {
+      "domain": "seo",
+      "sampleActions": [
+        "seo.cache.clear",
+        "seo.health.check",
+        "seo.meta.get"
+      ]
+    },
+    {
+      "domain": "services",
+      "sampleActions": [
+        "services.apply_delivery_slot",
+        "services.diagnostic_sow_draft",
+        "services.kickoff_slot_status"
+      ]
+    },
+    {
+      "domain": "social",
+      "sampleActions": [
+        "social.channel_invites.accept",
+        "social.channel_invites.decline",
+        "social.channel_invites.direct",
+        "social.channel_invites.inbox",
+        "social.channel_invites.link_token"
+      ]
+    },
+    {
+      "domain": "storage",
+      "sampleActions": [
+        "storage.admin_list_rows",
+        "storage.admin_reconcile",
+        "storage.admin_scan",
+        "storage.delete_file",
+        "storage.get_hub_summary"
+      ]
+    },
+    {
+      "domain": "system",
+      "sampleActions": [
+        "system.ping"
+      ]
+    },
+    {
+      "domain": "user",
+      "sampleActions": [
+        "user.apikeys.create",
+        "user.apikeys.list",
+        "user.apikeys.revoke",
+        "user.apikeys.rotate"
+      ]
+    },
+    {
+      "domain": "wallets",
+      "sampleActions": [
+        "wallets.create",
+        "wallets.deposit",
+        "wallets.list",
+        "wallets.transfer"
+      ]
+    },
+    {
+      "domain": "web_push",
+      "sampleActions": [
+        "web_push.get_health"
+      ]
     }
   ],
   "upstream": {
     "capabilityMatrix": "https://github.com/agentstacktech/AgentStack/blob/master/docs/plugins/CAPABILITY_MATRIX.md",
     "serviceCaps": "https://github.com/agentstacktech/AgentStack/blob/master/docs/API_KEY_SERVICE_CAPS.md",
     "sdkPackageJson": "https://github.com/agentstacktech/AgentStack/blob/master/agentstack-unified-sdk/packages/core/package.json"
-  }
+  },
+  "updated": "2026-09-08",
+  "recipePinnedActions": [
+    "commerce.cart",
+    "commerce.shop",
+    "economy",
+    "logic.dry_run",
+    "projects.get_projects",
+    "protocol",
+    "rag.search",
+    "webhooks.register"
+  ],
+  "matrixActionCount": 568
 }

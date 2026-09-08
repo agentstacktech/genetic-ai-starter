@@ -5,59 +5,26 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { auditMarkdownTree } from './lib/audit-markdown-links.mjs';
+import { DOC_HUB_SEED_FILES } from './lib/doc-hub-seeds.mjs';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const KIT_ROOT = path.resolve(__dirname, '..');
-
-const SEED_FILES = [
-  'meta/docs/DOC_HUB.md',
-  'meta/docs/DOC_CLAIMS_AUDIT.md',
-  'meta/docs/PRODUCTION_OUTCOMES.md',
-  'meta/docs/AGENT_FLOOR.md',
-  'meta/docs/VALUE_AND_ROI_BY_PROJECT_SIZE.md',
-  'meta/docs/AGENTSTACK_APP_GUIDE.md',
-  'meta/docs/GENETIC_SYSTEM_ECONOMICS.md',
-  'meta/docs/GENETIC_SYSTEM_ECONOMICS_ru.md',
-  'meta/docs/DOC_DATA_FLOW.md',
-  'meta/docs/DOC_MAINTENANCE_TASKS.md',
-  'README.en.md',
-];
-
-const LINK_RE = /\]\(([^)]+)\)/g;
-
-function existsTarget(fromAbs, href) {
-  const raw = href.trim();
-  if (!raw || raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('mailto:')) {
-    return true;
-  }
-  if (raw.startsWith('#')) return true;
-  const [filePart] = raw.split('#');
-  if (!filePart) return true;
-  const resolved = path.normalize(path.join(path.dirname(fromAbs), filePart));
-  return fs.existsSync(resolved);
-}
-
-function checkFile(rel) {
-  const abs = path.join(KIT_ROOT, rel);
-  if (!fs.existsSync(abs)) return [`missing seed file: ${rel}`];
-  const text = fs.readFileSync(abs, 'utf8');
-  const errors = [];
-  for (const m of text.matchAll(LINK_RE)) {
-    const href = m[1];
-    if (!existsTarget(abs, href)) {
-      errors.push(`${rel}: broken link (${href})`);
-    }
-  }
-  return errors;
-}
+const KIT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 function main() {
-  const errors = SEED_FILES.flatMap(checkFile);
+  const errors = [];
+  for (const rel of DOC_HUB_SEED_FILES) {
+    if (!fs.existsSync(path.join(KIT_ROOT, rel))) {
+      errors.push(`missing seed file: ${rel}`);
+    }
+  }
+  for (const b of auditMarkdownTree(KIT_ROOT, DOC_HUB_SEED_FILES)) {
+    errors.push(`${b.file}: broken link (${b.target})`);
+  }
   if (errors.length) {
     console.error('check-doc-hub-links FAILED:\n' + errors.join('\n'));
     process.exit(1);
   }
-  console.log(`OK: check-doc-hub-links (${SEED_FILES.length} files)`);
+  console.log(`OK: check-doc-hub-links (${DOC_HUB_SEED_FILES.length} files)`);
 }
 
 main();

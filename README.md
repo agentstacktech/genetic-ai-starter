@@ -1,6 +1,6 @@
 # Genetic AI Starter Kit
 
-**Platform version:** `0.4.14` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or `[PLATFORM_VERSION](PLATFORM_VERSION)` (standalone copy).
+**Platform version:** `0.4.18` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or `[PLATFORM_VERSION](PLATFORM_VERSION)` (standalone copy).
 
 **Languages:** [English](README.en.md) · **Русский** (this file)
 
@@ -46,10 +46,10 @@
 
 Цифры из [`platform-stats.snapshot.json`](meta/docs/platform-stats.snapshot.json) (regenerate: `node scripts/export-platform-stats.mjs` — **SoT инвентаря**):
 
-- **406** active genes в monorepo philosophy (`philosophyGenes`)
-- **186** `AI_INDEX.md` по репо / **162** на платформенных пакетах
-- **421** Tier-1 genetic tags в центральной карте
-- Kit ships **27** payload genes + **5** Cursor rules + **10** skills (standard)
+- **498** active genes в monorepo philosophy (`philosophyGenes`)
+- **244** `AI_INDEX.md` по репо / **219** на платформенных пакетах
+- **546** Tier-1 genetic tags в центральной карте
+- Kit ships **28** payload genes + **5** Cursor rules + **10** skills (standard)
 - Тот же Navigation OS, что в [AgentStack](https://github.com/agentstacktech/AgentStack)
 
 Harness-метрики shop-api — отдельно: [`metrics.snapshot.json`](meta/docs/metrics.snapshot.json). Экономика: [GENETIC_SYSTEM_ECONOMICS_ru.md](meta/docs/GENETIC_SYSTEM_ECONOMICS_ru.md).
@@ -59,9 +59,9 @@ Harness-метрики shop-api — отдельно: [`metrics.snapshot.json`](
 
 | Слой       | Monorepo AgentStack          | Установка kit       |
 | ---------- | ---------------------------- | ------------------- |
-| Genes      | **406** `.gen1.md`           | **27** payload genes |
-| `AI_INDEX` | **186** total / **162** platform | заполняете по подсистемам |
-| Карта      | **421** Tier-1 tags          | шаблон + ваш Tier 1 |
+| Genes      | **498** `.gen1.md`           | **28** payload genes |
+| `AI_INDEX` | **244** total / **219** platform | заполняете по подсистемам |
+| Карта      | **546** Tier-1 tags          | шаблон + ваш Tier 1 |
 | Harness    | методология shop-api         | та же — `metrics.snapshot.json` |
 
 
@@ -283,14 +283,25 @@ ROI и профили: [VALUE_AND_ROI_BY_PROJECT_SIZE_ru.md](meta/docs/VALUE_AND
 
 ## Maintainers (AgentStack monorepo)
 
+Платформенная линия **0.4.18** (следует за `AGENTSTACK_CORE_VERSION` в monorepo).
+
+| Gate | Команда |
+|------|---------|
+| **Smoke** (kit) | `node genetic-ai-starter/scripts/sync-smoke.mjs` |
+| **Docs** | `cd genetic-ai-starter && npm run audit:docs` |
+| **Triangle** (kit + Cursor plugin + CONTEXT) | `npm run audit:agentstack-dx-plane` (из корня monorepo) |
+
+После bump платформы:
+
 ```bash
 node genetic-ai-starter/scripts/sync-kit-version.mjs
-node genetic-ai-starter/scripts/validate-kit.mjs
-node genetic-ai-starter/tests/install.test.mjs
-node genetic-ai-starter/tests/verify-temp-install.test.mjs
+node genetic-ai-starter/scripts/sync-from-canonical.mjs
+node genetic-ai-starter/scripts/sync-smoke.mjs
 ```
 
-See [MAINTAINERS.md](MAINTAINERS.md).
+**0.4.18 DX:** корни сканирования `AI_INDEX` из `AI_NAVIGATION_MAP.md` (`navigation-map-roots.mjs`); `KIT_SYNC_MAP` SoT (`kit-sync-map.mjs`); единый `audit:docs` (llms.txt + doc-search-index); capability contract + intent-routing parity; тест `plugin-skill-parity` (25 mirrored skills Claude/VS Code).
+
+Установка: `node genetic-ai-starter/tests/install.test.mjs` · полный чеклист: [MAINTAINERS.md](MAINTAINERS.md).
 
 ---
 

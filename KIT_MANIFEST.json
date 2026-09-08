@@ -1,6 +1,6 @@
 {
   "kitId": "genetic-ai-starter",
-  "version": "0.4.15",
+  "version": "0.4.18",
   "platformVersionSource": "shared/constants.py:AGENTSTACK_CORE_VERSION | genetic-ai-starter/PLATFORM_VERSION",
   "description": "Portable philosophy + AI navigation + Cursor rules for new projects (version = platform patch)",
   "payloadRoot": "payload",
@@ -43,6 +43,7 @@
     "payload/philosophy/genes/foundation.ai_gene_interface.gen1.md",
     "payload/philosophy/genes/foundation.time_decomposition.gen1.md",
     "payload/philosophy/genes/repo.engineering.controlled_changes.gen1.md",
+    "payload/philosophy/genes/repo.engineering.dna_protein_data_plane.gen1.md",
     "payload/philosophy/genes/repo.engineering.founder_direct_ship.gen1.md",
     "payload/philosophy/genes/repo.engineering.adr.gen1.md",
     "payload/philosophy/genes/repo.engineering.testing.gen1.md",

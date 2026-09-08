@@ -1,9 +1,9 @@
 # Genetic AI Starter Kit
 
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
-[![platform](https://img.shields.io/badge/platform-0.4.14-informational)](PLATFORM_VERSION)
+[![platform](https://img.shields.io/badge/platform-0.4.18-informational)](PLATFORM_VERSION)
 
-**Platform version:** `0.4.14` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or [`PLATFORM_VERSION`](PLATFORM_VERSION) (standalone copy).
+**Platform version:** `0.4.18` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or [`PLATFORM_VERSION`](PLATFORM_VERSION) (standalone copy).
 
 **Languages:** **English** (this file) · [Русский](README.md)
 
@@ -68,10 +68,10 @@ Details: [PRODUCTION_OUTCOMES.md](meta/docs/PRODUCTION_OUTCOMES.md).
 
 Figures from [`platform-stats.snapshot.json`](meta/docs/platform-stats.snapshot.json) (regenerate: `node scripts/export-platform-stats.mjs` — **SoT for inventory counts**):
 
-- **406** active genes in monorepo philosophy (`philosophyGenes`)
-- **186** `AI_INDEX.md` repo-wide / **162** on platform packages (`aiIndexFilesRepoTotal` / `aiIndexFilesPlatform`)
-- **421** Tier-1 genetic tags in the central map (`navigationMapTier1Tags`)
-- Kit ships **27** payload genes + **5** Cursor rules + **10** skills (standard profile)
+- **498** active genes in monorepo philosophy (`philosophyGenes`)
+- **244** `AI_INDEX.md` repo-wide / **219** on platform packages (`aiIndexFilesRepoTotal` / `aiIndexFilesPlatform`)
+- **546** Tier-1 genetic tags in the central map (`navigationMapTier1Tags`)
+- Kit ships **28** payload genes + **5** Cursor rules + **10** skills (standard profile)
 - Same Navigation OS as [AgentStack](https://github.com/agentstacktech/AgentStack)
 
 Harness metrics (shop-api) are separate: [`metrics.snapshot.json`](meta/docs/metrics.snapshot.json). Economics synthesis: [GENETIC_SYSTEM_ECONOMICS.md](meta/docs/GENETIC_SYSTEM_ECONOMICS.md).
@@ -80,9 +80,9 @@ Harness metrics (shop-api) are separate: [`metrics.snapshot.json`](meta/docs/met
 
 | Layer | AgentStack monorepo | Kit install |
 |-------|---------------------|-------------|
-| Genes | **406** `.gen1.md` | **27** payload genes |
-| `AI_INDEX` | **186** total / **162** platform | you fill per subsystem |
-| Navigation map | **421** Tier-1 tags | template + your Tier 1 |
+| Genes | **498** `.gen1.md` | **28** payload genes |
+| `AI_INDEX` | **244** total / **219** platform | you fill per subsystem |
+| Navigation map | **546** Tier-1 tags | template + your Tier 1 |
 | Harness | shop-api methodology | same — `metrics.snapshot.json` |
 
 ### Gene clusters (starter)
@@ -264,6 +264,30 @@ Full guide: [INSTALL.md](meta/docs/INSTALL.md) · [QUICK_SETUP.md](meta/docs/QUI
 | [agentstacktech/AgentStack](https://github.com/agentstacktech/AgentStack) (platform SoT) | `master` |
 
 Developed in AgentStack monorepo `genetic-ai-starter/`; releases here and on npm. [REPOSITORY_LINKS.md](meta/docs/REPOSITORY_LINKS.md)
+
+---
+
+## Maintainers (AgentStack monorepo)
+
+Platform line **0.4.18** (tracks `AGENTSTACK_CORE_VERSION`).
+
+| Gate | Command |
+|------|---------|
+| **Smoke** (kit) | `node genetic-ai-starter/scripts/sync-smoke.mjs` |
+| **Docs** | `cd genetic-ai-starter && npm run audit:docs` |
+| **Triangle** (kit + Cursor plugin + CONTEXT) | `npm run audit:agentstack-dx-plane` (monorepo root) |
+
+After a platform bump:
+
+```bash
+node genetic-ai-starter/scripts/sync-kit-version.mjs
+node genetic-ai-starter/scripts/sync-from-canonical.mjs
+node genetic-ai-starter/scripts/sync-smoke.mjs
+```
+
+**0.4.18 DX:** map-derived `AI_INDEX` scan roots (`navigation-map-roots.mjs`); `KIT_SYNC_MAP` SoT (`kit-sync-map.mjs`); unified `audit:docs` (llms.txt + doc-search-index); capability contract + intent-routing parity; `plugin-skill-parity` test (25 mirrored Claude/VS Code skills).
+
+Install smoke: `node genetic-ai-starter/tests/install.test.mjs` · full checklist: [MAINTAINERS.md](MAINTAINERS.md).
 
 ---
 

@@ -5,24 +5,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { walkMatchingBasename, DEFAULT_MONOREPO_SKIP_DIRS } from './lib/walk-files.mjs';
+import {
+  collectMonorepoAiIndexes,
+} from './lib/platform-stats-scan.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const KIT_ROOT = path.resolve(__dirname, '..');
 const DEFAULT_ROOT = path.resolve(KIT_ROOT, '..');
-
-function walkFiles(root, test, out = [], skipDirs = new Set(['node_modules', '.git', 'dist', 'build'])) {
-  if (!fs.existsSync(root)) return out;
-  for (const ent of fs.readdirSync(root, { withFileTypes: true })) {
-    const p = path.join(root, ent.name);
-    if (ent.isDirectory()) {
-      if (skipDirs.has(ent.name)) continue;
-      walkFiles(p, test, out, skipDirs);
-    } else if (ent.isFile() && test(p, ent.name)) {
-      out.push(p);
-    }
-  }
-  return out;
-}
 
 function countTier1Tags(mapPath) {
   if (!fs.existsSync(mapPath)) return null;
@@ -43,27 +33,42 @@ function countKitCursorPayload() {
 }
 
 function main() {
+  const started = Date.now();
   const root = path.resolve(process.env.AGENTSTACK_ROOT || DEFAULT_ROOT);
   const includeCardGame = process.argv.includes('--include-cardgame');
+  const fullScan = process.argv.includes('--full-scan');
+  const timing = process.argv.includes('--timing');
 
-  const genes = walkFiles(path.join(root, 'philosophy', 'genes'), (_, name) => name.endsWith('.gen1.md'));
-  const allIndexes = walkFiles(root, (_, name) => name === 'AI_INDEX.md');
+  const statsSkipDirs = DEFAULT_MONOREPO_SKIP_DIRS;
+
+  const philosophyGenes = walkMatchingBasename(
+    path.join(root, 'philosophy', 'genes'),
+    (_, name) => name.endsWith('.gen1.md'),
+    statsSkipDirs,
+  ).length;
+
+  const allIndexes = collectMonorepoAiIndexes(root, {
+    fullScan,
+    skipDirs: statsSkipDirs,
+    includeCardGame: true,
+  });
   const platformIndexes = includeCardGame
     ? allIndexes
     : allIndexes.filter((p) => !p.replace(/\\/g, '/').includes('/CardGame/'));
 
-  const payloadGenes = walkFiles(
+  const payloadGenes = walkMatchingBasename(
     path.join(KIT_ROOT, 'payload', 'philosophy', 'genes'),
     (_, name) => name.endsWith('.gen1.md') && !name.startsWith('templates'),
+    statsSkipDirs,
   );
 
   const cursorCounts = countKitCursorPayload();
 
   const kitPayloadGeneCount = payloadGenes.filter(
-    (p) => !p.includes(`${path.sep}templates${path.sep}`),
+    (p) => !p.replace(/\\/g, '/').includes('/templates/'),
   ).length;
 
-  let platformVersion = '0.4.11';
+  let platformVersion = '0.0.0';
   const pvKit = path.join(KIT_ROOT, 'PLATFORM_VERSION');
   if (fs.existsSync(pvKit)) {
     platformVersion = fs.readFileSync(pvKit, 'utf8').trim();
@@ -74,8 +79,9 @@ function main() {
     platformVersion,
     monorepoRoot: root,
     includeCardGame,
+    scanMode: fullScan ? 'full' : 'scoped',
     counts: {
-      philosophyGenes: genes.length,
+      philosophyGenes,
       aiIndexFilesRepoTotal: allIndexes.length,
       aiIndexFilesPlatform: platformIndexes.length,
       navigationMapTier1Tags: countTier1Tags(path.join(root, 'docs', 'AI_NAVIGATION_MAP.md')),
@@ -98,6 +104,9 @@ function main() {
   fs.writeFileSync(out, `${JSON.stringify(snap, null, 2)}\n`);
   console.log(`wrote ${out}`);
   console.log(JSON.stringify(snap.counts, null, 2));
+  if (timing) {
+    console.log(`export-platform-stats: ${Date.now() - started}ms (${snap.scanMode})`);
+  }
 }
 
 main();

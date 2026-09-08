@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { KIT_ROOT, PAYLOAD_ROOT, EXTENSIONS_DIR } from './lib/paths.mjs';
-import { findBrokenMarkdownLinks } from './lib/resolve-markdown-links.mjs';
+import { auditMarkdownTree } from './lib/audit-markdown-links.mjs';
 import { findUnresolved } from './lib/substitute-placeholders.mjs';
 import { resolveProfileFiles, loadProfile } from './lib/profile-include.mjs';
 import { SKIP_COPY_TO_TARGET } from './lib/copy-payload.mjs';
@@ -58,7 +58,7 @@ function main() {
     (f) => f.startsWith('payload/') && (f.endsWith('.md') || f.endsWith('.mdc')),
   );
   const relPayload = textFiles.map((f) => f.replace(/^payload\//, ''));
-  const broken = findBrokenMarkdownLinks(PAYLOAD_ROOT, relPayload);
+  const broken = auditMarkdownTree(PAYLOAD_ROOT, relPayload, { mode: 'kit' });
   for (const b of broken) {
     errors.push(`Broken link in ${b.file}: ${b.target}`);
   }

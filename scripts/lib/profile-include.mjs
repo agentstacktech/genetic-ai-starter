@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { PAYLOAD_ROOT, PROFILES_DIR } from './paths.mjs';
+import { walkFiles } from './walk-files.mjs';
 
 /**
  * Expand profile include globs to relative paths from payload root.
@@ -20,19 +21,14 @@ function globToRegex(glob) {
   return new RegExp(`^${escaped}$`);
 }
 
-function walkFiles(dir, base = dir) {
-  const entries = fs.readdirSync(dir, { withFileTypes: true });
-  const files = [];
-  for (const e of entries) {
-    const full = path.join(dir, e.name);
-    if (e.isDirectory()) files.push(...walkFiles(full, base));
-    else files.push(path.relative(base, full).replace(/\\/g, '/'));
-  }
-  return files;
+function listPayloadRelative() {
+  return walkFiles(PAYLOAD_ROOT, { extensions: null }).map((full) =>
+    `payload/${path.relative(PAYLOAD_ROOT, full).replace(/\\/g, '/')}`,
+  );
 }
 
 export function resolveProfileFiles(profile) {
-  const allPayload = walkFiles(PAYLOAD_ROOT).map((p) => `payload/${p}`);
+  const allPayload = listPayloadRelative();
   const include = profile.include || [];
   const selected = new Set();
 

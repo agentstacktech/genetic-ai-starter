@@ -17,11 +17,17 @@ async function main(): Promise<void> {
   await withRetry(() => sdk.platform.auth.login({ email, password }));
   const projectId = await ensureScope(sdk);
 
+  const matrix = await sdk.getCapabilityMatrix();
+  verifyStep('hosting.module', Boolean(matrix?.modules?.hosting ?? matrix?.hosting), 'hosting');
+
   const dryRun = process.env.HOSTING_DRY_RUN === '1';
   if (dryRun) {
     verifyStep('hosting-skipped', true, 'HOSTING_DRY_RUN=1');
     return;
   }
+
+  const planeBefore = await sdk.hosting.getProjectPlane(projectId);
+  verifyStep('hosting.plane', planeBefore?.data?.project_id === projectId, String(projectId));
 
   const response = await withRetry(() =>
     sdk.hosting.quickStart({
@@ -33,6 +39,9 @@ async function main(): Promise<void> {
   );
   const result = response.data;
   verifyStep('hosting.quickStart', Boolean(result?.url), result?.url ?? result?.site_id);
+  if (result?.url) {
+    console.info('[recipe:07-hosting] publicUrl=', result.url, 'edge_ready=', result.edge_ready);
+  }
 }
 
 main().catch((err) => {

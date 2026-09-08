@@ -23,7 +23,7 @@
 
 | Plane | Source of truth | Regenerator / check |
 |-------|-----------------|---------------------|
-| MCP actions | `mcp/` registry → `GET /mcp/actions` | [gen_capability_matrix.py](https://github.com/agentstacktech/AgentStack/tree/main/scripts/gen_capability_matrix.py) `--check` |
+| MCP actions | `https://github.com/agentstacktech/AgentStack/tree/main/agentstack-core/mcp/` registry → `GET /mcp/actions` | [gen_capability_matrix.py](https://github.com/agentstacktech/AgentStack/tree/main/agentstack-core/scripts/gen_capability_matrix.py) `--check` |
 | Human/plugin matrix | [docs/plugins/CAPABILITY_MATRIX.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/plugins/CAPABILITY_MATRIX.md) | Same script; CI fails on stale autogen block |
 | SDK matrix | `AgentStackSDK.getCapabilityMatrix()` | [docs/SDK_AI_SURFACE.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/SDK_AI_SURFACE.md); SDK tests + `check:docs-urls` |
 | SDK exports | `agentstack-unified-sdk/packages/core/package.json` | Release checklist in [SDK_INTEGRATION_FLOWS.md](https://github.com/agentstacktech/AgentStack/tree/main/agentstack-unified-sdk/docs/SDK_INTEGRATION_FLOWS.md) Flow F |
@@ -47,7 +47,7 @@
 ### Do
 
 - Before adding a recipe or skill route, read **live** `GET /mcp/actions` or run `gen_capability_matrix.py` locally.
-- When `mcp/` gains actions, regenerate `CAPABILITY_MATRIX.md` in the **same PR**.
+- When `https://github.com/agentstacktech/AgentStack/tree/main/agentstack-core/mcp/` gains actions, regenerate `CAPABILITY_MATRIX.md` in the **same PR**.
 - When SDK adds a module id, update `getCapabilityMatrix()` implementation **and** kit snapshot if the extension ships a static copy.
 - Cite **`repo.platform.capability_contract.gen1`** in PRs that touch any plane in the table above.
 
@@ -65,6 +65,6 @@
 - [repo.platform.sdk.unified.gen1.md](https://github.com/agentstacktech/AgentStack/tree/main/philosophy/genes/repo.platform.sdk.unified.gen1.md) — SDK integration umbrella
 - [repo.platform.sdk.recipes.gen1.md](repo.platform.sdk.recipes.gen1.md) — recipe gates
 - [repo.tooling.genetic_starter.agentstack_dx.gen1.md](repo.tooling.genetic_starter.agentstack_dx.gen1.md) — DX eval acceptance
-- [mcp/AI_INDEX.md](https://github.com/agentstacktech/AgentStack/tree/main/agentstack-core/mcp/AI_INDEX.md) — MCP registry hot files
+- [agentstack-core/mcp/AI_INDEX.md](https://github.com/agentstacktech/AgentStack/tree/main/agentstack-core/mcp/AI_INDEX.md) — MCP registry hot files
 - [docs/MCP_CAPABILITY_MATRIX.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/MCP_CAPABILITY_MATRIX.md) — human MCP overview
 - [genetic-ai-starter/extensions/agentstack/overlay/capability-snapshot.json](../../../extensions/agentstack/overlay/capability-snapshot.json) — kit static snapshot

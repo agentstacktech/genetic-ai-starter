@@ -8,6 +8,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { KIT_ROOT, EXTENSIONS_DIR } from './lib/paths.mjs';
 import { readPlatformVersion } from './lib/platform-version.mjs';
+import { listRecipeScanFiles, scanRecipeFile } from './lib/recipe-scan.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -57,6 +58,7 @@ function resolveSnapshotPath() {
 
 function flattenMcpActions(snapshot) {
   const ids = new Set(['agentstack.execute']);
+  for (const action of snapshot.recipePinnedActions || []) ids.add(action);
   for (const domain of snapshot.mcpActionDomains || []) {
     for (const action of domain.sampleActions || []) ids.add(action);
   }
@@ -74,31 +76,8 @@ function listSdkExportKeys(snapshot) {
   return new Set(Object.keys(snapshot.sdkExports || {}));
 }
 
-function walkFiles(dir, filter, base = dir) {
-  const out = [];
-  if (!fs.existsSync(dir)) return out;
-  for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
-    const full = path.join(dir, ent.name);
-    if (ent.isDirectory()) out.push(...walkFiles(full, filter, base));
-    else if (filter(full)) out.push(full);
-  }
-  return out;
-}
-
-function scanRecipeImports(filePath) {
-  const text = fs.readFileSync(filePath, 'utf8');
-  const imports = [];
-  const importRe = /from\s+['"]@agentstack\/sdk(\/[^'"]+)?['"]/g;
-  let m;
-  while ((m = importRe.exec(text))) {
-    imports.push(m[1] ? `.${m[1]}` : '.');
-  }
-  const actions = [];
-  const actionRe = /action:\s*['"]([a-z0-9_.]+)['"]/gi;
-  while ((m = actionRe.exec(text))) actions.push(m[1]);
-  const gateRe = /gateCapability\([^,]+,\s*['"]([a-z0-9_.]+)['"]\)/g;
-  while ((m = gateRe.exec(text))) actions.push(m[1]);
-  return { imports, actions };
+function listScanFiles(root) {
+  return listRecipeScanFiles([root]);
 }
 
 function runRefreshStub(kitRoot) {
@@ -143,17 +122,18 @@ function main() {
   const errors = [];
   const files = new Set();
   for (const root of scanRoots) {
-    for (const f of walkFiles(root, (p) => /\.(ts|tsx|md)$/.test(p))) {
+    for (const f of listScanFiles(root)) {
       files.add(f);
     }
   }
 
   for (const file of files) {
     if (!file.endsWith('.ts') && !file.endsWith('.tsx')) continue;
-    const { imports, actions } = scanRecipeImports(file);
+    const { imports, actions } = scanRecipeFile(file);
     const rel = path.relative(kitRoot, file).replace(/\\/g, '/');
     for (const imp of imports) {
-      if (!exportKeys.has(imp)) {
+      const key = imp === '.' ? '.' : imp.replace(/^\.\//, '');
+      if (!exportKeys.has(key)) {
         errors.push(`${rel}: SDK import @agentstack/sdk${imp === '.' ? '' : imp.slice(1)} not in snapshot exports`);
       }
     }

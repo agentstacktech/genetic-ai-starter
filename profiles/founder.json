@@ -1,6 +1,6 @@
 {
   "id": "founder",
-  "description": "full + founder_direct_ship gene",
+  "description": "full + founder_direct_ship gene emphasis (same payload as full; see PROFILE_COMPARISON.md)",
   "include": ["payload/**"],
   "extensions": ["agentstack"]
 }

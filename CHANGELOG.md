@@ -2,6 +2,26 @@
 
 Version numbers follow **AgentStack platform patch** (`AGENTSTACK_CORE_VERSION`), not a separate kit semver.
 
+## 0.4.18 — DX plane consolidation + Living docs sync (2026-09-08)
+
+- Platform line **0.4.18** (`sync-kit-version`, plugin/marketplace parity, capability lock).
+- **Triangle gate:** `npm run audit:agentstack-dx-plane` (kit sync-smoke + audit:docs + plugin publication).
+- **DRY libs:** `walk-files`, `run-kit-steps`, `run-labeled-steps`, `doc-audit-steps`, `recipe-scan`, `scan-philosophy-genes`.
+- Inventory SoT refresh: **498** genes · **244** / **219** `AI_INDEX` · **546** Tier-1 tags.
+- Intent-routing parity with cursor-plugin evals; capability snapshot pins recipe actions.
+- **CONTEXT overlay:** `kitContextForAiTransform` rewrites monorepo-only links in `CONTEXT_FOR_AI.md` to GitHub tree (consumer `validate-installed` green).
+- **Platform stats perf:** scoped walk from map-derived roots + `EXTRA_INDEX_SCAN_ROOTS` (~3–4s vs ~15s full-repo); regression `tests/export-platform-stats.test.mjs`.
+- **Kit sync SoT:** `scripts/lib/kit-sync-map.mjs` exports `KIT_SYNC_MAP` (used by `sync-from-canonical` + `check-sync-map-freshness`).
+- **Plugin skill parity:** `provided_plugins/scripts/lib/plugin-skill-parity.mjs` — correct Cursor gen3 path (`plugins/agentstack/skills`).
+- **Partner skill sync:** `plugin-skill-sync.mjs` + `sync-vscode-skill-stubs.mjs` — gen3 canonical names; prune gen1 alias folders.
+- **Plugin gates:** `validate-all-plugins` asserts 25 mirrored skills; `plugin-skill-parity.test.mjs` in sync-smoke; dx-plane stub `--check` for Claude + VS Code.
+
+## 0.4.17 — Organism Reliability sync (2026-08-30)
+
+- Platform line **0.4.17** via `sync-kit-version.mjs`.
+- Sync **`repo.engineering.dna_protein_data_plane.gen1`** into payload (pairs with `engineering-dna-protein-data-plane.mdc`).
+- Kit transform: monorepo `docs/operations/*` links → AgentStack tree URLs.
+
 ## 0.4.15 — Windows install runtime (Node-first, 2026-07-27)
 
 ### Install plane

@@ -15,9 +15,9 @@
 | agents_md median **8**, map-first genetic **7%** | metrics.snapshot `agents_md` | Optimistic arm — not production AGENTS alone |
 | **~2.5–3×** fewer context tokens (discovery) | [TOKEN_REPORT.md](../../benchmarks/results/TOKEN_REPORT.md) step 1.2.1 | shop-api ~6 KB, not large monorepo |
 | «Weak agent ≈ top model» on **process** KPIs | T04/T05/T13 task deltas in [AGENT_FLOOR_ru.md](AGENT_FLOOR_ru.md) | Not reasoning / product design parity |
-| **406** philosophy genes (platform) | [platform-stats.snapshot.json](platform-stats.snapshot.json) `philosophyGenes` | Monorepo count; kit payload **27** genes |
-| **186** / **162** `AI_INDEX.md` | same snapshot `aiIndexFilesRepoTotal` / `aiIndexFilesPlatform` | Repo-wide vs platform packages |
-| **421** Tier-1 map tags | same `navigationMapTier1Tags` | Central map only |
+| **498** philosophy genes (platform) | [platform-stats.snapshot.json](platform-stats.snapshot.json) `philosophyGenes` | Monorepo count; kit payload **28** genes |
+| **244** / **219** `AI_INDEX.md` | same snapshot `aiIndexFilesRepoTotal` / `aiIndexFilesPlatform` | Repo-wide vs platform packages |
+| **546** Tier-1 map tags | same `navigationMapTier1Tags` | Central map only |
 | **~$1k–$4k/mo modeled savings** by team size | [roi-model.snapshot.json](roi-model.snapshot.json) via `calculate-roi.mjs` | **Not** payroll actuals; adjust `--rate` |
 | Map-first reduces unscoped grep | ANALYSIS.md unscoped totals bare **18** vs indexed **0** | Policy transcripts model affordances |
 | **12.36×** philosophy compression | AgentStack `bench_gene_access.json`; [GENETIC_SYSTEM_ECONOMICS.md](GENETIC_SYSTEM_ECONOMICS.md) | Philosophy access path only |

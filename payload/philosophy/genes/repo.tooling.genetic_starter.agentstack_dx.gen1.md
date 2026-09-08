@@ -68,4 +68,7 @@ This gene sits **above** `repo.tooling.genetic_starter.gen1` (Navigation OS) and
 - [repo.platform.sdk.recipes.gen1.md](repo.platform.sdk.recipes.gen1.md) — recipes 00–11 index
 - [repo.platform.capability_contract.gen1.md](repo.platform.capability_contract.gen1.md) — matrix / MCP / SDK drift contract
 - [repo.tooling.gene_lifecycle.gen1.md](repo.tooling.gene_lifecycle.gen1.md) — gen bump + validate-genes
+- [docs/adr/GENETIC_STARTER_PLUGIN_KIT_TRIANGLE.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/adr/GENETIC_STARTER_PLUGIN_KIT_TRIANGLE.md) — kit ↔ plugin ↔ monorepo SoT
+- [docs/genetic-ai-starter-maintainers/KIT_PLUGIN_SYNC_RUNBOOK.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/genetic-ai-starter-maintainers/KIT_PLUGIN_SYNC_RUNBOOK.md) — maintainer bump checklist
+- **Regression:** `npm run audit:agentstack-dx-plane` (monorepo root) after platform version bump
 - [docs/AI_NAVIGATION_MAP.md](../../docs/ai/AI_NAVIGATION_MAP.md) — Tier 0 kit row + extension append

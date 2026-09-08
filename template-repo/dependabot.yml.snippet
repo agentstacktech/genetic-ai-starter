@@ -1,0 +1,24 @@
+# Dependabot — kit submodule (consumer repos)
+
+When the kit is vendored as a git submodule, keep it on platform tags:
+
+```yaml
+# .github/dependabot.yml (snippet)
+version: 2
+updates:
+  - package-ecosystem: gitsubmodule
+    directory: /
+    schedule:
+      interval: weekly
+    allow:
+      - dependency-name: tools/genetic-ai-starter
+```
+
+After Dependabot opens a PR, run:
+
+```bash
+node tools/genetic-ai-starter/scripts/doctor.mjs --target .
+node tools/genetic-ai-starter/scripts/validate-installed.mjs --target .
+```
+
+Or use the composite action: `genetic-ai-starter/actions/validate/action.yml`.

@@ -20,4 +20,7 @@ assert.equal(ok.ok, true, ok.message);
 const bad = verifyKitVersionPin({ ...lock, kitVersion: '0.0.0' }, KIT_ROOT);
 assert.equal(bad.ok, false);
 
+const pkg = JSON.parse(fs.readFileSync(path.join(KIT_ROOT, 'package.json'), 'utf8'));
+assert.equal(pkg.version, platformVersion, 'package.json must match platform');
+
 console.log('verify-kit-version.test.mjs OK');

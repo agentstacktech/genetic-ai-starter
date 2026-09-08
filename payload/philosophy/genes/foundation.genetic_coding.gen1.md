@@ -44,7 +44,7 @@ Pattern: `<domain>.<subsystem>.<role>.<generation>`
 4. Subsystem **`AI_INDEX.md`** — hot files only  
 5. Targeted symbol search — **after** the above
 
-**Anti-pattern:** unscoped ripgrep across `` or `src/` for exploration.
+**Anti-pattern:** unscoped ripgrep across `agentstack-core/` or `https://github.com/agentstacktech/AgentStack/tree/main/agentstack-frontend/src/` for exploration.
 
 ---
 

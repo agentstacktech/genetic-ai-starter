@@ -1,0 +1,603 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-08T21:38:36.377Z",
+  "entryCount": 60,
+  "entries": [
+    {
+      "id": "AI_INDEX.md",
+      "title": "AgentStack extension — AI index",
+      "path": "AI_INDEX.md",
+      "kind": "index",
+      "tags": [
+        "repo.tooling.genetic_starter.agentstack_extension.gen1"
+      ],
+      "excerpt": "# AgentStack extension — AI index **Genetic tag:** `repo.tooling.genetic_starter.agentstack_extension.gen1` **Parent:** [genetic-ai-starter/AI_INDEX.md](../../AI_INDEX.md) · [docs/AI_NAVIGATION_MAP.md](https://github.com/agentstacktech/Age…"
+    },
+    {
+      "id": "docs/ai/AI_NAVIGATION_MAP.md",
+      "title": "AI navigation map — {{PROJECT_NAME}}",
+      "path": "docs/ai/AI_NAVIGATION_MAP.md",
+      "kind": "map",
+      "tags": [],
+      "excerpt": "# AI navigation map — {{PROJECT_NAME}} **Purpose:** One screen for agents and humans — where to read **before** grepping. **Workflow:** `.cursor/rules/genetic-navigation.mdc` · [AI_INDEXING_SYSTEM.md](AI_INDEXING_SYSTEM.md) --- <!-- geneti…"
+    },
+    {
+      "id": "extensions/agentstack/AI_INDEX.md",
+      "title": "AgentStack extension — AI index",
+      "path": "extensions/agentstack/AI_INDEX.md",
+      "kind": "index",
+      "tags": [
+        "repo.tooling.genetic_starter.agentstack_extension.gen1"
+      ],
+      "excerpt": "# AgentStack extension — AI index **Genetic tag:** `repo.tooling.genetic_starter.agentstack_extension.gen1` **Parent:** [genetic-ai-starter/AI_INDEX.md](../../AI_INDEX.md) · [docs/AI_NAVIGATION_MAP.md](https://github.com/agentstacktech/Age…"
+    },
+    {
+      "id": "extensions/agentstack/recipes/00-bootstrap/README.md",
+      "title": "00 — Bootstrap",
+      "path": "extensions/agentstack/recipes/00-bootstrap/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.00-bootstrap"
+      ],
+      "excerpt": "# 00 — Bootstrap Initialize `@agentstack/sdk`, print module catalog, log in, list projects, and pin active project scope. ## Env - `AGENTSTACK_API_BASE` — optional REST base - `AGENTSTACK_EMAIL` / `AGENTSTACK_PASSWORD` — login (optional fo…"
+    },
+    {
+      "id": "extensions/agentstack/recipes/01-discover-capabilities/README.md",
+      "title": "01 — Discover capabilities",
+      "path": "extensions/agentstack/recipes/01-discover-capabilities/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.01-discover-capabilities"
+      ],
+      "excerpt": "# 01 — Discover capabilities Read `getModuleCatalog()` and `getCapabilityMatrix()`, gate optional domains with `gateCapability`, and optionally list MCP actions. ## Env - `AGENTSTACK_API_KEY` — for `GET /mcp/actions` probe ## Run ```bash n…"
+    },
+    {
+      "id": "extensions/agentstack/recipes/02-8dna-crud/README.md",
+      "title": "02 — 8DNA CRUD (protocol)",
+      "path": "extensions/agentstack/recipes/02-8dna-crud/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.02-8dna-crud"
+      ],
+      "excerpt": "# 02 — 8DNA CRUD (protocol) List DNA rows with `sdk.protocol.dnaList`, run a protein command via `executeCommand`, then invalidate snapshot cache. ## Env - `AGENTSTACK_EMAIL` / `AGENTSTACK_PASSWORD` - `AGENTSTACK_PROJECT_ID` — optional - `…"
+    },
+    {
+      "id": "extensions/agentstack/recipes/03-mcp-execute/README.md",
+      "title": "03 — MCP execute",
+      "path": "extensions/agentstack/recipes/03-mcp-execute/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.03-mcp-execute"
+      ],
+      "excerpt": "# 03 — MCP execute Call `agentstack.execute` as a JSON-RPC `tools/call` batch against `POST /mcp`. ## Env - `AGENTSTACK_API_KEY` or `AGENTSTACK_ACCESS_TOKEN` - `AGENTSTACK_PROJECT_ID` — context override (default `1`) - `AGENTSTACK_API_BASE…"
+    },
+    {
+      "id": "extensions/agentstack/recipes/04-commerce/README.md",
+      "title": "04 — Commerce",
+      "path": "extensions/agentstack/recipes/04-commerce/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.04-commerce"
+      ],
+      "excerpt": "# 04 — Commerce Discover headless commerce via `sdk.commerce` (`@agentstack/sdk/commerce` facade). ## Env - `AGENTSTACK_EMAIL` / `AGENTSTACK_PASSWORD` - `AGENTSTACK_PROJECT_ID` ## Run ```bash npm run recipe:04-commerce ``` ## Surface - `sd…"
+    },
+    {
+      "id": "extensions/agentstack/recipes/05-economy/README.md",
+      "title": "05 — Economy",
+      "path": "extensions/agentstack/recipes/05-economy/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.05-economy"
+      ],
+      "excerpt": "# 05 — Economy Read AGNT ledger balance via `sdk.platform.economy` (`@agentstack/sdk/economy`). ## Env - `AGENTSTACK_EMAIL` / `AGENTSTACK_PASSWORD` - `AGENTSTACK_PROJECT_ID` - `AGENTSTACK_USER_ID` — account key subject (default `1`) ## Run…"
+    },
+    {
+      "id": "extensions/agentstack/recipes/06-logic/README.md",
+      "title": "06 — Logic dry run",
+      "path": "extensions/agentstack/recipes/06-logic/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.06-logic"
+      ],
+      "excerpt": "# 06 — Logic dry run Documented MCP action `logic.dry_run` — simulate a rule without side effects. ## Env - `AGENTSTACK_API_KEY` - `AGENTSTACK_PROJECT_ID` - `LOGIC_RULE_ID` — target rule (default `demo-rule`) ## Run ```bash npm run recipe:…"
+    },
+    {
+      "id": "extensions/agentstack/recipes/07-hosting/README.md",
+      "title": "07 — Hosting",
+      "path": "extensions/agentstack/recipes/07-hosting/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.07-hosting"
+      ],
+      "excerpt": "# 07 — Hosting Publish minimal HTML with `sdk.hosting.quickStart` (`sdk.hosting.gen2`). ## Env - `AGENTSTACK_EMAIL` / `AGENTSTACK_PASSWORD` - `AGENTSTACK_PROJECT_ID` - `HOSTING_BUCKET` — path segment (default `sdk-recipe-demo`) - `HOSTING_…"
+    },
+    {
+      "id": "extensions/agentstack/recipes/07b-host-sell/README.md",
+      "title": "07b — Host + sell plane",
+      "path": "extensions/agentstack/recipes/07b-host-sell/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.07b-host-sell"
+      ],
+      "excerpt": "# 07b — Host + sell plane Chains `sdk.hosting.quickStart` then `sdk.hosting.getProjectPlane` for `next_actions[0]`. ```bash npm run recipe:07b-host-sell ``` Env: same as `07-hosting` plus optional `HOSTING_DRY_RUN=1`."
+    },
+    {
+      "id": "extensions/agentstack/recipes/08-capability-task/README.md",
+      "title": "08 — Capability task",
+      "path": "extensions/agentstack/recipes/08-capability-task/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.08-capability-task"
+      ],
+      "excerpt": "# 08 — Capability task Run a comfort task via `runTaskCapability` from `@agentstack/sdk/capability-tasks`. ## Env - `AGENTSTACK_PROJECT_ID` — optional when login omitted - `AGENTSTACK_EMAIL` / `AGENTSTACK_PASSWORD` — optional ## Run ```bas…"
+    },
+    {
+      "id": "extensions/agentstack/recipes/09-rag/README.md",
+      "title": "09 — RAG search",
+      "path": "extensions/agentstack/recipes/09-rag/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.09-rag"
+      ],
+      "excerpt": "# 09 — RAG search MCP action `rag.search` for semantic retrieval. ## Env - `AGENTSTACK_API_KEY` - `AGENTSTACK_PROJECT_ID` - `RAG_COLLECTION_ID` — required for live call - `RAG_QUERY` — optional query text - `RAG_TOP_K` — default `3` ## Run…"
+    },
+    {
+      "id": "extensions/agentstack/recipes/10-uam-app/README.md",
+      "title": "10 — UAM app manifest",
+      "path": "extensions/agentstack/recipes/10-uam-app/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.10-uam-app"
+      ],
+      "excerpt": "# 10 — UAM app manifest Validate a Universal App Manifest (UAM v1) before deploy or AI builder writes. ## Run ```bash npm run recipe:10-uam-app ``` Uses `appManifestSchema` from `@agentstack/sdk/manifest` (same rules as `validateAppManifes…"
+    },
+    {
+      "id": "extensions/agentstack/recipes/11-integration-webhook/README.md",
+      "title": "11 — Integration webhook",
+      "path": "extensions/agentstack/recipes/11-integration-webhook/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.11-integration-webhook"
+      ],
+      "excerpt": "# 11 — Integration webhook Register an inbound webhook via MCP `webhooks.register` (alias family: `webhooks.create_endpoint` in some catalogs). ## Env - `AGENTSTACK_API_KEY` - `AGENTSTACK_PROJECT_ID` - `WEBHOOK_URL` — required for live reg…"
+    },
+    {
+      "id": "extensions/agentstack/recipes/AI_INDEX.md",
+      "title": "AgentStack SDK recipes — AI index",
+      "path": "extensions/agentstack/recipes/AI_INDEX.md",
+      "kind": "index",
+      "tags": [
+        "repo.platform.sdk.recipes.gen1"
+      ],
+      "excerpt": "# AgentStack SDK recipes — AI index **Genetic tag:** `repo.platform.sdk.recipes.gen1` **Package:** `genetic-ai-starter/extensions/agentstack/recipes/` **SDK pin:** `@agentstack/sdk@0.4.18` Runnable TypeScript templates for integrators and …"
+    },
+    {
+      "id": "philosophy/genes/foundation.absolute_optimization.gen1.md",
+      "title": "Gene — `foundation.absolute_optimization.gen1`",
+      "path": "philosophy/genes/foundation.absolute_optimization.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "foundation.absolute_optimization.gen1"
+      ],
+      "excerpt": "# Gene — `foundation.absolute_optimization.gen1` **Genetic tag:** `foundation.absolute_optimization.gen1` **Heritage:** `foundation._absolute_optimization_formula_v020.v0_2_0.gen2` — full founder wording in [FOUNDATION_HERITAGE_READING.md]…"
+    },
+    {
+      "id": "philosophy/genes/foundation.ai_gene_interface.gen1.md",
+      "title": "Gene — `foundation.ai_gene_interface.gen1` (foundation tier)",
+      "path": "philosophy/genes/foundation.ai_gene_interface.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "foundation.ai_gene_interface.gen1"
+      ],
+      "excerpt": "# Gene — `foundation.ai_gene_interface.gen1` (foundation tier) **Genetic tag:** `foundation.ai_gene_interface.gen1` **Scope:** How AI agents **read and apply** philosophy without drowning in heritage noise. **Canonical:** [AI_GENE_INSTRUCT…"
+    },
+    {
+      "id": "philosophy/genes/foundation.core_pillars.gen1.md",
+      "title": "Gene — `foundation.core_pillars.gen1` (umbrella)",
+      "path": "philosophy/genes/foundation.core_pillars.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "foundation.core_pillars.gen1"
+      ],
+      "excerpt": "# Gene — `foundation.core_pillars.gen1` (umbrella) **Genetic tag:** `foundation.core_pillars.gen1` **Map row:** `repo.philosophy.foundation.gen1` — [AI_NAVIGATION_MAP.md](../../docs/ai/AI_NAVIGATION_MAP.md) · **Cluster:** [GENE_COMPRESSION…"
+    },
+    {
+      "id": "philosophy/genes/foundation.creation_over_conflict.gen1.md",
+      "title": "Gene — `foundation.creation_over_conflict.gen1`",
+      "path": "philosophy/genes/foundation.creation_over_conflict.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "foundation.creation_over_conflict.gen1"
+      ],
+      "excerpt": "# Gene — `foundation.creation_over_conflict.gen1` **Genetic tag:** `foundation.creation_over_conflict.gen1` **Discovered:** 2026-01-30 (The Curly Braces War) **Long-form:** [LANCE_PRINCIPLE_CREATION_OVER_CONFLICT.md](../principles/LANCE_CR…"
+    },
+    {
+      "id": "philosophy/genes/foundation.decomposition_reassembly.gen1.md",
+      "title": "Gene — `foundation.decomposition_reassembly.gen1`",
+      "path": "philosophy/genes/foundation.decomposition_reassembly.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "foundation.decomposition_reassembly.gen1"
+      ],
+      "excerpt": "# Gene — `foundation.decomposition_reassembly.gen1` **Genetic tag:** `foundation.decomposition_reassembly.gen1` **Also known as:** Modular Design (v0.2.53), “eat the elephant one bite at a time” **Pairs with:** [foundation.time_decompositi…"
+    },
+    {
+      "id": "philosophy/genes/foundation.elegant_minimalism.gen1.md",
+      "title": "Gene — `foundation.elegant_minimalism.gen1`",
+      "path": "philosophy/genes/foundation.elegant_minimalism.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "foundation.elegant_minimalism.gen1"
+      ],
+      "excerpt": "# Gene — `foundation.elegant_minimalism.gen1` **Genetic tag:** `foundation.elegant_minimalism.gen1` **Heritage:** `philosophy._v0116_elegant_minimalism_principle.v0_1_16.gen2` → [../principles/ELEGANT_MINIMALISM.md](../principles/ELEGANT_M…"
+    },
+    {
+      "id": "philosophy/genes/foundation.genetic_coding.gen1.md",
+      "title": "Gene — `foundation.genetic_coding.gen1` (foundation tier)",
+      "path": "philosophy/genes/foundation.genetic_coding.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "foundation.genetic_coding.gen1"
+      ],
+      "excerpt": "# Gene — `foundation.genetic_coding.gen1` (foundation tier) **Genetic tag:** `foundation.genetic_coding.gen1` **Scope:** Semantic tags + AI navigation — the **address language** for meaning → module trees. **Canonical docs:** [docs/AI_INDE…"
+    },
+    {
+      "id": "philosophy/genes/foundation.time_decomposition.gen1.md",
+      "title": "Gene — `foundation.time_decomposition.gen1` (foundation tier)",
+      "path": "philosophy/genes/foundation.time_decomposition.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "foundation.time_decomposition.gen1"
+      ],
+      "excerpt": "# Gene — `foundation.time_decomposition.gen1` (foundation tier) **Genetic tag:** `foundation.time_decomposition.gen1` **Also:** Time Processes (v0.2.52) — time as a pillar of rollout, scheduling, journals **Scope:** **Time-Decomposition-Co…"
+    },
+    {
+      "id": "philosophy/genes/frontend.spa.ui_surface_registry.gen1.md",
+      "title": "Gene — `frontend.spa.ui_surface_registry.gen1`",
+      "path": "philosophy/genes/frontend.spa.ui_surface_registry.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "frontend.spa.ui_surface_registry.gen1"
+      ],
+      "excerpt": "# Gene — `frontend.spa.ui_surface_registry.gen1` **Genetic tag:** `frontend.spa.ui_surface_registry.gen1` **Category:** frontend (SPA IA) **Status:** ACTIVE Portable export from AgentStack. Pair with `SHELL_MIGRATION_CHECKLIST.md` in this …"
+    },
+    {
+      "id": "philosophy/genes/repo.community.starter_spirit.gen1.md",
+      "title": "Gene — repo.community.starter_spirit.gen1",
+      "path": "philosophy/genes/repo.community.starter_spirit.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.community.starter_spirit.gen1"
+      ],
+      "excerpt": "# Gene — repo.community.starter_spirit.gen1 **Genetic tag:** `repo.community.starter_spirit.gen1` **Type:** community (starter kit easter egg) **Scope:** Any project installed from Genetic AI Starter Kit ## Intent Map-first agent operation…"
+    },
+    {
+      "id": "philosophy/genes/repo.engineering.adr.gen1.md",
+      "title": "Gene — `repo.engineering.adr.gen1`",
+      "path": "philosophy/genes/repo.engineering.adr.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.engineering.adr.gen1"
+      ],
+      "excerpt": "# Gene — `repo.engineering.adr.gen1` **Genetic tag:** `repo.engineering.adr.gen1` **Category:** engineering **Status:** ACTIVE --- ## Intent **Architecture Decision Records** capture *why* — genes and indexes capture *how to navigate*. One…"
+    },
+    {
+      "id": "philosophy/genes/repo.engineering.controlled_changes.gen1.md",
+      "title": "Controlled code-change protocol (agents & humans)",
+      "path": "philosophy/genes/repo.engineering.controlled_changes.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.engineering.controlled_changes.gen1"
+      ],
+      "excerpt": "# Controlled code-change protocol (agents & humans) **Genetic tag:** `repo.engineering.controlled_changes.gen1` **Category:** engineering (repository hygiene — how we *modify* code) **Priority:** HIGH for autonomous agents and IDE assistan…"
+    },
+    {
+      "id": "philosophy/genes/repo.engineering.dna_protein_data_plane.gen1.md",
+      "title": "DNA / protein data plane — uniform read & write",
+      "path": "philosophy/genes/repo.engineering.dna_protein_data_plane.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.engineering.dna_protein_data_plane.gen1"
+      ],
+      "excerpt": "# DNA / protein data plane — uniform read & write **Genetic tag:** `repo.engineering.dna_protein_data_plane.gen1` **Category:** engineering (8DNA + Neural Ops) **Priority:** HIGH for Core / shared agents **Status:** ACTIVE **Cursor rule:**…"
+    },
+    {
+      "id": "philosophy/genes/repo.engineering.founder_direct_ship.gen1.md",
+      "title": "Founder direct ship — Lance + AI (no personal canary)",
+      "path": "philosophy/genes/repo.engineering.founder_direct_ship.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.engineering.founder_direct_ship.gen1"
+      ],
+      "excerpt": "# Founder direct ship — Lance + AI (no personal canary) **Genetic tag:** `repo.engineering.founder_direct_ship.gen1` **Category:** engineering (how we *ship* in founder-led sessions) **Priority:** HIGH for IDE assistants working with Lance…"
+    },
+    {
+      "id": "philosophy/genes/repo.engineering.testing.gen1.md",
+      "title": "Gene — `repo.engineering.testing.gen1` (kit pointer)",
+      "path": "philosophy/genes/repo.engineering.testing.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.engineering.testing.gen1"
+      ],
+      "excerpt": "# Gene — `repo.engineering.testing.gen1` (kit pointer) **Genetic tag:** `repo.engineering.testing.gen1` **Canonical SoT:** AgentStack main tree `philosophy/genes/repo.engineering.testing.gen1.md` + Dev Test Atlas `repo.engineering.dev_test…"
+    },
+    {
+      "id": "philosophy/genes/repo.evolution.compression.gen1.md",
+      "title": "Gene — `repo.evolution.compression.gen1`",
+      "path": "philosophy/genes/repo.evolution.compression.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.evolution.compression.gen1"
+      ],
+      "excerpt": "# Gene — `repo.evolution.compression.gen1` **Genetic tag:** `repo.evolution.compression.gen1` **Category:** meta (reading order) **Status:** ACTIVE --- ## Intent **Gene compression map** reduces cognitive surface: one contour = one reading…"
+    },
+    {
+      "id": "philosophy/genes/repo.navigation.index.gen1.md",
+      "title": "Gene — `repo.navigation.index.gen1`",
+      "path": "philosophy/genes/repo.navigation.index.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.navigation.index.gen1"
+      ],
+      "excerpt": "# Gene — `repo.navigation.index.gen1` **Genetic tag:** `repo.navigation.index.gen1` **Category:** navigation **Status:** ACTIVE **Monorepo alias:** [`repo.engineering.ai_navigation.gen1`](https://github.com/agentstacktech/AgentStack/tree/m…"
+    },
+    {
+      "id": "philosophy/genes/repo.navigation.map.gen1.md",
+      "title": "Gene — `repo.navigation.map.gen1`",
+      "path": "philosophy/genes/repo.navigation.map.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.navigation.map.gen1"
+      ],
+      "excerpt": "# Gene — `repo.navigation.map.gen1` **Genetic tag:** `repo.navigation.map.gen1` **Category:** navigation **Status:** ACTIVE **Monorepo alias:** [`repo.engineering.ai_navigation.gen1`](https://github.com/agentstacktech/AgentStack/tree/main/…"
+    },
+    {
+      "id": "philosophy/genes/repo.platform.capability_contract.gen1.md",
+      "title": "Gene — `repo.platform.capability_contract.gen1`",
+      "path": "philosophy/genes/repo.platform.capability_contract.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.platform.capability_contract.gen1"
+      ],
+      "excerpt": "# Gene — `repo.platform.capability_contract.gen1` **Genetic tag:** `repo.platform.capability_contract.gen1` **Category:** repo / platform **Status:** ACTIVE --- ## Intent **Drift contract** between four discoverability planes that must sta…"
+    },
+    {
+      "id": "philosophy/genes/repo.platform.sdk.onboarding.gen1.md",
+      "title": "Gene — `repo.platform.sdk.onboarding.gen1`",
+      "path": "philosophy/genes/repo.platform.sdk.onboarding.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.platform.sdk.onboarding.gen1"
+      ],
+      "excerpt": "# Gene — `repo.platform.sdk.onboarding.gen1` **Genetic tag:** `repo.platform.sdk.onboarding.gen1` **Category:** repo / platform / sdk **Status:** ACTIVE --- ## Intent Canonical **develop-on-AgentStack** onboarding path for integrators and …"
+    },
+    {
+      "id": "philosophy/genes/repo.platform.sdk.recipes.gen1.md",
+      "title": "Gene — `repo.platform.sdk.recipes.gen1`",
+      "path": "philosophy/genes/repo.platform.sdk.recipes.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.platform.sdk.recipes.gen1"
+      ],
+      "excerpt": "# Gene — `repo.platform.sdk.recipes.gen1` **Genetic tag:** `repo.platform.sdk.recipes.gen1` **Category:** repo / platform / sdk **Status:** ACTIVE --- ## Intent Index and maintenance contract for **runnable TypeScript recipes 00–11** under…"
+    },
+    {
+      "id": "philosophy/genes/repo.tooling.gene_lifecycle.gen1.md",
+      "title": "Gene — `repo.tooling.gene_lifecycle.gen1`",
+      "path": "philosophy/genes/repo.tooling.gene_lifecycle.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.tooling.gene_lifecycle.gen1"
+      ],
+      "excerpt": "# Gene — `repo.tooling.gene_lifecycle.gen1` **Genetic tag:** `repo.tooling.gene_lifecycle.gen1` **Category:** repo / tooling **Status:** ACTIVE --- ## Intent Lifecycle policy for **philosophy genes** in the Genetic AI Starter Kit and {{PRO…"
+    },
+    {
+      "id": "philosophy/genes/repo.tooling.genetic_starter.agent_floor.gen1.md",
+      "title": "Gene — `repo.tooling.genetic_starter.agent_floor.gen1`",
+      "path": "philosophy/genes/repo.tooling.genetic_starter.agent_floor.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.tooling.genetic_starter.agent_floor.gen1"
+      ],
+      "excerpt": "# Gene — `repo.tooling.genetic_starter.agent_floor.gen1` **Genetic tag:** `repo.tooling.genetic_starter.agent_floor.gen1` **Category:** repo / tooling / documentation **Status:** ACTIVE --- ## Intent Raise the **engineering floor** for che…"
+    },
+    {
+      "id": "philosophy/genes/repo.tooling.genetic_starter.agentstack_dx.gen1.md",
+      "title": "Gene — `repo.tooling.genetic_starter.agentstack_dx.gen1`",
+      "path": "philosophy/genes/repo.tooling.genetic_starter.agentstack_dx.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.tooling.genetic_starter.agentstack_dx.gen1"
+      ],
+      "excerpt": "# Gene — `repo.tooling.genetic_starter.agentstack_dx.gen1` **Genetic tag:** `repo.tooling.genetic_starter.agentstack_dx.gen1` **Category:** repo / tooling **Status:** ACTIVE **Platform version:** tracks `AGENTSTACK_CORE_VERSION` — see `gen…"
+    },
+    {
+      "id": "philosophy/genes/repo.tooling.genetic_starter.benchmark.gen1.md",
+      "title": "Gene — `repo.tooling.genetic_starter.benchmark.gen1`",
+      "path": "philosophy/genes/repo.tooling.genetic_starter.benchmark.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.tooling.genetic_starter.benchmark.gen1"
+      ],
+      "excerpt": "# Gene — `repo.tooling.genetic_starter.benchmark.gen1` **Genetic tag:** `repo.tooling.genetic_starter.benchmark.gen1` **Domain:** repo · tooling · genetic-ai-starter benchmark harness. **Note:** Benchmark files live in the **genetic-ai-sta…"
+    },
+    {
+      "id": "philosophy/genes/repo.tooling.genetic_starter.docs.gen1.md",
+      "title": "Gene — `repo.tooling.genetic_starter.docs.gen1`",
+      "path": "philosophy/genes/repo.tooling.genetic_starter.docs.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.tooling.genetic_starter.docs.gen1"
+      ],
+      "excerpt": "# Gene — `repo.tooling.genetic_starter.docs.gen1` **Genetic tag:** `repo.tooling.genetic_starter.docs.gen1` **Category:** repo / tooling / documentation **Status:** ACTIVE --- ## Intent Index of **kit meta documentation** (`genetic-ai-star…"
+    },
+    {
+      "id": "philosophy/genes/repo.tooling.genetic_starter.gen1.md",
+      "title": "Gene — `repo.tooling.genetic_starter.gen1`",
+      "path": "philosophy/genes/repo.tooling.genetic_starter.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.tooling.genetic_starter.gen1"
+      ],
+      "excerpt": "# Gene — `repo.tooling.genetic_starter.gen1` **Genetic tag:** `repo.tooling.genetic_starter.gen1` **Category:** repo / tooling **Status:** ACTIVE (payload mirror) --- ## Intent Canonical pointer to the **Genetic AI Starter Kit** — portable…"
+    },
+    {
+      "id": "philosophy/genes/repo.tooling.genetic_starter.integration.gen1.md",
+      "title": "Gene — `repo.tooling.genetic_starter.integration.gen1`",
+      "path": "philosophy/genes/repo.tooling.genetic_starter.integration.gen1.md",
+      "kind": "gene",
+      "tags": [
+        "repo.tooling.genetic_starter.integration.gen1"
+      ],
+      "excerpt": "# Gene — `repo.tooling.genetic_starter.integration.gen1` **Genetic tag:** `repo.tooling.genetic_starter.integration.gen1` **Status:** ACTIVE (payload mirror) ## Intent Submodule-first install and kit path resolution for consumer repos. ## …"
+    },
+    {
+      "id": "recipes/00-bootstrap/README.md",
+      "title": "00 — Bootstrap",
+      "path": "recipes/00-bootstrap/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.00-bootstrap"
+      ],
+      "excerpt": "# 00 — Bootstrap Initialize `@agentstack/sdk`, print module catalog, log in, list projects, and pin active project scope. ## Env - `AGENTSTACK_API_BASE` — optional REST base - `AGENTSTACK_EMAIL` / `AGENTSTACK_PASSWORD` — login (optional fo…"
+    },
+    {
+      "id": "recipes/01-discover-capabilities/README.md",
+      "title": "01 — Discover capabilities",
+      "path": "recipes/01-discover-capabilities/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.01-discover-capabilities"
+      ],
+      "excerpt": "# 01 — Discover capabilities Read `getModuleCatalog()` and `getCapabilityMatrix()`, gate optional domains with `gateCapability`, and optionally list MCP actions. ## Env - `AGENTSTACK_API_KEY` — for `GET /mcp/actions` probe ## Run ```bash n…"
+    },
+    {
+      "id": "recipes/02-8dna-crud/README.md",
+      "title": "02 — 8DNA CRUD (protocol)",
+      "path": "recipes/02-8dna-crud/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.02-8dna-crud"
+      ],
+      "excerpt": "# 02 — 8DNA CRUD (protocol) List DNA rows with `sdk.protocol.dnaList`, run a protein command via `executeCommand`, then invalidate snapshot cache. ## Env - `AGENTSTACK_EMAIL` / `AGENTSTACK_PASSWORD` - `AGENTSTACK_PROJECT_ID` — optional - `…"
+    },
+    {
+      "id": "recipes/03-mcp-execute/README.md",
+      "title": "03 — MCP execute",
+      "path": "recipes/03-mcp-execute/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.03-mcp-execute"
+      ],
+      "excerpt": "# 03 — MCP execute Call `agentstack.execute` as a JSON-RPC `tools/call` batch against `POST /mcp`. ## Env - `AGENTSTACK_API_KEY` or `AGENTSTACK_ACCESS_TOKEN` - `AGENTSTACK_PROJECT_ID` — context override (default `1`) - `AGENTSTACK_API_BASE…"
+    },
+    {
+      "id": "recipes/04-commerce/README.md",
+      "title": "04 — Commerce",
+      "path": "recipes/04-commerce/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.04-commerce"
+      ],
+      "excerpt": "# 04 — Commerce Discover headless commerce via `sdk.commerce` (`@agentstack/sdk/commerce` facade). ## Env - `AGENTSTACK_EMAIL` / `AGENTSTACK_PASSWORD` - `AGENTSTACK_PROJECT_ID` ## Run ```bash npm run recipe:04-commerce ``` ## Surface - `sd…"
+    },
+    {
+      "id": "recipes/05-economy/README.md",
+      "title": "05 — Economy",
+      "path": "recipes/05-economy/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.05-economy"
+      ],
+      "excerpt": "# 05 — Economy Read AGNT ledger balance via `sdk.platform.economy` (`@agentstack/sdk/economy`). ## Env - `AGENTSTACK_EMAIL` / `AGENTSTACK_PASSWORD` - `AGENTSTACK_PROJECT_ID` - `AGENTSTACK_USER_ID` — account key subject (default `1`) ## Run…"
+    },
+    {
+      "id": "recipes/06-logic/README.md",
+      "title": "06 — Logic dry run",
+      "path": "recipes/06-logic/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.06-logic"
+      ],
+      "excerpt": "# 06 — Logic dry run Documented MCP action `logic.dry_run` — simulate a rule without side effects. ## Env - `AGENTSTACK_API_KEY` - `AGENTSTACK_PROJECT_ID` - `LOGIC_RULE_ID` — target rule (default `demo-rule`) ## Run ```bash npm run recipe:…"
+    },
+    {
+      "id": "recipes/07-hosting/README.md",
+      "title": "07 — Hosting",
+      "path": "recipes/07-hosting/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.07-hosting"
+      ],
+      "excerpt": "# 07 — Hosting Publish minimal HTML with `sdk.hosting.quickStart` (`sdk.hosting.gen2`). ## Env - `AGENTSTACK_EMAIL` / `AGENTSTACK_PASSWORD` - `AGENTSTACK_PROJECT_ID` - `HOSTING_BUCKET` — path segment (default `sdk-recipe-demo`) - `HOSTING_…"
+    },
+    {
+      "id": "recipes/07b-host-sell/README.md",
+      "title": "07b — Host + sell plane",
+      "path": "recipes/07b-host-sell/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.07b-host-sell"
+      ],
+      "excerpt": "# 07b — Host + sell plane Chains `sdk.hosting.quickStart` then `sdk.hosting.getProjectPlane` for `next_actions[0]`. ```bash npm run recipe:07b-host-sell ``` Env: same as `07-hosting` plus optional `HOSTING_DRY_RUN=1`."
+    },
+    {
+      "id": "recipes/08-capability-task/README.md",
+      "title": "08 — Capability task",
+      "path": "recipes/08-capability-task/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.08-capability-task"
+      ],
+      "excerpt": "# 08 — Capability task Run a comfort task via `runTaskCapability` from `@agentstack/sdk/capability-tasks`. ## Env - `AGENTSTACK_PROJECT_ID` — optional when login omitted - `AGENTSTACK_EMAIL` / `AGENTSTACK_PASSWORD` — optional ## Run ```bas…"
+    },
+    {
+      "id": "recipes/09-rag/README.md",
+      "title": "09 — RAG search",
+      "path": "recipes/09-rag/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.09-rag"
+      ],
+      "excerpt": "# 09 — RAG search MCP action `rag.search` for semantic retrieval. ## Env - `AGENTSTACK_API_KEY` - `AGENTSTACK_PROJECT_ID` - `RAG_COLLECTION_ID` — required for live call - `RAG_QUERY` — optional query text - `RAG_TOP_K` — default `3` ## Run…"
+    },
+    {
+      "id": "recipes/10-uam-app/README.md",
+      "title": "10 — UAM app manifest",
+      "path": "recipes/10-uam-app/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.10-uam-app"
+      ],
+      "excerpt": "# 10 — UAM app manifest Validate a Universal App Manifest (UAM v1) before deploy or AI builder writes. ## Run ```bash npm run recipe:10-uam-app ``` Uses `appManifestSchema` from `@agentstack/sdk/manifest` (same rules as `validateAppManifes…"
+    },
+    {
+      "id": "recipes/11-integration-webhook/README.md",
+      "title": "11 — Integration webhook",
+      "path": "recipes/11-integration-webhook/README.md",
+      "kind": "recipe",
+      "tags": [
+        "recipe.11-integration-webhook"
+      ],
+      "excerpt": "# 11 — Integration webhook Register an inbound webhook via MCP `webhooks.register` (alias family: `webhooks.create_endpoint` in some catalogs). ## Env - `AGENTSTACK_API_KEY` - `AGENTSTACK_PROJECT_ID` - `WEBHOOK_URL` — required for live reg…"
+    },
+    {
+      "id": "recipes/AI_INDEX.md",
+      "title": "AgentStack SDK recipes — AI index",
+      "path": "recipes/AI_INDEX.md",
+      "kind": "index",
+      "tags": [
+        "repo.platform.sdk.recipes.gen1"
+      ],
+      "excerpt": "# AgentStack SDK recipes — AI index **Genetic tag:** `repo.platform.sdk.recipes.gen1` **Package:** `genetic-ai-starter/extensions/agentstack/recipes/` **SDK pin:** `@agentstack/sdk@0.4.18` Runnable TypeScript templates for integrators and …"
+    },
+    {
+      "id": "scaffold/templates/agentstack-feature/AI_INDEX.md",
+      "title": "AI_INDEX — `examples/agentstack/{{FEATURE}}`",
+      "path": "scaffold/templates/agentstack-feature/AI_INDEX.md",
+      "kind": "index",
+      "tags": [],
+      "excerpt": "# AI_INDEX — `examples/agentstack/{{FEATURE}}` **Genetic code:** `example.agentstack.feature.gen1` _(Replace with your real tag when scaffolding, e.g. `myapp.billing.feature.gen1`.)_ ## Hot files | File | Role | |------|------| | [run.ts](…"
+    }
+  ]
+}

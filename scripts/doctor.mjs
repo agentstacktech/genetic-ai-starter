@@ -17,12 +17,16 @@ import {
   submodulePathExists,
 } from './lib/git-submodule.mjs';
 import { verifyKitVersionPin } from './lib/verify-kit-version.mjs';
+import { readCapabilitySnapshotHash } from './lib/copy-agentstack-recipes.mjs';
+import { readPlatformVersion } from './lib/platform-version.mjs';
 import { validateKitLockKipV2, validateKitLockWarnings } from './lib/validate-kit-lock-schema.mjs';
 import { DEFAULT_KIT_SUBMODULE_PATH } from './lib/kit-integration-constants.mjs';
 import { readUpgradeReport, UPGRADE_REPORT_REL } from './lib/upgrade-report.mjs';
 import { readInstallAttempt } from './lib/install-attempt-log.mjs';
 import { readKitRootEnv } from './lib/env-kit-root.mjs';
 import { INSTALL_ERRORS } from './lib/install-errors.mjs';
+import { DOC_DOCTOR_STEPS } from './lib/doc-audit-steps.mjs';
+import { runKitSteps } from './lib/run-kit-steps.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const KIT_ROOT = path.resolve(__dirname, '..');
@@ -45,34 +49,17 @@ function parseArgs(argv) {
 }
 
 function runKitDocChecks() {
-  const scripts = [
-    'check-docs-metrics.mjs',
-    'check-platform-stats.mjs',
-    'check-i18n-parity.mjs',
-    'calculate-roi.mjs',
-    'check-roi-model.mjs',
-  ];
+  const steps = [...DOC_DOCTOR_STEPS];
   const extDir = path.join(KIT_ROOT, 'extensions/agentstack');
   if (fs.existsSync(path.join(extDir, 'extension.manifest.json'))) {
-    scripts.push('check-capability-contract.mjs');
+    steps.push([
+      'check-capability-contract',
+      'scripts/check-capability-contract.mjs',
+      '--kit-root',
+      KIT_ROOT,
+    ]);
   }
-  for (const name of scripts) {
-    const args = [path.join(KIT_ROOT, 'scripts', name)];
-    if (name === 'check-capability-contract.mjs') {
-      args.push('--kit-root', KIT_ROOT);
-    }
-    if (name === 'calculate-roi.mjs') {
-      args.push('--export');
-    }
-    const r = spawnSync(process.execPath, args, {
-      cwd: KIT_ROOT,
-      encoding: 'utf8',
-    });
-    if (r.status !== 0) {
-      console.error(r.stderr || r.stdout);
-      process.exit(r.status ?? 1);
-    }
-  }
+  runKitSteps(steps, { kitRoot: KIT_ROOT, cwd: KIT_ROOT, timing: true });
   console.log('doctor --docs OK (kit meta doc guards)');
 }
 
@@ -134,6 +121,24 @@ function main() {
     }
     const ver = verifyKitVersionPin(lock, kitRoot);
     if (!ver.ok) issues.push(ver.message);
+    try {
+      const platform = readPlatformVersion();
+      if (lock.kitVersion && lock.kitVersion !== platform) {
+        warnings.push(
+          `kitVersion ${lock.kitVersion} != platform ${platform} — run upgrade.mjs`,
+        );
+      }
+    } catch {
+      /* standalone without monorepo constants */
+    }
+    if (lock.capabilitySnapshotHash) {
+      const current = readCapabilitySnapshotHash(kitRoot);
+      if (current && lock.capabilitySnapshotHash !== current) {
+        warnings.push(
+          `capabilitySnapshotHash drift (lock ${lock.capabilitySnapshotHash} vs kit ${current}) — repair or upgrade`,
+        );
+      }
+    }
     if (strictLock) {
       for (const msg of validateKitLockKipV2(lock)) {
         issues.push(`strict-lock: ${msg}`);

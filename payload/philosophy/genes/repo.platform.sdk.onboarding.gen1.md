@@ -70,3 +70,6 @@ Install SDK in recipes folder per [SDK_ACQUISITION.md](../../../extensions/agent
 - [repo.tooling.genetic_starter.agentstack_dx.gen1.md](repo.tooling.genetic_starter.agentstack_dx.gen1.md) — DX expansion umbrella
 - [genetic-ai-starter/extensions/agentstack/AI_INDEX.md](../../../extensions/agentstack/AI_INDEX.md) — extension hot files
 - [docs/plugins/CONTEXT_FOR_AI.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/plugins/CONTEXT_FOR_AI.md) — MCP / domain routing
+- [docs/adr/GENETIC_STARTER_PLUGIN_KIT_TRIANGLE.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/adr/GENETIC_STARTER_PLUGIN_KIT_TRIANGLE.md) — kit + Cursor plugin + monorepo triangle
+- [docs/genetic-ai-starter-maintainers/KIT_PLUGIN_SYNC_RUNBOOK.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/genetic-ai-starter-maintainers/KIT_PLUGIN_SYNC_RUNBOOK.md) — ordered maintainer sync after bump
+- **Regression:** `npm run audit:agentstack-dx-plane` (monorepo root)

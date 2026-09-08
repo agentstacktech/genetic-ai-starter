@@ -1,19 +1,14 @@
 /**
- * gene: repo.platform.sdk.recipes.gen1
- * doc: agentstack-core/mcp/routes.py · docs/MCP_BUSINESS_FLOWS.md
- * action: agentstack.execute JSON-RPC batch via POST /mcp (fetch + env token)
+ * gene: repo.platform.sdk.recipes.gen1 · repo.tooling.user_cli.gen1
+ * Prefer @agentstack/sdk mcpExecute (SoT) over raw fetch.
  */
-import { resolveAgentStackApiBase } from '@agentstack/sdk';
 import {
+  mcpExecute,
+  resolveAgentStackApiBase,
   resolveMcpAuthToken,
   resolveMcpUrl,
-  verifyStep,
-  withRetry,
-} from '../_lib/recipe-common.js';
-
-interface McpBatchResponse {
-  results?: Array<{ id: string; ok: boolean; result?: unknown; error?: string }>;
-}
+} from '@agentstack/sdk';
+import { verifyStep } from '../_lib/recipe-common.js';
 
 async function main(): Promise<void> {
   const token = resolveMcpAuthToken();
@@ -25,49 +20,11 @@ async function main(): Promise<void> {
   const mcpUrl = resolveMcpUrl(apiBase);
   const projectId = Number(process.env.AGENTSTACK_PROJECT_ID ?? 1);
 
-  const batchBody = {
-    steps: [
-      {
-        id: 'projects',
-        action: 'projects.get_projects',
-        params: {},
-      },
-    ],
-    context: { project_id: projectId },
-    options: { stopOnError: true },
-  };
-
-  const jsonRpcBody = {
-    jsonrpc: '2.0',
-    id: 1,
-    method: 'tools/call',
-    params: {
-      name: 'agentstack.execute',
-      arguments: batchBody,
-    },
-  };
-
-  const res = await withRetry(() =>
-    fetch(mcpUrl, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(jsonRpcBody),
-    }),
+  const out = await mcpExecute(
+    [{ action: 'projects.get_projects', params: {} }],
+    { token, projectId, mcpUrl },
   );
-  verifyStep('mcp-http', res.ok, `status=${res.status}`);
-
-  const payload = (await res.json()) as McpBatchResponse & { result?: { content?: unknown } };
-  const results = payload.results ?? (payload.result as McpBatchResponse | undefined)?.results;
-  const first = results?.[0];
-  verifyStep(
-    'agentstack.execute',
-    first?.ok === true || results !== undefined,
-    first?.id ?? 'batch accepted',
-  );
+  verifyStep('agentstack.execute', out.ok, out.error ?? 'batch ok');
 }
 
 main().catch((err) => {

@@ -34,10 +34,10 @@ Platform inventory (Jul 2026) — **SoT:** [platform-stats.snapshot.json](platfo
 
 | Count | Field | Value |
 |-------|-------|-------|
-| Genes | `philosophyGenes` | **406** |
-| Indexes (repo) | `aiIndexFilesRepoTotal` | **186** |
-| Indexes (platform pkgs) | `aiIndexFilesPlatform` | **162** |
-| Tier-1 tags | `navigationMapTier1Tags` | **421** |
+| Genes | `philosophyGenes` | **498** |
+| Indexes (repo) | `aiIndexFilesRepoTotal` | **244** |
+| Indexes (platform pkgs) | `aiIndexFilesPlatform` | **219** |
+| Tier-1 tags | `navigationMapTier1Tags` | **546** |
 | Kit payload genes | `kitPayloadGenes` | **27** |
 
 Cross-cluster SYN **~16** and philosophy compression **12.36×** come from the genetic-system-site / `bench_gene_access.json` — not from this snapshot. Do not mix harness scores (`metrics.snapshot.json`) with inventory counts.

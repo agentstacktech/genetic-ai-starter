@@ -133,14 +133,14 @@ Install **always** runs `validate-installed` at the end; exit code 1 on failure.
 1. Open project in Cursor — read `AGENTS.md` then map.
 2. Edit [`docs/ai/AI_NAVIGATION_MAP.md`](../../payload/docs/ai/AI_NAVIGATION_MAP.md) — Tier 0 / Tier 1 (example tag: `app.auth.session.gen1` → `src/auth/sessionMiddleware.ts`).
 3. Add [`AI_INDEX.md`](../../payload/docs/ai/templates/AI_INDEX.template.md) per large subsystem (~10+ integration points).
-4. Run `node <kit>/scripts/doctor.mjs --target .` before PRs.
+4. Run `node <kit>/scripts/doctor.mjs --target .` before PRs — validates lock, links, and map/index contract regions.
 
 ### AgentStack consumer (`agentstack-app`)
 
 ```bash
 node <kit>/scripts/install.mjs --target . --profile agentstack-app \
   --project-name "My App" --domain app --strict
-cd examples/agentstack && npm install @agentstack/sdk@0.4.15 && npm run recipe:00-bootstrap
+cd examples/agentstack && npm install @agentstack/sdk@0.4.18 && npm run recipe:00-bootstrap
 ```
 
 Full flow: [AGENTSTACK_APP_GUIDE.md](AGENTSTACK_APP_GUIDE.md) · SDK submodule: `submodule-add-sdk.mjs` → `link-sdk-deps.mjs`.
@@ -156,7 +156,7 @@ Consumer copy in target: `docs/ai/OPERATIONS.md`.
 | Action | Command |
 |--------|---------|
 | **Repair** (broken links, partial philosophy) | `node <kit>/scripts/repair.mjs --target <project>` · Windows: `repair.ps1` |
-| **Upgrade** (new kit version) | `node <kit>/scripts/upgrade.mjs --target <project>` |
+| **Upgrade** (new kit version) | `node <kit>/scripts/upgrade.mjs --target <project> --preserve-navigation` |
 | **Uninstall** | `node <kit>/scripts/uninstall.mjs --target <project>` |
 
 Windows repair: `repair.cmd <project>` or `install.cmd` with repair via `repair.mjs`

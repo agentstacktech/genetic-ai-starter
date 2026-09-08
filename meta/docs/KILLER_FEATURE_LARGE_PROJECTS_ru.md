@@ -271,7 +271,7 @@ L5  doctor + lock       — карта не отрывается от дерев
 
 ## 5. AgentStack как эталон масштаба
 
-**Масштаб платформы (SoT):** [`platform-stats.snapshot.json`](platform-stats.snapshot.json) — **406** genes, **186** repo / **162** platform `AI_INDEX`, **421** Tier-1 tags (regenerate: `node scripts/export-platform-stats.mjs`). Это **не** shop-api harness — см. [`metrics.snapshot.json`](metrics.snapshot.json).
+**Масштаб платформы (SoT):** [`platform-stats.snapshot.json`](platform-stats.snapshot.json) — **498** genes, **244** repo / **219** platform `AI_INDEX`, **546** Tier-1 tags (regenerate: `node scripts/export-platform-stats.mjs`). Это **не** shop-api harness — см. [`metrics.snapshot.json`](metrics.snapshot.json).
 
 В monorepo AgentStack те же принципы:
 

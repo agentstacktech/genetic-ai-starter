@@ -29,6 +29,7 @@
 | Philosophy | [philosophy/PHILOSOPHY_INDEX.md](philosophy/PHILOSOPHY_INDEX.md) |
 | Foundation pillars | [philosophy/genes/foundation.core_pillars.gen1.md](philosophy/genes/foundation.core_pillars.gen1.md) |
 | Controlled edits | [philosophy/genes/repo.engineering.controlled_changes.gen1.md](philosophy/genes/repo.engineering.controlled_changes.gen1.md) |
+| 8DNA / protein R/W | `.cursor/rules/engineering-dna-protein-data-plane.mdc` (leaf / DiffOps — never full JSON wipe) |
 | Navigation map | [docs/ai/AI_NAVIGATION_MAP.md](docs/ai/AI_NAVIGATION_MAP.md) |
 | App source | `src/` (adjust in map) |
 <!-- genetic-ai-agents:tier0:end -->

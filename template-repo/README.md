@@ -9,7 +9,7 @@ GitHub Template repository for new projects. **Do not** vendor monorepo paths �
 3. Install:
 
 ```bash
-npx @agentstack/genetic-ai-starter@0.4.11 init --yes --target . --profile standard --project-name "My App" --domain app
+npx @agentstack/genetic-ai-starter@0.4.18 init --yes --target . --profile standard --project-name "My App" --domain app
 ```
 
 4. Read order in your repo: `AGENTS.md` → `docs/ai/AI_NAVIGATION_MAP.md` → fill Tier 0/1.

@@ -7,6 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { KIT_ROOT, EXTENSIONS_DIR } from './lib/paths.mjs';
+import { scanPhilosophyGenes, scanAiIndexFiles } from './lib/scan-philosophy-genes.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -62,32 +63,17 @@ function addDoc(entries, root, rel, meta = {}) {
   });
 }
 
-function walkIndexes(root, baseRel, entries) {
-  const walk = (dir, relPrefix) => {
-    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
-      const full = path.join(dir, ent.name);
-      const rel = relPrefix ? `${relPrefix}/${ent.name}` : ent.name;
-      if (ent.isDirectory()) walk(full, rel);
-      else if (ent.name === 'AI_INDEX.md') addDoc(entries, root, rel, { kind: 'index' });
-    }
-  };
-  walk(root, baseRel);
+function walkIndexes(root, _baseRel, entries) {
+  for (const rel of scanAiIndexFiles(root)) {
+    addDoc(entries, root, rel, { kind: 'index' });
+  }
 }
 
 function indexGenes(projectRoot, relDir, entries) {
   const genesRoot = path.join(projectRoot, relDir);
-  if (!fs.existsSync(genesRoot)) return;
-  const walk = (dir, prefix) => {
-    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
-      const full = path.join(dir, ent.name);
-      const rel = `${prefix}/${ent.name}`.replace(/\\/g, '/');
-      if (ent.isDirectory()) walk(full, rel);
-      else if (ent.name.endsWith('.gen1.md') && !ent.name.includes('template')) {
-        addDoc(entries, projectRoot, rel, { kind: 'gene' });
-      }
-    }
-  };
-  walk(genesRoot, relDir);
+  for (const g of scanPhilosophyGenes(genesRoot)) {
+    addDoc(entries, projectRoot, `${relDir}/${g.rel}`.replace(/\\/g, '/'), { kind: 'gene' });
+  }
 }
 
 function indexRecipes(projectRoot, relDir, entries) {

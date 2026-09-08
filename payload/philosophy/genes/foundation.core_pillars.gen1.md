@@ -1,9 +1,7 @@
 # Gene — `foundation.core_pillars.gen1` (umbrella)
 
 **Genetic tag:** `foundation.core_pillars.gen1`  
-**Category:** foundation  
-**Priority:** **READ FIRST** (before domain clusters in [GENE_COMPRESSION_MAP.md](GENE_COMPRESSION_MAP.md))  
-**Status:** ACTIVE  
+**Map row:** `repo.philosophy.foundation.gen1` — [AI_NAVIGATION_MAP.md](../../docs/ai/AI_NAVIGATION_MAP.md) · **Cluster:** [GENE_COMPRESSION_MAP.md § Cluster I](GENE_COMPRESSION_MAP.md#cluster-i--foundation--aigene-contract)  
 
 ---
 

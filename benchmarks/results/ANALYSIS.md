@@ -1,8 +1,8 @@
 # Benchmark analysis
 
-Generated: 2026-05-24T10:50:29.338Z
+Generated: 2026-09-08T20:20:08.078Z
 
-**Harness:** synthetic policy transcripts via `run-matrix.mjs` (see `run-meta.json`, `executionMode: synthetic_policy`). Scorer **1.2.1** — tokens: `TOKEN_REPORT.md`, [TOKEN_ECONOMICS_ru.md](../../meta/docs/TOKEN_ECONOMICS_ru.md). Manual Cursor: [benchmarks/METHODOLOGY.md](../METHODOLOGY.md) § Manual validation.
+**Harness:** synthetic policy transcripts via `run-matrix.mjs` (see `run-meta.json`, `executionMode: synthetic_policy`). Scorer **1.2.1** — tokens: `TOKEN_REPORT.md`, [TOKEN_ECONOMICS_ru.md](../../meta/docs/TOKEN_ECONOMICS_ru.md). Manual Cursor: [benchmarks/METHODOLOGY.md](../../benchmarks/METHODOLOGY.md) § Manual validation.
 
 ## Executive summary
 

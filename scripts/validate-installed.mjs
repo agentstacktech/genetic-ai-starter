@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
-import { findBrokenMarkdownLinks } from './lib/resolve-markdown-links.mjs';
+import { auditMarkdownTree } from './lib/audit-markdown-links.mjs';
+import { listProjectMarkdownRoots } from './lib/list-markdown-rel.mjs';
 import { GITIGNORE_BEGIN } from './lib/merge-gitignore.mjs';
 import { resolveKitRoot } from './lib/resolve-kit-root.mjs';
 import { loadNavigationContract } from './lib/tenant-protected-files.mjs';
@@ -18,23 +19,11 @@ function parseArgs(argv) {
   return { target: path.resolve(target), kitRoot, checkGeneLinks };
 }
 
-function collectMarkdown(root, acc = [], prefix = '') {
-  if (!fs.existsSync(root)) return acc;
-  for (const name of fs.readdirSync(root)) {
-    const rel = prefix ? `${prefix}/${name}` : name;
-    const full = path.join(root, name);
-    if (name === 'node_modules' || name === '.git') continue;
-    if (fs.statSync(full).isDirectory()) collectMarkdown(full, acc, rel);
-    else if (name.endsWith('.md') || name.endsWith('.mdc')) acc.push(rel);
-  }
-  return acc;
-}
-
 function classifyError(msg) {
-  if (msg.startsWith('Broken link')) return 'LINK';
+  if (msg.startsWith('Broken link') || msg.startsWith('[LINK]')) return 'LINK';
   if (msg.includes('philosophy/') || msg.includes('Missing .cursor/rules')) return 'PHILOSOPHY';
-  if (msg.includes('kit.lock')) return 'LOCK';
-  if (msg.includes('stub')) return 'STUB';
+  if (msg.includes('kit.lock') || msg.startsWith('[LOCK]')) return 'LOCK';
+  if (msg.includes('stub') || msg.startsWith('[STUB]')) return 'STUB';
   return 'OTHER';
 }
 
@@ -141,16 +130,11 @@ function main() {
     }
   }
 
-  const mdRoots = [];
-  if (fs.existsSync(path.join(target, 'docs/ai'))) {
-    mdRoots.push(...collectMarkdown(path.join(target, 'docs/ai'), [], 'docs/ai'));
-  }
-  if (fs.existsSync(path.join(target, 'philosophy'))) {
-    mdRoots.push(...collectMarkdown(path.join(target, 'philosophy'), [], 'philosophy'));
-  }
-  if (fs.existsSync(path.join(target, 'AGENTS.md'))) mdRoots.push('AGENTS.md');
+  const mdRoots = listProjectMarkdownRoots(target, ['docs/ai', 'philosophy'].filter((r) =>
+    fs.existsSync(path.join(target, r)),
+  ));
 
-  const broken = findBrokenMarkdownLinks(target, mdRoots, { mode: 'consumer', kitRoot: kitRootAbs });
+  const broken = auditMarkdownTree(target, mdRoots, { mode: 'consumer', kitRoot: kitRootAbs });
   for (const b of broken) errors.push(`[LINK] Broken link in ${b.file}: ${b.target}`);
 
   if (checkGeneLinks) checkGeneFileLinks(target, errors);

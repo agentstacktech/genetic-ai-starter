@@ -1,8 +1,11 @@
 /**
  * Shared helpers for AgentStack recipe runners.
  * Genetic tag: repo.platform.sdk.recipes.gen1
+ * MCP URL/token SoT: @agentstack/sdk (repo.tooling.user_cli.gen1)
  */
 import type { AgentStackSDK, SDKCapabilityMatrix } from '@agentstack/sdk';
+
+export { resolveMcpUrl, resolveMcpAuthToken } from '@agentstack/sdk';
 
 /** Return true when capability id is enabled in the matrix. */
 export function gateCapability(matrix: SDKCapabilityMatrix, id: string): boolean {
@@ -66,20 +69,4 @@ export function verifyStep(name: string, ok: boolean, detail?: string): void {
   }
   const suffix = detail ? `: ${detail}` : '';
   console.log(`✓ ${name}${suffix}`);
-}
-
-/** Derive MCP origin URL from REST apiBase (…/api → …/mcp). */
-export function resolveMcpUrl(apiBase: string): string {
-  const trimmed = apiBase.replace(/\/$/, '');
-  const origin = trimmed.endsWith('/api') ? trimmed.slice(0, -4) : trimmed;
-  return `${origin}/mcp`;
-}
-
-/** Bearer token for MCP fetch recipes (API key or access token). */
-export function resolveMcpAuthToken(): string | undefined {
-  return (
-    process.env.AGENTSTACK_API_KEY?.trim() ||
-    process.env.AGENTSTACK_ACCESS_TOKEN?.trim() ||
-    process.env.AGENTSTACK_TOKEN?.trim()
-  );
 }

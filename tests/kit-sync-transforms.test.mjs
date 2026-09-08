@@ -5,9 +5,11 @@
  */
 import assert from 'node:assert/strict';
 import {
-  AGENTSTACK_TREE,
   kitFoundationGeneTransform,
   kitAiIndexingTransform,
+  kitDocsTransform,
+  kitContextForAiTransform,
+  AGENTSTACK_TREE,
 } from '../scripts/lib/kit-sync-transforms.mjs';
 
 const geneSample = `
@@ -48,7 +50,35 @@ const indexing = kitAiIndexingTransform(`
 - broken
 `);
 assert.ok(indexing.includes('repo.navigation.map.gen1'), 'kit genes called out');
+
+const ctxSample = kitDocsTransform(`
+| **Seller Activation** | sell | commerce.sell.activate |
+| **Business Organism** | org | business.* |
+| CLI: npx @agentstack/cli
+`);
+assert.ok(ctxSample.includes('Seller Activation'), 'preserve Seller Activation row');
+assert.ok(ctxSample.includes('Business Organism'), 'preserve Business Organism row');
+assert.ok(ctxSample.includes('npx @agentstack/cli'), 'preserve CLI channel');
+assert.ok(!ctxSample.match(/agentstack-core\/[^\s]*\s*\|\s*$/m), 'no bare agentstack-core path leaks');
 assert.ok(indexing.includes('../../AGENTS.md'), 'AGENTS path from docs/ai');
 assert.ok(!indexing.includes('](../AGENTS.md)'), 'no one-level AGENTS link from docs/ai');
+
+const maintainerLink = kitFoundationGeneTransform(
+  '[KIT_PLUGIN_SYNC_RUNBOOK.md](../../docs/genetic-ai-starter-maintainers/KIT_PLUGIN_SYNC_RUNBOOK.md)',
+);
+assert.ok(
+  maintainerLink.includes(`${AGENTSTACK_TREE}/docs/genetic-ai-starter-maintainers/KIT_PLUGIN_SYNC_RUNBOOK.md`),
+  'maintainer runbook should rewrite to GitHub tree, not docs/ai/',
+);
+assert.ok(!maintainerLink.includes('docs/ai/genetic-ai-starter-maintainers'), 'no bogus docs/ai maintainer path');
+
+const ctxOverlay = kitContextForAiTransform(
+  'See [CLI](../CLI_QUICKSTART.md) and [organ](../adr/ORGAN_DESCRIPTOR_PROTOCOL.md)',
+);
+assert.ok(ctxOverlay.includes(`${AGENTSTACK_TREE}/docs/CLI_QUICKSTART.md`), 'CLI link → GitHub tree');
+assert.ok(
+  ctxOverlay.includes(`${AGENTSTACK_TREE}/docs/adr/ORGAN_DESCRIPTOR_PROTOCOL.md`),
+  'ADR organ link → GitHub tree',
+);
 
 console.log('kit-sync-transforms.test.mjs OK');

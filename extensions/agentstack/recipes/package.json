@@ -13,6 +13,7 @@
     "recipe:05-economy": "tsx 05-economy/run.ts",
     "recipe:06-logic": "tsx 06-logic/run.ts",
     "recipe:07-hosting": "tsx 07-hosting/run.ts",
+    "recipe:07b-host-sell": "tsx 07b-host-sell/run.ts",
     "recipe:08-capability-task": "tsx 08-capability-task/run.ts",
     "recipe:09-rag": "tsx 09-rag/run.ts",
     "recipe:10-uam-app": "tsx 10-uam-app/run.ts",

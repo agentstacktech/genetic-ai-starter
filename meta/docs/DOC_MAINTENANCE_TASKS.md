@@ -11,14 +11,14 @@ Living checklist for keeping kit + public mirror + site consistent. Prefer closi
 
 | ID | Task | Status | Notes |
 |----|------|--------|-------|
-| A1 | Regenerate `platform-stats.snapshot.json` when monorepo genes/indexes/map change | **done** (2026-07-16) | `npm run audit:docs` → 431 / 204 / 179 / 449 / 27 |
+| A1 | Regenerate `platform-stats.snapshot.json` when monorepo genes/indexes/map change | **done** (2026-09-08) | `npm run audit:docs` → 498 / 244 / 546 / 28 |
 | A2 | Align README EN/RU inventory tables to snapshot | **done** | Was stale ~222 / ~98 / ~267 |
 | A3 | Align `GENETIC_SYSTEM_ECONOMICS*.md` inventory to snapshot; remove contradictory old footnote | **done** | |
 | A4 | Align `KILLER_FEATURE_LARGE_PROJECTS*.md` lattice line | **done** | |
 | A5 | Update `DOC_CLAIMS_AUDIT.md` gene/index/tag claims | **done** | |
-| A6 | Keep site HTML inventory hardcodes in sync with snapshot | **done** (2026-07-16) | `check-site-inventory.mjs` in audit:docs + CI; HTML 431 / 204 |
+| A6 | Keep site HTML inventory hardcodes in sync with snapshot | **done** (2026-09-08) | `check-site-inventory.mjs` in audit:docs + CI; HTML 498 / 244 |
 | A7 | Re-run harness + `export-metrics-snapshot.mjs` when scorer/tasks change | **watch** | Do not invent new harness % without matrix |
-| A8 | Platform pin 0.4.14 + `sync-kit-version` / `sync-from-canonical` green | **done** | [KIT_SYNC_FLOW.md](../../../docs/genetic-ai-starter-maintainers/KIT_SYNC_FLOW.md) |
+| A8 | Platform pin 0.4.18 + `sync-kit-version` / `sync-from-canonical` green | **done** | [KIT_SYNC_FLOW.md](../../../docs/genetic-ai-starter-maintainers/KIT_SYNC_FLOW.md) |
 | A9 | `sync-smoke.mjs` maintainer E2E entry | **done** | `npm run sync-smoke` from kit |
 ---
 
@@ -32,7 +32,7 @@ Living checklist for keeping kit + public mirror + site consistent. Prefer closi
 | B4 | Add WHATS_NEW bullet for Genetic System docs | **done** | |
 | B5 | Link from plugins CONTEXT_FOR_AI (map-first / kit) | **done** | |
 | B6 | Add PUBLIC_DOCS_MANIFEST rows for genetic-system | **done** | |
-| B7 | Optional: sync narrative into monorepo `docs/` if mirror sync script expects sources there | **open** | Today genetic-system is mirror-authored; decide SoT vs copy |
+| B7 | Optional: sync narrative into monorepo `docs/` if mirror sync script expects sources there | **watch** | SoT: mirror-authored per [GENETIC_STARTER_DOC_STRATEGY B7](../../../docs/genetic-ai-starter-maintainers/adr/GENETIC_STARTER_DOC_STRATEGY.md) |
 | B8 | Pre-publish grep for forbidden patterns on `agentstack_repo/docs/genetic-system` | **watch** | Before PR |
 
 ---
@@ -81,13 +81,13 @@ Living checklist for keeping kit + public mirror + site consistent. Prefer closi
 
 ## F. Follow-ups (not blocking)
 
-| ID | Task | Priority |
-|----|------|----------|
-| F1 | Drive site stats from JSON instead of HTML hardcodes | medium |
-| F2 | Add `npm run docs:check-inventory` that diffs README numbers vs snapshot | medium |
-| F3 | Mirror genetic-system into monorepo `docs/` for `docs:sync-mirror` | low |
-| F4 | PT locale parity check for any new economics paragraphs on site | low |
-| F5 | Commit + push agentstack_repo + genetic-ai-starter when Lance asks | — |
+| ID | Task | Status | Notes |
+|----|------|--------|-------|
+| F1 | Drive site stats from JSON instead of HTML hardcodes | **done** | `platform-stats.snapshot.json` + `check-site-inventory.mjs` |
+| F2 | Add `npm run docs:check-inventory` that diffs README numbers vs snapshot | **done** | `docs-check-inventory` in `audit:docs` |
+| F3 | Mirror genetic-system into monorepo `docs/` for `docs:sync-mirror` | low | |
+| F4 | PT locale parity check for any new economics paragraphs on site | low | |
+| F5 | Commit + push agentstack_repo + genetic-ai-starter when Lance asks | — | |
 
 ---
 

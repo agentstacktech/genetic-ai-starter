@@ -7,6 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PAYLOAD_ROOT } from './lib/paths.mjs';
+import { walkFiles } from './lib/walk-files.mjs';
 
 const GENES_DIR = path.join(PAYLOAD_ROOT, 'philosophy/genes');
 
@@ -19,6 +20,7 @@ function geneTier(rel) {
   if (base.startsWith('foundation.')) return 'foundation';
   if (
     base === 'repo.engineering.controlled_changes.gen1.md' ||
+    base === 'repo.engineering.dna_protein_data_plane.gen1.md' ||
     base === 'repo.engineering.founder_direct_ship.gen1.md'
   ) {
     return 'synced';
@@ -125,20 +127,16 @@ export function validateAllGenes(genesDir = GENES_DIR) {
     return { ok: false, errors: [`genes dir missing: ${genesDir}`], warnings };
   }
 
-  const walk = (dir) => {
-    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
-      const full = path.join(dir, ent.name);
-      if (ent.isDirectory()) walk(full);
-      else if (ent.name.endsWith('.gen1.md') || ent.name.endsWith('.gen2.md')) {
-        const rel = path.relative(genesDir, full).replace(/\\/g, '/');
-        if (rel.startsWith('templates/')) continue;
-        const { errors: e, warnings: w } = validateGeneFile(full);
-        for (const msg of e) errors.push(`${rel}: ${msg}`);
-        for (const msg of w) warnings.push(`${rel}: ${msg}`);
-      }
-    }
-  };
-  walk(genesDir);
+  const geneFiles = walkFiles(genesDir, {
+    extensions: ['.md'],
+    filter: (full) => /\.gen[12]\.md$/.test(full) && !full.replace(/\\/g, '/').includes('/templates/'),
+  });
+  for (const full of geneFiles) {
+    const rel = path.relative(genesDir, full).replace(/\\/g, '/');
+    const { errors: e, warnings: w } = validateGeneFile(full);
+    for (const msg of e) errors.push(`${rel}: ${msg}`);
+    for (const msg of w) warnings.push(`${rel}: ${msg}`);
+  }
 
   return { ok: errors.length === 0, errors, warnings };
 }

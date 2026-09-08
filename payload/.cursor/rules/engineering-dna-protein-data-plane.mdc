@@ -1,0 +1,20 @@
+---
+description: 8DNA data plane — protein DiffOps, leaf/patch writes, never full-blob wipe
+alwaysApply: true
+---
+
+# DNA / protein data plane (uniform R/W)
+
+**Gene:** `repo.engineering.dna_protein_data_plane.gen1`  
+(Platform monorepo expands this; kit consumers use the same ladder when talking to AgentStack 8DNA.)
+
+## Write ladder
+
+1. Coalesced DiffOps → protein dirty journal / flush when available.
+2. Leaf / `patch_paths` for one or few paths — never full JSON replace for a single field.
+3. Secrets: protected column only.
+4. Full blob only with ops preservation (`preserve_protein_ops` / prepare-full-blob).
+
+## Never
+
+Overwrite an entire project `data` document to change one nested key (fat-tenant gate + data loss risk).

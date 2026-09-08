@@ -99,6 +99,8 @@ function parseArgs(argv) {
 function printHelp() {
   console.log(`Genetic AI Starter — мастер установки
 
+Профили: см. meta/docs/PROFILE_COMPARISON.md (standard vs agentstack-app vs full/founder).
+
 Запуск:
   node scripts/init.mjs
   SETUP.cmd                    (Windows, двойной щелчок)

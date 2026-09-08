@@ -31,6 +31,8 @@ export function shouldSkipLinkValidation(target) {
     n.includes('kit_vendor.gen1.md') ||
     /^\.\.\/MCP_/.test(n) ||
     /^\.\.\/architecture\//.test(n) ||
+    /^\.\.\/CLI_QUICKSTART\.md$/.test(n) ||
+    /^\.\.\/adr\//.test(n) ||
     n === 'AGENTSTACK_PLUGIN_PHILOSOPHY.md'
   );
 }

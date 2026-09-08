@@ -8,21 +8,32 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readKitLock } from './lib/read-kit-lock.mjs';
 import { KIT_ROOT, EXTENSIONS_DIR } from './lib/paths.mjs';
+import { scanPhilosophyGenes } from './lib/scan-philosophy-genes.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 function parseArgs(argv) {
-  let target = '.';
+  let target = null;
   let kitRoot = KIT_ROOT;
   for (let i = 2; i < argv.length; i++) {
     if (argv[i] === '--target') target = argv[++i];
     else if (argv[i] === '--kit-root') kitRoot = argv[++i];
     else if (argv[i] === '--help' || argv[i] === '-h') {
-      console.log('Usage: node generate-llms-txt.mjs --target <project> [--kit-root <kit>]');
+      console.log('Usage: node generate-llms-txt.mjs [--target <project>] [--kit-root <kit>]');
       process.exit(0);
     }
   }
-  return { target: path.resolve(target), kitRoot: path.resolve(kitRoot) };
+  return { target: resolveTarget(target, kitRoot), kitRoot: path.resolve(kitRoot) };
+}
+
+/** Consumer project or kit fixture when run from monorepo maintainer context. */
+function resolveTarget(targetArg, kitRoot) {
+  if (targetArg) return path.resolve(targetArg);
+  const cwd = process.cwd();
+  if (fs.existsSync(path.join(cwd, 'docs/ai/AI_NAVIGATION_MAP.md'))) return cwd;
+  const fixture = path.join(kitRoot, 'fixtures/empty-node-project');
+  if (fs.existsSync(path.join(fixture, 'docs/ai/AI_NAVIGATION_MAP.md'))) return fixture;
+  return cwd;
 }
 
 function readDocsBaseUrl(target, kitRoot) {
@@ -52,24 +63,11 @@ function extractMapRows(mapText) {
 }
 
 function walkGenes(genesDir) {
-  const out = [];
-  if (!fs.existsSync(genesDir)) return out;
-  const walk = (dir) => {
-    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
-      const full = path.join(dir, ent.name);
-      if (ent.isDirectory()) walk(full);
-      else if (ent.name.endsWith('.gen1.md') || ent.name.endsWith('.gen2.md')) {
-        if (ent.name.includes('template') || ent.name.startsWith('GENE_')) continue;
-        const text = fs.readFileSync(full, 'utf8');
-        const tag = text.match(/\*\*Genetic tag:\*\*\s+`([a-z0-9_.]+)`/)?.[1];
-        const rel = path.relative(genesDir, full).replace(/\\/g, '/');
-        const intent = text.match(/##\s+Intent\s*\n+([\s\S]*?)\n+---/)?.[1]?.trim() || '';
-        out.push({ tag: tag || ent.name.replace(/\.md$/, ''), rel: `philosophy/genes/${rel}`, intent });
-      }
-    }
-  };
-  walk(genesDir);
-  return out;
+  return scanPhilosophyGenes(genesDir).map((g) => ({
+    tag: g.tag,
+    rel: `philosophy/genes/${g.rel}`,
+    intent: g.intent,
+  }));
 }
 
 function shouldSkipForProfile(profile) {

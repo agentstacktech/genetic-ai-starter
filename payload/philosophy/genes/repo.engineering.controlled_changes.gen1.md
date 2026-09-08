@@ -42,6 +42,7 @@ Same standards as production code: **predictable transformations**, **traceable 
 | [PHILOSOPHY_INDEX.md](../PHILOSOPHY_INDEX.md) | Master philosophy; current platform header (v0.4.6) |
 | [GENE_INDEX.md](GENE_INDEX.md) | Catalog entry for this gene |
 | [repo.engineering.founder_direct_ship.gen1.md](repo.engineering.founder_direct_ship.gen1.md) | Lance + AI: direct ship, no personal canary / duplicate paths by default |
+| [repo.engineering.dna_protein_data_plane.gen1.md](repo.engineering.dna_protein_data_plane.gen1.md) | How to mutate **8DNA data** (protein / leaf / patch) — not how to edit source files |
 | [docs/AI_NAVIGATION_MAP.md](../../docs/ai/AI_NAVIGATION_MAP.md) | Tier 0 tag `repo.engineering.controlled_changes.gen1` |
 | [.cursorrules](../../.cursorrules.fragment.md) | Workspace rule: codebase edit protocol |
 

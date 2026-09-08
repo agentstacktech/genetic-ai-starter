@@ -2,9 +2,21 @@
 
 **Genetic tag:** `repo.platform.sdk.recipes.gen1`  
 **Package:** `genetic-ai-starter/extensions/agentstack/recipes/`  
-**SDK pin:** `@agentstack/sdk@0.4.15`
+**SDK pin:** `@agentstack/sdk@0.4.18`
 
 Runnable TypeScript templates for integrators and AI agents. Each folder has `run.ts`, `README.md`, and `README_ru.md`.
+
+### Python partial parity (`--lang python`)
+
+Install copies `recipes-python/` → `examples/agentstack-python/`. **Only recipes 00, 02, 03** exist in Python; there is no parity for 01, 04–11 yet.
+
+| Id | Python script | TS folder | Notes |
+|----|---------------|-----------|-------|
+| 00 | `00-bootstrap.py` | `00-bootstrap/` | SDK catalog + optional login |
+| 02 | `02-8dna-crud.py` | `02-8dna-crud/` | `dna_list` + `execute_command` |
+| 03 | `03-mcp-execute.py` | `03-mcp-execute/` | POST `/mcp` + `agentstack.execute` |
+
+Source: [`recipes-python/README.md`](../recipes-python/README.md). Gene: `repo.platform.sdk.recipes.gen1`.
 
 ## Hot files
 

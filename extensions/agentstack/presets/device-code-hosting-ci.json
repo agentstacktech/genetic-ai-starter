@@ -1,0 +1,16 @@
+{
+  "preset_id": "agent_runner_hosting_ci",
+  "description": "Device Code flow for CI agents with hosting scopes (W4.6)",
+  "scopes": [
+    "hosting.read",
+    "hosting.write",
+    "hosting.publish",
+    "projects.read"
+  ],
+  "mcp_tools_allow": [
+    "hosting.release.snapshot",
+    "hosting.release.promote",
+    "hosting.project.status"
+  ],
+  "recipe_chain": ["07-hosting", "07b-host-sell"]
+}

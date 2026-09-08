@@ -11,13 +11,36 @@ export function kitDocsTransform(c) {
     .replace(/AgentStack monorepo/g, '{{PROJECT_NAME}}')
     .replace(/`docs\/AI_NAVIGATION_MAP\.md`/g, '`docs/ai/AI_NAVIGATION_MAP.md`')
     .replace(/\.\.\/philosophy\//g, '../../philosophy/')
-    .replace(/agentstack-core\/|agentstack-frontend\//g, '')
+    .replace(/`agentstack-core\/([^`]+)`/g, `\`${AGENTSTACK_TREE}/agentstack-core/$1\``)
+    .replace(/`agentstack-frontend\/([^`]+)`/g, `\`${AGENTSTACK_TREE}/agentstack-frontend/$1\``)
+    .replace(/\(agentstack-core\/([^)]+)\)/g, `(${AGENTSTACK_TREE}/agentstack-core/$1)`)
     .replace(/\.cursor\/rules\/ai-navigation-indexes\.mdc/g, '.cursor/rules/genetic-navigation.mdc')
     .replace(/\.cursor\/rules\/ai-index-authoring\.mdc/g, '.cursor/rules/genetic-index-authoring.mdc')
     .replace(/\[CACHE_INVALIDATION_CONVENTION\.md\][^\n]*/g, '')
     .replace(/\[ECOSYSTEM_INTERACTION[^\n]*/g, '')
     .replace(/\]\(\.\.\/shared\/[^)]*\)/g, `](${AGENTSTACK_TREE}/shared/)`)
     .replace(/SHARED_SINGLE_PACKAGE\.md/g, `${AGENTSTACK_TREE}/docs/SHARED_SINGLE_PACKAGE.md`);
+}
+
+/**
+ * Monorepo docs/plugins/CONTEXT_FOR_AI → kit extension overlay (consumer-safe links).
+ * @param {string} c
+ */
+export function kitContextForAiTransform(c) {
+  return kitDocsTransform(c)
+    .replace(/\]\(\.\.\/CLI_QUICKSTART\.md\)/g, `](${AGENTSTACK_TREE}/docs/CLI_QUICKSTART.md)`)
+    .replace(/\]\(\.\.\/adr\/ORGAN_DESCRIPTOR_PROTOCOL\.md\)/g, `](${AGENTSTACK_TREE}/docs/adr/ORGAN_DESCRIPTOR_PROTOCOL.md)`)
+    .replace(/\]\(\.\.\/MCP_CAPABILITY_MATRIX\.md\)/g, `](${AGENTSTACK_TREE}/docs/MCP_CAPABILITY_MATRIX.md)`)
+    .replace(/\]\(\.\.\/MCP_AND_ECOSYSTEM\.md\)/g, `](${AGENTSTACK_TREE}/docs/MCP_AND_ECOSYSTEM.md)`)
+    .replace(/\]\(\.\.\/MCP_QUICKSTART\.md\)/g, `](${AGENTSTACK_TREE}/docs/MCP_QUICKSTART.md)`)
+    .replace(
+      /\]\(\.\.\/architecture\/DNA_KEY_VALUE_API\.md\)/g,
+      `](${AGENTSTACK_TREE}/docs/architecture/DNA_KEY_VALUE_API.md)`,
+    )
+    .replace(
+      /\]\(\.\.\/architecture\/ROBOT_READY_8DNA\.md\)/g,
+      `](${AGENTSTACK_TREE}/docs/architecture/ROBOT_READY_8DNA.md)`,
+    );
 }
 
 /**
@@ -84,6 +107,7 @@ export function kitAiIndexingTransform(c) {
 /** @param {string} c */
 export function kitFoundationGeneTransform(c) {
   let out = kitDocsTransform(c)
+    .replace(/\]\(\.\.\/\.\.\/docs\/genetic-ai-starter-maintainers\//g, `](${AGENTSTACK_TREE}/docs/genetic-ai-starter-maintainers/`)
     .replace(/\.\.\/\.\.\/docs\//g, '../../docs/ai/')
     .replace(/\.\.\/LANCE_PRINCIPLE_CREATION_OVER_CONFLICT\.md/g, '../principles/LANCE_CREATION_OVER_CONFLICT.md')
     .replace(/\.\.\/ELEGANT_MINIMALISM_PRINCIPLE\.md/g, '../principles/ELEGANT_MINIMALISM.md')
@@ -98,6 +122,7 @@ export function kitFoundationGeneTransform(c) {
     .replace(/\]\(\.\.\/docs\/journals\/[^)]*\)/g, `](${AGENTSTACK_TREE}/docs/journals/)`)
     .replace(/\]\(\.\.\/\.\.\/docs\/adr\//g, `](${AGENTSTACK_TREE}/docs/adr/`)
     .replace(/\.\.\/\.\.\/docs\/ai\/adr\//g, `${AGENTSTACK_TREE}/docs/adr/`)
+    .replace(/\.\.\/\.\.\/docs\/ai\/operations\//g, `${AGENTSTACK_TREE}/docs/operations/`)
     .replace(/\.\.\/\.\.\/docs\/ai\/8DNA_UNIFIED_REFERENCE\.md/g, `${AGENTSTACK_TREE}/docs/8DNA_UNIFIED_REFERENCE.md`)
     .replace(/\.\.\/\.\.\/docs\/ai\/dual-shell\/PERF_BUDGET\.md/g, `${AGENTSTACK_TREE}/docs/dual-shell/PERF_BUDGET.md`)
     .replace(/\.\.\/\.\.\/docs\/ai\/VERSIONING\.md/g, `${AGENTSTACK_TREE}/docs/VERSIONING.md`)

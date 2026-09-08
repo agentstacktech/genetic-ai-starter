@@ -22,4 +22,6 @@ assert.equal(
 assert.equal(applyLinkAliasForResolve('other.md'), 'other.md');
 assert.equal(shouldSkipLinkValidation('gene_document_resolver.py'), true);
 assert.equal(shouldSkipLinkValidation('...'), true);
+assert.equal(shouldSkipLinkValidation('../CLI_QUICKSTART.md'), true);
+assert.equal(shouldSkipLinkValidation('../adr/ORGAN_DESCRIPTOR_PROTOCOL.md'), true);
 console.log('validate-link-aliases.test.mjs OK');
