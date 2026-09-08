@@ -83,6 +83,17 @@ Harness ≠ live Cursor. Инвентарь ≠ «в 12 раз быстрее р
 
 **Паттерн:** Observability first — метрики из codegen/catalog, не из prose.
 
+### Neural plane (gene navigation vs runtime product)
+
+| Метрика | Значение | Gene |
+|---------|----------|------|
+| AI nav catalog entries | **562** | `repo.engineering.ai_navigation.gen1` |
+| GTPI posting edges | **1623** | `shared.neural.gene_token_index.gen1` |
+| GHTP path overrides | **12** | `shared.diagnostics.gene_heat.gen1` |
+| MCP↔REST parity actions | **472** | `docs.api.specs.gen1` |
+
+Gene navigation (map/index) ≠ neural runtime (heat/GTPI latency) — экономика kit про **discovery tax**, не про кэш продукта.
+
 ---
 
 ## 6. Экономика (синтез)

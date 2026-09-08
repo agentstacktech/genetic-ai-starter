@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T21:58:30.277Z",
+  "generatedAt": "2026-09-08T22:03:43.949Z",
   "platformVersion": "0.4.18",
   "monorepoRoot": "C:\\Projects\\AgentStack",
   "includeCardGame": false,
@@ -25,6 +25,10 @@
     "openApiOperations": 834,
     "openApiTags": 50,
     "mirroredPluginSkills": 25,
+    "aiNavCatalogEntries": 562,
+    "gtpiPostingEdges": 1623,
+    "geneHeatOverrides": 12,
+    "mcpRestParityActions": 472,
     "benchmarkTasks": 14,
     "benchmarkArms": 9,
     "agentstackTaskPack": 5
@@ -75,6 +79,24 @@
     "surfaces": 4,
     "parityOk": true
   },
+  "neuralPlane": {
+    "aiNav": {
+      "source": "docs/_generated/ai-nav/TAG_CATALOG.json",
+      "catalogEntries": 562
+    },
+    "gtpi": {
+      "source": "docs/_generated/ai-nav/TOKEN_POSTING_EDGES.json",
+      "postingEdges": 1623
+    },
+    "geneHeat": {
+      "source": "shared/diagnostics/gene_path_overrides.yaml",
+      "overrides": 12
+    },
+    "mcpRestParity": {
+      "source": "docs/api/MCP_REST_PARITY_MAP.json",
+      "actions": 472
+    }
+  },
   "sources": {
     "mcpPublication": "docs/publication/platform-stats.snapshot.json",
     "geneBench": "philosophy/bench_gene_access.json",
@@ -82,7 +104,9 @@
     "navigationMap": "docs/AI_NAVIGATION_MAP.md",
     "devTestAtlas": "docs/testing/catalog/dev_test_atlas_catalog.json",
     "openApiSummary": "docs/api/openapi-catalog.summary.json",
-    "pluginParity": "provided_plugins/scripts/lib/plugin-skill-parity.mjs"
+    "pluginParity": "provided_plugins/scripts/lib/plugin-skill-parity.mjs",
+    "aiNavCatalog": "docs/_generated/ai-nav/TAG_CATALOG.json",
+    "gtpiEdges": "docs/_generated/ai-nav/TOKEN_POSTING_EDGES.json"
   },
   "readmeFootnote": "Platform scale ≠ harness shop-api scores. Regenerate: node scripts/export-platform-stats.mjs"
 }

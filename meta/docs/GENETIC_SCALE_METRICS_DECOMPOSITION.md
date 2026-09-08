@@ -1,7 +1,7 @@
 # Genetic scale metrics — decomposition (M0–M8)
 
 **Genetic tag:** `repo.tooling.genetic_starter.metrics_decomposition.gen1`  
-**Status:** M0–M5 shipped in kit `0.4.18` · M6+ backlog  
+**Status:** M0–M8 shipped in kit `0.4.18` · M9+ backlog  
 **Philosophy:** Creation over Conflict · Elegant Minimalism · Observability first · DRY/KISS
 
 Цель: **больше фактов о масштабе AgentStack** и **измеримых выигрышах Navigation OS**, без дублирования SoT и без раздувания кода.
@@ -93,37 +93,52 @@
 
 ---
 
-## Wave M6 — Gene heat / GTPI (backlog)
+## Wave M6 — Gene heat / GTPI (DONE)
 
-| ID | Task | Detail |
-|----|------|--------|
-| M6-01 | Read `platform_tooling.py gene-heat doctor --json` output if cached | Hot region count |
-| M6-02 | GTPI catalog token count from `docs/_generated/` if stable | Neural lexicon scale |
-| M6-03 | Digest § “Neural ops vs gene navigation” | Reinforce economics split |
-
-**Gene:** `shared.diagnostics.gene_heat.gen1` · `shared.neural.gene_token_index.gen1`
-
----
-
-## Wave M7 — Live verification hooks (backlog)
-
-| ID | Task | Detail |
-|----|------|--------|
-| M7-01 | Optional `--live-mcp` flag on export | `GET /mcp/health` tools_count vs snapshot |
-| M7-02 | Never write live count into committed snapshot | Observability-only stderr WARN |
-| M7-03 | Document in MAINTAINERS.md | Prod verify checklist |
-
-**Pattern:** Committed snapshot = codegen; live = human/ops verify (PLATFORM_SCALE.md).
+| ID | Task | Status | Source |
+|----|------|--------|--------|
+| M6-01 | `readAiNavCatalogStats` — TAG_CATALOG `entry_count` | ✅ | **562** entries |
+| M6-02 | `readGtpiStats` — TOKEN_POSTING_EDGES | ✅ | **1623** edges |
+| M6-03 | `readGeneHeatOverrideStats` — yaml `*.gen1:` keys | ✅ | **12** overrides |
+| M6-04 | `readMcpRestParityStats` — MCP_REST_PARITY_MAP | ✅ | **472** actions |
+| M6-05 | Digest § neural plane + `neuralPlane` snapshot block | ✅ | |
 
 ---
 
-## Wave M8 — Public mirror sync (backlog)
+## Wave M7 — Live verification hooks (DONE)
 
-| ID | Task | Detail |
-|----|------|--------|
-| M8-01 | Copy kit snapshot subset to `docs/genetic-system-site/data/` | genetic-system-site canvases |
-| M8-02 | `patch-public-doc-stats.mjs` — optional kit fields | `<!-- stats:gene_compression -->` |
-| M8-03 | `audit-stats-plane-parity` — kit vs monorepo publication | Single chain in dx-plane |
+| ID | Task | Status | Notes |
+|----|------|--------|-------|
+| M7-01 | `verifyLiveMcpHealth` + `--live-mcp` on export | ✅ | WARN only, never writes snapshot |
+| M7-02 | `AGENTSTACK_MCP_HEALTH_URL` override | ✅ | Default prod health |
+| M7-03 | MAINTAINERS.md prod verify checklist | ✅ | |
+
+```bash
+node scripts/export-platform-stats.mjs --live-mcp
+```
+
+---
+
+## Wave M8 — Public mirror sync (DONE partial)
+
+| ID | Task | Status | Notes |
+|----|------|--------|-------|
+| M8-01 | Auto-write `docs/genetic-system-site/data/platform-stats.json` on export | ✅ | When site dir exists |
+| M8-02 | `sync-platform-stats-site.mjs --check` in `audit:docs` | ✅ | Idempotent verify |
+| M8-03 | `check-stats-plane-parity.mjs` kit vs publication MCP | ✅ | Wired in audit chain |
+| M8-04 | `patch-public-doc-stats.mjs` kit fields | ⏳ | Monorepo `<!-- stats:gtpi_edges -->` — M9 |
+
+---
+
+## Wave M9 — Site runtime + public placeholders (backlog)
+
+| ID | Task | Detail | Example |
+|----|------|--------|---------|
+| M9-01 | `genetic-system-site/app.js` load `data/platform-stats.json` | Replace hardcoded hero stats | `fetch('data/platform-stats.json')` |
+| M9-02 | `check-site-inventory` — optional GTPI/MCP from site JSON | Extend beyond genes/indexes | |
+| M9-03 | Monorepo `patch-public-doc-stats` — `gene_compression`, `gtpi_edges` | Placeholders in PLATFORM_SCALE | |
+| M9-04 | `audit-stats-plane-parity` in monorepo dx-plane call kit check | Cross-repo gate | |
+| M9-05 | Dev Test Atlas slice count by `genetic_tag` histogram | Top-10 hot genes in export | `slices.filter(s => s.genetic_tag)` |
 
 ---
 

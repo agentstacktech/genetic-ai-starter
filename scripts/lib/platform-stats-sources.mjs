@@ -248,11 +248,13 @@ export function collectObservabilityInventory(monorepoRoot) {
   const atlas = readDevTestAtlasStats(monorepoRoot);
   const audits = countMonorepoAuditScripts(monorepoRoot);
   const openApi = readOpenApiSummaryStats(monorepoRoot);
+  const neural = collectNeuralPlaneInventory(monorepoRoot);
 
   return {
     atlas,
     audits,
     openApi,
+    neural,
     counts: {
       devTestAtlasSlices: atlas.devTestAtlasSlices ?? null,
       devTestAtlasSlicesActive: atlas.devTestAtlasSlicesActive ?? null,
@@ -260,6 +262,136 @@ export function collectObservabilityInventory(monorepoRoot) {
       monorepoAuditScripts: audits.monorepoAuditScripts ?? null,
       openApiOperations: openApi.openApiOperations ?? null,
       openApiTags: openApi.openApiTags ?? null,
+      aiNavCatalogEntries: neural.aiNavCatalogEntries ?? null,
+      gtpiPostingEdges: neural.gtpiPostingEdges ?? null,
+      geneHeatOverrides: neural.geneHeatOverrides ?? null,
+      mcpRestParityActions: neural.mcpRestParityActions ?? null,
     },
+  };
+}
+
+/**
+ * AI nav catalog + GTPI + GHTP overrides + MCP↔REST parity (read generated artifacts only).
+ * @param {string} monorepoRoot
+ */
+export function collectNeuralPlaneInventory(monorepoRoot) {
+  const aiNav = readAiNavCatalogStats(monorepoRoot);
+  const gtpi = readGtpiStats(monorepoRoot);
+  const heat = readGeneHeatOverrideStats(monorepoRoot);
+  const parity = readMcpRestParityStats(monorepoRoot);
+
+  return {
+    aiNavCatalogEntries: aiNav.aiNavCatalogEntries ?? null,
+    gtpiPostingEdges: gtpi.gtpiPostingEdges ?? null,
+    geneHeatOverrides: heat.geneHeatOverrides ?? null,
+    mcpRestParityActions: parity.mcpRestParityActions ?? null,
+    sources: {
+      aiNav: aiNav.source,
+      gtpi: gtpi.source,
+      geneHeat: heat.source,
+      mcpRestParity: parity.source,
+    },
+  };
+}
+
+/** @param {string} monorepoRoot */
+export function readAiNavCatalogStats(monorepoRoot) {
+  const rel = 'docs/_generated/ai-nav/TAG_CATALOG.json';
+  const data = readJsonIfExists(path.join(monorepoRoot, rel));
+  if (data?.entry_count == null) return { source: rel, available: false };
+  return {
+    source: rel,
+    available: true,
+    aiNavCatalogEntries: data.entry_count,
+    aiNavCatalogIndexesScanned: data.platform_ai_index_files_scanned ?? null,
+  };
+}
+
+/** @param {string} monorepoRoot */
+export function readGtpiStats(monorepoRoot) {
+  const rel = 'docs/_generated/ai-nav/TOKEN_POSTING_EDGES.json';
+  const data = readJsonIfExists(path.join(monorepoRoot, rel));
+  if (!data?.edges?.length) return { source: rel, available: false };
+  return {
+    source: rel,
+    available: true,
+    gtpiPostingEdges: data.edges.length,
+  };
+}
+
+/** @param {string} monorepoRoot */
+export function readGeneHeatOverrideStats(monorepoRoot) {
+  const rel = 'shared/diagnostics/gene_path_overrides.yaml';
+  const abs = path.join(monorepoRoot, rel);
+  if (!fs.existsSync(abs)) return { source: rel, available: false };
+  const text = fs.readFileSync(abs, 'utf8');
+  const entries = (text.match(/^[\w.]+\.gen1:/gm) || []).length;
+  return { source: rel, available: true, geneHeatOverrides: entries };
+}
+
+/** @param {string} monorepoRoot */
+export function readMcpRestParityStats(monorepoRoot) {
+  const rel = 'docs/api/MCP_REST_PARITY_MAP.json';
+  const data = readJsonIfExists(path.join(monorepoRoot, rel));
+  if (!data?.actions) return { source: rel, available: false };
+  return {
+    source: rel,
+    available: true,
+    mcpRestParityActions: Object.keys(data.actions).length,
+  };
+}
+
+/**
+ * Compare live MCP health tools_count to snapshot (observability only — never writes snapshot).
+ * @param {{ counts?: { mcpRegistryTools?: number|null } }} snap
+ * @param {{ url?: string, tolerance?: number }} [opts]
+ */
+export async function verifyLiveMcpHealth(snap, opts = {}) {
+  const url = opts.url ?? process.env.AGENTSTACK_MCP_HEALTH_URL ?? 'https://agentstack.tech/mcp/health';
+  const tolerance = opts.tolerance ?? 30;
+  const expected = snap.counts?.mcpRegistryTools;
+  if (expected == null) {
+    console.warn('WARN live-mcp: no mcpRegistryTools in snapshot');
+    return { ok: false, skipped: true };
+  }
+
+  try {
+    const res = await fetch(url, { signal: AbortSignal.timeout(12_000) });
+    if (!res.ok) {
+      console.warn(`WARN live-mcp: HTTP ${res.status} from ${url}`);
+      return { ok: false, httpStatus: res.status };
+    }
+    const data = await res.json();
+    const live = data.tools_count ?? data.toolsCount ?? data.tools?.length;
+    if (live == null) {
+      console.warn('WARN live-mcp: no tools_count in health payload');
+      return { ok: false };
+    }
+    const delta = Math.abs(Number(live) - expected);
+    if (delta > tolerance) {
+      console.warn(
+        `WARN live-mcp: tools_count=${live} vs snapshot mcpRegistryTools=${expected} (Δ${delta})`,
+      );
+      return { ok: false, live, expected, delta };
+    }
+    console.log(`live-mcp OK: tools_count=${live} (snapshot registry ${expected})`);
+    return { ok: true, live, expected };
+  } catch (err) {
+    console.warn(`WARN live-mcp: ${err.message}`);
+    return { ok: false, error: err.message };
+  }
+}
+
+/** Public subset for genetic-system-site / external consumers. */
+export function buildSiteStatsSubset(snap) {
+  return {
+    generatedAt: snap.generatedAt,
+    platformVersion: snap.platformVersion,
+    counts: snap.counts,
+    geneAccess: snap.geneAccess,
+    harness: snap.harness,
+    observability: snap.observability,
+    pluginTriangle: snap.pluginTriangle,
+    neuralPlane: snap.neuralPlane,
   };
 }

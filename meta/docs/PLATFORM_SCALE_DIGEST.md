@@ -83,6 +83,17 @@ Synthetic `shop-api` fixture, scorer **1.2.1**, **14** tasks, **9** arms.
 
 **Pattern:** Observability first — metrics from codegen/catalog, not prose.
 
+### Neural plane (gene navigation vs runtime product)
+
+| Metric | Value | Gene |
+|--------|-------|------|
+| AI nav catalog entries | **562** | `repo.engineering.ai_navigation.gen1` |
+| GTPI posting edges | **1623** | `shared.neural.gene_token_index.gen1` |
+| GHTP path overrides | **12** | `shared.diagnostics.gene_heat.gen1` |
+| MCP↔REST parity actions | **472** | `docs.api.specs.gen1` |
+
+Gene navigation (map/index) ≠ neural runtime (heat/GTPI latency) — kit economics are about **discovery tax**, not product cache latency.
+
 ---
 
 ## 6. Economics (synthesis)

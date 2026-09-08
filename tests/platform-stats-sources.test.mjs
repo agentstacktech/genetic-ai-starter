@@ -6,12 +6,15 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  countTier1Tags,
   countMonorepoAuditScripts,
+  countTier1Tags,
+  readAiNavCatalogStats,
   readDevTestAtlasStats,
   readGeneAccessBench,
+  readGtpiStats,
   readHarnessHighlights,
   readMcpPublicationStats,
+  readMcpRestParityStats,
   readOpenApiSummaryStats,
   readPluginTriangleStats,
 } from '../scripts/lib/platform-stats-sources.mjs';
@@ -51,6 +54,15 @@ assert.ok(audits.monorepoAuditScripts > 50, 'audit scripts');
 
 const openApi = readOpenApiSummaryStats(REPO_ROOT);
 assert.ok(openApi.openApiOperations > 500, 'openapi ops');
+
+const aiNav = readAiNavCatalogStats(REPO_ROOT);
+assert.ok(aiNav.aiNavCatalogEntries > 500, 'ai-nav catalog entries');
+
+const gtpi = readGtpiStats(REPO_ROOT);
+assert.ok(gtpi.gtpiPostingEdges > 1000, 'gtpi posting edges');
+
+const parity = readMcpRestParityStats(REPO_ROOT);
+assert.ok(parity.mcpRestParityActions > 400, 'mcp-rest parity actions');
 
 const plugin = await readPluginTriangleStats(REPO_ROOT);
 assert.equal(plugin.available, true, 'plugin triangle');

@@ -16,7 +16,9 @@ import {
   readHarnessHighlights,
   readMcpPublicationStats,
   readPluginTriangleStats,
+  verifyLiveMcpHealth,
 } from './lib/platform-stats-sources.mjs';
+import { buildSiteStatsSubset } from './lib/platform-stats-sources.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const KIT_ROOT = path.resolve(__dirname, '..');
@@ -46,6 +48,7 @@ async function main() {
   const includeCardGame = process.argv.includes('--include-cardgame');
   const fullScan = process.argv.includes('--full-scan');
   const timing = process.argv.includes('--timing');
+  const liveMcp = process.argv.includes('--live-mcp');
 
   const statsSkipDirs = DEFAULT_MONOREPO_SKIP_DIRS;
 
@@ -109,6 +112,10 @@ async function main() {
       openApiOperations: observability.counts.openApiOperations,
       openApiTags: observability.counts.openApiTags,
       mirroredPluginSkills: plugin.mirroredPluginSkills ?? null,
+      aiNavCatalogEntries: observability.counts.aiNavCatalogEntries,
+      gtpiPostingEdges: observability.counts.gtpiPostingEdges,
+      geneHeatOverrides: observability.counts.geneHeatOverrides,
+      mcpRestParityActions: observability.counts.mcpRestParityActions,
       benchmarkTasks: 14,
       benchmarkArms: 9,
       agentstackTaskPack: fs.existsSync(path.join(KIT_ROOT, 'benchmarks/tasks/agentstack-tasks.json'))
@@ -171,6 +178,26 @@ async function main() {
           parityOk: plugin.parityOk,
         }
       : { available: false, source: plugin.source },
+    neuralPlane: {
+      aiNav: observability.neural.aiNavCatalogEntries != null
+        ? {
+            source: observability.neural.sources.aiNav,
+            catalogEntries: observability.neural.aiNavCatalogEntries,
+          }
+        : { available: false, source: observability.neural.sources.aiNav },
+      gtpi: observability.neural.gtpiPostingEdges != null
+        ? { source: observability.neural.sources.gtpi, postingEdges: observability.neural.gtpiPostingEdges }
+        : { available: false, source: observability.neural.sources.gtpi },
+      geneHeat: observability.neural.geneHeatOverrides != null
+        ? { source: observability.neural.sources.geneHeat, overrides: observability.neural.geneHeatOverrides }
+        : { available: false, source: observability.neural.sources.geneHeat },
+      mcpRestParity: observability.neural.mcpRestParityActions != null
+        ? {
+            source: observability.neural.sources.mcpRestParity,
+            actions: observability.neural.mcpRestParityActions,
+          }
+        : { available: false, source: observability.neural.sources.mcpRestParity },
+    },
     sources: {
       mcpPublication: mcp.source,
       geneBench: geneAccess.source,
@@ -179,6 +206,8 @@ async function main() {
       devTestAtlas: observability.atlas.source,
       openApiSummary: observability.openApi.source,
       pluginParity: plugin.source,
+      aiNavCatalog: observability.neural.sources.aiNav,
+      gtpiEdges: observability.neural.sources.gtpi,
     },
     readmeFootnote:
       'Platform scale ≠ harness shop-api scores. Regenerate: node scripts/export-platform-stats.mjs',
@@ -188,6 +217,19 @@ async function main() {
   fs.writeFileSync(out, `${JSON.stringify(snap, null, 2)}\n`);
   console.log(`wrote ${out}`);
   console.log(JSON.stringify(snap.counts, null, 2));
+
+  const siteDir = path.resolve(root, 'docs/genetic-system-site');
+  if (fs.existsSync(siteDir)) {
+    const sitePath = path.join(siteDir, 'data/platform-stats.json');
+    fs.mkdirSync(path.dirname(sitePath), { recursive: true });
+    fs.writeFileSync(sitePath, `${JSON.stringify(buildSiteStatsSubset(snap), null, 2)}\n`);
+    console.log(`wrote ${sitePath}`);
+  }
+
+  if (liveMcp) {
+    await verifyLiveMcpHealth(snap);
+  }
+
   if (timing) {
     console.log(`export-platform-stats: ${Date.now() - started}ms (${snap.scanMode})`);
   }

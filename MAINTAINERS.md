@@ -78,6 +78,17 @@ cd genetic-ai-starter
 npm run audit:bench:full   # after run-matrix
 npm run audit:docs         # includes check-site-inventory (498/244)
 npm run test:sync-transforms
+
+### Platform stats chain
+
+```bash
+node scripts/export-platform-stats.mjs          # kit snapshot + site JSON if monorepo site present
+node scripts/export-platform-stats.mjs --live-mcp   # optional prod health WARN (never mutates snapshot)
+node scripts/check-stats-plane-parity.mjs       # kit MCP fields vs docs/publication snapshot
+node scripts/sync-platform-stats-site.mjs --check # verify docs/genetic-system-site/data/
+```
+
+Digest: [meta/docs/PLATFORM_SCALE_DIGEST.md](meta/docs/PLATFORM_SCALE_DIGEST.md) · decomposition: [GENETIC_SCALE_METRICS_DECOMPOSITION.md](meta/docs/GENETIC_SCALE_METRICS_DECOMPOSITION.md)
 node scripts/validate-kit.mjs
 ```
 
