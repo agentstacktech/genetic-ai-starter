@@ -1,25 +1,24 @@
 #!/usr/bin/env node
 /**
  * Build meta/docs/platform-stats.snapshot.json from AgentStack monorepo tree.
+ * Merges navigation inventory + MCP publication + gene bench + harness KPIs.
+ * Gene: repo.tooling.genetic_starter.gen1 · docs.freshness.living.gen1
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { walkMatchingBasename, DEFAULT_MONOREPO_SKIP_DIRS } from './lib/walk-files.mjs';
+import { collectMonorepoAiIndexes } from './lib/platform-stats-scan.mjs';
 import {
-  collectMonorepoAiIndexes,
-} from './lib/platform-stats-scan.mjs';
+  collectNavigationInventory,
+  readGeneAccessBench,
+  readHarnessHighlights,
+  readMcpPublicationStats,
+} from './lib/platform-stats-sources.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const KIT_ROOT = path.resolve(__dirname, '..');
 const DEFAULT_ROOT = path.resolve(KIT_ROOT, '..');
-
-function countTier1Tags(mapPath) {
-  if (!fs.existsSync(mapPath)) return null;
-  const text = fs.readFileSync(mapPath, 'utf8');
-  const matches = text.match(/`[a-z][a-z0-9_.]+\.gen1`/g);
-  return matches ? new Set(matches).size : 0;
-}
 
 function countKitCursorPayload() {
   const rules = path.join(KIT_ROOT, 'payload', '.cursor', 'rules');
@@ -30,6 +29,13 @@ function countKitCursorPayload() {
       ? fs.readdirSync(skills, { withFileTypes: true }).filter((d) => d.isDirectory()).length
       : 0,
   };
+}
+
+function readPlatformVersion(kitRoot, mcpStats) {
+  if (mcpStats.platformVersion) return mcpStats.platformVersion;
+  const pvKit = path.join(kitRoot, 'PLATFORM_VERSION');
+  if (fs.existsSync(pvKit)) return fs.readFileSync(pvKit, 'utf8').trim();
+  return '0.0.0';
 }
 
 function main() {
@@ -63,20 +69,18 @@ function main() {
   );
 
   const cursorCounts = countKitCursorPayload();
-
   const kitPayloadGeneCount = payloadGenes.filter(
     (p) => !p.replace(/\\/g, '/').includes('/templates/'),
   ).length;
 
-  let platformVersion = '0.0.0';
-  const pvKit = path.join(KIT_ROOT, 'PLATFORM_VERSION');
-  if (fs.existsSync(pvKit)) {
-    platformVersion = fs.readFileSync(pvKit, 'utf8').trim();
-  }
+  const nav = collectNavigationInventory(root, KIT_ROOT);
+  const mcp = readMcpPublicationStats(root);
+  const geneAccess = readGeneAccessBench(root);
+  const harness = readHarnessHighlights(KIT_ROOT);
 
   const snap = {
     generatedAt: new Date().toISOString(),
-    platformVersion,
+    platformVersion: readPlatformVersion(KIT_ROOT, mcp),
     monorepoRoot: root,
     includeCardGame,
     scanMode: fullScan ? 'full' : 'scoped',
@@ -84,18 +88,51 @@ function main() {
       philosophyGenes,
       aiIndexFilesRepoTotal: allIndexes.length,
       aiIndexFilesPlatform: platformIndexes.length,
-      navigationMapTier1Tags: countTier1Tags(path.join(root, 'docs', 'AI_NAVIGATION_MAP.md')),
+      navigationMapTier1Tags: nav.navigationMapTier1Tags,
+      navigationMapScanRoots: nav.navigationMapScanRoots,
+      geneCompressionClusters: nav.geneCompressionClusters,
       kitPayloadGenes: kitPayloadGeneCount,
       kitCursorRulesStandard: cursorCounts.rules,
       kitCursorSkillsStandard: cursorCounts.skills,
+      mcpCatalogActionsPublic: mcp.mcpCatalogActionsPublic,
+      mcpCatalogActionsTotal: mcp.mcpCatalogActionsTotal,
+      mcpDomainsPublic: mcp.mcpDomainsPublic,
+      mcpRegistryTools: mcp.mcpRegistryTools,
       benchmarkTasks: 14,
       benchmarkArms: 9,
       agentstackTaskPack: fs.existsSync(path.join(KIT_ROOT, 'benchmarks/tasks/agentstack-tasks.json'))
-        ? JSON.parse(fs.readFileSync(path.join(KIT_ROOT, 'benchmarks/tasks/agentstack-tasks.json'), 'utf8')).tasks
-            ?.length || 0
+        ? JSON.parse(fs.readFileSync(path.join(KIT_ROOT, 'benchmarks/tasks/agentstack-tasks.json'), 'utf8'))
+            .tasks?.length || 0
         : 0,
     },
-    kitHarness: { ref: 'meta/docs/metrics.snapshot.json' },
+    geneAccess: geneAccess.available
+      ? {
+          philosophyTokensNaive: geneAccess.philosophyTokensNaive,
+          philosophyTokensResolved: geneAccess.philosophyTokensResolved,
+          compressionRatio: geneAccess.compressionRatio,
+          compressionLabel: geneAccess.compressionLabel,
+          source: geneAccess.source,
+        }
+      : { available: false, source: geneAccess.source },
+    harness: harness.available
+      ? {
+          ref: harness.ref,
+          scorerVersion: harness.scorerVersion,
+          weakMedian: harness.weakMedian,
+          weakSuccessRate: harness.weakSuccessRate,
+          kitIndexedMedian: harness.kitIndexedMedian,
+          kitIndexedSuccessRate: harness.kitIndexedSuccessRate,
+          medianTokenDeltaKitVsBare: harness.medianTokenDeltaKitVsBare,
+          unscopedGrepBare: harness.unscopedGrepBare,
+          unscopedGrepKitIndexed: harness.unscopedGrepKitIndexed,
+        }
+      : { ref: harness.ref, available: false },
+    sources: {
+      mcpPublication: mcp.source,
+      geneBench: geneAccess.source,
+      harness: harness.ref,
+      navigationMap: 'docs/AI_NAVIGATION_MAP.md',
+    },
     readmeFootnote:
       'Platform scale ≠ harness shop-api scores. Regenerate: node scripts/export-platform-stats.mjs',
   };

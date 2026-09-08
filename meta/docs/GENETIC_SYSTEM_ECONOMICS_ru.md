@@ -30,7 +30,7 @@
 | EST token factor | **0,62** | Gene harness EST | Путь discovery |
 | EST retry factor | **0,85** | Gene harness EST | После indexed nav |
 
-Инвентарь платформы (июль 2026) — **SoT:** [platform-stats.snapshot.json](platform-stats.snapshot.json) после `node scripts/export-platform-stats.mjs`:
+Инвентарь платформы — **SoT:** [platform-stats.snapshot.json](platform-stats.snapshot.json) после `node scripts/export-platform-stats.mjs`:
 
 | Счётчик | Поле | Значение |
 |---------|------|----------|
@@ -38,9 +38,14 @@
 | Indexes (репо) | `aiIndexFilesRepoTotal` | **244** |
 | Indexes (платформа) | `aiIndexFilesPlatform` | **219** |
 | Tier-1 tags | `navigationMapTier1Tags` | **546** |
-| Payload genes кита | `kitPayloadGenes` | **27** |
+| Gene clusters | `geneCompressionClusters` | **38** |
+| Scan roots | `navigationMapScanRoots` | **21** |
+| MCP actions (public) | `mcpCatalogActionsPublic` | **568** |
+| MCP domains | `mcpDomainsPublic` | **48** |
+| Payload genes кита | `kitPayloadGenes` | **28** |
+| Philosophy compression | `geneAccess.compressionRatio` | **12.36×** |
 
-Cross-cluster SYN **~16** и сжатие philosophy **12,36×** — из genetic-system-site / `bench_gene_access.json`, не из этого snapshot. Не смешивайте harness (`metrics.snapshot.json`) с инвентарём.
+Полный digest: [PLATFORM_SCALE_DIGEST_ru.md](PLATFORM_SCALE_DIGEST_ru.md). Декомпозиция: [GENETIC_SCALE_METRICS_DECOMPOSITION.md](GENETIC_SCALE_METRICS_DECOMPOSITION.md).
 
 ---
 

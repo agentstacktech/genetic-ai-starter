@@ -66,15 +66,35 @@ Details: [PRODUCTION_OUTCOMES.md](meta/docs/PRODUCTION_OUTCOMES.md).
 
 ## AgentStack ecosystem (reference)
 
-Figures from [`platform-stats.snapshot.json`](meta/docs/platform-stats.snapshot.json) (regenerate: `node scripts/export-platform-stats.mjs` — **SoT for inventory counts**):
+Figures from [`platform-stats.snapshot.json`](meta/docs/platform-stats.snapshot.json) (regenerate: `node scripts/export-platform-stats.mjs` — **SoT for inventory counts**). Full digest: [PLATFORM_SCALE_DIGEST.md](meta/docs/PLATFORM_SCALE_DIGEST.md).
 
-- **498** active genes in monorepo philosophy (`philosophyGenes`)
-- **244** `AI_INDEX.md` repo-wide / **219** on platform packages (`aiIndexFilesRepoTotal` / `aiIndexFilesPlatform`)
-- **546** Tier-1 genetic tags in the central map (`navigationMapTier1Tags`)
-- Kit ships **28** payload genes + **5** Cursor rules + **10** skills (standard profile)
+### Navigation OS (genetic addressing)
+
+| Metric | Value | Snapshot field |
+|--------|------:|----------------|
+| Active genes (philosophy) | **498** | `philosophyGenes` |
+| `AI_INDEX.md` (repo / platform) | **244** / **219** | `aiIndexFilesRepoTotal` / `aiIndexFilesPlatform` |
+| Tier-1 genetic tags in map | **546** | `navigationMapTier1Tags` |
+| Scoped inventory scan roots | **21** | `navigationMapScanRoots` |
+| Gene compression clusters | **38** | `geneCompressionClusters` |
+| Philosophy access compression | **12.36×** (103k→8.3k tok) | `geneAccess.compressionRatio` |
+
+### AgentStack platform (MCP + runtime)
+
+| Metric | Value | Snapshot field |
+|--------|------:|----------------|
+| Public MCP catalog actions | **568** | `mcpCatalogActionsPublic` |
+| MCP action domains (public) | **48** | `mcpDomainsPublic` |
+| MCP tools registered (runtime) | **593** | `mcpRegistryTools` |
+| IDE entry | **1** (`agentstack.execute`) | — |
+| Plugin surfaces | **4** (Cursor, Claude, GPT, VS Code) | — |
+
+### Kit (standard profile)
+
+- **28** payload genes · **6** Cursor rules · **10** skills
 - Same Navigation OS as [AgentStack](https://github.com/agentstacktech/AgentStack)
 
-Harness metrics (shop-api) are separate: [`metrics.snapshot.json`](meta/docs/metrics.snapshot.json). Economics synthesis: [GENETIC_SYSTEM_ECONOMICS.md](meta/docs/GENETIC_SYSTEM_ECONOMICS.md).
+Harness metrics (shop-api) are separate: [`metrics.snapshot.json`](meta/docs/metrics.snapshot.json) (weak **2.5/0%** → kit+idx **9/100%**). Economics: [GENETIC_SYSTEM_ECONOMICS.md](meta/docs/GENETIC_SYSTEM_ECONOMICS.md).
 
 ### AgentStack vs kit (from snapshot)
 
@@ -82,7 +102,8 @@ Harness metrics (shop-api) are separate: [`metrics.snapshot.json`](meta/docs/met
 |-------|---------------------|-------------|
 | Genes | **498** `.gen1.md` | **28** payload genes |
 | `AI_INDEX` | **244** total / **219** platform | you fill per subsystem |
-| Navigation map | **546** Tier-1 tags | template + your Tier 1 |
+| Navigation map | **546** Tier-1 tags · **38** clusters | template + your Tier 1 |
+| MCP actions | **568** public / **48** domains | `agentstack-app` overlay |
 | Harness | shop-api methodology | same — `metrics.snapshot.json` |
 
 ### Gene clusters (starter)

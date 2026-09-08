@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T21:38:35.143Z",
+  "generatedAt": "2026-09-08T21:52:56.074Z",
   "platformVersion": "0.4.18",
   "monorepoRoot": "C:\\Projects\\AgentStack",
   "includeCardGame": false,
@@ -9,15 +9,42 @@
     "aiIndexFilesRepoTotal": 244,
     "aiIndexFilesPlatform": 219,
     "navigationMapTier1Tags": 546,
+    "navigationMapScanRoots": 21,
+    "geneCompressionClusters": 38,
     "kitPayloadGenes": 28,
     "kitCursorRulesStandard": 6,
     "kitCursorSkillsStandard": 10,
+    "mcpCatalogActionsPublic": 568,
+    "mcpCatalogActionsTotal": 632,
+    "mcpDomainsPublic": 48,
+    "mcpRegistryTools": 593,
     "benchmarkTasks": 14,
     "benchmarkArms": 9,
     "agentstackTaskPack": 5
   },
-  "kitHarness": {
-    "ref": "meta/docs/metrics.snapshot.json"
+  "geneAccess": {
+    "philosophyTokensNaive": 103222,
+    "philosophyTokensResolved": 8350,
+    "compressionRatio": 12.36,
+    "compressionLabel": "12.36×",
+    "source": "philosophy/bench_gene_access.json"
+  },
+  "harness": {
+    "ref": "meta/docs/metrics.snapshot.json",
+    "scorerVersion": "1.2.1",
+    "weakMedian": 2.5,
+    "weakSuccessRate": 0,
+    "kitIndexedMedian": 9,
+    "kitIndexedSuccessRate": 1,
+    "medianTokenDeltaKitVsBare": 1139.5,
+    "unscopedGrepBare": 18,
+    "unscopedGrepKitIndexed": 0
+  },
+  "sources": {
+    "mcpPublication": "docs/publication/platform-stats.snapshot.json",
+    "geneBench": "philosophy/bench_gene_access.json",
+    "harness": "meta/docs/metrics.snapshot.json",
+    "navigationMap": "docs/AI_NAVIGATION_MAP.md"
   },
   "readmeFootnote": "Platform scale ≠ harness shop-api scores. Regenerate: node scripts/export-platform-stats.mjs"
 }

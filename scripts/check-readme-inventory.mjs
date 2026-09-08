@@ -15,6 +15,9 @@ const EXPECTED = [
   ['aiIndexFilesPlatform', /\/\s*\*\*(\d+)\*\* (?:на платформенных пакетах|on platform packages)/i],
   ['navigationMapTier1Tags', /\*\*(\d+)\*\* Tier-1 genetic tags/i],
   ['kitPayloadGenes', /\*\*(\d+)\*\* payload genes/i],
+  ['mcpCatalogActionsPublic', /\*\*(\d+)\*\* (?:public )?MCP catalog actions/i],
+  ['mcpDomainsPublic', /\*\*(\d+)\*\* MCP (?:action )?domains/i],
+  ['geneCompressionClusters', /\*\*(\d+)\*\* gene compression clusters/i],
 ];
 
 function main() {

@@ -41,4 +41,4 @@ Synthetic harness — не live Cursor. См. [DOC_CLAIMS_AUDIT.md](DOC_CLAIMS_A
 
 ## Инвентарь платформы (не harness)
 
-**SoT:** [platform-stats.snapshot.json](platform-stats.snapshot.json). Поля: `philosophyGenes` (**498**), `aiIndexFilesRepoTotal` (**244**), `navigationMapTier1Tags` (**546**). Не путать с median score harness. Поток: [DOC_DATA_FLOW.md](DOC_DATA_FLOW.md) · экономика: [GENETIC_SYSTEM_ECONOMICS_ru.md](GENETIC_SYSTEM_ECONOMICS_ru.md).
+**SoT:** [platform-stats.snapshot.json](platform-stats.snapshot.json). Ключевые поля: `philosophyGenes` (**498**), `aiIndexFilesRepoTotal` (**244**), `navigationMapTier1Tags` (**546**), `mcpCatalogActionsPublic` (**568**), `geneCompressionClusters` (**38**), `geneAccess.compressionRatio` (**12.36×**). Не путать с median score harness. Digest: [PLATFORM_SCALE_DIGEST_ru.md](PLATFORM_SCALE_DIGEST_ru.md) · поток: [DOC_DATA_FLOW.md](DOC_DATA_FLOW.md) · экономика: [GENETIC_SYSTEM_ECONOMICS_ru.md](GENETIC_SYSTEM_ECONOMICS_ru.md).

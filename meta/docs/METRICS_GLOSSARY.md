@@ -110,13 +110,15 @@ Prefer **task-level deltas** over median alone:
 
 | Field | Meaning |
 |-------|---------|
-| `philosophyGenes` | Count of `*.gen1.md` (and related) in monorepo philosophy |
+| `philosophyGenes` | Count of `*.gen1.md` in monorepo philosophy |
 | `aiIndexFilesRepoTotal` | All `AI_INDEX.md` under the monorepo root |
-| `aiIndexFilesPlatform` | Subset on platform packages (excludes some demos) |
+| `aiIndexFilesPlatform` | Subset on platform packages |
 | `navigationMapTier1Tags` | Tier-1 tags in central `AI_NAVIGATION_MAP` |
-| `kitPayloadGenes` | Genes shipped in kit `payload/` |
+| `geneCompressionClusters` | Umbrella clusters in `GENE_COMPRESSION_MAP` |
+| `mcpCatalogActionsPublic` | Public MCP catalog actions |
+| `geneAccess.compressionRatio` | Philosophy access compression (bench) |
 
-Do **not** compare these to harness median scores. Full economics: [GENETIC_SYSTEM_ECONOMICS.md](GENETIC_SYSTEM_ECONOMICS.md) · flow: [DOC_DATA_FLOW.md](DOC_DATA_FLOW.md).
+Do **not** compare these to harness median scores. Digest: [PLATFORM_SCALE_DIGEST.md](PLATFORM_SCALE_DIGEST.md) · economics: [GENETIC_SYSTEM_ECONOMICS.md](GENETIC_SYSTEM_ECONOMICS.md) · flow: [DOC_DATA_FLOW.md](DOC_DATA_FLOW.md).
 
 ## Reproduce
 

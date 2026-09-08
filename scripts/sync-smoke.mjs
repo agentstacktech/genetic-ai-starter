@@ -24,6 +24,7 @@ const STEPS = [
   'tests/navigation-map-roots.test.mjs',
   'tests/plugin-skill-parity.test.mjs',
   'tests/export-platform-stats.test.mjs',
+  'tests/platform-stats-sources.test.mjs',
 ];
 
 runKitSteps(STEPS, { kitRoot: KIT_ROOT, cwd: path.resolve(KIT_ROOT, '..') });

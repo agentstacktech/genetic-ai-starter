@@ -44,15 +44,35 @@
 
 ## AgentStack ecosystem (reference)
 
-Цифры из [`platform-stats.snapshot.json`](meta/docs/platform-stats.snapshot.json) (regenerate: `node scripts/export-platform-stats.mjs` — **SoT инвентаря**):
+Цифры из [`platform-stats.snapshot.json`](meta/docs/platform-stats.snapshot.json) (regenerate: `node scripts/export-platform-stats.mjs` — **SoT инвентаря**). Полный разбор: [PLATFORM_SCALE_DIGEST_ru.md](meta/docs/PLATFORM_SCALE_DIGEST_ru.md).
 
-- **498** active genes в monorepo philosophy (`philosophyGenes`)
-- **244** `AI_INDEX.md` по репо / **219** на платформенных пакетах
-- **546** Tier-1 genetic tags в центральной карте
-- Kit ships **28** payload genes + **5** Cursor rules + **10** skills (standard)
+### Navigation OS (генетическая адресация)
+
+| Метрика | Значение | Поле snapshot |
+| ------- | --------: | ------------- |
+| Active genes (philosophy) | **498** | `philosophyGenes` |
+| `AI_INDEX.md` (репо / платформа) | **244** / **219** | `aiIndexFilesRepoTotal` / `aiIndexFilesPlatform` |
+| Tier-1 genetic tags в карте | **546** | `navigationMapTier1Tags` |
+| Корни scoped-scan инвентаря | **21** | `navigationMapScanRoots` |
+| Gene compression clusters | **38** | `geneCompressionClusters` |
+| Сжатие доступа к philosophy | **12.36×** (103k→8.3k tok) | `geneAccess.compressionRatio` |
+
+### Платформа AgentStack (MCP + runtime)
+
+| Метрика | Значение | Поле snapshot |
+| ------- | --------: | ------------- |
+| Public MCP catalog actions | **568** | `mcpCatalogActionsPublic` |
+| MCP action domains (public) | **48** | `mcpDomainsPublic` |
+| MCP tools registered (runtime) | **593** | `mcpRegistryTools` |
+| IDE entry | **1** (`agentstack.execute`) | — |
+| Plugin surfaces | **4** (Cursor, Claude, GPT, VS Code) | — |
+
+### Kit (standard profile)
+
+- **28** payload genes · **6** Cursor rules · **10** skills
 - Тот же Navigation OS, что в [AgentStack](https://github.com/agentstacktech/AgentStack)
 
-Harness-метрики shop-api — отдельно: [`metrics.snapshot.json`](meta/docs/metrics.snapshot.json). Экономика: [GENETIC_SYSTEM_ECONOMICS_ru.md](meta/docs/GENETIC_SYSTEM_ECONOMICS_ru.md).
+Harness-метрики shop-api — отдельно: [`metrics.snapshot.json`](meta/docs/metrics.snapshot.json) (weak **2.5/0%** → kit+idx **9/100%**). Экономика: [GENETIC_SYSTEM_ECONOMICS_ru.md](meta/docs/GENETIC_SYSTEM_ECONOMICS_ru.md).
 
 ### AgentStack vs kit (из snapshot)
 
@@ -61,7 +81,8 @@ Harness-метрики shop-api — отдельно: [`metrics.snapshot.json`](
 | ---------- | ---------------------------- | ------------------- |
 | Genes      | **498** `.gen1.md`           | **28** payload genes |
 | `AI_INDEX` | **244** total / **219** platform | заполняете по подсистемам |
-| Карта      | **546** Tier-1 tags          | шаблон + ваш Tier 1 |
+| Карта      | **546** Tier-1 tags · **38** clusters | шаблон + ваш Tier 1 |
+| MCP actions | **568** public / **48** domains | overlay `agentstack-app` |
 | Harness    | методология shop-api         | та же — `metrics.snapshot.json` |
 
 

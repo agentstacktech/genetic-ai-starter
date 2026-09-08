@@ -30,7 +30,7 @@ This document consolidates economics from internal AgentStack canvases and the p
 | EST token factor | **0.62** | Gene harness EST | Discovery path |
 | EST retry factor | **0.85** | Gene harness EST | After indexed nav |
 
-Platform inventory (Jul 2026) — **SoT:** [platform-stats.snapshot.json](platform-stats.snapshot.json) after `node scripts/export-platform-stats.mjs`:
+Platform inventory — **SoT:** [platform-stats.snapshot.json](platform-stats.snapshot.json) after `node scripts/export-platform-stats.mjs`:
 
 | Count | Field | Value |
 |-------|-------|-------|
@@ -38,9 +38,14 @@ Platform inventory (Jul 2026) — **SoT:** [platform-stats.snapshot.json](platfo
 | Indexes (repo) | `aiIndexFilesRepoTotal` | **244** |
 | Indexes (platform pkgs) | `aiIndexFilesPlatform` | **219** |
 | Tier-1 tags | `navigationMapTier1Tags` | **546** |
-| Kit payload genes | `kitPayloadGenes` | **27** |
+| Gene clusters | `geneCompressionClusters` | **38** |
+| Scan roots | `navigationMapScanRoots` | **21** |
+| MCP actions (public) | `mcpCatalogActionsPublic` | **568** |
+| MCP domains | `mcpDomainsPublic` | **48** |
+| Kit payload genes | `kitPayloadGenes` | **28** |
+| Philosophy compression | `geneAccess.compressionRatio` | **12.36×** |
 
-Cross-cluster SYN **~16** and philosophy compression **12.36×** come from the genetic-system-site / `bench_gene_access.json` — not from this snapshot. Do not mix harness scores (`metrics.snapshot.json`) with inventory counts.
+Full digest: [PLATFORM_SCALE_DIGEST.md](PLATFORM_SCALE_DIGEST.md). Decomposition: [GENETIC_SCALE_METRICS_DECOMPOSITION.md](GENETIC_SCALE_METRICS_DECOMPOSITION.md). Do not mix harness scores (`metrics.snapshot.json`) with inventory counts.
 
 ---
 
