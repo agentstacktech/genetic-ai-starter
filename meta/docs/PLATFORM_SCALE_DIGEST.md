@@ -71,7 +71,21 @@ Synthetic `shop-api` fixture, scorer **1.2.1**, **14** tasks, **9** arms.
 
 ---
 
-## 5. Economics (synthesis)
+## 5. CI observability — genetic plane under test
+
+| Metric | Value | Win |
+|--------|-------|-----|
+| Dev Test Atlas slices | **207** (202 active) | Scoped `test:scope --gene` instead of full pytest |
+| Test planes | **11** | dev.unit / integration / composite |
+| `audit:*` scripts | **119** | Automated gates for docs/MCP/shell/DNA |
+| OpenAPI operations | **834** · **50** tags | One bundle SoT for REST + MCP parity |
+| Mirrored plugin skills | **25** / 4 surfaces | Cursor gen3 → Claude/VS Code without drift |
+
+**Pattern:** Observability first — metrics from codegen/catalog, not prose.
+
+---
+
+## 6. Economics (synthesis)
 
 | Lever | Effect |
 |-------|--------|

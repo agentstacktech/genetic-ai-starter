@@ -1,7 +1,7 @@
 # Genetic scale metrics — decomposition (M0–M8)
 
 **Genetic tag:** `repo.tooling.genetic_starter.metrics_decomposition.gen1`  
-**Status:** M0–M2 shipped in kit `0.4.18` · M3+ backlog  
+**Status:** M0–M5 shipped in kit `0.4.18` · M6+ backlog  
 **Philosophy:** Creation over Conflict · Elegant Minimalism · Observability first · DRY/KISS
 
 Цель: **больше фактов о масштабе AgentStack** и **измеримых выигрышах Navigation OS**, без дублирования SoT и без раздувания кода.
@@ -47,62 +47,49 @@
 
 ---
 
-## Wave M2 — Economics alignment (TODO partial)
+## Wave M2 — Economics alignment (DONE)
 
-| ID | Task | Status | Owner hint |
-|----|------|--------|------------|
-| M2-01 | Update `GENETIC_SYSTEM_ECONOMICS_ru.md` inventory table with MCP + clusters | 🔄 | Use snapshot field names |
-| M2-02 | Update `METRICS_GLOSSARY_ru.md` § platform inventory | 🔄 | Link digest |
-| M2-03 | `DOC_DATA_FLOW.md` — add `platform-stats-sources` node | ⏳ | Mermaid one box |
-| M2-04 | `DOC_HUB.md` / `DOC_MAINTENANCE_TASKS.md` — link digest | ⏳ | Tier-2 meta doc |
-| M2-05 | `check-site-inventory.mjs` — optional digest paths | ⏳ | If site lists meta docs |
-
----
-
-## Wave M3 — Dev Test Atlas cross-stats (backlog)
-
-| ID | Task | Detail | Code reuse |
-|----|------|--------|------------|
-| M3-01 | Read `docs/_generated/test-nav/dev_test_atlas_catalog.json` | Count catalog entries by `gene` tag | `readJsonIfExists` |
-| M3-02 | Export `devTestAtlasRecipes` count | Scoped pytest recipes | Same lib |
-| M3-03 | Export `auditScriptsInPackageJson` | Count `audit:*` in root `package.json` | One regex pass |
-| M3-04 | Document in digest § CI observability | “N audits gate the genetic plane” | Docs only |
-
-**Example export extension:**
-
-```javascript
-// platform-stats-sources.mjs
-export function readDevTestAtlasStats(monorepoRoot) {
-  const catalog = readJsonIfExists(
-    path.join(monorepoRoot, 'docs/_generated/test-nav/dev_test_atlas_catalog.json'),
-  );
-  if (!catalog?.entries) return { available: false };
-  return { available: true, recipeCount: catalog.entries.length };
-}
-```
-
----
-
-## Wave M4 — OpenAPI / API plane (backlog)
-
-| ID | Task | Detail |
-|----|------|--------|
-| M4-01 | Parse OpenAPI bundle path count from `docs/api/openapi.bundle.json` if present | REST surface scale |
-| M4-02 | Link `docs.api.specs.gen1` in digest | ADR cross-link |
-| M4-03 | Optional: MCP↔REST parity map entry count | From generated parity JSON |
-
-**Philosophy:** One OpenAPI SoT — read generated artifact, never hand-count paths in README.
-
----
-
-## Wave M5 — Plugin triangle stats (backlog)
-
-| ID | Task | Detail | Reuse |
+| ID | Task | Status | Notes |
 |----|------|--------|-------|
-| M5-01 | Import skill counts from `plugin-skill-parity.mjs` helpers | Cursor 27 − backend − solana = 25 partner | `provided_plugins/scripts/lib/` |
-| M5-02 | Snapshot `pluginSurfaces: { cursor, claude, vscode, gpt }` | 4 surfaces | Constants |
-| M5-03 | Wire into kit export when `AGENTSTACK_ROOT` set | Optional block `pluginTriangle` | Feature-detect paths |
-| M5-04 | Test: kit `plugin-skill-parity.test.mjs` asserts parity with export | No duplicate counting logic | DRY |
+| M2-01 | `GENETIC_SYSTEM_ECONOMICS*.md` inventory + MCP + clusters | ✅ | Snapshot field names |
+| M2-02 | `METRICS_GLOSSARY*.md` § platform inventory | ✅ | Links digest |
+| M2-03 | `DOC_DATA_FLOW.md` — `platform-stats-sources` + observability | ✅ | Mermaid updated |
+| M2-04 | `DOC_HUB.md` / `DOC_MAINTENANCE_TASKS.md` — digest links | ✅ | Tier-2 meta |
+| M2-05 | `check-site-inventory.mjs` — digest optional | ⏳ | Site HTML only genes/indexes today |
+
+---
+
+## Wave M3 — Dev Test Atlas cross-stats (DONE)
+
+| ID | Task | Status | Code reuse |
+|----|------|--------|------------|
+| M3-01 | `readDevTestAtlasStats` — `docs/testing/catalog/dev_test_atlas_catalog.json` | ✅ | `slices` count + active + planes |
+| M3-02 | Export `devTestAtlasSlices*` in `counts` | ✅ | `collectObservabilityInventory` |
+| M3-03 | `countMonorepoAuditScripts` — `audit:*` in root `package.json` | ✅ | **119** scripts |
+| M3-04 | Digest § CI observability + README tables | ✅ | `check-readme-inventory` gates |
+
+**SoT path correction:** catalog lives at `docs/testing/catalog/` (not `_generated/test-nav/`).
+
+---
+
+## Wave M4 — OpenAPI / API plane (DONE partial)
+
+| ID | Task | Status | Notes |
+|----|------|--------|-------|
+| M4-01 | `readOpenApiSummaryStats` — `openapi-catalog.summary.json` | ✅ | **834** ops · **50** tags |
+| M4-02 | Digest + README cite `docs.api.specs.gen1` | ✅ | |
+| M4-03 | MCP↔REST parity map entry count | ⏳ | `export_mcp_rest_parity.py` output — M6 wave |
+
+---
+
+## Wave M5 — Plugin triangle stats (DONE)
+
+| ID | Task | Status | Reuse |
+|----|------|--------|-------|
+| M5-01 | `readPluginTriangleStats` dynamic import | ✅ | `plugin-skill-parity.mjs` |
+| M5-02 | Snapshot `pluginTriangle` block + `mirroredPluginSkills` | ✅ | **25** mirrored |
+| M5-03 | Feature-detect when monorepo absent | ✅ | `available: false` standalone |
+| M5-04 | `platform-stats-sources.test.mjs` parity assert | ✅ | `parityOk === true` |
 
 ---
 

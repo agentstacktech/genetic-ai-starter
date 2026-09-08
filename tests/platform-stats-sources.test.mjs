@@ -7,9 +7,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   countTier1Tags,
+  countMonorepoAuditScripts,
+  readDevTestAtlasStats,
   readGeneAccessBench,
   readHarnessHighlights,
   readMcpPublicationStats,
+  readOpenApiSummaryStats,
+  readPluginTriangleStats,
 } from '../scripts/lib/platform-stats-sources.mjs';
 
 const KIT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -37,5 +41,20 @@ assert.equal(harness.weakSuccessRate, 0, 'weak success rate');
 
 const tags = countTier1Tags(path.join(REPO_ROOT, 'docs', 'AI_NAVIGATION_MAP.md'));
 assert.ok(tags > 500, 'tier-1 tags');
+
+const atlas = readDevTestAtlasStats(REPO_ROOT);
+assert.equal(atlas.available, true, 'dev test atlas catalog');
+assert.ok(atlas.devTestAtlasSlices > 100, 'atlas slices');
+
+const audits = countMonorepoAuditScripts(REPO_ROOT);
+assert.ok(audits.monorepoAuditScripts > 50, 'audit scripts');
+
+const openApi = readOpenApiSummaryStats(REPO_ROOT);
+assert.ok(openApi.openApiOperations > 500, 'openapi ops');
+
+const plugin = await readPluginTriangleStats(REPO_ROOT);
+assert.equal(plugin.available, true, 'plugin triangle');
+assert.equal(plugin.parityOk, true, 'plugin skill parity');
+assert.ok(plugin.mirroredPluginSkills >= 20, 'mirrored skills');
 
 console.log('platform-stats-sources.test.mjs OK');

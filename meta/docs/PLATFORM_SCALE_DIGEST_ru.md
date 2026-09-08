@@ -71,7 +71,21 @@ Harness ≠ live Cursor. Инвентарь ≠ «в 12 раз быстрее р
 
 ---
 
-## 5. Экономика (синтез)
+## 5. CI observability — genetic plane under test
+
+| Метрика | Значение | Выигрыш |
+|---------|----------|---------|
+| Dev Test Atlas slices | **207** (202 active) | Scoped `test:scope --gene` вместо full pytest |
+| Test planes | **11** | dev.unit / integration / composite |
+| `audit:*` scripts | **119** | Автоматические гейты docs/MCP/shell/DNA |
+| OpenAPI operations | **834** · **50** tags | Один bundle SoT для REST + MCP parity |
+| Mirrored plugin skills | **25** / 4 surfaces | Cursor gen3 → Claude/VS Code без drift |
+
+**Паттерн:** Observability first — метрики из codegen/catalog, не из prose.
+
+---
+
+## 6. Экономика (синтез)
 
 | Рычаг | Эффект |
 |-------|--------|

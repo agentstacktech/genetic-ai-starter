@@ -10,7 +10,7 @@ Single map of **where numbers and narratives come from**, how they flow into pub
 
 | Claim type | SoT artifact | Regenerate / update |
 |------------|--------------|---------------------|
-| Platform inventory (genes, indexes, Tier-1 tags, kit payload) | [platform-stats.snapshot.json](platform-stats.snapshot.json) | `node scripts/export-platform-stats.mjs` |
+| Platform inventory (genes, indexes, Tier-1 tags, MCP, CI observability) | [platform-stats.snapshot.json](platform-stats.snapshot.json) | `node scripts/export-platform-stats.mjs` (merges `platform-stats-sources.mjs`) |
 | Harness scores (weak → kit+idx, per-task) | [metrics.snapshot.json](metrics.snapshot.json) | `node scripts/export-metrics-snapshot.mjs` after `run-matrix` |
 | Philosophy compression **12.36×** | AgentStack `philosophy/bench_gene_access.json` | Platform bench script (monorepo) |
 | Modeled $/year by team size | [roi-model.snapshot.json](roi-model.snapshot.json) | `node scripts/calculate-roi.mjs --export` |
@@ -26,32 +26,38 @@ Single map of **where numbers and narratives come from**, how they flow into pub
 ```mermaid
 flowchart LR
   subgraph measure [Measured]
+    PSS[platform-stats-sources]
     PS[platform-stats.snapshot]
     MS[metrics.snapshot]
     BG[bench_gene_access]
+    AT[dev_test_atlas_catalog]
+    OA[openapi-catalog.summary]
+    PP[plugin-skill-parity]
   end
   subgraph model [Modeled]
     CV[Canvases]
     ROI[roi-model.snapshot]
   end
   subgraph publish [Published]
+    DIG[PLATFORM_SCALE_DIGEST]
     ECO[GENETIC_SYSTEM_ECONOMICS]
     SITE[genetic-system-site]
-    PUB[agentstack_repo genetic-system]
     README[kit README EN/RU]
   end
+  AT --> PSS
+  OA --> PSS
+  PP --> PSS
+  BG --> PSS
+  PSS --> PS
+  PS --> DIG
   PS --> ECO
   PS --> README
   PS --> SITE
   MS --> ECO
   MS --> README
   BG --> ECO
-  BG --> SITE
   CV --> ECO
-  CV --> SITE
   ROI --> ECO
-  ECO --> PUB
-  SITE --> PUB
 ```
 
 ---
@@ -67,16 +73,21 @@ flowchart LR
 
 ---
 
-## Current inventory (after 2026-07-16 export)
+## Current inventory (after export)
 
 | Field | Value |
-|-------|-------|
+|-------|------:|
 | `philosophyGenes` | 498 |
 | `aiIndexFilesRepoTotal` | 244 |
 | `aiIndexFilesPlatform` | 219 |
 | `navigationMapTier1Tags` | 546 |
+| `mcpCatalogActionsPublic` | 568 |
+| `devTestAtlasSlices` | 207 |
+| `monorepoAuditScripts` | 119 |
+| `openApiOperations` | 834 |
+| `mirroredPluginSkills` | 25 |
 | `kitPayloadGenes` | 28 |
-| `kitCursorRulesStandard` | 5 |
+| `kitCursorRulesStandard` | 6 |
 | `kitCursorSkillsStandard` | 10 |
 
 

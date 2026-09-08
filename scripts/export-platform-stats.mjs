@@ -11,9 +11,11 @@ import { walkMatchingBasename, DEFAULT_MONOREPO_SKIP_DIRS } from './lib/walk-fil
 import { collectMonorepoAiIndexes } from './lib/platform-stats-scan.mjs';
 import {
   collectNavigationInventory,
+  collectObservabilityInventory,
   readGeneAccessBench,
   readHarnessHighlights,
   readMcpPublicationStats,
+  readPluginTriangleStats,
 } from './lib/platform-stats-sources.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -38,7 +40,7 @@ function readPlatformVersion(kitRoot, mcpStats) {
   return '0.0.0';
 }
 
-function main() {
+async function main() {
   const started = Date.now();
   const root = path.resolve(process.env.AGENTSTACK_ROOT || DEFAULT_ROOT);
   const includeCardGame = process.argv.includes('--include-cardgame');
@@ -77,6 +79,8 @@ function main() {
   const mcp = readMcpPublicationStats(root);
   const geneAccess = readGeneAccessBench(root);
   const harness = readHarnessHighlights(KIT_ROOT);
+  const observability = collectObservabilityInventory(root);
+  const plugin = await readPluginTriangleStats(root);
 
   const snap = {
     generatedAt: new Date().toISOString(),
@@ -98,6 +102,13 @@ function main() {
       mcpCatalogActionsTotal: mcp.mcpCatalogActionsTotal,
       mcpDomainsPublic: mcp.mcpDomainsPublic,
       mcpRegistryTools: mcp.mcpRegistryTools,
+      devTestAtlasSlices: observability.counts.devTestAtlasSlices,
+      devTestAtlasSlicesActive: observability.counts.devTestAtlasSlicesActive,
+      devTestAtlasPlanes: observability.counts.devTestAtlasPlanes,
+      monorepoAuditScripts: observability.counts.monorepoAuditScripts,
+      openApiOperations: observability.counts.openApiOperations,
+      openApiTags: observability.counts.openApiTags,
+      mirroredPluginSkills: plugin.mirroredPluginSkills ?? null,
       benchmarkTasks: 14,
       benchmarkArms: 9,
       agentstackTaskPack: fs.existsSync(path.join(KIT_ROOT, 'benchmarks/tasks/agentstack-tasks.json'))
@@ -127,11 +138,47 @@ function main() {
           unscopedGrepKitIndexed: harness.unscopedGrepKitIndexed,
         }
       : { ref: harness.ref, available: false },
+    observability: {
+      devTestAtlas: observability.atlas.available
+        ? {
+            source: observability.atlas.source,
+            geneticTag: observability.atlas.geneticTag,
+            slices: observability.atlas.devTestAtlasSlices,
+            slicesActive: observability.atlas.devTestAtlasSlicesActive,
+            planes: observability.atlas.devTestAtlasPlanes,
+          }
+        : { available: false, source: observability.atlas.source },
+      openApi: observability.openApi.available
+        ? {
+            source: observability.openApi.source,
+            operations: observability.openApi.openApiOperations,
+            tags: observability.openApi.openApiTags,
+            bundleVersion: observability.openApi.openApiBundleVersion,
+          }
+        : { available: false, source: observability.openApi.source },
+      audits: observability.audits.available
+        ? { source: observability.audits.source, scripts: observability.audits.monorepoAuditScripts }
+        : { available: false, source: observability.audits.source },
+    },
+    pluginTriangle: plugin.available
+      ? {
+          source: plugin.source,
+          mirroredSkills: plugin.mirroredPluginSkills,
+          cursorSkillsTotal: plugin.cursorSkillsTotal,
+          claudeSkills: plugin.claudePluginSkills,
+          vscodeSkills: plugin.vscodePluginSkills,
+          surfaces: plugin.pluginSurfaces,
+          parityOk: plugin.parityOk,
+        }
+      : { available: false, source: plugin.source },
     sources: {
       mcpPublication: mcp.source,
       geneBench: geneAccess.source,
       harness: harness.ref,
       navigationMap: 'docs/AI_NAVIGATION_MAP.md',
+      devTestAtlas: observability.atlas.source,
+      openApiSummary: observability.openApi.source,
+      pluginParity: plugin.source,
     },
     readmeFootnote:
       'Platform scale ≠ harness shop-api scores. Regenerate: node scripts/export-platform-stats.mjs',
@@ -146,4 +193,7 @@ function main() {
   }
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

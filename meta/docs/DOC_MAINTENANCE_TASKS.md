@@ -47,7 +47,8 @@ Living checklist for keeping kit + public mirror + site consistent. Prefer closi
 | C4 | Add economics + data-flow to `check-doc-hub-links.mjs` seeds | **done** | |
 | C5 | Cross-link from NAVIGATION_OS | **done** | |
 | C6 | REPOSITORY_LINKS: agentstack_repo + genetic-system-site | **done** | |
-| C7 | METRICS_GLOSSARY: add fields for platform-stats keys if missing | **done** | |
+| C8 | `PLATFORM_SCALE_DIGEST` + decomposition M0–M5 | **done** (2026-09-08) | CI observability + plugin triangle in snapshot |
+| C9 | `DOC_DATA_FLOW` mermaid — `platform-stats-sources` | **done** | |
 | C8 | TOKEN_ECONOMICS: one-line pointer to GENETIC_SYSTEM_ECONOMICS | **done** | |
 | C9 | FAQ: “Where do 406 / 186 come from?” | **done** | |
 | C10 | `kitAiIndexingTransform` + transform regression test | **done** | `tests/kit-sync-transforms.test.mjs` |

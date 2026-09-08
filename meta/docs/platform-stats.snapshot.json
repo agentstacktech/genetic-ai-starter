@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T21:52:56.074Z",
+  "generatedAt": "2026-09-08T21:58:30.277Z",
   "platformVersion": "0.4.18",
   "monorepoRoot": "C:\\Projects\\AgentStack",
   "includeCardGame": false,
@@ -18,6 +18,13 @@
     "mcpCatalogActionsTotal": 632,
     "mcpDomainsPublic": 48,
     "mcpRegistryTools": 593,
+    "devTestAtlasSlices": 207,
+    "devTestAtlasSlicesActive": 202,
+    "devTestAtlasPlanes": 11,
+    "monorepoAuditScripts": 119,
+    "openApiOperations": 834,
+    "openApiTags": 50,
+    "mirroredPluginSkills": 25,
     "benchmarkTasks": 14,
     "benchmarkArms": 9,
     "agentstackTaskPack": 5
@@ -40,11 +47,42 @@
     "unscopedGrepBare": 18,
     "unscopedGrepKitIndexed": 0
   },
+  "observability": {
+    "devTestAtlas": {
+      "source": "docs/testing/catalog/dev_test_atlas_catalog.json",
+      "geneticTag": "repo.engineering.dev_test_atlas.gen1",
+      "slices": 207,
+      "slicesActive": 202,
+      "planes": 11
+    },
+    "openApi": {
+      "source": "docs/api/openapi-catalog.summary.json",
+      "operations": 834,
+      "tags": 50,
+      "bundleVersion": "0.4.16"
+    },
+    "audits": {
+      "source": "package.json",
+      "scripts": 119
+    }
+  },
+  "pluginTriangle": {
+    "source": "provided_plugins/scripts/lib/plugin-skill-parity.mjs",
+    "mirroredSkills": 25,
+    "cursorSkillsTotal": 27,
+    "claudeSkills": 25,
+    "vscodeSkills": 26,
+    "surfaces": 4,
+    "parityOk": true
+  },
   "sources": {
     "mcpPublication": "docs/publication/platform-stats.snapshot.json",
     "geneBench": "philosophy/bench_gene_access.json",
     "harness": "meta/docs/metrics.snapshot.json",
-    "navigationMap": "docs/AI_NAVIGATION_MAP.md"
+    "navigationMap": "docs/AI_NAVIGATION_MAP.md",
+    "devTestAtlas": "docs/testing/catalog/dev_test_atlas_catalog.json",
+    "openApiSummary": "docs/api/openapi-catalog.summary.json",
+    "pluginParity": "provided_plugins/scripts/lib/plugin-skill-parity.mjs"
   },
   "readmeFootnote": "Platform scale ≠ harness shop-api scores. Regenerate: node scripts/export-platform-stats.mjs"
 }

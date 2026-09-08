@@ -94,6 +94,19 @@ Figures from [`platform-stats.snapshot.json`](meta/docs/platform-stats.snapshot.
 - **28** payload genes · **6** Cursor rules · **10** skills
 - Same Navigation OS as [AgentStack](https://github.com/agentstacktech/AgentStack)
 
+### CI observability (monorepo)
+
+| Metric | Value | Snapshot field |
+|--------|------:|----------------|
+| Dev Test Atlas slices | **207** (202 active) | `devTestAtlasSlices` |
+| Test planes | **11** | `devTestAtlasPlanes` |
+| `audit:*` npm scripts | **119** | `monorepoAuditScripts` |
+| OpenAPI operations | **834** | `openApiOperations` |
+| OpenAPI tags | **50** | `openApiTags` |
+| Mirrored plugin skills | **25** | `mirroredPluginSkills` |
+
+Genes: `repo.engineering.dev_test_atlas.gen1` · `docs.api.specs.gen1` · `repo.plugins.capability_routing.gen1`.
+
 Harness metrics (shop-api) are separate: [`metrics.snapshot.json`](meta/docs/metrics.snapshot.json) (weak **2.5/0%** → kit+idx **9/100%**). Economics: [GENETIC_SYSTEM_ECONOMICS.md](meta/docs/GENETIC_SYSTEM_ECONOMICS.md).
 
 ### AgentStack vs kit (from snapshot)

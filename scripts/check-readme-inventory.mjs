@@ -18,6 +18,10 @@ const EXPECTED = [
   ['mcpCatalogActionsPublic', /\*\*(\d+)\*\* (?:public )?MCP catalog actions/i],
   ['mcpDomainsPublic', /\*\*(\d+)\*\* MCP (?:action )?domains/i],
   ['geneCompressionClusters', /\*\*(\d+)\*\* gene compression clusters/i],
+  ['devTestAtlasSlices', /\*\*(\d+)\*\* Dev Test Atlas slices/i],
+  ['monorepoAuditScripts', /\*\*(\d+)\*\* `audit:\*` scripts/i],
+  ['openApiOperations', /\*\*(\d+)\*\* OpenAPI operations/i],
+  ['mirroredPluginSkills', /\*\*(\d+)\*\* mirrored plugin skills/i],
 ];
 
 function main() {

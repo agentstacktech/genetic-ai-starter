@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { resolveIndexScanRoots } from './navigation-map-roots.mjs';
 
 /**
@@ -146,5 +147,119 @@ export function collectNavigationInventory(monorepoRoot, kitRoot) {
     navigationMapTier1Tags: countTier1Tags(mapPath),
     navigationMapScanRoots: scanRoots,
     geneCompressionClusters: clusters,
+  };
+}
+
+/**
+ * Dev Test Atlas catalog (`repo.engineering.dev_test_atlas.gen1`).
+ * @param {string} monorepoRoot
+ */
+export function readDevTestAtlasStats(monorepoRoot) {
+  const rel = 'docs/testing/catalog/dev_test_atlas_catalog.json';
+  const data = readJsonIfExists(path.join(monorepoRoot, rel));
+  if (!data?.slices?.length) return { source: rel, available: false };
+
+  const slices = data.slices;
+  const active = slices.filter((s) => s.status === 'active');
+  return {
+    source: rel,
+    available: true,
+    devTestAtlasSlices: slices.length,
+    devTestAtlasSlicesActive: active.length,
+    devTestAtlasPlanes: new Set(slices.map((s) => s.plane).filter(Boolean)).size,
+    geneticTag: data.genetic_tag ?? null,
+  };
+}
+
+/**
+ * Root `package.json` `audit:*` npm scripts (CI observability scale).
+ * @param {string} monorepoRoot
+ */
+export function countMonorepoAuditScripts(monorepoRoot) {
+  const rel = 'package.json';
+  const data = readJsonIfExists(path.join(monorepoRoot, rel));
+  if (!data?.scripts) return { source: rel, available: false };
+  const audits = Object.keys(data.scripts).filter((k) => k.startsWith('audit:'));
+  return {
+    source: rel,
+    available: true,
+    monorepoAuditScripts: audits.length,
+  };
+}
+
+/**
+ * Committed OpenAPI catalog summary (`docs.api.specs.gen1`).
+ * @param {string} monorepoRoot
+ */
+export function readOpenApiSummaryStats(monorepoRoot) {
+  const rel = 'docs/api/openapi-catalog.summary.json';
+  const data = readJsonIfExists(path.join(monorepoRoot, rel));
+  if (!data?.ops?.length) return { source: rel, available: false };
+  const tags = new Set(data.ops.map((o) => o.tag).filter(Boolean));
+  return {
+    source: rel,
+    available: true,
+    openApiOperations: data.ops.length,
+    openApiTags: tags.size,
+    openApiBundleVersion: data.openapi_version ?? null,
+  };
+}
+
+/**
+ * Plugin skill triangle via shared parity lib (Cursor gen3 SoT).
+ * @param {string} monorepoRoot
+ */
+export async function readPluginTriangleStats(monorepoRoot) {
+  const rel = 'provided_plugins/scripts/lib/plugin-skill-parity.mjs';
+  const abs = path.join(monorepoRoot, rel);
+  if (!fs.existsSync(abs)) return { source: rel, available: false };
+
+  try {
+    const mod = await import(pathToFileURL(abs).href);
+    const mirrored = mod.expectedMirroredSkillCount();
+    const cursorTotal = mod.listSkillDirs(mod.CURSOR_SKILLS_ROOT).length;
+    const claude = mod.listSkillDirs(mod.CLAUDE_SKILLS_ROOT).length;
+    const vscode = mod.listSkillDirs(mod.VSCODE_SKILLS_ROOT).length;
+    const claudeMissing = mod.listMissingMirroredSkills(mod.CLAUDE_SKILLS_ROOT).length;
+    const vscodeMissing = mod.listMissingMirroredSkills(mod.VSCODE_SKILLS_ROOT).length;
+
+    return {
+      source: rel,
+      available: true,
+      mirroredPluginSkills: mirrored,
+      cursorSkillsTotal: cursorTotal,
+      claudePluginSkills: claude,
+      vscodePluginSkills: vscode,
+      pluginSurfaces: 4,
+      claudeSkillsMissing: claudeMissing,
+      vscodeSkillsMissing: vscodeMissing,
+      parityOk: claudeMissing === 0 && vscodeMissing === 0,
+    };
+  } catch {
+    return { source: rel, available: false };
+  }
+}
+
+/**
+ * Bundle CI / API observability counters for export.
+ * @param {string} monorepoRoot
+ */
+export function collectObservabilityInventory(monorepoRoot) {
+  const atlas = readDevTestAtlasStats(monorepoRoot);
+  const audits = countMonorepoAuditScripts(monorepoRoot);
+  const openApi = readOpenApiSummaryStats(monorepoRoot);
+
+  return {
+    atlas,
+    audits,
+    openApi,
+    counts: {
+      devTestAtlasSlices: atlas.devTestAtlasSlices ?? null,
+      devTestAtlasSlicesActive: atlas.devTestAtlasSlicesActive ?? null,
+      devTestAtlasPlanes: atlas.devTestAtlasPlanes ?? null,
+      monorepoAuditScripts: audits.monorepoAuditScripts ?? null,
+      openApiOperations: openApi.openApiOperations ?? null,
+      openApiTags: openApi.openApiTags ?? null,
+    },
   };
 }

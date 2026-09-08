@@ -72,6 +72,19 @@
 - **28** payload genes · **6** Cursor rules · **10** skills
 - Тот же Navigation OS, что в [AgentStack](https://github.com/agentstacktech/AgentStack)
 
+### CI observability (monorepo)
+
+| Метрика | Значение | Поле snapshot |
+| ------- | --------: | ------------- |
+| Dev Test Atlas slices | **207** (202 active) | `devTestAtlasSlices` |
+| Test planes | **11** | `devTestAtlasPlanes` |
+| `audit:*` npm scripts | **119** | `monorepoAuditScripts` |
+| OpenAPI operations | **834** | `openApiOperations` |
+| OpenAPI tags | **50** | `openApiTags` |
+| Mirrored plugin skills | **25** | `mirroredPluginSkills` |
+
+Gene: `repo.engineering.dev_test_atlas.gen1` · `docs.api.specs.gen1` · `repo.plugins.capability_routing.gen1`.
+
 Harness-метрики shop-api — отдельно: [`metrics.snapshot.json`](meta/docs/metrics.snapshot.json) (weak **2.5/0%** → kit+idx **9/100%**). Экономика: [GENETIC_SYSTEM_ECONOMICS_ru.md](meta/docs/GENETIC_SYSTEM_ECONOMICS_ru.md).
 
 ### AgentStack vs kit (из snapshot)
