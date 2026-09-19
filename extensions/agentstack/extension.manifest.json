@@ -15,6 +15,14 @@
       "to": "docs/ai/CONTEXT_FOR_AI.md"
     },
     {
+      "from": "overlay/docs/ai/PRODUCT_BUILD_FLOW.pointer.md",
+      "to": "docs/ai/PRODUCT_BUILD_FLOW.pointer.md"
+    },
+    {
+      "from": "overlay/.cursor/rules/agentstack-product-flow.mdc",
+      "to": ".cursor/rules/agentstack-product-flow.mdc"
+    },
+    {
       "from": "overlay/capability-snapshot.json",
       "to": "docs/ai/agentstack-capability-snapshot.json"
     },

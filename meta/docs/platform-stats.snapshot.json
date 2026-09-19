@@ -1,34 +1,34 @@
 {
-  "generatedAt": "2026-09-08T22:03:43.949Z",
+  "generatedAt": "2026-09-19T15:26:44.283Z",
   "platformVersion": "0.4.18",
   "monorepoRoot": "C:\\Projects\\AgentStack",
   "includeCardGame": false,
   "scanMode": "scoped",
   "counts": {
-    "philosophyGenes": 498,
-    "aiIndexFilesRepoTotal": 244,
-    "aiIndexFilesPlatform": 219,
-    "navigationMapTier1Tags": 546,
-    "navigationMapScanRoots": 21,
-    "geneCompressionClusters": 38,
+    "philosophyGenes": 511,
+    "aiIndexFilesRepoTotal": 252,
+    "aiIndexFilesPlatform": 227,
+    "navigationMapTier1Tags": 567,
+    "navigationMapScanRoots": 22,
+    "geneCompressionClusters": 42,
     "kitPayloadGenes": 28,
-    "kitCursorRulesStandard": 6,
+    "kitCursorRulesStandard": 7,
     "kitCursorSkillsStandard": 10,
-    "mcpCatalogActionsPublic": 568,
-    "mcpCatalogActionsTotal": 632,
-    "mcpDomainsPublic": 48,
-    "mcpRegistryTools": 593,
-    "devTestAtlasSlices": 207,
-    "devTestAtlasSlicesActive": 202,
+    "mcpCatalogActionsPublic": 621,
+    "mcpCatalogActionsTotal": 697,
+    "mcpDomainsPublic": 56,
+    "mcpRegistryTools": 660,
+    "devTestAtlasSlices": 226,
+    "devTestAtlasSlicesActive": 221,
     "devTestAtlasPlanes": 11,
-    "monorepoAuditScripts": 119,
+    "monorepoAuditScripts": 135,
     "openApiOperations": 834,
     "openApiTags": 50,
-    "mirroredPluginSkills": 25,
-    "aiNavCatalogEntries": 562,
+    "mirroredPluginSkills": 29,
+    "aiNavCatalogEntries": 582,
     "gtpiPostingEdges": 1623,
     "geneHeatOverrides": 12,
-    "mcpRestParityActions": 472,
+    "mcpRestParityActions": 663,
     "benchmarkTasks": 14,
     "benchmarkArms": 9,
     "agentstackTaskPack": 5
@@ -55,8 +55,8 @@
     "devTestAtlas": {
       "source": "docs/testing/catalog/dev_test_atlas_catalog.json",
       "geneticTag": "repo.engineering.dev_test_atlas.gen1",
-      "slices": 207,
-      "slicesActive": 202,
+      "slices": 226,
+      "slicesActive": 221,
       "planes": 11
     },
     "openApi": {
@@ -67,22 +67,22 @@
     },
     "audits": {
       "source": "package.json",
-      "scripts": 119
+      "scripts": 135
     }
   },
   "pluginTriangle": {
     "source": "provided_plugins/scripts/lib/plugin-skill-parity.mjs",
-    "mirroredSkills": 25,
-    "cursorSkillsTotal": 27,
-    "claudeSkills": 25,
-    "vscodeSkills": 26,
+    "mirroredSkills": 29,
+    "cursorSkillsTotal": 31,
+    "claudeSkills": 29,
+    "vscodeSkills": 30,
     "surfaces": 4,
     "parityOk": true
   },
   "neuralPlane": {
     "aiNav": {
       "source": "docs/_generated/ai-nav/TAG_CATALOG.json",
-      "catalogEntries": 562
+      "catalogEntries": 582
     },
     "gtpi": {
       "source": "docs/_generated/ai-nav/TOKEN_POSTING_EDGES.json",
@@ -94,7 +94,7 @@
     },
     "mcpRestParity": {
       "source": "docs/api/MCP_REST_PARITY_MAP.json",
-      "actions": 472
+      "actions": 663
     }
   },
   "sources": {

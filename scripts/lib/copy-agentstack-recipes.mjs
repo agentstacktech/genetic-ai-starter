@@ -79,3 +79,18 @@ export function readCapabilitySnapshotHash(kitRoot) {
   }
   return '';
 }
+
+/**
+ * Stable hash of product_archetypes (repo.plugins.product_flow.gen1).
+ * @param {string} kitRoot
+ * @returns {string}
+ */
+export function readArchetypeIndexHash(kitRoot) {
+  const overlay = path.join(
+    kitRoot,
+    'extensions/agentstack/overlay/product-archetypes-index.json',
+  );
+  if (!fs.existsSync(overlay)) return '';
+  const body = fs.readFileSync(overlay, 'utf8');
+  return crypto.createHash('sha256').update(body).digest('hex').slice(0, 16);
+}

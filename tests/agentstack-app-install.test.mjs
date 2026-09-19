@@ -45,6 +45,10 @@ if (!lock.capabilitySnapshotHash) {
   console.error('FAIL: missing capabilitySnapshotHash');
   process.exit(1);
 }
+if (!lock.archetypeIndexHash) {
+  console.error('FAIL: missing archetypeIndexHash');
+  process.exit(1);
+}
 if (!fs.existsSync(path.join(FIXTURE, 'examples/agentstack/00-bootstrap/run.ts'))) {
   console.error('FAIL: recipes not copied to examples/agentstack/');
   process.exit(1);

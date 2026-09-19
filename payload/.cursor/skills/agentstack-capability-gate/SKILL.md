@@ -40,6 +40,13 @@ description: Route user intent to the correct AgentStack skill or MCP domain usi
 | project treasury, payouts | `agentstack-project-wallet` / project-wallet |
 | guided paths, playbooks | `agentstack-guidance` / guidance |
 | backend routing (multi-domain) | `agentstack-backend` / discovery |
+| bot studio, fleet persona | `agentstack-bots` / bots |
+| business organism, tariff template | `agentstack-business` / business |
+| hire studio, services SKU | `agentstack-services` / services |
+| OpenAPI contract, REST vs MCP | `agentstack-openapi` / openapi |
+| email OTP, outbound messaging | `agentstack-messaging` / messaging |
+| EDITFLOW, hosted vertical SaaS | `agentstack-hosted-vertical` / hosted |
+| knowledge playground, KB policy | `agentstack-knowledge` / knowledge |
 | Solana grant MCP | `solana` (scoped actions only) |
 
 Source of truth for eval prompts: `provided_plugins/cursor-plugin/evals/intent-routing.yaml`.

@@ -70,6 +70,10 @@ node genetic-ai-starter/scripts/sync-from-canonical.mjs
 | `docs/plugins/CONTEXT_FOR_AI.md` | `extensions/agentstack/overlay/CONTEXT_FOR_AI.md` |
 | `.cursor/rules/ai-navigation-indexes.mdc` | `genetic-navigation.mdc` |
 | `hosted-storefront/`, `hosted-sdk-cdn/` (export pointer) | `payload/templates/hosted-storefront.export.md` |
+| `docs/golden-paths/TENANT_GOLDEN_PATHS.md` | `payload/docs/golden-paths/TENANT_GOLDEN_PATHS_THIN.md` (hand-maintained thin) |
+| `docs/frontend/FRONTEND_HELPER_INVENTORY.md` | `payload/docs/frontend/FRONTEND_HELPER_INVENTORY_THIN.md` |
+| `docs/frontend/FRONTEND_DATA_FLOW_GOLDEN_PATH.md` | `payload/docs/frontend/FRONTEND_DATA_FLOW_GOLDEN_PATH_THIN.md` |
+| `.cursor/rules/server-state-react-query.mdc` | `payload/.cursor/rules/engineering-server-state-react-query.mdc` |
 
 ## Documentation maintenance
 

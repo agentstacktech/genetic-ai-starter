@@ -9,6 +9,10 @@ alwaysApply: true
 
 When this project integrates with AgentStack, prefer the typed SDK and MCP over raw fetch to undocumented REST paths.
 
+## Product archetype (pick one first)
+
+Read `docs/ai/PRODUCT_BUILD_FLOW.pointer.md`. Classify before backend work: `static_site`, `saas`, `ecommerce`, `game`, `bot_channel`, `backend_api`, `migrate_legacy`.
+
 ## Channel order
 
 1. **MCP** — `POST /mcp` with `agentstack.execute`; discover via `GET /mcp/actions`.

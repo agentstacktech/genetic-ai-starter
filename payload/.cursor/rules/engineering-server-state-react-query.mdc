@@ -1,0 +1,13 @@
+---
+description: Server state in AgentStack frontend — prefer React Query, not useState+useEffect
+---
+
+# Server state policy (kit)
+
+- **Do:** load server data with `useSDKQuery` / TanStack React Query + stable keys from module `*QueryKeys.ts`.
+- **Avoid:** `useState` + `useEffect` + manual `fetch` / `sdk.*` for API data.
+- **SDK access:** `useSDK()` in React — not `getSDKInstance()`.
+- **After mutations:** module `*WriteContour` or `invalidateAfterWrite` — not raw `invalidateQueries({ queryKey })` in components.
+- **Stable mutations:** use ref-mirror / `useStableMutateAsync` — never put raw `useMutation()` in effect deps.
+
+**Thin refs:** `payload/docs/frontend/FRONTEND_DATA_FLOW_GOLDEN_PATH_THIN.md` · `FRONTEND_HELPER_INVENTORY_THIN.md`

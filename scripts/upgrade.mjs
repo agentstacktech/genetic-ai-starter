@@ -21,7 +21,7 @@ import {
   applyAgentstackExtension,
   refreshAgentstackRecipes,
 } from './lib/apply-agentstack-extension.mjs';
-import { readCapabilitySnapshotHash } from './lib/copy-agentstack-recipes.mjs';
+import { readArchetypeIndexHash, readCapabilitySnapshotHash } from './lib/copy-agentstack-recipes.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -165,6 +165,7 @@ function main() {
     };
     if ((lock.extensions || []).includes('agentstack')) {
       nextLock.capabilitySnapshotHash = readCapabilitySnapshotHash(kitRoot);
+      nextLock.archetypeIndexHash = readArchetypeIndexHash(kitRoot);
       if (lock.profile === 'agentstack-app' || lock.recipeSetVersion) {
         nextLock.recipeSetVersion = readPlatformVersionForKitRoot(kitRoot);
       }

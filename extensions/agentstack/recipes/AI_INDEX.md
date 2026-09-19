@@ -44,6 +44,25 @@ Source: [`recipes-python/README.md`](../recipes-python/README.md). Gene: `repo.p
 | 10 | `10-uam-app/` | UAM manifest (`@agentstack/sdk/manifest`) | — |
 | 11 | `11-integration-webhook/` | MCP `webhooks.register` | `webhooks` |
 
+### Recipe → product archetype (kit)
+
+| Recipe | Primary archetype(s) | flow_id hint |
+|--------|----------------------|--------------|
+| 00 | all (bootstrap) | `connect_api_key_60s` |
+| 01 | `project_setup`, `backend_api` | — |
+| 02 | `saas`, `game`, `backend_api` | — |
+| 03 | all MCP paths | — |
+| 04 | `ecommerce`, `saas` | `host_then_sell` |
+| 05 | `game`, `saas` | — |
+| 06 | `saas`, `backend_api` | — |
+| 07 | `static_site`, `ecommerce` | `hosting_deploy_publish` |
+| 08 | platform PTC surfaces | — |
+| 09 | `saas`, `bot_channel` | — |
+| 10 | `saas` | `create_project_value` |
+| 11 | `backend_api` | — |
+
+Gene: `repo.plugins.product_flow.gen1` · SoT: `mcp_agent_instruction_index.json` → `product_archetypes`.
+
 ## Run
 
 ```bash

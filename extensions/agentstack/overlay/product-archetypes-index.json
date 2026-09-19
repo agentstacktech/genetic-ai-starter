@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "kind": "product-archetypes-snapshot",
+  "gene": "repo.plugins.product_flow.gen1",
+  "product_archetypes": [
+    {
+      "id": "game",
+      "name": "Game Development",
+      "signals": [
+        "player_management",
+        "game_mechanics",
+        "monetization",
+        "engagement"
+      ],
+      "prompt": "agentstack_use_case_game",
+      "recipe_ids": [
+        "card_game_basic",
+        "rpg_character_system",
+        "casual_game_monetization"
+      ],
+      "mcp_recipe_id": "card_game_basic",
+      "flow_id": null,
+      "sdk_hint": null,
+      "showcase_key": null,
+      "deep_link": "prompt `agentstack_use_case_game` · recipe `card_game_basic`"
+    },
+    {
+      "id": "saas",
+      "name": "SaaS Platform",
+      "signals": [
+        "trials",
+        "subscriptions",
+        "usage_limits",
+        "feature_flags"
+      ],
+      "prompt": "agentstack_use_case_saas",
+      "recipe_ids": [
+        "saas_trial_system",
+        "saas_subscription_management"
+      ],
+      "mcp_recipe_id": "saas_trial_system",
+      "flow_id": "create_project_value",
+      "sdk_hint": "sdk.platform.auth",
+      "showcase_key": "course_academy",
+      "deep_link": "`/agentstack-scaffold-auth` → `/agentstack-scaffold-backend`"
+    },
+    {
+      "id": "ecommerce",
+      "name": "E-Commerce",
+      "signals": [
+        "product_catalog",
+        "cart_checkout",
+        "inventory",
+        "promotions"
+      ],
+      "prompt": "agentstack_use_case_ecommerce",
+      "recipe_ids": [
+        "online_store_basic",
+        "marketplace_platform"
+      ],
+      "mcp_recipe_id": "mcp_hosting_quickstart",
+      "flow_id": "host_then_sell",
+      "sdk_hint": "sdk.commerce",
+      "showcase_key": "collectibles_bazaar",
+      "deep_link": "`/agentstack-host-site` + `agentstack-commerce` skill"
+    },
+    {
+      "id": "social",
+      "name": "Social Platform",
+      "signals": [
+        "messenger_polling",
+        "friend_requests",
+        "channels",
+        "public_index"
+      ],
+      "prompt": "agentstack_use_case_social",
+      "recipe_ids": [
+        "user_profiles_system",
+        "content_feed_basic",
+        "messaging_system"
+      ],
+      "mcp_recipe_id": "mcp_bots_simulate",
+      "flow_id": "messenger_dm",
+      "sdk_hint": null,
+      "showcase_key": "helpdesk_bot",
+      "deep_link": "`agentstack-messenger` skill · `social.chat.*`"
+    },
+    {
+      "id": "backend_api",
+      "name": "Backend API",
+      "signals": [
+        "rest_crud",
+        "webhooks",
+        "automation",
+        "background_jobs"
+      ],
+      "prompt": "agentstack_use_case_backend_api",
+      "recipe_ids": [
+        "rest_api_crud",
+        "webhook_system",
+        "background_jobs"
+      ],
+      "mcp_recipe_id": "mcp_session_setup",
+      "flow_id": "connect_api_key_60s",
+      "sdk_hint": "sdk.protocol",
+      "showcase_key": null,
+      "deep_link": "recipe `mcp_session_setup` · `sdk.protocol`"
+    },
+    {
+      "id": "project_setup",
+      "name": "Project Setup & Mass Configuration",
+      "signals": [
+        "project_bootstrap",
+        "economy_setup",
+        "buff_templates_library",
+        "logic_rules_battery",
+        "scheduler_configuration",
+        "api_keys_provisioning",
+        "fap_configuration",
+        "mass_buff_application",
+        "bulk_user_updates"
+      ],
+      "prompt": "agentstack_use_case_project_setup",
+      "recipe_ids": [
+        "project_economy",
+        "saas_trial_system"
+      ],
+      "mcp_recipe_id": "mcp_read_bootstrap",
+      "flow_id": null,
+      "sdk_hint": "getCapabilityMatrix",
+      "showcase_key": null,
+      "deep_link": "`/agentstack-capability-matrix` · recipe `mcp_read_bootstrap`"
+    },
+    {
+      "id": "static_site",
+      "name": "Static Site / Landing",
+      "signals": [
+        "landing",
+        "portfolio",
+        "html",
+        "zip",
+        "publish"
+      ],
+      "prompt": "agentstack_hosting_storefront",
+      "recipe_ids": [
+        "mcp_hosting_quickstart"
+      ],
+      "mcp_recipe_id": "mcp_hosting_quickstart",
+      "flow_id": "hosting_deploy_publish",
+      "sdk_hint": "sdk.hosting.quickStart",
+      "showcase_key": "creator_portfolio",
+      "deep_link": "`/agentstack-host-site`"
+    },
+    {
+      "id": "bot_channel",
+      "name": "Bot Channel",
+      "signals": [
+        "telegram",
+        "whatsapp",
+        "bot studio",
+        "inbound message"
+      ],
+      "prompt": "agentstack_bots_studio",
+      "recipe_ids": [
+        "mcp_bots_simulate"
+      ],
+      "mcp_recipe_id": "mcp_bots_simulate",
+      "flow_id": "bot_go_live",
+      "sdk_hint": null,
+      "showcase_key": "helpdesk_bot",
+      "deep_link": "recipe `mcp_bots_simulate` · Bot Studio"
+    },
+    {
+      "id": "migrate_legacy",
+      "name": "Migrate Legacy Stack",
+      "signals": [
+        "supabase",
+        "firebase",
+        "auth0",
+        "stripe migration"
+      ],
+      "prompt": null,
+      "recipe_ids": [],
+      "mcp_recipe_id": "mcp_session_setup",
+      "flow_id": null,
+      "sdk_hint": "sdk.protocol",
+      "showcase_key": null,
+      "deep_link": "`agentstack-migrator` agent"
+    },
+    {
+      "id": "hosted_vertical_saas",
+      "name": "Hosted Vertical SaaS",
+      "signals": [
+        "editflow",
+        "hosted workspace",
+        "vertical tenant",
+        "/s/",
+        "kanban",
+        "crm board",
+        "freelancer workspace"
+      ],
+      "prompt": "agentstack_hosted_vertical",
+      "recipe_ids": [
+        "mcp_hosted_vertical_bootstrap",
+        "mcp_crm_contact_deal"
+      ],
+      "mcp_recipe_id": "mcp_hosted_vertical_bootstrap",
+      "flow_id": null,
+      "sdk_hint": "@agentstack/hosted-wire",
+      "showcase_key": null,
+      "deep_link": "`agentstack-hosted-vertical` skill · `hosted-vertical/AGENTS.md` · `vertical_workspace.bootstrap` · `publish_editflow_hosted.py`"
+    },
+    {
+      "id": "key2unity_auth_portal",
+      "name": "Key2Unity auth portal",
+      "signals": [
+        "key2unity",
+        "ключ к единству",
+        "auth portal",
+        "shell_mode auth_portal",
+        "/s/1444/key2unity",
+        "activate_site_url"
+      ],
+      "prompt": "agentstack_key2unity_site",
+      "recipe_ids": [
+        "mcp_key2unity_auth_portal",
+        "mcp_tenant_bots_heal_verify"
+      ],
+      "mcp_recipe_id": "mcp_key2unity_auth_portal",
+      "flow_id": null,
+      "sdk_hint": "@agentstack/hosted-wire/activateSession",
+      "showcase_key": "key2unity",
+      "deep_link": null
+    }
+  ]
+}

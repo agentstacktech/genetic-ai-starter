@@ -17,7 +17,7 @@ import {
   submodulePathExists,
 } from './lib/git-submodule.mjs';
 import { verifyKitVersionPin } from './lib/verify-kit-version.mjs';
-import { readCapabilitySnapshotHash } from './lib/copy-agentstack-recipes.mjs';
+import { readArchetypeIndexHash, readCapabilitySnapshotHash } from './lib/copy-agentstack-recipes.mjs';
 import { readPlatformVersion } from './lib/platform-version.mjs';
 import { validateKitLockKipV2, validateKitLockWarnings } from './lib/validate-kit-lock-schema.mjs';
 import { DEFAULT_KIT_SUBMODULE_PATH } from './lib/kit-integration-constants.mjs';
@@ -136,6 +136,14 @@ function main() {
       if (current && lock.capabilitySnapshotHash !== current) {
         warnings.push(
           `capabilitySnapshotHash drift (lock ${lock.capabilitySnapshotHash} vs kit ${current}) — repair or upgrade`,
+        );
+      }
+    }
+    if (lock.archetypeIndexHash) {
+      const currentArchetypes = readArchetypeIndexHash(kitRoot);
+      if (currentArchetypes && lock.archetypeIndexHash !== currentArchetypes) {
+        warnings.push(
+          `archetypeIndexHash drift (lock ${lock.archetypeIndexHash} vs kit ${currentArchetypes}) — repair or upgrade`,
         );
       }
     }

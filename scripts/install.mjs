@@ -21,7 +21,7 @@ import { applyKitSourceToLock } from './lib/record-kit-source.mjs';
 import { LOCK_SCHEMA_VERSION } from './lib/kit-integration-constants.mjs';
 import { applyUpgrade, finalizeUpgradeReport, runPostUpgradeValidate } from './lib/upgrade-engine.mjs';
 import { printUpgradeReportHuman } from './lib/upgrade-report.mjs';
-import { readCapabilitySnapshotHash } from './lib/copy-agentstack-recipes.mjs';
+import { readArchetypeIndexHash, readCapabilitySnapshotHash } from './lib/copy-agentstack-recipes.mjs';
 import {
   applyAgentstackExtension,
   refreshAgentstackRecipes,
@@ -134,6 +134,7 @@ function writeLock(targetRoot, opts, extensions, { dryRun, kitRootForRecord, pro
   };
   if (extensions.includes('agentstack')) {
     lock.capabilitySnapshotHash = readCapabilitySnapshotHash(kitRootForRecord || KIT_ROOT);
+    lock.archetypeIndexHash = readArchetypeIndexHash(kitRootForRecord || KIT_ROOT);
     if (profile?.copyRecipes || opts.profile === 'agentstack-app') {
       lock.recipeSetVersion = platformVersion;
       lock.recipeLang = opts.lang;

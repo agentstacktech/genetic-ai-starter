@@ -1,0 +1,9 @@
+---
+description: Product archetype checklist — SDK-first tenant apps on AgentStack
+alwaysApply: false
+globs: ["**/*.{ts,tsx,js,jsx}"]
+---
+
+# Product flow (consumer)
+
+See `docs/ai/PRODUCT_BUILD_FLOW.pointer.md`. AgentStack is the backend — classify archetype before adding Prisma/Express/Stripe SDK.

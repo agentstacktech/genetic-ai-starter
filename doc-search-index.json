@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-08T22:03:45.024Z",
+  "generatedAt": "2026-09-19T15:26:45.548Z",
   "entryCount": 60,
   "entries": [
     {
@@ -39,7 +39,7 @@
       "tags": [
         "recipe.00-bootstrap"
       ],
-      "excerpt": "# 00 — Bootstrap Initialize `@agentstack/sdk`, print module catalog, log in, list projects, and pin active project scope. ## Env - `AGENTSTACK_API_BASE` — optional REST base - `AGENTSTACK_EMAIL` / `AGENTSTACK_PASSWORD` — login (optional fo…"
+      "excerpt": "# 00 — Bootstrap Initialize `@agentstack/sdk`, print module catalog, log in, list projects, and pin active project scope. ## Step 0 — Pick product archetype Before domain work, classify the app (`static_site`, `saas`, `ecommerce`, `bot_cha…"
     },
     {
       "id": "extensions/agentstack/recipes/01-discover-capabilities/README.md",
@@ -459,7 +459,7 @@
       "tags": [
         "recipe.00-bootstrap"
       ],
-      "excerpt": "# 00 — Bootstrap Initialize `@agentstack/sdk`, print module catalog, log in, list projects, and pin active project scope. ## Env - `AGENTSTACK_API_BASE` — optional REST base - `AGENTSTACK_EMAIL` / `AGENTSTACK_PASSWORD` — login (optional fo…"
+      "excerpt": "# 00 — Bootstrap Initialize `@agentstack/sdk`, print module catalog, log in, list projects, and pin active project scope. ## Step 0 — Pick product archetype Before domain work, classify the app (`static_site`, `saas`, `ecommerce`, `bot_cha…"
     },
     {
       "id": "recipes/01-discover-capabilities/README.md",

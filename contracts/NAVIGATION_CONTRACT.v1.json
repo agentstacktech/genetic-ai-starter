@@ -92,6 +92,14 @@
       "mode": "replace_on_upgrade",
       "owner": "extension"
     },
+    ".cursor/rules/agentstack-product-flow.mdc": {
+      "mode": "replace_on_upgrade",
+      "owner": "extension"
+    },
+    "docs/ai/PRODUCT_BUILD_FLOW.pointer.md": {
+      "mode": "replace_on_upgrade",
+      "owner": "extension"
+    },
     ".cursor/rules/platform-vs-tenant-canary.mdc": {
       "mode": "replace_on_upgrade",
       "owner": "extension"
