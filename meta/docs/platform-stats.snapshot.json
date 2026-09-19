@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T15:26:44.283Z",
+  "generatedAt": "2026-09-19T15:43:53.035Z",
   "platformVersion": "0.4.18",
   "monorepoRoot": "C:\\Projects\\AgentStack",
   "includeCardGame": false,
@@ -18,14 +18,14 @@
     "mcpCatalogActionsTotal": 697,
     "mcpDomainsPublic": 56,
     "mcpRegistryTools": 660,
-    "devTestAtlasSlices": 226,
-    "devTestAtlasSlicesActive": 221,
+    "devTestAtlasSlices": 231,
+    "devTestAtlasSlicesActive": 226,
     "devTestAtlasPlanes": 11,
     "monorepoAuditScripts": 135,
     "openApiOperations": 834,
     "openApiTags": 50,
     "mirroredPluginSkills": 29,
-    "aiNavCatalogEntries": 582,
+    "aiNavCatalogEntries": 583,
     "gtpiPostingEdges": 1623,
     "geneHeatOverrides": 12,
     "mcpRestParityActions": 663,
@@ -55,8 +55,8 @@
     "devTestAtlas": {
       "source": "docs/testing/catalog/dev_test_atlas_catalog.json",
       "geneticTag": "repo.engineering.dev_test_atlas.gen1",
-      "slices": 226,
-      "slicesActive": 221,
+      "slices": 231,
+      "slicesActive": 226,
       "planes": 11
     },
     "openApi": {
@@ -82,7 +82,7 @@
   "neuralPlane": {
     "aiNav": {
       "source": "docs/_generated/ai-nav/TAG_CATALOG.json",
-      "catalogEntries": 582
+      "catalogEntries": 583
     },
     "gtpi": {
       "source": "docs/_generated/ai-nav/TOKEN_POSTING_EDGES.json",
