@@ -1,9 +1,9 @@
 # Genetic AI Starter Kit
 
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
-[![platform](https://img.shields.io/badge/platform-0.4.18-informational)](PLATFORM_VERSION)
+[![platform](https://img.shields.io/badge/platform-0.4.21-informational)](PLATFORM_VERSION)
 
-**Platform version:** `0.4.18` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or [`PLATFORM_VERSION`](PLATFORM_VERSION) (standalone copy).
+**Platform version:** `0.4.21` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or [`PLATFORM_VERSION`](PLATFORM_VERSION) (standalone copy).
 
 **Languages:** **English** (this file) · [Русский](README.md)
 

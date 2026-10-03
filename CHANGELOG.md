@@ -2,6 +2,12 @@
 
 Version numbers follow **AgentStack platform patch** (`AGENTSTACK_CORE_VERSION`), not a separate kit semver.
 
+## 0.4.21 — Excellence Closure sync (2026-10-03)
+
+- Platform line **0.4.21** via `sync-kit-version.mjs`.
+- Thin `payload/docs/platform/PLATFORM_SUBSTRATE_NO_TENANT_CODE.md` for kit link validation.
+- Capability snapshot + platform stats mirror refreshed from canonical.
+
 ## 0.4.18 — DX plane consolidation + Living docs sync (2026-09-08)
 
 - Platform line **0.4.18** (`sync-kit-version`, plugin/marketplace parity, capability lock).

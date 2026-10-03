@@ -1,6 +1,6 @@
 # Genetic AI Starter Kit
 
-**Platform version:** `0.4.18` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or `[PLATFORM_VERSION](PLATFORM_VERSION)` (standalone copy).
+**Platform version:** `0.4.21` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or `[PLATFORM_VERSION](PLATFORM_VERSION)` (standalone copy).
 
 **Languages:** [English](README.en.md) · **Русский** (this file)
 

@@ -22,7 +22,15 @@
       "flow_id": null,
       "sdk_hint": null,
       "showcase_key": null,
-      "deep_link": "prompt `agentstack_use_case_game` · recipe `card_game_basic`"
+      "deep_link": "prompt `agentstack_use_case_game` · recipe `card_game_basic`",
+      "minimum_domains": [
+        "projects"
+      ],
+      "optional_domains": [],
+      "do_not_add_unless_asked": [
+        "crm.upsert_contact",
+        "hosting.site.quick_start"
+      ]
     },
     {
       "id": "saas",
@@ -41,8 +49,30 @@
       "mcp_recipe_id": "saas_trial_system",
       "flow_id": "create_project_value",
       "sdk_hint": "sdk.platform.auth",
-      "showcase_key": "course_academy",
-      "deep_link": "`/agentstack-scaffold-auth` → `/agentstack-scaffold-backend`"
+      "showcase_key": "course-academy",
+      "deep_link": "`/agentstack-scaffold-auth` → `/agentstack-scaffold-backend`",
+      "minimum_domains": [
+        "projects",
+        "auth",
+        "ai_builder"
+      ],
+      "optional_domains": [
+        "crm",
+        "logic",
+        "payments",
+        "hosting"
+      ],
+      "do_not_add_unless_asked": [
+        "business.create_composite",
+        "rag.document_add",
+        "agents.create"
+      ],
+      "recommended_playbook": "saas_build_v1",
+      "success_criteria": [
+        "build_ok",
+        "primary_public_url",
+        "edge_ready"
+      ]
     },
     {
       "id": "ecommerce",
@@ -61,8 +91,16 @@
       "mcp_recipe_id": "mcp_hosting_quickstart",
       "flow_id": "host_then_sell",
       "sdk_hint": "sdk.commerce",
-      "showcase_key": "collectibles_bazaar",
-      "deep_link": "`/agentstack-host-site` + `agentstack-commerce` skill"
+      "showcase_key": "collectibles-bazaar",
+      "deep_link": "`/agentstack-host-site` + `agentstack-commerce` skill",
+      "minimum_domains": [
+        "hosting",
+        "payments"
+      ],
+      "optional_domains": [],
+      "do_not_add_unless_asked": [
+        "business.create_composite"
+      ]
     },
     {
       "id": "social",
@@ -82,8 +120,15 @@
       "mcp_recipe_id": "mcp_bots_simulate",
       "flow_id": "messenger_dm",
       "sdk_hint": null,
-      "showcase_key": "helpdesk_bot",
-      "deep_link": "`agentstack-messenger` skill · `social.chat.*`"
+      "showcase_key": "helpdesk-bot",
+      "deep_link": "`agentstack-messenger` skill · `social.chat.*`",
+      "minimum_domains": [
+        "social"
+      ],
+      "optional_domains": [],
+      "do_not_add_unless_asked": [
+        "business.create_composite"
+      ]
     },
     {
       "id": "backend_api",
@@ -104,7 +149,16 @@
       "flow_id": "connect_api_key_60s",
       "sdk_hint": "sdk.protocol",
       "showcase_key": null,
-      "deep_link": "recipe `mcp_session_setup` · `sdk.protocol`"
+      "deep_link": "recipe `mcp_session_setup` · `sdk.protocol`",
+      "minimum_domains": [
+        "projects",
+        "auth"
+      ],
+      "optional_domains": [],
+      "do_not_add_unless_asked": [
+        "hosting.site.quick_start",
+        "crm.upsert_contact"
+      ]
     },
     {
       "id": "project_setup",
@@ -129,7 +183,10 @@
       "flow_id": null,
       "sdk_hint": "getCapabilityMatrix",
       "showcase_key": null,
-      "deep_link": "`/agentstack-capability-matrix` · recipe `mcp_read_bootstrap`"
+      "deep_link": "`/agentstack-capability-matrix` · recipe `mcp_read_bootstrap`",
+      "minimum_domains": [],
+      "optional_domains": [],
+      "do_not_add_unless_asked": []
     },
     {
       "id": "static_site",
@@ -149,7 +206,44 @@
       "flow_id": "hosting_deploy_publish",
       "sdk_hint": "sdk.hosting.quickStart",
       "showcase_key": "creator_portfolio",
-      "deep_link": "`/agentstack-host-site`"
+      "deep_link": "`/agentstack-host-site`",
+      "minimum_domains": [
+        "hosting"
+      ],
+      "optional_domains": [],
+      "do_not_add_unless_asked": [
+        "business.create_composite",
+        "crm.upsert_contact"
+      ]
+    },
+    {
+      "id": "hosted_site_edit",
+      "name": "Edit published hosted site",
+      "signals": [
+        "edit site",
+        "change site",
+        "existing site",
+        "rollback",
+        "откат",
+        "изменить сайт",
+        "alterar site"
+      ],
+      "prompt": "agentstack_hosting_edit_site",
+      "recipe_ids": [
+        "mcp_hosting_edit_site_safe"
+      ],
+      "mcp_recipe_id": "mcp_hosting_edit_site_safe",
+      "flow_id": "hosting_edit_site_safe",
+      "sdk_hint": "sdk.hosting.quickStart",
+      "showcase_key": "creator_portfolio",
+      "deep_link": "prompt `agentstack_hosting_edit_site` · recipe `mcp_hosting_edit_site_safe`",
+      "minimum_domains": [
+        "hosting"
+      ],
+      "optional_domains": [],
+      "do_not_add_unless_asked": [
+        "hosting.site.quick_start"
+      ]
     },
     {
       "id": "bot_channel",
@@ -167,8 +261,38 @@
       "mcp_recipe_id": "mcp_bots_simulate",
       "flow_id": "bot_go_live",
       "sdk_hint": null,
-      "showcase_key": "helpdesk_bot",
-      "deep_link": "recipe `mcp_bots_simulate` · Bot Studio"
+      "showcase_key": "helpdesk-bot",
+      "deep_link": "recipe `mcp_bots_simulate` · Bot Studio",
+      "minimum_domains": [],
+      "optional_domains": [],
+      "do_not_add_unless_asked": []
+    },
+    {
+      "id": "showcase_portfolio_storefront",
+      "name": "Portfolio storefront (hosted /s/)",
+      "signals": [
+        "yacht",
+        "brokerage",
+        "lash",
+        "mebel",
+        "pulseid",
+        "portfolio tenant",
+        "independent_tenant",
+        "/s/1611",
+        "/s/1589"
+      ],
+      "prompt": "agentstack_showcase_ops",
+      "recipe_ids": [
+        "mcp_showcase_catalog_safe"
+      ],
+      "mcp_recipe_id": "mcp_showcase_catalog_safe",
+      "flow_id": "UF_SHOWCASE_CATALOG",
+      "sdk_hint": "sdk.hosting.quickStart",
+      "showcase_key": "morandi-yachts",
+      "deep_link": null,
+      "minimum_domains": [],
+      "optional_domains": [],
+      "do_not_add_unless_asked": []
     },
     {
       "id": "migrate_legacy",
@@ -185,7 +309,10 @@
       "flow_id": null,
       "sdk_hint": "sdk.protocol",
       "showcase_key": null,
-      "deep_link": "`agentstack-migrator` agent"
+      "deep_link": "`agentstack-migrator` agent",
+      "minimum_domains": [],
+      "optional_domains": [],
+      "do_not_add_unless_asked": []
     },
     {
       "id": "hosted_vertical_saas",
@@ -208,7 +335,151 @@
       "flow_id": null,
       "sdk_hint": "@agentstack/hosted-wire",
       "showcase_key": null,
-      "deep_link": "`agentstack-hosted-vertical` skill · `hosted-vertical/AGENTS.md` · `vertical_workspace.bootstrap` · `publish_editflow_hosted.py`"
+      "deep_link": "`agentstack-hosted-vertical` skill · `hosted-vertical/AGENTS.md` · `vertical_workspace.bootstrap` · `publish_editflow_hosted.py`",
+      "minimum_domains": [],
+      "optional_domains": [],
+      "do_not_add_unless_asked": []
+    },
+    {
+      "id": "service_business",
+      "name": "Service business",
+      "signals": [
+        "cleaning business",
+        "booking",
+        "клининг",
+        "cleaning",
+        "clinic",
+        "salon",
+        "услуг",
+        "serviço"
+      ],
+      "prompt": "agentstack_crm_workspace",
+      "recipe_ids": [
+        "mcp_read_bootstrap"
+      ],
+      "mcp_recipe_id": "mcp_read_bootstrap",
+      "flow_id": "crm",
+      "sdk_hint": null,
+      "showcase_key": null,
+      "deep_link": null,
+      "minimum_domains": [
+        "crm"
+      ],
+      "do_not_add_unless_asked": [
+        "hosting.site.quick_start"
+      ],
+      "optional_domains": [
+        "logic",
+        "payments"
+      ],
+      "recommended_playbook": "service_business_v1",
+      "success_criteria": [
+        "primary_public_url",
+        "crm_ready"
+      ]
+    },
+    {
+      "id": "ai_product",
+      "name": "AI product",
+      "signals": [
+        "ai app",
+        "knowledge base product",
+        "ai product",
+        "ии продукт",
+        "produto de ia"
+      ],
+      "prompt": "agentstack_knowledge_mentor",
+      "recipe_ids": [
+        "mcp_knowledge_ingest"
+      ],
+      "mcp_recipe_id": "mcp_knowledge_ingest",
+      "flow_id": "knowledge",
+      "sdk_hint": null,
+      "showcase_key": null,
+      "deep_link": null,
+      "minimum_domains": [
+        "knowledge"
+      ],
+      "do_not_add_unless_asked": [
+        "business.create_composite"
+      ],
+      "optional_domains": [],
+      "recommended_playbook": "saas_build_v1"
+    },
+    {
+      "id": "marketplace",
+      "name": "Marketplace",
+      "signals": [
+        "marketplace",
+        "listings",
+        "bazaar",
+        "маркетплейс",
+        "mercado"
+      ],
+      "prompt": "agentstack_commerce_flows",
+      "recipe_ids": [],
+      "mcp_recipe_id": "mcp_session_setup",
+      "flow_id": "payments",
+      "sdk_hint": null,
+      "showcase_key": null,
+      "deep_link": null,
+      "minimum_domains": [
+        "payments"
+      ],
+      "do_not_add_unless_asked": [
+        "business.create_composite"
+      ],
+      "optional_domains": []
+    },
+    {
+      "id": "internal_tool",
+      "name": "Internal tool",
+      "signals": [
+        "internal tool",
+        "back office",
+        "внутренняя",
+        "ferramenta interna"
+      ],
+      "prompt": "agentstack_session_setup",
+      "recipe_ids": [
+        "mcp_session_setup"
+      ],
+      "mcp_recipe_id": "mcp_session_setup",
+      "flow_id": "session",
+      "sdk_hint": null,
+      "showcase_key": null,
+      "deep_link": null,
+      "minimum_domains": [
+        "projects"
+      ],
+      "do_not_add_unless_asked": [
+        "hosting.site.quick_start"
+      ],
+      "optional_domains": []
+    },
+    {
+      "id": "community",
+      "name": "Community",
+      "signals": [
+        "community",
+        "forum",
+        "сообщество",
+        "comunidade"
+      ],
+      "prompt": "agentstack_social_messenger",
+      "recipe_ids": [],
+      "mcp_recipe_id": "mcp_session_setup",
+      "flow_id": null,
+      "sdk_hint": null,
+      "showcase_key": null,
+      "deep_link": null,
+      "minimum_domains": [
+        "bots"
+      ],
+      "do_not_add_unless_asked": [
+        "payments.create_payment"
+      ],
+      "optional_domains": []
     },
     {
       "id": "key2unity_auth_portal",
@@ -230,7 +501,110 @@
       "flow_id": null,
       "sdk_hint": "@agentstack/hosted-wire/activateSession",
       "showcase_key": "key2unity",
-      "deep_link": null
+      "deep_link": null,
+      "minimum_domains": [],
+      "optional_domains": [],
+      "do_not_add_unless_asked": []
+    },
+    {
+      "id": "support_bot",
+      "name": "Support bot",
+      "signals": [
+        "support bot",
+        "helpdesk",
+        "бот поддержки",
+        "bot de suporte"
+      ],
+      "prompt": "agentstack_bots_studio",
+      "mcp_recipe_id": "mcp_bots_simulate",
+      "minimum_domains": [
+        "bots"
+      ],
+      "do_not_add_unless_asked": [
+        "crm.create_deal"
+      ],
+      "deep_link": null,
+      "optional_domains": []
+    },
+    {
+      "id": "knowledge_assistant",
+      "name": "Knowledge assistant",
+      "signals": [
+        "knowledge assistant",
+        "база знаний",
+        "assistente de conhecimento"
+      ],
+      "prompt": "agentstack_knowledge_mentor",
+      "mcp_recipe_id": "mcp_knowledge_ingest",
+      "minimum_domains": [
+        "knowledge"
+      ],
+      "do_not_add_unless_asked": [
+        "hosting.site.quick_start"
+      ],
+      "deep_link": null,
+      "optional_domains": []
+    },
+    {
+      "id": "agency",
+      "name": "Agency",
+      "signals": [
+        "agency",
+        "агентство",
+        "agência"
+      ],
+      "prompt": "agentstack_crm_workspace",
+      "mcp_recipe_id": "mcp_crm_contact_deal",
+      "minimum_domains": [
+        "crm"
+      ],
+      "do_not_add_unless_asked": [
+        "business.create_composite"
+      ],
+      "deep_link": null,
+      "optional_domains": []
+    },
+    {
+      "id": "freelancer",
+      "name": "Freelancer",
+      "signals": [
+        "freelancer",
+        "фриланс",
+        "autônomo",
+        "autonomo"
+      ],
+      "prompt": "agentstack_hosted_vertical",
+      "mcp_recipe_id": "mcp_hosted_vertical_bootstrap",
+      "minimum_domains": [
+        "projects"
+      ],
+      "do_not_add_unless_asked": [
+        "payments.create_payment"
+      ],
+      "deep_link": null,
+      "optional_domains": []
+    },
+    {
+      "id": "content_site",
+      "name": "Content site",
+      "signals": [
+        "blog",
+        "content site",
+        "блог",
+        "conteúdo",
+        "conteudo"
+      ],
+      "prompt": "agentstack_hosting_static_landing",
+      "mcp_recipe_id": "mcp_hosting_quickstart",
+      "minimum_domains": [
+        "hosting"
+      ],
+      "do_not_add_unless_asked": [
+        "business.create_composite",
+        "crm.upsert_contact"
+      ],
+      "deep_link": null,
+      "optional_domains": []
     }
   ]
 }

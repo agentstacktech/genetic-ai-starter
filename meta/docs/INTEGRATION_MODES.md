@@ -31,12 +31,12 @@ node tools/genetic-ai-starter/scripts/bootstrap-standard.mjs --target . --projec
 node tools/genetic-ai-starter/scripts/doctor.mjs --target .
 ```
 
-**Pin:** `kit.lock.json` stores `kitSource.ref` (commit SHA). Tag on mirror: `genetic-ai-starter-v0.4.18`.
+**Pin:** `kit.lock.json` stores `kitSource.ref` (commit SHA). Tag on mirror: `genetic-ai-starter-v0.4.21`.
 
 ## Mode B — npm
 
 ```bash
-npm install -D @agentstack/genetic-ai-starter@0.4.18
+npm install -D @agentstack/genetic-ai-starter@0.4.21
 npx genetic-ai-init init --yes --target . --profile standard --project-name "My App" --domain app
 ```
 

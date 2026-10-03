@@ -19,4 +19,4 @@ For the live **User request → action** table, MCP request shape, and anonymous
 
 Kit ships **navigation OS** and SDK integrator context, not a second MCP registry. Duplicating the table causes phantom actions and version drift (see `docs/ecosystem/MCP_AGENT_INSTRUCTION_GAP_REGISTER.md`).
 
-**Gene:** `repo.tooling.genetic_starter.agentstack_dx.gen1` · **Platform:** 0.4.18
+**Gene:** `repo.tooling.genetic_starter.agentstack_dx.gen1` · **Platform:** 0.4.21
