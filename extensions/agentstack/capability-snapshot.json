@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "kind": "static-kit-snapshot",
   "gene": "repo.plugins.capability_routing.gen1",
-  "platformVersion": "0.4.21",
+  "platformVersion": "0.4.22",
   "sdkPackage": "@agentstack/sdk",
   "generatedNote": "Codegen from SDK exports + CAPABILITY_MATRIX.public.md + recipe pins",
   "discovery": {

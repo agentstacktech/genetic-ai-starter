@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-09-19T15:47:12.309Z",
-  "platformVersion": "0.4.21",
+  "platformVersion": "0.4.22",
   "monorepoRoot": "C:\\Projects\\AgentStack",
   "includeCardGame": false,
   "scanMode": "scoped",
@@ -14,10 +14,10 @@
     "kitPayloadGenes": 28,
     "kitCursorRulesStandard": 7,
     "kitCursorSkillsStandard": 10,
-    "mcpCatalogActionsPublic": 668,
-    "mcpCatalogActionsTotal": 744,
-    "mcpDomainsPublic": 57,
-    "mcpRegistryTools": 730,
+    "mcpCatalogActionsPublic": 716,
+    "mcpCatalogActionsTotal": 796,
+    "mcpDomainsPublic": 58,
+    "mcpRegistryTools": 766,
     "devTestAtlasSlices": 231,
     "devTestAtlasSlicesActive": 226,
     "devTestAtlasPlanes": 11,
@@ -32,7 +32,7 @@
     "benchmarkTasks": 14,
     "benchmarkArms": 9,
     "agentstackTaskPack": 5,
-    "registeredRecipes": 142
+    "registeredRecipes": 147
   },
   "geneAccess": {
     "philosophyTokensNaive": 103222,

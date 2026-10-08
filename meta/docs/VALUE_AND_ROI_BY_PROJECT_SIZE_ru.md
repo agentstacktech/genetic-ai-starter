@@ -107,7 +107,7 @@
 ```bash
 node tools/genetic-ai-starter/scripts/install.mjs \
   --target . --profile agentstack-app --project-name "My App" --domain app --strict
-cd examples/agentstack && npm install @agentstack/sdk@0.4.21 && npm run recipe:00-bootstrap
+cd examples/agentstack && npm install @agentstack/sdk@0.4.22 && npm run recipe:00-bootstrap
 ```
 
 ---

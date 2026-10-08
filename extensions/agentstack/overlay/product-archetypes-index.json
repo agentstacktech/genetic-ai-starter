@@ -44,7 +44,9 @@
       "prompt": "agentstack_use_case_saas",
       "recipe_ids": [
         "saas_trial_system",
-        "saas_subscription_management"
+        "mcp_platform_subscription_grant",
+        "mcp_tenant_subscription_monetization",
+        "mcp_tenant_manual_entitlement_grant"
       ],
       "mcp_recipe_id": "saas_trial_system",
       "flow_id": "create_project_value",

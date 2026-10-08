@@ -73,7 +73,7 @@ Printed by install after copy:
 
 ```bash
 cd examples/agentstack
-npm install @agentstack/sdk@0.4.21   # matches PLATFORM_VERSION
+npm install @agentstack/sdk@0.4.22   # matches PLATFORM_VERSION
 npm run recipe:00-bootstrap
 ```
 
@@ -92,7 +92,7 @@ Environment:
 ## Flow B — SDK git submodule
 
 ```bash
-node tools/genetic-ai-starter/scripts/submodule-add-sdk.mjs --target . --tag v0.4.21
+node tools/genetic-ai-starter/scripts/submodule-add-sdk.mjs --target . --tag v0.4.22
 node tools/genetic-ai-starter/scripts/link-sdk-deps.mjs --target .
 cd vendor/agentstack-sdk && npm install && npm run build
 cd examples/agentstack && npm install
