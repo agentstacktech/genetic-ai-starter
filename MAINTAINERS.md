@@ -1,6 +1,8 @@
 # Maintainers — Genetic AI Starter Kit
 
-Kit path: `genetic-ai-starter/` in AgentStack monorepo. Platform line **0.4.21** (tracks `AGENTSTACK_CORE_VERSION`).
+Kit path: `genetic-ai-starter/` in AgentStack monorepo. Platform line tracks `AGENTSTACK_CORE_VERSION`.
+
+Platform-only semantic lexicon lives at `shared/fixtures/semantic_lexicon_v1.json` — do not duplicate a second compiler in the kit; reference genes/docs only.
 
 **Operator docs (monorepo git only, outside kit subtree):** [docs/genetic-ai-starter-maintainers/README.md](../docs/genetic-ai-starter-maintainers/README.md) · **Sync flow:** [KIT_SYNC_FLOW.md](../docs/genetic-ai-starter-maintainers/KIT_SYNC_FLOW.md)
 

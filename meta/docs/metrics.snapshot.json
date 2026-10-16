@@ -2,7 +2,7 @@
   "generatedAt": "2026-09-19T15:45:19.276Z",
   "scorerVersion": "1.2.1",
   "executionMode": "synthetic_policy",
-  "platformVersion": "0.4.22",
+  "platformVersion": "0.4.23",
   "tokenModel": "step-based v1.2.1 (fixture-calibrated grep pools) — see benchmarks/results/TOKEN_REPORT.md",
   "arms": {
     "agents_md_weak": {

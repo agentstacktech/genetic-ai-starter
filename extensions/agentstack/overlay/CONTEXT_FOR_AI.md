@@ -1,6 +1,6 @@
 # AgentStack — Capability Map for AI
 
-**Gene:** `repo.plugins.capability_routing.gen1` · **Cursor plugin:** `repo.plugins.cursor.gen3` (v0.4.22) · **Single source of truth for actions:** [MCP_CAPABILITY_MATRIX.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/MCP_CAPABILITY_MATRIX.md) and `GET /mcp/actions`.
+**Gene:** `repo.plugins.capability_routing.gen1` · **Cursor plugin:** `repo.plugins.cursor.gen3` (v0.4.23) · **Single source of truth for actions:** [MCP_CAPABILITY_MATRIX.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/MCP_CAPABILITY_MATRIX.md) and `GET /mcp/actions`.
 
 **Purpose:** Single reference for AI agents (Cursor, Claude, VS Code, Custom GPT): which domain to use and which tool groups to call for a user request. Use this document to decide "when user says X → use domain Y". Full tool list and parameters: [MCP_CAPABILITY_MATRIX.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/MCP_CAPABILITY_MATRIX.md).
 

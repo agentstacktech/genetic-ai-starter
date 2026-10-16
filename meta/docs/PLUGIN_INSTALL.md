@@ -1,6 +1,6 @@
 # AgentStack Cursor plugin + Genetic AI Starter (combo)
 
-**Platform:** 0.4.22  
+**Platform:** 0.4.23  
 **Genes:** `repo.tooling.genetic_starter.gen1`, `repo.tooling.genetic_starter.agentstack_dx.gen1`  
 **ADR:** [GENETIC_STARTER_PLUGIN_KIT_TRIANGLE.md](../../../docs/adr/GENETIC_STARTER_PLUGIN_KIT_TRIANGLE.md)
 
@@ -26,7 +26,7 @@ node tools/genetic-ai-starter/scripts/install.mjs --target . --profile agentstac
 Or npm:
 
 ```bash
-npm install -D @agentstack/genetic-ai-starter@0.4.22
+npm install -D @agentstack/genetic-ai-starter@0.4.23
 npx genetic-ai-init init --yes --target . --profile agentstack-app --project-name "My App" --domain app
 ```
 
@@ -34,7 +34,7 @@ npx genetic-ai-init init --yes --target . --profile agentstack-app --project-nam
 
 ```bash
 cd examples/agentstack
-npm install @agentstack/sdk@0.4.22
+npm install @agentstack/sdk@0.4.23
 cp ../../.env.example ../../.env.local   # or project root .env.local
 npm run recipe:00-bootstrap
 ```
@@ -74,7 +74,7 @@ In Cursor: ask the agent to run `discovery.list` or a recipe step — plugin sup
 | Typed SDK client | Kit overlay `src/lib/agentstack.ts` |
 | 8DNA / payments / RAG without custom backend | Plugin rules + MCP |
 | Upgrade kit payload | `upgrade.mjs --sync-submodule` |
-| Plugin version | Marketplace / separate publish repo — tracks platform `0.4.22` |
+| Plugin version | Marketplace / separate publish repo — tracks platform `0.4.23` |
 
 ## Rules overlap
 

@@ -89,7 +89,7 @@ Map scope / when-to-use cells should include short noun phrases (5–12 words) t
 
 ## 5. Relationship to philosophy / genes
 
-Philosophy describes product principles. Nav tags are navigation identifiers. Compression: [GENE_COMPRESSION_MAP.md](../../philosophy/genes/GENE_COMPRESSION_MAP.md). Editing: `repo.engineering.controlled_changes.gen1` → [repo.engineering.controlled_changes.gen1.md](../../philosophy/genes/repo.engineering.controlled_changes.gen1.md). **Platform vs tenant runtime:** `repo.engineering.platform_substrate_no_tenant_code.gen1` → [PLATFORM_SUBSTRATE_NO_TENANT_CODE.md](platform/PLATFORM_SUBSTRATE_NO_TENANT_CODE.md).
+Philosophy describes product principles. Nav tags are navigation identifiers. Compression: [GENE_COMPRESSION_MAP.md](../../philosophy/genes/GENE_COMPRESSION_MAP.md). Editing: `repo.engineering.controlled_changes.gen1` → [repo.engineering.controlled_changes.gen1.md](../../philosophy/genes/repo.engineering.controlled_changes.gen1.md). **Platform vs tenant runtime:** `repo.engineering.platform_substrate_no_tenant_code.gen1` → [PLATFORM_SUBSTRATE_NO_TENANT_CODE.md](../platform/PLATFORM_SUBSTRATE_NO_TENANT_CODE.md).
 
 ---
 

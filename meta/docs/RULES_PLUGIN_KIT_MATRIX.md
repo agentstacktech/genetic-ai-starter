@@ -1,6 +1,6 @@
 # Rules matrix — kit vs Cursor plugin
 
-**Platform:** 0.4.22  
+**Platform:** 0.4.23  
 **ADR:** [GENETIC_STARTER_PLUGIN_KIT_TRIANGLE.md](../../../docs/adr/GENETIC_STARTER_PLUGIN_KIT_TRIANGLE.md)
 
 Kit rules install into **consumer** repos. Plugin rules ship via **Cursor Marketplace** and apply when the AgentStack plugin is enabled. They complement each other; neither is a fork of the other.

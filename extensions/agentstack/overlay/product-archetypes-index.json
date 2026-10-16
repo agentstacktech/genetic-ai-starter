@@ -278,10 +278,15 @@
         "lash",
         "mebel",
         "pulseid",
+        "doors",
+        "dveri",
+        "anatoly",
         "portfolio tenant",
         "independent_tenant",
         "/s/1611",
-        "/s/1589"
+        "/s/1589",
+        "/s/1928",
+        "/s/1873"
       ],
       "prompt": "agentstack_showcase_ops",
       "recipe_ids": [
