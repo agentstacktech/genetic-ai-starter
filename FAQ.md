@@ -18,8 +18,8 @@ Re-run wizard and pick your **app project** folder. Guard `E_TARGET_IS_KIT` bloc
 
 ## Should kit files be in git?
 
-- **Team shares map/genes:** commit installed files (`--gitignore-kit none`, default for `--yes` CLI).
-- **Privacy / local-only AI context:** `--gitignore-kit full` or `GITIGNORE=full` with `install.cmd`. Already-tracked files need `git rm -r --cached` — see `docs/ai/OPERATIONS.md` in your project.
+- **Default (recommended):** commit navigation with the app (`--gitignore-kit none`) — interactive wizard and `install.mjs` default; see [meta/docs/INSTALL.md](meta/docs/INSTALL.md).
+- **Privacy / local-only AI context:** opt in with `--gitignore-kit full` or `GITIGNORE=full` via `install.cmd`. Already-tracked files need `git rm -r --cached` — see `docs/ai/OPERATIONS.md` in your project.
 
 ## npx vs cloning the repo
 

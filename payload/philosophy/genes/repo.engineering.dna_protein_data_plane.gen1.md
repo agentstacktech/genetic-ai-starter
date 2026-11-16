@@ -60,9 +60,20 @@ Pairs with **`repo.engineering.controlled_changes.gen1`** (how to edit *code*) a
 
 ---
 
+## Directed edits (agent `ops`)
+
+MCP **`projects.patch_data`** may send an **`ops`** array (≤16) on one leaf.  
+`shared/atoms/edit_intent.apply_edits` runs in memory; persistence is still  
+`dna_set_*` / `dna_mutate_project_data_path_scoped` — protein journal stores  
+compiled `set` / `merge_keyed` / `delete` only, not the op vocabulary.
+
 ## AI instructions
 
 1. Before adding any `repo.update(..., data=…)`, ask: can this be a leaf or `patch_paths`?
 2. Do not duplicate leaf helpers — extend `project_data_leaf` or call existing domain leaf writers.
 3. When touching Hub/CRM/storefront indexes on project slices, always leaf-write the index path.
 4. Document new leaf paths in `shared/dna/AI_INDEX.md` when introducing a pattern.
+
+## Agent failure anchors
+
+`anchor.protein_leaf_ok` — INC-FAT-01: after `patch_paths` succeeds, `leaf_ok` stays true even if the ops-cell clear fails. A full-blob fallback must not wipe the protein journal.

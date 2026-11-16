@@ -1,9 +1,9 @@
 # Genetic AI Starter Kit
 
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
-[![platform](https://img.shields.io/badge/platform-0.4.23-informational)](PLATFORM_VERSION)
+[![platform](https://img.shields.io/badge/platform-0.4.26-informational)](PLATFORM_VERSION)
 
-**Platform version:** `0.4.23` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or [`PLATFORM_VERSION`](PLATFORM_VERSION) (standalone copy).
+**Platform version:** `0.4.26` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or [`PLATFORM_VERSION`](PLATFORM_VERSION) (standalone copy).
 
 **Languages:** **English** (this file) · [Русский](README.md)
 
@@ -169,7 +169,8 @@ Concrete artifacts in **your** project (profile-dependent):
 | **Cursor** | `.cursor/rules/*.mdc`, `.cursor/skills/`, merged `.cursorrules` | Map-first, controlled edits, index authoring — out of the box |
 | **Operations** | `docs/ai/OPERATIONS.md`, `doctor`, `repair`, `upgrade` | Health checks and fix partial installs |
 | **Scaffolding** | `new-gene.mjs` | New genetic tags without inventing file shape |
-| **Privacy** | `--gitignore-kit full` | Keep AI context local — not committed to git |
+| **Git (default)** | `--gitignore-kit none` | Commit navigation with the app (KIP v2) |
+| **Privacy** | `--gitignore-kit full` | Opt-in: keep kit files local only |
 | **Platform bridge** | `extensions/agentstack` (full/founder) | MCP → 8DNA → command bus routing for AgentStack consumers |
 | **CI sample** | `.github/workflows/genetic-ai-validate.yml.sample` | Validate install in consumer pipelines |
 

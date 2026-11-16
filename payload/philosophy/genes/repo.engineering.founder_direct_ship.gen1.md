@@ -40,6 +40,8 @@ Speed + clarity for the founder loop; tenant-facing rollout machinery remains do
 |----------|------|
 | [repo.engineering.controlled_changes.gen1.md](repo.engineering.controlled_changes.gen1.md) | How to edit the tree (patches, no throwaway bulk scripts) |
 | [.cursor/rules/platform-vs-tenant-canary.mdc](https://github.com/agentstacktech/AgentStack/tree/main/.cursor/rules/platform-vs-tenant-canary.mdc) | Platform substrate vs tenant canary scope |
+| [WORKFLOW_TRANSITION_STATE_MACHINE.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/adr/WORKFLOW_TRANSITION_STATE_MACHINE.md) §80 — `advance_workflow_observed` is the sole playbook mutator from `goal_router.continue_user_goal` (batch/inverse sets `skip_playbook_advance`) |
+| [FLOW_DEEP_AUDIT_0422_DECOMPOSITION.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/plans/FLOW_DEEP_AUDIT_0422_DECOMPOSITION.md) | Waves N–Q inverse/MCP completion audit |
 | [AI_GENE_INSTRUCTIONS.md](../AI_GENE_INSTRUCTIONS.md) | Quick gene picker for assistants |
 | [docs/AI_NAVIGATION_MAP.md](../../docs/ai/AI_NAVIGATION_MAP.md) | Tier 0 row `repo.engineering.founder_direct_ship.gen1` |
 

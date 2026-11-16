@@ -1,7 +1,7 @@
 # Gene — `foundation.time_decomposition.gen1` (foundation tier)
 
 **Genetic tag:** `foundation.time_decomposition.gen1`  
-**Also:** Time Processes (v0.4.23) — time as a pillar of rollout, scheduling, journals  
+**Also:** Time Processes (v0.2.52) — time as a pillar of rollout, scheduling, journals  
 **Scope:** **Time-Decomposition-Completion (TDC)** — how we finish work without leaving half-elephants in the repo.
 
 ---

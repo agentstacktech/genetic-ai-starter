@@ -1,7 +1,7 @@
 # Gene — `foundation.decomposition_reassembly.gen1`
 
 **Genetic tag:** `foundation.decomposition_reassembly.gen1`  
-**Also known as:** Modular Design (v0.4.23), “eat the elephant one bite at a time”  
+**Also known as:** Modular Design (v0.2.53), “eat the elephant one bite at a time”  
 **Pairs with:** [foundation.time_decomposition.gen1.md](foundation.time_decomposition.gen1.md) (time axis of the same idea)
 
 ---

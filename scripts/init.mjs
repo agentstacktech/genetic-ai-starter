@@ -245,14 +245,14 @@ async function runWizard(cli) {
         'Git: файлы kit в репозитории?',
         [
           {
-            id: 'full',
-            label: 'Не коммитить (полный .gitignore)',
-            hint: 'AGENTS, philosophy, docs/ai, cursor rules/skills — только локально',
-          },
-          {
             id: 'none',
             label: 'Коммитить вместе с проектом',
-            hint: 'для команд с общей картой и genes',
+            hint: 'KIP v2: philosophy, AGENTS.md, docs/ai, cursor rules — в репозитории',
+          },
+          {
+            id: 'full',
+            label: 'Только локально (приватный режим)',
+            hint: 'явно: --gitignore-kit full, navigation не в git',
           },
         ],
         0,

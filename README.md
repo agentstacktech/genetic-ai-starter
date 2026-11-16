@@ -1,6 +1,6 @@
 # Genetic AI Starter Kit
 
-**Platform version:** `0.4.23` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or `[PLATFORM_VERSION](PLATFORM_VERSION)` (standalone copy).
+**Platform version:** `0.4.26` — aligned with `AGENTSTACK_CORE_VERSION` (monorepo) or `[PLATFORM_VERSION](PLATFORM_VERSION)` (standalone copy).
 
 **Languages:** [English](README.en.md) · **Русский** (this file)
 
@@ -157,7 +157,7 @@ Kit **не заменяет** топовую модель на продукто�
 - **Philosophy / genes** — как мы меняем код, ADR, тесты, direct-ship (профиль `founder`).
 - **Cursor** — 5 rules + 4 skills (standard), идемпотентный блок в `.cursorrules`.
 - **Скрипты** — `new-gene.mjs`, doctor/repair; lock `.genetic-ai/kit.lock.json`.
-- **Приватность** — `--gitignore-kit full`: файлы kit локально, не в git.
+- **Git (по умолчанию)** — navigation kit **коммитится** (`--gitignore-kit none`, KIP v2). **Приватность** — явно `--gitignore-kit full`: файлы kit локально, не в git.
 - **AgentStack (опционально)** — overlay MCP/8DNA для потребителей платформы.
 
 ## Крупные проекты (killer feature)

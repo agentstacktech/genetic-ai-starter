@@ -2,7 +2,7 @@
 
 ## Policy
 
-This kit has **no independent package semver**. It tracks the **AgentStack platform patch** (currently **0.4.23**).
+This kit has **no independent package semver**. It tracks the **AgentStack platform patch** (currently **0.4.26**).
 
 | Source | When used |
 |--------|-----------|

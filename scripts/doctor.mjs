@@ -157,6 +157,22 @@ function main() {
       if (!fs.existsSync(gi) || !fs.readFileSync(gi, 'utf8').includes(GITIGNORE_BEGIN)) {
         issues.push('gitignoreKit=full but .gitignore missing genetic-ai block');
       }
+    } else if (
+      (lock.gitignoreKit === 'none' || lock.gitignoreKit == null) &&
+      fs.existsSync(path.join(target, 'philosophy'))
+    ) {
+      const gi = spawnSync('git', ['ls-files', '--error-unmatch', 'philosophy'], {
+        cwd: target,
+        encoding: 'utf8',
+      });
+      if (gi.status !== 0) {
+        const profileId = lock.profile || 'standard';
+        warnings.push(
+          profileId === 'standard'
+            ? 'philosophy/ present but not tracked — KIP v2: commit navigation plane (default install). See meta/docs/INSTALL.md § versioned navigation.'
+            : 'philosophy/ present but not tracked in git (recommended: commit navigation — see meta/docs/INSTALL.md, KIP v2)',
+        );
+      }
     }
     if ((lock.extensions || []).includes('agentstack') || lock.profile === 'agentstack-app') {
       const ctx = path.join(target, 'docs/ai/CONTEXT_FOR_AI.md');

@@ -258,13 +258,16 @@
       ],
       "prompt": "agentstack_bots_studio",
       "recipe_ids": [
-        "mcp_bots_simulate"
+        "mcp_bots_simulate",
+        "mcp_bot_reply_mailbox_v1",
+        "mcp_bot_message_bus_webhook_v1",
+        "mcp_bot_order_manager_bootstrap_v1"
       ],
       "mcp_recipe_id": "mcp_bots_simulate",
       "flow_id": "bot_go_live",
       "sdk_hint": null,
       "showcase_key": "helpdesk-bot",
-      "deep_link": "recipe `mcp_bots_simulate` · Bot Studio",
+      "deep_link": "recipe `mcp_bots_simulate` · Bot Studio · agent bus: `agentstack_bot_message_bus`",
       "minimum_domains": [],
       "optional_domains": [],
       "do_not_add_unless_asked": []
@@ -288,13 +291,13 @@
         "/s/1928",
         "/s/1873"
       ],
-      "prompt": "agentstack_showcase_ops",
+      "prompt": "agentstack_safe_project_cycle",
       "recipe_ids": [
-        "mcp_showcase_catalog_safe"
+        "mcp_universal_safe_change"
       ],
-      "mcp_recipe_id": "mcp_showcase_catalog_safe",
-      "flow_id": "UF_SHOWCASE_CATALOG",
-      "sdk_hint": "sdk.hosting.quickStart",
+      "mcp_recipe_id": "mcp_universal_safe_change",
+      "flow_id": "UF_F1_ROUTINE",
+      "sdk_hint": "sdk.protocol",
       "showcase_key": "morandi-yachts",
       "deep_link": null,
       "minimum_domains": [],

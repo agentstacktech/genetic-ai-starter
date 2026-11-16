@@ -147,7 +147,7 @@ Build working prototype
 
 ### Connects with:
 
-#### 1. **Time-Decomposition-Completion** (v0.4.23)
+#### 1. **Time-Decomposition-Completion** (v0.2.54)
 - Build world incrementally
 - Each step moves toward vision
 - Complete what you start

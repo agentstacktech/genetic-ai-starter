@@ -63,6 +63,8 @@ const rGi = spawnSync(
     'app',
     '--gitignore-kit',
     'full',
+    '--kit-root',
+    KIT_ROOT,
   ],
   { cwd: KIT_ROOT, encoding: 'utf8' },
 );
@@ -82,4 +84,32 @@ if (lockGi.gitignoreKit !== 'full') {
 }
 fs.rmSync(tempGi, { recursive: true, force: true });
 
-console.log('OK: init-wizard non-interactive + gitignore-kit full');
+const tempStd = fs.mkdtempSync(path.join(os.tmpdir(), 'gai-init-std-'));
+const rStd = spawnSync(
+  process.execPath,
+  [
+    INIT,
+    '--yes',
+    '--target',
+    tempStd,
+    '--profile',
+    'standard',
+    '--project-name',
+    'Init Std Test',
+    '--domain',
+    'app',
+  ],
+  { cwd: KIT_ROOT, encoding: 'utf8' },
+);
+if (rStd.status !== 0) {
+  console.error('standard init stdout:', rStd.stdout);
+  console.error('standard init stderr:', rStd.stderr);
+  throw new Error(`init.mjs standard --yes failed: ${rStd.status}`);
+}
+const lockStd = JSON.parse(fs.readFileSync(path.join(tempStd, '.genetic-ai', 'kit.lock.json'), 'utf8'));
+if (lockStd.gitignoreKit !== 'none' && lockStd.gitignoreKit != null) {
+  throw new Error(`expected gitignoreKit=none for --yes standard, got ${lockStd.gitignoreKit}`);
+}
+fs.rmSync(tempStd, { recursive: true, force: true });
+
+console.log('OK: init-wizard non-interactive + gitignore-kit full + default none');

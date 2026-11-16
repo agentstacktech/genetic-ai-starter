@@ -1,8 +1,16 @@
 # AgentStack — Capability Map for AI
 
-**Gene:** `repo.plugins.capability_routing.gen1` · **Cursor plugin:** `repo.plugins.cursor.gen3` (v0.4.23) · **Single source of truth for actions:** [MCP_CAPABILITY_MATRIX.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/MCP_CAPABILITY_MATRIX.md) and `GET /mcp/actions`.
+**Gene:** `repo.plugins.capability_routing.gen1` · **Cursor plugin:** `repo.plugins.cursor.gen3` (v0.4.18) · **Single source of truth for actions:** [MCP_CAPABILITY_MATRIX.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/MCP_CAPABILITY_MATRIX.md) and `GET /mcp/actions`.
 
 **Purpose:** Single reference for AI agents (Cursor, Claude, VS Code, Custom GPT): which domain to use and which tool groups to call for a user request. Use this document to decide "when user says X → use domain Y". Full tool list and parameters: [MCP_CAPABILITY_MATRIX.md](https://github.com/agentstacktech/AgentStack/tree/main/docs/MCP_CAPABILITY_MATRIX.md).
+
+## Default loop (do this before the catalog)
+
+```text
+session → context.project_id → agents.work_next → packet.next_action → claim / execute → work_next
+```
+
+Recipe `mcp_work_loop_v1`. Prompt `agentstack_closed_loop_autonomy`. Follow `packet.next_action`. `discovery.search` is a schema lookup when there is no packet. Live DNA edits stay on the safe circle (sandbox → checks → promote). Measured story: [WORK_GRAPH.md](WORK_GRAPH.md).
 
 ## Order of preference (channels)
 
@@ -74,18 +82,21 @@ The same JSON document is the **single semantic source** for dashboards, SDK cli
 | **Grant OS** | "grant CRM", "grant packet", "program registry", "fit/win score", "/dev/grants-os" | `grants.*` / Grant OS REST + MCP | Prefer over spreadsheet trackers; cash-first pipeline |
 | **Fundraising** | "pitch deck", "narrative variant", "data room", "investor copy", "grant copy bank" | `fundraising.*` + `docs/fundraising/` registry | Prefer over freehand decks; lint via narrative registry |
 | **Support** | "project support", "staff inbox", "support ticket", "AI after silence", "psup_" | `social.support.*` + `/api/support/*` | Prefer over generic messenger rooms for tenant support |
+| **Tenant game IAP** | "in-app purchase", "IAP SKU", "hosted /s/ checkout", "sandbox checkout", "soft currency pack" | `shop.enablement.status` → `shop.products.upsert` → `shop.checkout.create` · owner simulate: `shop.sandbox.simulate` (`payment_method=test|pix`) · rails: `payments.list_methods` | **Track A (game IAP):** 8DNA `ecosystem.commerce.iap` — not marketplace Track B (`commerce.sell.activate`). Ladder: `assets.create` → SKU upsert → enablement → checkout. **`live_checkout_allowed` requires PSP when hosted** (`psp_live_ready` on enablement snapshot — same SoT as `payments.list_methods`). SDK: `@agentstack/sdk` `getIapEnablement`, `listIapProducts`. |
 
 ---
 
 ## What the agent should remember
 
-- **Session order (mandatory):** authenticate → select or create project → set `context.project_id` on every batch → then `agents.work_next` (recipe `mcp_work_loop_v1`). `discovery.search` is fallback only. One-shot CRM or upload may call one domain action. Playbook: `GET /mcp/prompts/get?name=agentstack_session_setup` · recipe `mcp_session_setup`. **GPT auth:** MCP Connector OAuth (user logs in at agentstack.tech) or `POST /mcp/.well-known/oauth-token` with `grant_type=password` (username=email) → use `access_token` as Bearer; or in-band `auth.login`. OAuth/Device Code often binds ecosystem `project_id=1` — override with the tenant id.
+- **Session order (mandatory):** authenticate → select or create project → set `context.project_id` on every batch → then `agents.work_next` (recipe `mcp_work_loop_v1`). `discovery.search` is fallback only. One-shot CRM or upload may call one domain action. Playbook: `GET /mcp/prompts/get?name=agentstack_session_setup` · recipe `mcp_session_setup`. **GPT auth:** MCP Connector OAuth Connect (`GET /mcp/connect` / authorize at agentstack.tech), **Device Code** (`GET /mcp/device/authorize` or `/agentstack-authorize` in Cursor), profile **API key** as `Authorization: Bearer`, or in-band `auth.login`. MCP AS does **not** support `grant_type=password` on `/mcp/.well-known/oauth-token`. OAuth/Device Code often binds ecosystem `project_id=1` — override with the tenant id.
 - **Platform operator actions** (ecosystem-owner MCP plane) are **not** documented here; tenant API keys cannot invoke them. Use tenant-scoped domains only.
 - **Lance (founder) in the {{PROJECT_NAME}}:** sessions with Lance ship **final** code in **one** path — **no** default personal canary or duplicate legacy+gated stacks; gene `repo.engineering.founder_direct_ship.gen1`. Sandbox / canary rows in the table above are for **tenant apps**, not an automatic pattern on every platform edit.
 - **Structured domain errors:** MCP `tools/call` with `failure_kind=domain` returns `isError=false` and `structuredContent` (`ok=false`, `error_code`, recovery). Parse structured fields — do not treat domain denials (e.g. `plan_revision_conflict`, `provision_required`) as transport crashes. `isError=true` is for transport/internal faults only. ADR: `docs/adr/MCP_STRUCTURED_DOMAIN_ERRORS.md`.
-- **Closed-loop work graph:** Multi-step goals → prompt `agentstack_closed_loop_autonomy` · genes `core.agents.work_graph.gen1` · `core.mcp.instruction_plane.gen1`. Agent loop: `agents.plan_get` → `agents.work_next` → follow **`next_action`** (not `next_actions[0]` guess) → claim/execute → repeat. Lightweight progress only: `agents.work_status` (`summary_only`). Full matrix: [CONTEXT_FOR_AI_MCP.md](CONTEXT_FOR_AI_MCP.md) autogen spine.
+- **Closed-loop work graph:** Multi-step goals → prompt `agentstack_closed_loop_autonomy` · genes `core.agents.work_graph.gen1` · `core.mcp.instruction_plane.gen1`. Agent loop: `agents.plan_get` → `agents.work_next` → follow **`next_action`** (not `next_actions[0]` guess) → claim/execute → repeat. Lightweight progress only: `agents.work_status` (`summary_only`). A local 2026-10-07 registry build measured an example next-action packet at **250 bytes** versus **1.68 MB** for the full catalog JSON — follow the packet so the window is spent on the step. Byte table and SLO targets (90% follow / ≤5% catalog shopping; targets, not a prod sample): [WORK_GRAPH.md](./WORK_GRAPH.md) · [MCP_AGENT_OPERATING_CONTRACT.md](./MCP_AGENT_OPERATING_CONTRACT.md). Full matrix: [CONTEXT_FOR_AI_MCP.md](CONTEXT_FOR_AI_MCP.md) autogen spine.
 - **One envelope:** `POST /mcp` with `agentstack.execute`; batch by adding steps.
+- **Semantic anchor (mutating batches):** When any step is not in the audit read catalog (`effect.audit_batch_allowed` / `AUDIT_BATCH_ACTIONS`), set `options.goal` (or `focus_node_id` / `plan_execute_mode`). TypeScript: `@agentstack/sdk` `withSemanticAnchor(options, goalText)`. Cursor plugin hook hints before execute; wire schema exposes `goal` on `tools/list` (`catalog_builder._single_execute_tool_schema_wire`).
 - **Discover:** `GET /mcp/actions` — don't guess action names. When unsure which action fits, follow `onboarding.discovery_ladder` (step 1 is `agents.work_next`). Schema lookup is **`discovery.search` / `discovery.describe`** (use `q`, `query`, `intent`, or `search`). **`preflight.check`** before tenant mutation. Cursor: `/agentstack-discover`. Details: [MCP_AGENT_OPERATING_CONTRACT.md](./MCP_AGENT_OPERATING_CONTRACT.md).
+- **Discovery batch guard:** at most **one** `discovery.search` (or `discover/by_intent`) per sync MCP batch — then `discovery.describe` on the chosen action ids. Repeated search in the same batch can hit `discovery_search_recursion` / depth guards (see `test_discovery_search_recursion.py`).
 - **Scoped keys:** `apikeys.create` with narrow `service_caps`; Cursor Device Code (`/agentstack-authorize` or `/agentstack-init`) maps OAuth scopes via `SCOPE_TO_CAPS`.
 - **Dry-run rules** before enabling: `logic.dry_run` with a seed.
 - **Surface traces:** every response returns `X-Trace-Id` — include it in error messages.

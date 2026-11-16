@@ -1,6 +1,6 @@
 # Сравнение профилей установки — Genetic AI Starter Kit
 
-**Платформа:** `0.4.23` · источник правды для состава: `profiles/*.json` + `scripts/lib/profile-include.mjs`.
+**Платформа:** `0.4.26` · источник правды для состава: `profiles/*.json` + `scripts/lib/profile-include.mjs`.
 
 Профиль задаёт **какие файлы копируются** в целевой репозиторий. Расширение **AgentStack** — отдельный слой (overlay + merge), подключается флагом или встроено в `full` / `founder`.
 
@@ -180,11 +180,11 @@ README-колонка «AGENTS.md» относится к **arm `agents_md`**, �
 | `--force-philosophy` | Перезаписать starter `philosophy/` |
 | *(авто)* | Неполная `philosophy/` → как `--force-philosophy` |
 | `--skills global` | Skills в `~/.cursor/skills/` вместо проекта |
-| `--gitignore-kit full` | Блок в `.gitignore` — kit **не коммитится** (локально для Cursor) |
-| `--gitignore-kit none` | По умолчанию |
+| `--gitignore-kit full` | Приватный режим: блок в `.gitignore` — navigation kit **не коммитится** |
+| `--gitignore-kit none` | **По умолчанию** (мастер и `install.mjs`) — philosophy, AGENTS, docs/ai в git (KIP v2) |
 | `--domain` | Префикс genetic tags в шаблонах (`app`, `api`, …) |
 
-При **`full`**: в git не попадают `philosophy/`, `docs/ai/`, `AGENTS.md`, cursor rules/skills kit; черновики — `docs/ai/local/`. В мастере: «Не коммитить (полный .gitignore)».
+При **`full`**: в git не попадают `philosophy/`, `docs/ai/`, `AGENTS.md`, cursor rules/skills kit; черновики — `docs/ai/local/`. Выбор в мастере — вторым пунктом («Только локально»). По умолчанию — **коммитить**.
 
 После install всегда запускается `validate-installed.mjs`.
 

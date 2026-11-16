@@ -8,6 +8,7 @@
     "payload/.cursor/rules/**",
     "payload/.cursor/skills/**",
     "payload/philosophy/**",
-    "payload/docs/ai/**"
+    "payload/docs/ai/**",
+    "payload/docs/platform/**"
   ]
 }
